@@ -23,18 +23,18 @@ var CHART_TIMES = {
   min: CURRENT_TIME - 5000
 };
 
-var GRAPHR_OPTIONS = $.extend(utils.readChartOptions('graphcritr'), CHART_TIMES);
-var GRAPHD_OPTIONS = $.extend(utils.readChartOptions('graphcritd'), CHART_TIMES);
+var GRAPH_CRITR_OPTS = $.extend(utils.readChartOptions('graphcritr'), CHART_TIMES);
+var GRAPH_CRITD_OPTS = $.extend(utils.readChartOptions('graphcritd'), CHART_TIMES);
 var GRAPH_DMG_OPTIONS = $.extend(utils.readChartOptions('graphdmg'), CHART_TIMES);
 var SPELLLINE_OPTIONS = $.extend(utils.readChartOptions('spellline'), CHART_TIMES);
 var TIMELINE_OPTIONS = $.extend(utils.readChartOptions('timeline'), CHART_TIMES);
 TIMELINE_OPTIONS.template = TIMELINE_ITEM_TEMPLATE;
 
+var GRAPH_CRITR = new vis.Graph2d(dom.getDomForCritRGraph(), CRITR_DATA, GRAPH_CRITR_OPTS);
+var GRAPH_CRITD = new vis.Graph2d(dom.getDomForCritDGraph(), CRITD_DATA, GRAPH_CRITD_OPTS);
+var GRAPH_DMG = new vis.Graph2d(dom.getDomForDmgGraph(), DMG_DATA, GRAPH_DMG_OPTIONS);
 var SPELL_TIMELINE = new vis.Timeline(dom.getDomForSpellline(), SPELLLINE_DATA, SPELLLINE_OPTIONS);
-var MAIN_TIMELINE = new vis.Timeline(dom.getDomForTimeline(), TIMELINE_DATA, TIMELINE_OPTIONS);
-var CRITR_GRAPH = new vis.Graph2d(dom.getDomForCritRGraph(), CRITR_DATA, GRAPHR_OPTIONS);
-var CRITD_GRAPH = new vis.Graph2d(dom.getDomForCritDGraph(), CRITD_DATA, GRAPHD_OPTIONS);
-var DMG_GRAPH = new vis.Graph2d(dom.getDomForDmgGraph(), DMG_DATA, GRAPH_DMG_OPTIONS);
+var TIMELINE = new vis.Timeline(dom.getDomForTimeline(), TIMELINE_DATA, TIMELINE_OPTIONS);
 
 var REPEATED_ABILITIES = [
   { id: 'ESYN', enabled: dom.isUsingEncSynergy, rate: dom.getEncSynergyRate, timer: SYNERGY_TIMER, count: 1 },
@@ -310,14 +310,14 @@ var self = module.exports = {
   },
   init: function() {
     // connect all the zoom/pan/range events together of the charts
-    var chartList = [SPELL_TIMELINE, MAIN_TIMELINE, CRITR_GRAPH, CRITD_GRAPH, DMG_GRAPH];
+    var chartList = [SPELL_TIMELINE, TIMELINE, GRAPH_CRITR, GRAPH_CRITD, GRAPH_DMG];
     $(chartList).each(function(index, chart) {
       chart.on('rangechanged', function(update) {
         self.updateWindow(chart, update, chartList);
       });
     });
 
-    MAIN_TIMELINE.setGroups(self.getAdpsGroups());
+    TIMELINE.setGroups(self.getAdpsGroups());
     TIMELINE_DATA.on('add', self.visTimelineListener);
     TIMELINE_DATA.on('update', self.visTimelineListener);
     TIMELINE_DATA.on('remove', self.visTimelineListener);

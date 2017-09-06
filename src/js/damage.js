@@ -6,6 +6,26 @@ var dmgUtils = require('./damage.utils.js');
 // specified during API calls
 var timeline;
 
+var addAEWaves = function(state, mod, current) {
+  var value = 0;
+  stats.updateSpellStatistics(state, 'aeHit1', current);
+
+  // Only support AE rain spells right now. Add two more waves but
+  // without procs
+  state.aeWave = true;
+
+  // for each additional wave
+  for (var i=1; i<dom.getAERainHitsValue(); i++) {
+    var wave = calcAvgDamage(state, mod);
+    value += wave;
+    stats.updateSpellStatistics(state, 'aeHit' + (i+1), wave);
+    stats.addSpellStatistics(state, 'newTotal', wave);
+  }
+
+  state.aeWave = false;
+  return value;
+};
+
 var addIndividualProcs = function(state, mod) {
   var value = 0;
   var time = state.workingTime;
@@ -55,12 +75,6 @@ var calcAvgDamage = function(state, mod) {
     // Get Crit Rate
     var critRate = getCritRate(state, mod);
 
-    // Update graph
-    if (state.spell.manaCost > 0) {
-      state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
-      state.updatedCritDValues.push({ time: state.timeEst, y: Math.round(critDmgMult * 100)});
-    }
-
     // Get Effectiveness
     var effectiveness = getEffectiveness(state.spell) + dom.getAddEffectivenessValue();
     // Get Before Crit Focus
@@ -89,6 +103,9 @@ var calcAvgDamage = function(state, mod) {
     // apply mod
     avgDmg = Math.trunc(avgDmg * mod);
 
+    // Handle AE waves if current spell is an AE
+    avgDmg += (state.spell.target == 'AE' && !state.aeWave) ? addAEWaves(state, mod, avgDmg) : 0;
+
     stats.updateSpellStatistics(state, 'critRate', critRate);
     stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
     stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
@@ -100,25 +117,13 @@ var calcAvgDamage = function(state, mod) {
     stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
     stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
 
-    // Handle AE waves
-    if (state.spell.target == 'AE' && !state.aeWave){
-      stats.updateSpellStatistics(state, 'aeHit1', avgDmg);
-
-      // Only support AE rain spells right now. Add two more waves but
-      // without procs
-      state.aeWave = true;
-
-      // for each additional wave
-      for (var i=1; i<dom.getAERainHitsValue(); i++) {
-        var wave = calcAvgDamage(state, mod);
-        avgDmg += wave;
-        stats.updateSpellStatistics(state, 'aeHit' + (i+1), wave);
-      }
-
-      delete state.aeWave;
-    }
-
     if (!state.inTwincast && !state.aeWave) {
+      // Update graph
+      if (state.spell.manaCost > 0) {
+        state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
+        state.updatedCritDValues.push({ time: state.timeEst, y: Math.round(critDmgMult * 100)});
+      }
+      
       stats.updateSpellStatistics(state, 'avgDmg', avgDmg);
     } else if (state.inTwincast && state.spell.level <= 110 && !state.aeWave) {
       stats.addSpellStatistics(state, 'tcAvgDmg', avgDmg);
@@ -130,8 +135,7 @@ var calcAvgDamage = function(state, mod) {
   }
 
   // calc damage of procs from this spell
-  avgDmg += state.aeWave ? 0 : addIndividualProcs(state, mod);
-  return avgDmg;
+  return avgDmg += state.aeWave ? 0 : addIndividualProcs(state, mod);
 };
 
 var calcAvgMRProcDamage = function(state, mod) {
