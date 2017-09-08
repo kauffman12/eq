@@ -1,6 +1,8 @@
 import {globals as G} from './settings.js';
-import {get as GetSpellData} from './spelldata.js';
 import * as SETTINGS from './settings.js';
+import {SPELL_DATA as GENERAL} from './spells/spelldata.general.js';
+import {SPELL_DATA as WIZ} from './spells/spelldata.wiz.js';
+import {SPELL_DATA as MAGE} from './spells/spelldata.mage.js';
 
 let QUERY_CACHE = {};
 
@@ -91,21 +93,6 @@ export function collapseMenu(p) {
   }
 }
 
-export function createVisTimeline(id, time, dom, data, template) {
-  let opts = readChartOptions(id, time);
-
-  if (template) {
-    opts.template = template;
-  }
-
-  return new vis.Timeline(dom, data, opts);
-}
-
-export function createVisGraph(id, time, dom, data) {
-  let opts = readChartOptions(id, time);
-  return new vis.Graph2d(dom, data, opts);
-}
-
 export function createTimer(expireTime, updateFunc) {
   return { expireTime: expireTime, update: updateFunc };
 }
@@ -158,7 +145,14 @@ export function getPercentText(first, second) {
 }
 
 export function getSpellData(id) {
-  return GetSpellData(id);
+  switch(G.MODE) {
+    case 'mage':
+      return GENERAL[id] || MAGE[id] || {};
+    case 'wiz':
+      return GENERAL[id] || WIZ[id] || {};
+    default:
+      return {};
+  }
 }
 
 export function getUrlParameter(sParam) {

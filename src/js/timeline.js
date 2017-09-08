@@ -7,7 +7,6 @@ import * as utils from './utils.js';
 
 const SPELL_DETAILS_TEMPLATE = Handlebars.compile($('#spell-details-template').html());
 const SPELL_ITEM_TEMPLATE = Handlebars.compile($('#spell-timeline-item-template').html());
-//const TIMELINE_ITEM_TEMPLATE = Handlebars.compile($('#timeline-item-template').html());
 
 const CURRENT_TIME = utils.getCurrentTime();
 const CRITR_DATA = new vis.DataSet([]);
@@ -16,40 +15,11 @@ const DMG_DATA = new vis.DataSet([]);
 const SPELLLINE_DATA = new vis.DataSet([]);
 const TIMELINE_DATA = new vis.DataSet([]);
 
-const GRAPH_CRITR = utils.createVisGraph(
-  'graphcritr',
-  CURRENT_TIME,
-  dom.getDomForCritRGraph(),
-  CRITR_DATA
-);
-
-const GRAPH_CRITD = utils.createVisGraph(
-  'graphcritd', 
-  CURRENT_TIME, 
-  dom.getDomForCritDGraph(), 
-  CRITD_DATA
-);
-
-const GRAPH_DMG = utils.createVisGraph(
-  'graphdmg', 
-  CURRENT_TIME, 
-  dom.getDomForDmgGraph(), 
-  DMG_DATA
-);
-
-const SPELL_TIMELINE = utils.createVisTimeline(
-  'spellline',
-  CURRENT_TIME,
-  dom.getDomForSpellline(),
-  SPELLLINE_DATA
-);
-
-const TIMELINE = utils.createVisTimeline(
-  'timeline',
-  CURRENT_TIME,
-  dom.getDomForTimeline(),
-  TIMELINE_DATA
-);
+const GRAPH_CRITR = createGraph('graphcritr', CURRENT_TIME, dom.getDomForCritRGraph(), CRITR_DATA);
+const GRAPH_CRITD = createGraph('graphcritd', CURRENT_TIME, dom.getDomForCritDGraph(), CRITD_DATA);
+const GRAPH_DMG = createGraph('graphdmg', CURRENT_TIME, dom.getDomForDmgGraph(), DMG_DATA);
+const SPELL_TIMELINE = createTimeline('spellline', CURRENT_TIME, dom.getDomForSpellline(), SPELLLINE_DATA);
+const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(), TIMELINE_DATA);
 
 const REPEATED_ABILITIES = [
   { id: 'ESYN', enabled: dom.isUsingEncSynergy, rate: dom.getEncSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
@@ -63,6 +33,21 @@ const REPEATED_ABILITIES = [
 
 let BASE_CRIT_DATA = [];
 let UPDATING_CHART = -1;
+
+function createTimeline(id, time, dom, data, template) {
+  let opts = utils.readChartOptions(id, time);
+
+  if (template) {
+    opts.template = template;
+  }
+
+  return new vis.Timeline(dom, data, opts);
+}
+
+function createGraph(id, time, dom, data) {
+  let opts = utils.readChartOptions(id, time);
+  return new vis.Graph2d(dom, data, opts);
+}
 
 function castFirebound(state, time, chartIndex) {
   let result = null;
