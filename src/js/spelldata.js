@@ -1,17 +1,15 @@
-var general = require('./spells/spelldata.general.js');
+import {globals as G} from './settings.js';
+import {SPELL_DATA as GENERAL} from './spells/spelldata.general.js';
+import {SPELL_DATA as WIZ} from './spells/spelldata.wiz.js';
+import {SPELL_DATA as MAGE} from './spells/spelldata.mage.js';
 
-module.exports = {
-  get: function(id) {
-    var result = general[id];
-    
-    if (!result) {
-      if (MODE == 'wiz') {
-        result = require('./spells/spelldata.wiz.js')[id];
-      } else if (MODE == 'mage') {
-        result = require('./spells/spelldata.mage.js')[id];        
-      }
-    }
-    
-    return result;
+export function get(id) {
+  switch(G.MODE) {
+    case 'mage':
+      return GENERAL[id] || MAGE[id] || {};
+    case 'wiz':
+      return GENERAL[id] || WIZ[id] || {};
+    default:
+      return {};
   }
 }

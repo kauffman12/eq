@@ -1,249 +1,277 @@
-var settings = require('./settings.js');
-var spelldata = require('./spelldata.js');
+import {globals as G} from './settings.js';
+import {get as GetSpellData} from './spelldata.js';
+import * as SETTINGS from './settings.js';
 
-var QUERY_CACHE = {};
+let QUERY_CACHE = {};
 
-var self = module.exports = {
-  appendHtml: function(context, html, count) {
-    for (var i=0; i<count; i++) {
-      context.append(html);
-    }
-  },
-  asDecimal32Precision: function(value) {
-    return Number(value.toFixed(7));
-  },
-  buildCompoundSpellMap: function(c) {
-    return {
-      'WE': [c + 'PE', c + 'HC', c + 'CI'],
-      'WF': [c + 'PF', c + 'RC2', c + 'CS2'],
-      'FU': [c + 'ES', c + 'ER', c + 'EF']
-    };
-  },
-  checkSimpleTimer: function(state, workingTime, key) {
-    var keys = self.getCounterKeys(key);
-    if (state[keys.counter] > 0 && workingTime > state[keys.expireTime]) {
-      state[keys.counter] = 0;
-    }
-  },
-  checkStacking: function(hasUsedMap, map, item, key) {
-    var result = item[key] || 0;
-    
-    if (result) {
-      if ( !(hasUsedMap['FE'] && item.id == 'IOG') ) {
-        var lookup = item.spa + "-" + item.slot;
-        if (lookup) {
-          var previous = map[lookup];
-          if ((item.id == 'FE' && hasUsedMap['IOG']) || !previous || previous < result) {
-            // save highest value
-            map[lookup] = result;
-            // return the difference to make up for what was
-            // already accounted for
-            result -= (previous || 0);
-          } else {
-            result = 0; // do nothing
-          }
-        }
-      } else {
-        result = 0;
-      }
-    }
-    
-    hasUsedMap[item.id] = true;
-    return result;
-  },
-  checkTimerList: function(state, workingTime, counterKey, timerKey) {
-    var timers = state[timerKey];
-
-    if (timers && timers.length > 0) {
-      var updatedTimers = [];
-      $(timers).each(function(i, timer) {
-        if (workingTime > timer.expireTime) {
-          state[counterKey] = timer.update(state[counterKey]);
-        } else {
-          updatedTimers.push(timer);
-        }
-      });
-      
-      state[timerKey] = updatedTimers;
-    }
-  },
-  clearCache: function() {
-    QUERY_CACHE = {};
-  },
-  collapseMenu: function(p) {
-    var className = (MODE == 'wiz') ? '.mage-only' : '.wiz-only';
-    var hidden = $(p).siblings('li:hidden:not(' + className + ')');
-    if (hidden.length > 0) {
-      hidden.show();
-      $(p).find('span.glyphicon').addClass('glyphicon-chevron-down')
-      $(p).find('span.glyphicon').removeClass('glyphicon-chevron-left');
-    } else {
-      $(p).siblings('li').hide();
-      $(p).find('span.glyphicon').removeClass('glyphicon-chevron-down')
-      $(p).find('span.glyphicon').addClass('glyphicon-chevron-left');
-    }
-  },  
-  createTimer: function(expireTime, updateFunc) {
-    return { expireTime: expireTime, update: updateFunc };
-  },
-  displayPercent: function(value) {
-    return value ? (value * 100).toFixed(2) + "%" : "0%";
-  },
-  getCurrentTime: function() {
-    var date = new Date();
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date.getTime();    
-  },
-  getCompoundSpellList: function(id) {
-    return self.useCache('compound-spell-list-' + id, function() {
-      return {
-        'WF': [
-          { id: 'PF', chance: WILDMAGIC_PURE_CHANCE },
-          { id: 'RC2', chance: WILDMAGIC_RIMEBLAST_CHANCE },
-          { id: 'CS2', chance: WILDMAGIC_CHAOS_CHANCE }
-        ],
-        'WE': [
-          { id: 'PE', chance: WILDMAGIC_PURE_CHANCE },
-          { id: 'HC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
-          { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }          
-        ],
-        'FU': [
-          { id: 'ES', chance: FUSE_PROC_SPELL_CHANCE },
-          { id: 'ER', chance: FUSE_PROC_SPELL_CHANCE },
-          { id: 'EF', chance: FUSE_PROC_SPELL_CHANCE }        
-        ]
-      }[id];
-    });
-  },
-  getCounterKeys: function(key) {
-    return self.useCache('counter-key-' + key, function() {
-      var lower = key.toLowerCase();
-      return {
-        counter: lower + 'Counter',
-        charges: lower + 'ChargesUsed',
-        addDmg: lower + 'AddDmg',
-        expireTime: lower + 'ExpireTime'
-      };
-    });
-  },
-  getNumberValue: function(n) {
-    return Number(n) || 0;
-  },
-  getPercentClass: function(first, second) {
-    var className = "";
-    if (first > second) {
-      className = 'stat-down';
-    } else if (first < second) {
-      className = 'stat-up';      
-    }
-    
-    return className;
-  }, 
-  getPercentText: function(first, second) {
-    var value = (second - first);
-    if (value != 0) {
-      value = (value > 0 ? second / first * 100 - 100 : 100 - second / first * 100);
-    }
-    
-    return ((second - first) > 0 ? '+' : '-') + value.toFixed(2) + '%';
-  },
-  getSpellData: function(id) {
-    return spelldata.get(id) || {};
-  },
-  getUrlParameter: function(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-      sURLVariables = sPageURL.split('&'),
-      sParameterName,
-      i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-      sParameterName = sURLVariables[i].split('=');
-
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined ? true : sParameterName[1];
-      }
-    }
-  },
-  initListProperties: function(obj, propList) {
-    $(propList).each(function(i, item) {
-      if (!obj[item]) {
-        obj[item] = [];
-      }
-    });
-  },
-  initNumberProperties: function(obj, propList) {
-    $(propList).each(function(i, item) {
-      if (!obj[item]) {
-        obj[item] = 0;
-      }
-    });
-  },
-  isCounterActive: function(state, key) {
-    var keys = self.getCounterKeys(key);
-    if (keys && keys.counter) {
-      return (state[keys.counter] > 0);
-    }
-    
-    return false;
-  },
-  numberWithCommas: function(x) {
-    if (!x) return x;
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  },
-  readAdpsConfig: function(cfg) {
-    return settings.adpsConfig[cfg];
-  },
-  readAdpsOption: function(opt, value) {
-    var adpsOption = self.readAdpsConfig('options')[opt];
-    return (value == undefined) ? adpsOption : adpsOption[value];
-  },
-  readAdditionalModifiers: function() {
-    return [
-      { id: 'additionalModifiersSection', section: settings.additionalModifiers },
-      { id: 'additionalModifiersDebuffsSection', section: settings.additionalModifiersDebuffs }
-    ];       
-  },
-  readChartOptions: function(key) {
-    return settings['chartOptions'][key];
-  },
-  readDmgFocusContext: function() {
-    return settings['basicDmgFocusContext'];
-  },
-  readMainContext: function() {
-    return settings[MODE + "DPSAAContext"];
-  },
-  readSpellFocusContext: function() {
-    return settings[MODE + "SpellFocusAAContext"];
-  },
-  readSpellList: function() {
-    var list = [];
-    $(settings[MODE + 'SpellList']).each(function(i, id) {
-      list.push(spelldata.get(id));
-    });
-    return list;
-  },
-  switchMode: function() {
-    var className = (MODE == 'wiz') ? 'mage' : 'wiz';
-    var classInfo = className ? "?class=" + className : "";
-    window.location.assign(window.location.protocol + "//" + 
-      window.location.hostname + window.location.pathname + 
-      classInfo);
-  },
-  updateSpellCounts: function(spellCountMap, id) {
-    if (spellCountMap[id] == undefined){
-      spellCountMap[id] = 1;
-    } else {
-      spellCountMap[id]++;
-    }
-  },  
-  useCache: function(cacheKey, readFunc) {
-    var value = QUERY_CACHE[cacheKey];
-    if (value == undefined) {
-      value = readFunc();
-      QUERY_CACHE[cacheKey] = value;
-    }
-    
-    return value;
+export function appendHtml(context, html, count) {
+  for (let i=0; i<count; i++) {
+    context.append(html);
   }
-};
+}
+
+export function asDecimal32Precision(value) {
+  return Number(value.toFixed(7));
+}
+
+export function buildCompoundSpellMap(c) {
+  return {
+    'WE': [c + 'PE', c + 'HC', c + 'CI'],
+    'WF': [c + 'PF', c + 'RC2', c + 'CS2'],
+    'FU': [c + 'ES', c + 'ER', c + 'EF']
+  };
+}
+
+export function checkSimpleTimer(state, workingTime, key) {
+  let keys = getCounterKeys(key);
+  if (state[keys.counter] > 0 && workingTime > state[keys.expireTime]) {
+    state[keys.counter] = 0;
+  }
+}
+
+export function checkStacking(hasUsedMap, map, item, key) {
+  let result = item[key] || 0;
+
+  if (result) {
+    if ( !(hasUsedMap['FE'] && item.id == 'IOG') ) {
+      let lookup = item.spa + "-" + item.slot;
+      if (lookup) {
+        let previous = map[lookup];
+        if ((item.id == 'FE' && hasUsedMap['IOG']) || !previous || previous < result) {
+          // save highest value
+          map[lookup] = result;
+          // return the difference to make up for what was
+          // already accounted for
+          result -= (previous || 0);
+        } else {
+          result = 0; // do nothing
+        }
+      }
+    } else {
+      result = 0;
+    }
+  }
+
+  hasUsedMap[item.id] = true;
+  return result;
+}
+
+export function checkTimerList(state, workingTime, counterKey, timerKey) {
+  let timers = state[timerKey];
+
+  if (timers && timers.length > 0) {
+    let updatedTimers = [];
+    $(timers).each(function(i, timer) {
+      if (workingTime > timer.expireTime) {
+        state[counterKey] = timer.update(state[counterKey]);
+      } else {
+        updatedTimers.push(timer);
+      }
+    });
+
+    state[timerKey] = updatedTimers;
+  }
+}
+
+export function clearCache() {
+  QUERY_CACHE = {};
+}
+
+export function collapseMenu(p) {
+  let className = (G.MODE == 'wiz') ? '.mage-only' : '.wiz-only';
+  let hidden = $(p).siblings('li:hidden:not(' + className + ')');
+  if (hidden.length > 0) {
+    hidden.show();
+    $(p).find('span.glyphicon').addClass('glyphicon-chevron-down')
+    $(p).find('span.glyphicon').removeClass('glyphicon-chevron-left');
+  } else {
+    $(p).siblings('li').hide();
+    $(p).find('span.glyphicon').removeClass('glyphicon-chevron-down')
+    $(p).find('span.glyphicon').addClass('glyphicon-chevron-left');
+  }
+}
+
+export function createVisTimeline(id, time, dom, data, template) {
+  let opts = readChartOptions(id, time);
+
+  if (template) {
+    opts.template = template;
+  }
+
+  return new vis.Timeline(dom, data, opts);
+}
+
+export function createVisGraph(id, time, dom, data) {
+  let opts = readChartOptions(id, time);
+  return new vis.Graph2d(dom, data, opts);
+}
+
+export function createTimer(expireTime, updateFunc) {
+  return { expireTime: expireTime, update: updateFunc };
+}
+
+export function displayPercent(value) {
+  return value ? (value * 100).toFixed(2) + "%" : "0%";
+}
+
+export function getCurrentTime() {
+  let date = new Date();
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date.getTime();
+}
+
+export function getCounterKeys(key) {
+  return useCache('counter-key-' + key, function() {
+    let lower = key.toLowerCase();
+    return {
+      counter: lower + 'Counter',
+      charges: lower + 'ChargesUsed',
+      addDmg: lower + 'AddDmg',
+      expireTime: lower + 'ExpireTime'
+    };
+  });
+}
+
+export function getNumberValue(n) {
+  return Number(n) || 0;
+}
+
+export function getPercentClass(first, second) {
+  let className = "";
+  if (first > second) {
+    className = 'stat-down';
+  } else if (first < second) {
+    className = 'stat-up';
+  }
+
+  return className;
+}
+
+export function getPercentText(first, second) {
+  let value = (second - first);
+  if (value != 0) {
+    value = (value > 0 ? second / first * 100 - 100 : 100 - second / first * 100);
+  }
+
+  return ((second - first) > 0 ? '+' : '-') + value.toFixed(2) + '%';
+}
+
+export function getSpellData(id) {
+  return GetSpellData(id);
+}
+
+export function getUrlParameter(sParam) {
+  let sPageURL = decodeURIComponent(window.location.search.substring(1)),
+    sURLVariables = sPageURL.split('&'),
+    sParameterName,
+    i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
+    }
+  }
+}
+
+export function initListProperties(obj, propList) {
+  $(propList).each(function(i, item) {
+    if (!obj[item]) {
+      obj[item] = [];
+    }
+  });
+}
+
+export function initNumberProperties(obj, propList) {
+  $(propList).each(function(i, item) {
+    if (!obj[item]) {
+      obj[item] = 0;
+    }
+  });
+}
+
+export function isCounterActive(state, key) {
+  let keys = getCounterKeys(key);
+  if (keys && keys.counter) {
+    return (state[keys.counter] > 0);
+  }
+
+  return false;
+}
+
+export function numberWithCommas(x) {
+  if (!x) return x;
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function readAdpsConfig(cfg) {
+  return SETTINGS.adpsConfig[cfg];
+}
+
+export function readAdpsOption(opt, value) {
+  let adpsOption = readAdpsConfig('options')[opt];
+  return (value === undefined) ? adpsOption : adpsOption[value];
+}
+
+export function readAdditionalModifiers() {
+  return [
+    { id: 'additionalModifiersSection', section: SETTINGS.additionalModifiers },
+    { id: 'additionalModifiersDebuffsSection', section: SETTINGS.additionalModifiersDebuffs }
+  ];
+}
+
+export function readChartOptions(key, time) {
+  let opts = SETTINGS['chartOptions'][key];
+  opts.start = time - 5000;
+  opts.end = time + 120000;
+  opts.min = time - 5000;
+  return opts;
+}
+
+export function readDmgFocusContext() {
+  return SETTINGS['basicDmgFocusContext'];
+}
+
+export function readMainContext() {
+  return SETTINGS[G.MODE + 'DPSAAContext'];
+}
+
+export function readSpellFocusContext() {
+  return SETTINGS[G.MODE + 'SpellFocusAAContext'];
+}
+
+export function readSpellList() {
+  let list = [];
+  $(SETTINGS[G.MODE + 'SpellList']).each(function(i, id) {
+    list.push(getSpellData(id));
+  });
+  return list;
+}
+
+export function switchMode() {
+  let className = (G.MODE == 'wiz') ? 'mage' : 'wiz';
+  let classInfo = className ? "?class=" + className : "";
+  window.location.assign(window.location.protocol + "//" +
+    window.location.hostname + window.location.pathname +
+    classInfo);
+}
+
+export function updateSpellCounts(spellCountMap, id) {
+  if (spellCountMap[id] === undefined){
+    spellCountMap[id] = 1;
+  } else {
+    spellCountMap[id]++;
+  }
+}
+
+export function useCache(cacheKey, readFunc) {
+  let value = QUERY_CACHE[cacheKey];
+  if (value === undefined) {
+    value = readFunc();
+    QUERY_CACHE[cacheKey] = value;
+  }
+
+  return value;
+}

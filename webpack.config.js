@@ -13,7 +13,7 @@ module.exports = (env, args) => {
   var configuration = {
     context: path.resolve(__dirname, 'src'),
     entry: {
-      app: './main.js',
+      app: ['babel-polyfill', './main.js'],
       vendor: ['jquery', 'bootstrap', 'handlebars', 'vis']
     },
     output: {
@@ -21,7 +21,18 @@ module.exports = (env, args) => {
       filename: 'js/app.js'
     },
     module: {
-      'loaders': [
+      loaders: [
+        {
+          loader: 'babel-loader',
+          include: [
+            path.resolve(__dirname, "src"),
+          ],
+          test: /\.jsx?$/,
+          query: {
+            plugins: ['transform-runtime'],
+            presets: ['es2015']
+          }
+        },          
         {
           test: /\.css$/,
           use: styleCss.extract({

@@ -1,4 +1,4 @@
-module.exports = {
+export const SPELL_DATA = {
   "TC": {
     "id": "TC",
     "name": "Twincast Rk. III",

@@ -1,4 +1,4 @@
-module.exports = {
+export const SPELL_DATA = {
   "AFU1": {
     "id": "AFU1",
     "name": "Arcane Fusion I",

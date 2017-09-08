@@ -1,4 +1,4 @@
-module.exports = {
+export const SPELL_DATA = {
   "BJ": {
     "id": "BJ",
     "name": "Blazing Jet III",
