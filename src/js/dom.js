@@ -280,9 +280,9 @@ export function getNilsaraAriaValue() {
 }
 
 export function getPetCritFocusValue() {
-  if (G.MODE == 'wiz') {
+  if (G.MODE === 'wiz') {
     let petFocus = getWizPetFocus();
-    if (petFocus.type == 'improved') {
+    if (petFocus.type === 'improved') {
       return petFocus.value * 100;
     }
   }
@@ -292,7 +292,7 @@ export function getPetCritFocusValue() {
 export function getPetDmgFocusValue() {
   if (G.MODE =='wiz') {
     let petFocus = getWizPetFocus();
-    if (petFocus.type == 'kera') {
+    if (petFocus.type === 'kera') {
       return petFocus.value;
     }
   }
@@ -373,7 +373,7 @@ export function getSpellFocusAAValue(id) {
   return utils.useCache('.spell-focus-aa-' + id, function() {
     let value = 0;
 
-    let keys = (G.MODE == 'wiz') ? WIZ_FOCUS_AA_KEYS : MAGE_FOCUS_AA_KEYS;
+    let keys = (G.MODE === 'wiz') ? WIZ_FOCUS_AA_KEYS : MAGE_FOCUS_AA_KEYS;
     if (keys[id]) {
       value = utils.getNumberValue($(keys[id]).data('value'));
     }
@@ -428,9 +428,9 @@ export function getType3AugValue(spell) {
 export function getWizPetFocus() {
   let value;
   let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-  if (type == "improved") {
+  if (type === "improved") {
     value = dmgU.IMPROVED_FAMILIAR_CRIT;
-  } else if(type == "kera") {
+  } else if(type === "kera") {
     value = dmgU.KERA_FAMILIAR_FOCUS;
   }
 

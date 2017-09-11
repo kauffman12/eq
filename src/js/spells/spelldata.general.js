@@ -10,8 +10,6 @@ export const SPELL_DATA = {
     "resist": "NONE",
     "type3Dmg": 0,
     "target": "self",
-    "canTwincast": false,
-    "type": "beneficial",
     "timer": "twincast",
     "manaCost": 1,
     "skill": 4,
@@ -27,16 +25,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Aug": 0,
-    "canTwincast": false,
     "timer": "WSYN",
     "manaCost": 0,
     "isZeroFocusable": true,
     "skill": 98,
     "level": 254,
+    "partialResist": 0,
     "requirements": {
-      "spellCastOrEqpProc": true,
+      "canProcSpells": true,
       "resists": ["MAGIC", "ICE", "DISEASE", "CORRUPTION", "CHROMATIC"]
-    }    
+    }
   },
   "AB": {
     "id": "AB",
@@ -48,16 +46,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "DISEASE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "AB",
     "manaCost": 0,
+    "max": 0,
     "base1": 100,
     "skill": 24,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minManaCost": 10,
       "minLevel": 75,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "ASVI": {
@@ -70,17 +69,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "ASVI",
     "manaCost": 0,
     "base1": 100,
     "spellDmgCap": 225,
     "level": 255,
     "skill": 52,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "BFVI": {
@@ -93,16 +92,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "BFVI",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "BOIX": {
@@ -115,16 +114,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "ICE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "BOIX",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FCVII": {
@@ -137,16 +136,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CORRUPTION",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FCVII",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FCX": {
@@ -159,16 +158,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CORRUPTION",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FCX",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FOMVII": {
@@ -181,16 +180,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FOMVII",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FOMIX": {
@@ -203,16 +202,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FOMIX",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FOMXIII": {
@@ -225,16 +224,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FOMXIII",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FOMXV": {
@@ -247,16 +246,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FOMXV",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FSVI": {
@@ -269,17 +268,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FSVI",
     "manaCost": 0,
     "base1": 100,
     "spellDmgCap": 225,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FSVII": {
@@ -292,17 +291,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FSVII",
     "manaCost": 0,
     "base1": 100,
     "spellDmgCap": 250,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "HOM3": {
@@ -315,18 +314,18 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "MAGIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "HOM3",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
-  },  
+  },
   "OS": {
     "id": "OS",
     "name": "Obulous Strike",
@@ -337,16 +336,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "OS",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 0,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 675,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "SOFV": {
@@ -359,16 +358,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "SOFV",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "SOFXIII": {
@@ -381,16 +380,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "SOFXIII",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "SOFXIV": {
@@ -403,16 +402,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "FIRE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "SOFXIV",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "VOSIV": {
@@ -425,16 +424,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "DISEASE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "VOSIV",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "WOC4": {
@@ -447,16 +446,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CORRUPTION",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "WOC4",
     "manaCost": 0,
     "base1": 100,
     "skill": 52,
     "level": 255,
+    "partialResist": 1,
     "requirements": {
       "minLevel": 70,
       "minManaCost": 10,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "FW": {
@@ -469,15 +468,15 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "ICE",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "FW",
     "manaCost": 0,
     "skill": 24,
     "level": 255,
+    "partialResist": 0,
     "requirements": {
       "minManaCost": 10,
       "maxLevel": 110,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "DRS6": {
@@ -490,16 +489,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "DRS6",
     "manaCost": 0,
     "base1": 160,
     "skill": 24,
     "level": 255,
+    "partialResist": 0,
     "requirements": {
       "minManaCost": 100,
       "maxLevel": 110,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "MR": {
@@ -512,15 +511,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "MRR",
+    "max": 0,
     "manaCost": 0,
     "skill": 5,
     "level": 255,
+    "partialResist": 0,
     "requirements": {
       "minManaCost": 10,
       "maxLevel": 105,
-      "spellCastOnly": true
+      "canProcSpells": true
     }
   },
   "MRR": {
@@ -533,11 +533,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "MRR",
+    "max": 0,
     "manaCost": 0,
     "skill": 5,
-    "level": 255
+    "level": 255,
+    "partialResist": 0,
+    "requirements": {
+      "minManaCost": 10,
+      "maxLevel": 105,
+      "canProcSpells": true
+    }
   },
   "MRRR": {
     "id": "MRRR",
@@ -549,11 +555,17 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "MRRR",
+    "max": 0,
     "manaCost": 0,
     "skill": 5,
-    "level": 255
+    "level": 255,
+    "partialResist": 0,
+    "requirements": {
+      "minManaCost": 10,
+      "maxLevel": 105,
+      "canProcSpells": true
+    }
   },
   "MRRRR": {
     "id": "MRRRR",
@@ -565,10 +577,16 @@ export const SPELL_DATA = {
     "lockoutTime": 0.0,
     "resist": "CHROMATIC",
     "type3Dmg": 0,
-    "canTwincast": false,
     "timer": "MRRRR",
+    "max": 0,
     "manaCost": 0,
     "skill": 5,
-    "level": 255
+    "level": 255,
+    "partialResist": 0,
+    "requirements": {
+      "minManaCost": 10,
+      "maxLevel": 105,
+      "canProcSpells": true
+    }
   }
 };

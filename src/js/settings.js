@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.80',
+  VERSION: 'Version 0.81',
   MAGE_TITLE: 'EQ Mage DPS Tool',
   WIZ_TITLE: 'EQ Wizard DPS Tool'
 }
@@ -980,9 +980,18 @@ export const adpsConfig = {
       spa: 294,
       slot: 1
     },
+    'BW': {
+      id: 'BW',
+      critRateMod: 10,
+      critDmgMod: 100,
+      content: 'Group Spirit of Black Wolf',
+      offset: 225000,
+      spa: 294,
+      slot: 8
+    },    
     'CH': {
       id: 'CH',
-      'critDmgMod': 375,
+      critDmgMod: 375,
       critRateMod: 100,
       charges: 2,
       content: 'Chroma Haze VII',
@@ -999,7 +1008,12 @@ export const adpsConfig = {
       'beforeCritAdd': 3959,
       chargeBased: true,
       spa: 303,
-      slot: 8
+      slot: 8,
+      requirements: {
+        minManaCost: 100,
+        maxLevel: 110,
+        castSpellOnly: true
+      }      
     },
     'E3': {
       id: 'E3',
@@ -1011,7 +1025,7 @@ export const adpsConfig = {
     },
     'EU': {
       id: 'EU',
-      'afterCritMult': 0.95,
+      afterCritMult: 0.95,
       content: 'Elemental Union XIII',
       class: 'mage',
       offset: 144000,
@@ -1030,7 +1044,7 @@ export const adpsConfig = {
       class: 'wiz',
       offset: 410000,
       charges: 45,
-      'critDmgMod': 80,
+      critDmgMod: 80,
       critRateMod: 50,
       chargeBased: true,
       spa: 212,
@@ -1039,7 +1053,7 @@ export const adpsConfig = {
     'FE': {
       id: 'FE',
       critRateMod: 12,
-      'critDmgMod': 12,
+      critDmgMod: 12,
       content: 'Fierce Eye',
       offset: 120000,
       spa: 294,
@@ -1050,7 +1064,7 @@ export const adpsConfig = {
       content: 'Fury of Druzzil XIII',
       class: 'wiz',
       offset: 600000,
-      'resist': 'MAGIC',
+      resist: 'MAGIC',
       spa: 303,
       slot: 1
     },
@@ -1059,7 +1073,7 @@ export const adpsConfig = {
       content: 'Fury of Eci XIII',
       class: 'wiz',
       offset: 600000,
-      'resist': 'ICE',
+      resist: 'ICE',
       spa: 303,
       slot: 1
     },
@@ -1068,7 +1082,7 @@ export const adpsConfig = {
       content: 'Fury of Ro XIII',
       class: 'wiz',
       offset: 600000,
-      'resist': 'FIRE',
+      resist: 'FIRE',
       spa: 303,
       slot: 1
     },
@@ -1077,13 +1091,13 @@ export const adpsConfig = {
       content: 'Fury of Kerafyrm IX',
       class: 'wiz',
       offset: 600000,
-      'resist': 'ANY',
+      resist: 'ANY',
       spa: 303,
       slot: 1
     },
     'GLYPH': {
       id: 'GLYPH',
-      'critDmgMod': 60,
+      critDmgMod: 60,
       content: 'Glyph of Destruction II',
       offset: 120000,
       spa: 294,
@@ -1091,17 +1105,30 @@ export const adpsConfig = {
     },
     'HF': {
       id: 'HF',
-      'afterCritMult': 1.10,
+      afterCritMult: 1.10,
       content: 'Heart of Flames XII',
       class: 'mage',
       offset: 276000,
-      'resist': 'FIRE',
+      resist: 'FIRE',
       spa: 124,
       slot: 1
     },
+    'MBRN': {
+      id: 'MBRN',
+      charges: 500,
+      content: 'Mana Burn XVI',
+      offset: 120000,
+      afterCritAdd: 19200,
+      chargeBased: true,
+      spa: 484,
+      slot: 1,
+      requirements: {
+        focusableSpellProc: true
+      }      
+    },    
     'MC': {
       id: 'MC',
-      'critDmgMod': 50,
+      critDmgMod: 50,
       critRateMod: 175,
       charges: 3,
       content: 'Mana Charge',
@@ -1110,18 +1137,9 @@ export const adpsConfig = {
       spa: 294,
       slot: 1
     },
-    'BW': {
-      id: 'BW',
-      critRateMod: 10,
-      'critDmgMod': 100,
-      content: 'Group Spirit of Black Wolf',
-      offset: 225000,
-      spa: 294,
-      slot: 8
-    },
     'HV': {
       id: 'HV',
-      'critDmgMod': 35,
+      critDmgMod: 35,
       critRateMod: 0,
       content: 'Heart of Vapor XIV',
       class: 'mage',
@@ -1132,7 +1150,7 @@ export const adpsConfig = {
     'IOG': {
       id: 'IOG',
       critRateMod: 12,
-      'critDmgMod': 155,
+      critDmgMod: 155,
       content: 'Illusions of Grandeur',
       offset: 120000,
       spa: 294,
@@ -1176,7 +1194,7 @@ export const adpsConfig = {
     },
     'W2': {
       id: 'W2',
-      'critDmgMod': 160,
+      critDmgMod: 160,
       content: 'Second Spire of Arcanum IV',
       class: 'wiz',
       offset: 90000,
@@ -1186,7 +1204,7 @@ export const adpsConfig = {
   },
   displayList: [
     'AD', 'AF', 'AUS', 'CH', 'DR', 'EU', 'E3', 'FE', 'M1', 'FR', 'FD', 'FURYDRUZ', 'FURYECI', 'FURYRO', 'FURYKERA', 'GLYPH',
-    'BW', 'HF', 'HV', 'IOG', 'ITC', 'MC', 'SW', 'W2', 'VES',  'TC'
+    'BW', 'HF', 'HV', 'IOG', 'ITC', 'MBRN', 'MC', 'SW', 'W2', 'VES',  'TC'
   ]
 };
 
@@ -1199,7 +1217,7 @@ export const chartOptions = {
     zoomable: true,
     editable: false,
     clickToUse: false,
-    maxHeight: '165px',
+    maxHeight: '135px',
     selectable: false
   },
   timeline: {
@@ -1209,7 +1227,7 @@ export const chartOptions = {
     align: 'left',
     zoomable: true,
     editable: true,
-    clickToUse: false,
+    clickToUse: false
   },
   graphcritr: {
     showCurrentTime: false,

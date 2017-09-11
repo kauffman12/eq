@@ -1,21 +1,10 @@
+import * as dmgU from './damage.utils.js';
 import * as dom from './dom.js';
 import * as utils from './utils.js';
 
-const STATISTICS = { spells: {}, totals: {} };
+const STATISTICS = { spells: new Map(), aggr: new Map(), _ids: new Map(), _totals: new Map() };
 const STAT_CHANGE_TEMPLATE = Handlebars.compile($('#stat-change-template').html());
 const STAT_SUB_TEMPLATE = Handlebars.compile($('#stat-sub-template').html());
-
-// When aggregating stats from twincasts of the same spell or procs this
-// list just makes it easier to initialize these properties without having
-// classes of some kind which is work for the future
-const STAT_LIST = [
-  "adChargesUsed", "abAddDmg", "fwAddDmg", "mrAddDmg", "afuAddDmg", "avgDmg", "tcAvgDmg",
-  "chChargesUsed", "drAddDmg", "drChargesUsed", "ehazyChargesUsed", "esynChargesUsed",
-  "eqpAddDmg", "fdChargesUsed", "fpwrChargesUsed", "fpwrWeaknessRate",
-  "fwChargesUsed", "itcChargesUsed", "msynChargesUsed", "mrChargesUsed",
-  "mcChargesUsed", "nsynChargesUsed", "rsCount", "rsDPS", "fuseProcDmg",
-  "vfxChargesUsed", "wsynChargesUsed", "wsynAddDmg", "clawChargesUsed"
-];
 
 function addNumberStatDescription(data, title, value, force) {
   if (value || force) {
@@ -35,144 +24,113 @@ function addPercentStatDescription(data, title, value, force) {
   }
 }
 
-function getAggregateStatistics(origStats) {
-  let spellStats = $.extend({}, origStats);
-  utils.initNumberProperties(spellStats, STAT_LIST);
-  let compundSpellMap = utils.buildCompoundSpellMap(spellStats.chartIndex);
-
-  $(compundSpellMap[spellStats.id]).each(function(i, value) {
-    let st = getSpellStatisticsForIndex(value);
-
-    $(STAT_LIST).each(function(i, item) {
-      if (spellStats.id == 'FU' && (item == 'avgDmg' || item == 'tcAvgDmg')) {
-        return; // Fusion already accounts for these in parent so don't count twice
-      }
-
-      spellStats[item] += st[item] ? st[item] : 0;
-    });
-  });
-
-  return spellStats;
-}
-
 function updateStatSection(sectionId, avgDPS, label, text, value, key) {
-  let prev = STATISTICS.totals[key];
+  let prev = STATISTICS._totals.get(key);
   let change = (prev && avgDPS > 0) ? utils.getPercentText(prev, value) : "";
   let className = utils.getPercentClass(prev, value);
-  change = (className == "") ? "" : change;
+  change = (className === "") ? "" : change;
   $(sectionId).html('');
   $(sectionId).append(STAT_CHANGE_TEMPLATE({ className: className, label: label, value: text, change: change}));
-}
-
-export function addSpellStatistics(state, name, value) {
-  if (state && state.hasStatistics && state.chartIndex >= 0) {
-    let index = state.childId ? state.chartIndex + state.childId : state.chartIndex;
-    if (!STATISTICS.spells[index]) {
-      STATISTICS.spells[index] = {};
-    }
-
-    let current = STATISTICS.spells[index][name];
-    STATISTICS.spells[index][name] = current ? current + value : value;
-  }
-}
-
-export function getSpellStatisticsForIndex(index, key) {
-  let stats = STATISTICS.spells[index];
-  if (stats) {
-    return key ? stats[key] : stats;
-  } else {
-    return {};
-  }
+  STATISTICS._totals.set(key, value);
 }
 
 export function getStatisticsSummary(spellStats) {
   let data = [];
-  let spell = utils.getSpellData(spellStats.id);
+  let spell = utils.getSpellData(spellStats.get('id'));
 
-  addNumberStatDescription(data, "Chart ID", spellStats.chartIndex, true);
+  addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
   addDecimalStatDescription(data, "Cast Time(s)", spell.castTime, true);
-  addDecimalStatDescription(data, "Cast Interval(s)", spellStats.castInterval);
-  addDecimalStatDescription(data, "Recast Delay(s)", spellStats.castInterval - spell.castTime);
-  addNumberStatDescription(data, "Pet Count", spellStats.rsCount);
-  addNumberStatDescription(data, "Pet DPS", spellStats.rsDPS);
+  addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'));
+  addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - spell.castTime);
+  addNumberStatDescription(data, "Pet Count", spellStats.get('rsCount'));
+  addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
 
-    // Only print spellStats for spells that do damage
-  if (spell.type != "beneficial") {
-    if (spellStats.id == "WF" || spellStats.id == "WE" || spellStats.id == "FU") {
-      spellStats = getAggregateStatistics(spellStats);
+    // Only print spellStats for spells that do damage and not WE/WF
+  if (spellStats.get('avgBaseDmg') > 0) {
+    addDecimalStatDescription(data, "AD Charges", spellStats.get('adChargesUsed'));
+    addDecimalStatDescription(data, "FD Charges", spellStats.get('fdChargesUsed'));
+    addDecimalStatDescription(data, "ITC Charges", spellStats.get('itcChargesUsed'));
+    addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
+    addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwChargesUsed'));
+    addDecimalStatDescription(data, "MR Charges", spellStats.get('mrChargesUsed'));
+    addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
+    addDecimalStatDescription(data, "Claw Syllable", spellStats.get('clawChargesUsed'));
+    addDecimalStatDescription(data, "Vortex Effects", spellStats.get('vfxChargesUsed'));
+    addDecimalStatDescription(data, "Chroma Haze", spellStats.get('chChargesUsed'));
+    addDecimalStatDescription(data, "Hazy Thoughts", spellStats.get('ehazyChargesUsed'));
+    addDecimalStatDescription(data, "Mana Charge", spellStats.get('mcChargesUsed'));
+    addDecimalStatDescription(data, "Enc Synergy", spellStats.get('esynChargesUsed'));
+    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msynChargesUsed'));
+    addDecimalStatDescription(data, "Nec Synergy", spellStats.get('nsynChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsynChargesUsed'));
+    addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
+    addPercentStatDescription(data, "FlamesWeak Chance", spellStats.get('fpwrWeaknessRate'));
+
+    addPercentStatDescription(data, "Crit Dmg Mult", spellStats.get('critDmgMult'), true);
+    addPercentStatDescription(data, "Crit Rate", spellStats.get('critRate'), true);
+
+    if (!['WF', 'WE'].find(x => x === spell.id)) {    
+      addPercentStatDescription(data, "Twincast Rate", spellStats.get('twincastChance'), true);
+      addNumberStatDescription(data, "Spell Damage", spellStats.get('spellDmg'));
+      addPercentStatDescription(data, "Effectiveness", spellStats.get('effectiveness'));
+      addPercentStatDescription(data, "Before Crit Focus", spellStats.get('beforeCritMult'));
+
+      let beforeCritAdd = (spellStats.get('beforeCritAdd') - spellStats.get('spellDmg')) > 0 ? (spellStats.get('beforeCritAdd') - spellStats.get('spellDmg')) : 0;
+      addNumberStatDescription(data, "Before Crit Add", beforeCritAdd);
+      addPercentStatDescription(data, "After Crit Focus", spellStats.get('afterCritMult'));
+      addNumberStatDescription(data, "After Crit Add", spellStats.get('afterCritAdd'));
+      addPercentStatDescription(data, "Post Calc Focus", spellStats.get('postCalcMult'));
+
+      addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
+      addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));
+      addNumberStatDescription(data, "Calc Crit Dmg", spellStats.get('avgCritDmg'));
+      addNumberStatDescription(data, "Avg AE Hit1", spellStats.get('aeHit1'));
+      addNumberStatDescription(data, "Avg AE Hit2", spellStats.get('aeHit2'));
+      addNumberStatDescription(data, "Avg AE Hit3", spellStats.get('aeHit3'));
+      addNumberStatDescription(data, "Avg AE Hit4", spellStats.get('aeHit4'));
     }
-
-    addDecimalStatDescription(data, "AD Charges", spellStats.adChargesUsed);
-    addDecimalStatDescription(data, "FD Charges", spellStats.fdChargesUsed);
-    addDecimalStatDescription(data, "ITC Charges", spellStats.itcChargesUsed);
-    addDecimalStatDescription(data, "DR Charges", spellStats.drChargesUsed);
-    addDecimalStatDescription(data, "FWeave Charges", spellStats.fwChargesUsed);
-    addDecimalStatDescription(data, "MR Charges", spellStats.mrChargesUsed);
-    addDecimalStatDescription(data, "Claw Syllable", spellStats.clawChargesUsed);
-    addDecimalStatDescription(data, "Vortex Effects", spellStats.vfxChargesUsed);
-    addDecimalStatDescription(data, "Chroma Haze", spellStats.chChargesUsed);
-    addDecimalStatDescription(data, "Hazy Thoughts", spellStats.ehazyChargesUsed);
-    addDecimalStatDescription(data, "Mana Charge", spellStats.mcChargesUsed);
-    addDecimalStatDescription(data, "Enc Synergy", spellStats.esynChargesUsed);
-    addDecimalStatDescription(data, "Mag Synergy", spellStats.msynChargesUsed);
-    addDecimalStatDescription(data, "Nec Synergy", spellStats.nsynChargesUsed);
-    addDecimalStatDescription(data, "Wiz Synergy", spellStats.wsynChargesUsed);
-    addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.fpwrChargesUsed);
-    addPercentStatDescription(data, "FlamesWeak Chance", spellStats.fpwrWeaknessRate);
-
-    addPercentStatDescription(data, "Crit Dmg Mult", spellStats.critDmgMult, true);
-    addPercentStatDescription(data, "Crit Rate", spellStats.critRate, true);
-    addPercentStatDescription(data, "Twincast Rate", spellStats.twincastChance, true);
-    addNumberStatDescription(data, "Spell Damage", spellStats.spellDmg);
-    addPercentStatDescription(data, "Effectiveness", spellStats.effectiveness);
-    addPercentStatDescription(data, "Before Crit Focus", spellStats.beforeCritMult);
-
-    let beforeCritAdd = (spellStats.beforeCritAdd - spellStats.spellDmg) > 0 ? spellStats.beforeCritAdd - spellStats.spellDmg : 0;
-    addNumberStatDescription(data, "Before Crit Add", beforeCritAdd);
-    addPercentStatDescription(data, "After Crit Focus", spellStats.afterCritMult);
-    addNumberStatDescription(data, "After Crit Add", spellStats.afterCritAdd);
-    addPercentStatDescription(data, "Post Calc Focus", spellStats.postCalcMult);
-
-    addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
-    addNumberStatDescription(data, "Calc Base Dmg", spellStats.avgBaseDmg);
-    addNumberStatDescription(data, "Calc Crit Dmg", spellStats.avgCritDmg);
-    addNumberStatDescription(data, "Avg AE Hit1", spellStats.aeHit1);
-    addNumberStatDescription(data, "Avg AE Hit2", spellStats.aeHit2);
-    addNumberStatDescription(data, "Avg AE Hit3", spellStats.aeHit3);
-    addNumberStatDescription(data, "Avg AE Hit4", spellStats.aeHit4);
-    addNumberStatDescription(data, "Avg Dmg", spellStats.avgDmg);
-    addNumberStatDescription(data, "Avg TC Dmg", spellStats.tcAvgDmg);
-    addNumberStatDescription(data, "Sub Total", spellStats.avgDmg + spellStats.tcAvgDmg);
+    
+    addNumberStatDescription(data, "Avg Dmg", spellStats.get('avgDmg'));
+    addNumberStatDescription(data, "Avg TC Dmg", spellStats.get('tcAvgDmg'));
+    addNumberStatDescription(data, "Sub Total", spellStats.get('avgDmg') + spellStats.get('tcAvgDmg'));
   }
 
-  addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.eqpAddDmg);
-  addNumberStatDescription(data, "Arcane Fusion", spellStats.afuAddDmg);
-  addNumberStatDescription(data, "FWeave Proc", spellStats.fwAddDmg);
-  addNumberStatDescription(data, "DR Proc", spellStats.drAddDmg);
-  addNumberStatDescription(data, "MR Proc", spellStats.mrAddDmg);
-  addNumberStatDescription(data, "Hedgewizards", spellStats.abAddDmg);
+  addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
+  addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
+  addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwAddDmg'));
+  addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
+  addNumberStatDescription(data, "MR Proc", spellStats.get('mrAddDmg'));
+  addNumberStatDescription(data, "Hedgewizards", spellStats.get('abAddDmg'));
 
-  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.wsynAddDmg);
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsynAddDmg'));
 
-  addNumberStatDescription(data, "Est Fuse Proc", spellStats.fuseProcDmg);
-  addNumberStatDescription(data, "Total Dmg", spellStats.totalDmg);
+  addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
+  addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
 
-  let dps = Math.trunc((spellStats.totalDmg || 0) / (spell.castTime + dom.getGCDValue()));
+  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()));
   data.push({ title: "DPS", value: utils.numberWithCommas(dps) + "/s"});
 
   return data;
 }
 
-export function printStats(output, totalAvgDmg, totalAvgPetDmg, timeRange, totalCritRate, maxHit, detSpellCount, spellCountMap) {
-  // DPS
+export function printStats(output, state, totalAvgDmg, totalAvgPetDmg, timeRange, maxHit) {
+  let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
+  let aggrCritRate = getSpellCastInfo().get('critRate') || 0;
+  let totalCastCount = getSpellCastInfo().get('totalCastCount') || 0;
+  let totalDetCastCount = getSpellCastInfo().get('detCastCount') || 0;
   let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timeRange / 1000);
+
+  // Spell Count
+  updateStatSection('#spellCountStats', avgDPS, 'Spells + TC/Proc', totalCastCount, totalCastCount, 'totalCastCount');
+
+  // DPS
   updateStatSection('#dpsStats', avgDPS, 'DPS ', utils.numberWithCommas(avgDPS.toFixed(2)), avgDPS, 'avgDPS');
 
   // Max Hit
   updateStatSection('#maxHitStats', avgDPS, 'Max Cast', utils.numberWithCommas(Math.trunc(maxHit)), maxHit, 'maxHit');
 
   // Avg Hit
-  let avgHit = (detSpellCount > 0) ? totalAvgDmg / detSpellCount : 0;
+  let avgHit = (totalDetCastCount > 0) ? totalAvgDmg / totalDetCastCount : 0;
   updateStatSection('#averageHitStats', avgDPS, 'Average Cast', utils.numberWithCommas(Math.trunc(avgHit)), avgHit, 'avgHit');
 
   // Total Damage from Spell Casts
@@ -186,52 +144,68 @@ export function printStats(output, totalAvgDmg, totalAvgPetDmg, timeRange, total
   updateStatSection('#totalDamageStats', avgDPS, 'Total Damage ', utils.numberWithCommas(finalTotal), finalTotal, 'totalAvgDmg');
 
   // Avg Crit Rate
-  let avgCritRate = detSpellCount ? Math.round(totalCritRate / detSpellCount * 100) : 0;
-  updateStatSection('#critRateStats', avgDPS, 'Crit Rate ', avgCritRate.toFixed(1) + '%', avgCritRate, 'avgCritRate');
+  let avgCritRate = aggrSpellCount ? aggrCritRate / aggrSpellCount * 100 : 0;
+  updateStatSection('#critRateStats', avgDPS, 'Crit Rate ', avgCritRate.toFixed(2) + '%', avgCritRate, 'avgCritRate');
 
-  // Spell Count
-  updateStatSection('#spellCountStats', avgDPS, 'Spells Cast ', utils.numberWithCommas(detSpellCount), detSpellCount, 'spellCount');
-
-  // spell count details
-  let sortedCounts = [];
-  $.each(spellCountMap, function(key, value) {
-    sortedCounts.push({key: key, value: value});
+  getSpellCastInfo().get('castMap').forEach((v, k) => {
+    output.append(STAT_SUB_TEMPLATE({ label: utils.getSpellData(k).name, value: v}));
   });
 
-  sortedCounts.sort(function(a, b) { return b.value - a.value; });
-  $(sortedCounts).each(function(i, item) {
-    output.append(STAT_SUB_TEMPLATE({ label: utils.getSpellData(item.key).name, value: item.value}));
-  });
-
-  if (avgDPS > 0) {
-    $('.stats').addClass('stats-available');
-  } else {
-    $('.stats').removeClass('stats-available');
-  }
-
-  STATISTICS.totals.totalAvgDmg = finalTotal;
-  STATISTICS.totals.totalAvgCastDmg = totalAvgDmg;
-  STATISTICS.totals.totalAvgPetDmg = totalAvgPetDmg;
-  STATISTICS.totals.avgDPS = avgDPS;
-  STATISTICS.totals.avgHit = avgHit;
-  STATISTICS.totals.maxHit = maxHit;
-  STATISTICS.totals.avgCritRate = avgCritRate;
-  STATISTICS.totals.spellCount = detSpellCount;
+  avgDPS > 0 ? $('.stats').addClass('stats-available') : $('.stats').removeClass('stats-available');
 }
 
-export function resetSpellStats() {
-  STATISTICS.spells = {};
+// Functions for working with spell statistics
+function incrementStat(mapName, key) {
+  let count = STATISTICS[mapName].get(key);
+  STATISTICS[mapName].set(key, count ? count + 1 : 1);  
+}
+
+function initSpellStatistics(index, name, value) {
+  if (STATISTICS.spells.has(index)) {
+    // keep track of spell counts per ID
+    if (name === 'id' && value !== undefined) {
+      incrementStat('_ids', value);
+      incrementStat('aggr', 'totalCastCount');
+    }
+
+    return STATISTICS.spells.get(index);
+  }
+
+  let indexMap = new Map();
+  STATISTICS.spells.set(index, indexMap);
+  return indexMap;
+}
+
+export function addAggregateStatistics(state, name, value) {
+  let count = STATISTICS.aggr.get(name);
+  STATISTICS.aggr.set(name, count ? count + value : value);
+}
+
+export function addSpellStatistics(state, name, value) {
+  let indexMap = initSpellStatistics(state.chartIndex, name, value);
+  indexMap.set(name, indexMap.has(name) ? indexMap.get(name) + value : value);
+}
+
+export function getSpellCastInfo() {
+  let info = new Map([...STATISTICS.aggr]);
+  let sortedList = [...STATISTICS._ids].sort((a,b) => { return a[1] < b[1]; })
+  info.set('castMap', new Map(sortedList));
+  return info;
+}
+
+export function getSpellStatistics(index) {
+  return STATISTICS.spells.get(index) || new Map();
+}
+
+export function clear() {
+  STATISTICS.spells.clear();
+  STATISTICS.aggr.clear();
+  STATISTICS._ids.clear();
 }
 
 export function updateSpellStatistics(state, name, value) {
-  if (state && state.hasStatistics && state.chartIndex >= 0) {
-    let index = state.childId ? state.chartIndex + state.childId : state.chartIndex;
-    if (!STATISTICS.spells[index]) {
-      STATISTICS.spells[index] = { id: state.childId ? state.childId : state.id };
-    }
-
-    if (STATISTICS.spells[index][name] == undefined) {
-      STATISTICS.spells[index][name] = value;
-    }
+  let indexMap = initSpellStatistics(state.chartIndex, name, value);
+  if (!indexMap.has(name)) {
+    indexMap.set(name, value);
   }
 }

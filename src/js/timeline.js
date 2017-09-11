@@ -27,8 +27,8 @@ const REPEATED_ABILITIES = [
   { id: 'MSYN', enabled: dom.isUsingMagSynergy, rate: dom.getMagSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
   { id: 'NSYN', enabled: dom.isUsingNecSynergy, rate: dom.getNecSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
   { id: 'WSYN', enabled: dom.isUsingWizSynergy, rate: dom.getWizSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
-  { id: 'MR', enabled: dom.isUsingMR, rate: getMRRate, timer: dmgU.MR_TIMER * 10, count: dmgU.MR_COUNTERS },
-  { id: 'FW', enabled: dom.isUsingFW, rate: getFWRate, timer: dmgU.FW_TIMER * 10, count: dmgU.FW_COUNTERS }  
+  { id: 'MR', enabled: dom.isUsingMR, rate: () => dmgU.MR_TIMER, timer: dmgU.MR_TIMER * 10, count: dmgU.MR_COUNTERS },
+  { id: 'FW', enabled: dom.isUsingFW, rate: () => dmgU.FW_TIMER, timer: dmgU.FW_TIMER * 10, count: dmgU.FW_COUNTERS }
 ];
 
 let BASE_CRIT_DATA = [];
@@ -51,14 +51,14 @@ function createGraph(id, time, dom, data) {
 
 function castFirebound(state, time, chartIndex) {
   let result = null;
-  
-  if (G.MODE == 'mage' && state.fbOrbCounter > 0) {
+
+  if (G.MODE === 'mage' && state.fbOrbCounter > 0) {
     result = castForceNuke(state, ['BJ'], time, chartIndex);
     if (result != null) {
       state.fbOrbCounter--;
     }
   }
-  
+
   return result;
 }
 
@@ -93,24 +93,15 @@ function castForceNuke(state, forceNukes, time, chartIndex) {
   return null;
 }
 
-function getFWRate() {
-  return dmgU.FW_TIMER;
-}
-
-function getMRRate() {
-  return dmgU.MR_TIMER;
-}
-
 function isSpellReady(ids, time, lastCastMap) {
-  let result = null;
+  let result;
   
-  $(ids).each(function(i, id) {
+  ids.forEach(id => {
     let spell = utils.getSpellData(id);
     let refresh = spell.discRefresh * 1000;
-  
+
     if (!lastCastMap[spell.timer] || (lastCastMap[spell.timer] + refresh) < time) {
       result = { spell: spell, time: time };
-      return false; // exit each loop
     }
   });
   
@@ -123,7 +114,7 @@ function getRSDamage(state) {
 
 function handleRepeatedProc(state, hasProc, lastProcMap, key, workingTime, offset, timer, refreshCount) {
   let keys = utils.getCounterKeys(key);
-  
+
   if (hasProc) {
     if (!lastProcMap[key] || lastProcMap[key] + offset < workingTime) {
       if (!lastProcMap[key]) {
@@ -162,7 +153,7 @@ function updateCritGraphs() {
     let rp = {id: item.time, x: item.time, y: item.rate};
     let dp = {id: item.time, x: item.time, y: item.dmg};
 
-    if (prevRate != item.rate || lastRateLabel % 10 == 0) {
+    if (prevRate != item.rate || lastRateLabel % 10 === 0) {
       rp.label = {content: item.rate + '%', yOffset: 15};
       lastRateLabel = 0;
     }
@@ -170,7 +161,7 @@ function updateCritGraphs() {
     lastRateLabel++;
     prevRate = item.rate;
 
-    if (prevDmg != item.dmg || lastDmgLabel % 10 == 0) {
+    if (prevDmg != item.dmg || lastDmgLabel % 10 === 0) {
       dp.label = {content: '+' + item.dmg + '%', yOffset: 15};
       lastDmgLabel = 0;
     }
@@ -192,7 +183,7 @@ function updateCritGraphValue(data, time, value) {
   if (item.y != value) {
     if (item.label) {
       let l = item.label.content;
-      item.label.content = '%' + value + l.substring(l.indexOf('%'), l.length);
+      item.label.content = value + l.substring(l.indexOf('%'), l.length);
     }
 
     item.y = value;
@@ -200,8 +191,12 @@ function updateCritGraphValue(data, time, value) {
   }
 }
 
+function withinTimeFrame(time, data) {
+  return (data && (data.start <= time && data.end >= time));
+}
+
 export function callUpdateSpellChart() {
-  if (UPDATING_CHART == -1) {
+  if (UPDATING_CHART === -1) {
     UPDATING_CHART = setTimeout(function() {
       updateSpellChart();
       UPDATING_CHART = -1;
@@ -211,7 +206,7 @@ export function callUpdateSpellChart() {
     UPDATING_CHART = -1;
     callUpdateSpellChart();
   }
-};
+}
 
 export function connectPopovers() {
   let items = $('#spellline div.vis-center div.vis-itemset div.vis-foreground a[data-toggle="popover"]');
@@ -220,13 +215,13 @@ export function connectPopovers() {
   items.unbind('inserted.bs.popover');
   items.on('inserted.bs.popover', function(e) {
     let index = $(e.currentTarget).data('value');
-    let statInfo = stats.getSpellStatisticsForIndex(index);
+    let statInfo = stats.getSpellStatistics(index);
 
     let popover = $('#spellPopover' + index);
     popover.html('');
     popover.append(SPELL_DETAILS_TEMPLATE({ data: stats.getStatisticsSummary(statInfo) }));
   });
-};
+}
 
 export function createAdpsItem(adpsOption, repeat) {
   let adpsItem = {
@@ -241,7 +236,7 @@ export function createAdpsItem(adpsOption, repeat) {
   adpsItem.group = utils.readAdpsConfig('displayList').indexOf(adpsOption.id);
   TIMELINE_DATA.add(adpsItem);
   return adpsItem;
-};
+}
 
 export function createLabel(adpsOption, date) {
   let label;
@@ -264,71 +259,69 @@ export function createLabel(adpsOption, date) {
   }
 
   return label;
-};
+}
 
 export function getAdpsDataIfActive(id, time, key) {
   let item = TIMELINE_DATA.get(id);
+  
   if (item && withinTimeFrame(time, getTime(item))) {
     let adpsOption = utils.readAdpsOption(id);
-    return (key == undefined) ? adpsOption : adpsOption[key];
+    return (key === undefined) ? adpsOption : adpsOption[key];
   }
+  
   return null;
-};
+}
 
 export function getAdpsGroups() {
   let groups = new vis.DataSet();
   let displayList = utils.readAdpsConfig('displayList');
+  
   $(displayList).each(function(i, item) {
     groups.add({id: i, content: utils.readAdpsOption(item)});
   });
-};
+}
 
 export function getArcaneFuryValue(time) {
-  if (G.MODE == 'wiz' && getAdpsDataIfActive('AF', time)) {
+  if (G.MODE === 'wiz' && getAdpsDataIfActive('AF', time)) {
     return dmgU.ARCANE_FURY_FOCUS;
   }
+  
   return 0;
-};
+}
 
 export function getCritDataAtTime(time) {
   let result;
-  
+
   if (CRITR_DATA.get(time)) {
     result = {
       critRate: CRITR_DATA.get(time).y / 100,
       critDmgMult: CRITD_DATA.get(time).y / 100
     };
   }
-  
+
   return result;
-};
+}
 
 export function getElementalUnionValue(time) {
-  let value = (G.MODE == 'mage') ? getAdpsDataIfActive('EU', time, 'afterCritMult') : 0;
-  return value || 0;
-};
+  return ((G.MODE === 'mage') ? getAdpsDataIfActive('EU', time, 'afterCritMult') : 0) || 0;
+}
 
 export function getHeartOfFlamesValue(time) {
-  let value = (G.MODE == 'mage') ? getAdpsDataIfActive('HF', time, 'afterCritMult') : 0;
-  return value || 0;
-};
-
-export function getItem(id) {
-  return TIMELINE_DATA.get(id);
-};
+  return ((G.MODE === 'mage') ? getAdpsDataIfActive('HF', time, 'afterCritMult') : 0) || 0;
+}
 
 export function getTime(item) {
   let result = {};
-  
+
   if (item) {
     let start = item.start.getTime ? item.start.getTime() : item.start;
     let end = item.end.getTime ? item.end.getTime() : item.end;
     result.start = start;
     result.end = end;
   }
-  
+
   return result;
-};
+}
 
 export function init() {
   // connect all the zoom/pan/range events together of the charts
@@ -343,26 +336,26 @@ export function init() {
   TIMELINE_DATA.on('add', visTimelineListener);
   TIMELINE_DATA.on('update', visTimelineListener);
   TIMELINE_DATA.on('remove', visTimelineListener);
-};
+}
 
 export function initCounterBasedADPS(state, adpsKey) {
   let counter = utils.getCounterKeys(adpsKey).counter;
-  let item = getItem(adpsKey);
-  
+  let item = TIMELINE_DATA.get(adpsKey);
+
   if (item) {
     let time = getTime(item);
     let timeLimit = utils.readAdpsOption(adpsKey, 'offset');
     let maxTimeFrame = { start: time.start, end: time.start + timeLimit };
 
     if (withinTimeFrame(state.workingTime, maxTimeFrame)) {
-      if (state[counter] == undefined) {
+      if (state[counter] === undefined) {
         state[counter] = utils.readAdpsOption(adpsKey, 'charges');
       }
     } else if (time.start + timeLimit < state.workingTime) {
       state[counter] = -1;
     }
   }
-};
+}
 
 export function loadRates() {
   BASE_CRIT_DATA = [];
@@ -392,16 +385,16 @@ export function loadRates() {
 
     BASE_CRIT_DATA.push({time: time, rate: rate, dmg: dmg});
   }
-};
+}
 
 export function postCounterBasedADPS(state, adpsKey) {
   let counter = utils.getCounterKeys(adpsKey).counter;
+  let item = TIMELINE_DATA.get(adpsKey);
   
-  let item = getItem(adpsKey);
   if (item) {
     let time = getTime(item);
     let adpsOption = utils.readAdpsOption(adpsKey);
-    if (state[counter] == 0) {
+    if (state[counter] === 0) {
       // this is the last one
       item.end = state.workingTime;
       item.content = createLabel(adpsOption, new Date(state.workingTime - time.start));
@@ -418,15 +411,15 @@ export function postCounterBasedADPS(state, adpsKey) {
       }
     }
   }
-};
+}
 
 export function removeAdpsItemById(id) {
   TIMELINE_DATA.remove(id);
-};
+}
 
 export function removePopovers() {
   $('.popover').remove();
-};
+}
 
 export function setTitle(data, adpsOption, date) {
   let label = createLabel(adpsOption, date);
@@ -436,13 +429,13 @@ export function setTitle(data, adpsOption, date) {
     lineItem.title = label;
     data.update(lineItem);
   }
-};
+}
 
 export function updateSpellChart() {
   utils.clearCache();
   SPELLLINE_DATA.clear();
   DMG_DATA.clear();
-  stats.resetSpellStats();
+  stats.clear();
   updateCritGraphs();
   removePopovers();
 
@@ -453,15 +446,13 @@ export function updateSpellChart() {
   let totalAvgDmg = 0;
   let totalAvgPetDmg = 0;
   let chartIndex = 0;
-  let totalCritRate = 0;
   let maxHit = 0;
-  let spellCountMap = {};
-  let detSpellCount = 0;
   let additionalCast = null;
 
   let gcd = dom.getGCDValue() * 1000;
   let hasTwincast = TIMELINE_DATA.get('TC');
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
+  let hasManaburn = TIMELINE_DATA.get('MBRN');
 
   let workingTime = CURRENT_TIME;
   let end = CURRENT_TIME + timeRange;
@@ -503,7 +494,7 @@ export function updateSpellChart() {
     utils.checkTimerList(state, workingTime, 'rsCount', 'rsTimers');
 
     // Report damage every second
-    if (state.rsCount > 0 && workingTime % 1000 == 0) {
+    if (state.rsCount > 0 && workingTime % 1000 === 0) {
       reportRSDamage = getRSDamage(state);
     }
 
@@ -527,15 +518,12 @@ export function updateSpellChart() {
 
         // Override current spell if we need to cast more orbs
         if (state.fbOrbCounter <= 0) {
-          id = "SFB";
+          id = 'SFB';
           current = utils.getSpellData('SFB');
           state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;
-        }
-
-        // Override current spell if alliance is fullfilled
-        if (state.fboundAllianceTimer && state.fboundAllianceTimer <= workingTime) {
-          id = "FF";
-          current = utils.getSpellData('FF');
+        } else if (state.fboundAllianceTimer && state.fboundAllianceTimer <= workingTime) {
+          id = 'FAF';
+          current = utils.getSpellData('FAF');
           state.fboundAllianceTimer = 0;
         }
 
@@ -548,14 +536,14 @@ export function updateSpellChart() {
 
         let neededTime = current.castTime * 1000;
         let timeDifference = workingTime - ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
-        let lockoutTime = ((current.lockoutTime * 1000) > gcd) ? (current.lockoutTime * 1000) : gcd;
+        let lockoutTime = current.lockoutTime ? (((current.lockoutTime * 1000) > gcd) ? (current.lockoutTime * 1000) : gcd) : 0;
         state.twincastChance = 0;
 
         // check if twincast needs to be cast soon
         let waitForTc = false;
         if (hasTwincast) {
           let tcTime = getTime(hasTwincast);
-          let timeToCastTc = workingTime + neededTime + lockoutTime;
+          let timeToCastTc = workingTime + lockoutTime;
 
           // if we're about to cast a spell but it won't land until after Twincast is supposed to be
           // cast then do nothing and wait for the cast of Twincast
@@ -607,9 +595,9 @@ export function updateSpellChart() {
 
           state.lastCastMap[current.timer] = workingTime;
           if (workingTime >= end) break; // Time EXCEEDED
-          
+
           // Abilities that can be enabled and repeat every so often like Enc Synergy
-          $(REPEATED_ABILITIES).each(function(i, item) {
+          REPEATED_ABILITIES.forEach((item) => {
             handleRepeatedProc(state, item.enabled(), lastProcMap, item.id, workingTime, item.rate(), item.timer, item.count);
           });
 
@@ -625,12 +613,13 @@ export function updateSpellChart() {
 
           // only compute for spells that do damage
           let avgDmg = (current.target != 'self') ? damage.computeDamage(state) : 0;
-          utils.updateSpellCounts(spellCountMap, current.id);
 
           if (avgDmg > 0) {
-            totalAvgDmg += avgDmg;
-            maxHit = (avgDmg > maxHit) ? avgDmg : maxHit;
-            totalCritRate += damage.calcCompoundSpellCritRate(chartIndex);
+            //if (current.id != 'RS') {
+              totalAvgDmg += avgDmg;
+              maxHit = (avgDmg > maxHit) ? avgDmg : maxHit;
+            //}
+
             totalAvgPetDmg += reportRSDamage;
 
             // Add RS Damage to current point if time happens to be the same
@@ -639,7 +628,6 @@ export function updateSpellChart() {
             dmgPoint.label = {content: plotDmg, yOffset: 15};
             spellDmgTimeline.push(dmgPoint);
             reportRSDamage = 0;
-            detSpellCount++;
           }
 
           // Handle post-cast adjustments
@@ -686,7 +674,7 @@ export function updateSpellChart() {
       totalAvgPetDmg += reportRSDamage;
 
       let dmgPoint = {id: workingTime, x: workingTime, y: reportRSDamage, content: reportRSDamage, yOffset: 0};
-      if (workingTime % 10000 == 0) {
+      if (workingTime % 10000 === 0) {
         dmgPoint.label = {content: reportRSDamage, yOffset: 15};
       }
       spellDmgTimeline.push(dmgPoint);
@@ -700,6 +688,11 @@ export function updateSpellChart() {
 
       // dont cast abilities between lockout too fast
       if (!lastAddCastTime || (workingTime - lastAddCastTime) >= 1000) {
+        // Abilities that can be enabled and repeat every so often like Enc Synergy
+        $(REPEATED_ABILITIES).each(function(i, item) {
+          handleRepeatedProc(state, item.enabled(), lastProcMap, item.id, workingTime, item.rate(), item.timer, item.count);
+        });
+
         // try to cast force nuke early to prevent conflicts later on
         // Ex FD can update crit dmg in the chart itself
         // Use a time during this free bit
@@ -713,16 +706,12 @@ export function updateSpellChart() {
         if (additionalCast) {
            totalAvgDmg += additionalCast.dmg;
            maxHit = (additionalCast.dmg > maxHit) ? additionalCast.dmg : maxHit;
-           utils.updateSpellCounts(spellCountMap, additionalCast.nuke.spell.id);
-
-           totalCritRate += stats.getSpellStatisticsForIndex(chartIndex).critRate;
            spellTimeline.push(additionalCast.spellTime);
            spellDmgTimeline.push(additionalCast.dmgTime);
            state.lastCastMap[additionalCast.nuke.spell.timer] = additionalCast.nuke.time;
            chartIndex++;
 
            additionalCast = null;
-           detSpellCount++;
            workingTime += 50;
            lastAddCastTime = workingTime;
         }
@@ -746,8 +735,8 @@ export function updateSpellChart() {
   connectPopovers();
 
   // print spellStats window
-  stats.printStats($('#spellCountStats'), totalAvgDmg, totalAvgPetDmg, timeRange, totalCritRate, maxHit, detSpellCount, spellCountMap);
-};
+  stats.printStats($('#spellCountStats'), state, totalAvgDmg, totalAvgPetDmg, timeRange, maxHit);
+}
 
 export function updateWindow(caller, update, windowList){
   // remove/reconnect any popover when changing window view
@@ -764,17 +753,17 @@ export function updateWindow(caller, update, windowList){
       }
     }
   }
-};
+}
 
 export function visTimelineListener(e, item) {
   let opt = utils.readAdpsOption(item.items[0]);
   if (opt) {
-    if (e == 'remove') {
+    if (e === 'remove') {
       $('#spellButtons div.adps li > a[data-value=' + item.items[0] + ']')
         .parent().removeClass('disabled');
       $('#spellButtons div.remove-adps li > a[data-value=' + item.items[0] + ']')
         .parent().addClass('disabled');
-    } else if (e == 'update') {
+    } else if (e === 'update') {
       let lineItem = TIMELINE_DATA.get(item.items[0]);
       let time = new Date(lineItem.end - lineItem.start);
       setTitle(TIMELINE_DATA, opt, time);
@@ -784,18 +773,14 @@ export function visTimelineListener(e, item) {
     switch(item.items[0]) {
       case 'TC': case 'ITC': case 'FURYDRUZ': case 'FURYRO': case 'FURYECI':
       case 'FURYKERA': case 'AF': case 'FR': case 'FD': case 'AD':
-      break;
+        break;
       default:
-      setTimeout(loadRates, 5);
-      break;
+        setTimeout(loadRates, 5);
+        break;
     }
 
     if (e != 'update' || item.oldData[0].start != item.data[0].start || item.oldData[0].end != item.data[0].end) {
       callUpdateSpellChart();
     }
   }
-};
-
-export function withinTimeFrame(time, data) {
-  return (data && (data.start <= time && data.end >= time));
-};
+}

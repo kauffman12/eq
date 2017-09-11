@@ -1,8 +1,8 @@
 import {globals as G} from './settings.js';
 import * as SETTINGS from './settings.js';
-import {SPELL_DATA as GENERAL} from './spells/spelldata.general.js';
-import {SPELL_DATA as WIZ} from './spells/spelldata.wiz.js';
-import {SPELL_DATA as MAGE} from './spells/spelldata.mage.js';
+import {SPELL_DATA as GEN_SPELLS} from './spells/spelldata.general.js';
+import {SPELL_DATA as WIZ_SPELLS} from './spells/spelldata.wiz.js';
+import {SPELL_DATA as MAGE_SPELLS} from './spells/spelldata.mage.js';
 
 let QUERY_CACHE = {};
 
@@ -16,14 +16,6 @@ export function asDecimal32Precision(value) {
   return Number(value.toFixed(7));
 }
 
-export function buildCompoundSpellMap(c) {
-  return {
-    'WE': [c + 'PE', c + 'HC', c + 'CI'],
-    'WF': [c + 'PF', c + 'RC2', c + 'CS2'],
-    'FU': [c + 'ES', c + 'ER', c + 'EF']
-  };
-}
-
 export function checkSimpleTimer(state, workingTime, key) {
   let keys = getCounterKeys(key);
   if (state[keys.counter] > 0 && workingTime > state[keys.expireTime]) {
@@ -35,11 +27,11 @@ export function checkStacking(hasUsedMap, map, item, key) {
   let result = item[key] || 0;
 
   if (result) {
-    if ( !(hasUsedMap['FE'] && item.id == 'IOG') ) {
+    if ( !(hasUsedMap['FE'] && item.id === 'IOG') ) {
       let lookup = item.spa + "-" + item.slot;
       if (lookup) {
         let previous = map[lookup];
-        if ((item.id == 'FE' && hasUsedMap['IOG']) || !previous || previous < result) {
+        if ((item.id === 'FE' && hasUsedMap['IOG']) || !previous || previous < result) {
           // save highest value
           map[lookup] = result;
           // return the difference to make up for what was
@@ -80,7 +72,7 @@ export function clearCache() {
 }
 
 export function collapseMenu(p) {
-  let className = (G.MODE == 'wiz') ? '.mage-only' : '.wiz-only';
+  let className = (G.MODE === 'wiz') ? '.mage-only' : '.wiz-only';
   let hidden = $(p).siblings('li:hidden:not(' + className + ')');
   if (hidden.length > 0) {
     hidden.show();
@@ -147,9 +139,9 @@ export function getPercentText(first, second) {
 export function getSpellData(id) {
   switch(G.MODE) {
     case 'mage':
-      return GENERAL[id] || MAGE[id] || {};
+      return GEN_SPELLS[id] || MAGE_SPELLS[id] || {};
     case 'wiz':
-      return GENERAL[id] || WIZ[id] || {};
+      return GEN_SPELLS[id] || WIZ_SPELLS[id] || {};
     default:
       return {};
   }
@@ -245,19 +237,11 @@ export function readSpellList() {
 }
 
 export function switchMode() {
-  let className = (G.MODE == 'wiz') ? 'mage' : 'wiz';
+  let className = (G.MODE === 'wiz') ? 'mage' : 'wiz';
   let classInfo = className ? "?class=" + className : "";
   window.location.assign(window.location.protocol + "//" +
     window.location.hostname + window.location.pathname +
     classInfo);
-}
-
-export function updateSpellCounts(spellCountMap, id) {
-  if (spellCountMap[id] === undefined){
-    spellCountMap[id] = 1;
-  } else {
-    spellCountMap[id]++;
-  }
 }
 
 export function useCache(cacheKey, readFunc) {

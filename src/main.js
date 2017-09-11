@@ -19,7 +19,7 @@ switchButton.click(utils.switchMode);
 
 // Handle current mode and save cookies
 let urlParam = utils.getUrlParameter('class');
-if (urlParam == 'mage' || (!urlParam && document.cookie == 'mode=mage')) {
+if (urlParam === 'mage' || (!urlParam && document.cookie === 'mode=mage')) {
   $('.wiz-only').hide();      
   G.MODE = 'mage';
   $('#innatCritRate').val(dmgU.MAGE_INNATE_CRIT_RATE);
@@ -46,25 +46,24 @@ $('#mainDPSAASection').after(settingsTemplate({context: utils.readMainContext()}
 // Create Abilities In Use section
 let rateTemplate = Handlebars.compile($('#additional-modifiers-synergy-template').html());
 let sectionTemplate = Handlebars.compile($("#additional-modifiers-button-template").html());
-$(utils.readAdditionalModifiers()).each(function(i, item) {
+
+utils.readAdditionalModifiers().forEach(item => {
   let section = item.section;
   let sectionRef = $('#' + item.id);      
   let data = [];
   
-  $(section.displayList).each(function(i, id) {
+  section.displayList.forEach(id => {
     let item = section.options[id];
     let isChecked = item.enabled ? 'checked' : '';
-    if (!item.mode || (item.mode && item.mode == G.MODE)) {
+    if (!item.mode || (item.mode && item.mode === G.MODE)) {
       data.push({ id: id, isChecked: isChecked, title: item.title });
     }
   });
   
   sectionRef.append(sectionTemplate({ data: data }));
-  sectionRef.find('input').click(function(e) {
-      timeline.callUpdateSpellChart();
-  });
+  sectionRef.find('input').click((e) => { timeline.callUpdateSpellChart() });
   
-  $(section.displayList).each(function(i, id) {
+  section.displayList.forEach(id => {
     let item = section.options[id];
     if (item.hasInput) {
       $('#' + id).after(rateTemplate({
@@ -73,59 +72,63 @@ $(utils.readAdditionalModifiers()).each(function(i, item) {
         defaultTime: item.defaultTime
       }));
       
-      $('#' + id + 'Rate').change(function() {
-        timeline.callUpdateSpellChart();
-      });
+      $('#' + id + 'Rate').change(() => { timeline.callUpdateSpellChart() });
     }
   });
 });
 
 // Creates Add/Remove ADPS Buttons
 let adpsOptions = [];
-$(utils.readAdpsConfig('displayList')).each(function(index, item) {   
+utils.readAdpsConfig('displayList').forEach(item => {   
   let adpsItem = utils.readAdpsOption(item);
-  if (!adpsItem.class || (adpsItem.class && adpsItem.class == G.MODE)) {
+  if (!adpsItem.class || (adpsItem.class && adpsItem.class === G.MODE)) {
     adpsOptions.push(adpsItem);
   }      
 });
+
 let adpsButtonTemplate = Handlebars.compile($("#spell-adps-button-template").html());
 $('#spellButtons').append(adpsButtonTemplate({ class: 'adps', title: 'Add ADPS', disabled: "", data: adpsOptions }));
 $('#spellButtons').append(adpsButtonTemplate({ class: 'remove-adps', title: 'Remove ADPS', disabled: "disabled", data: adpsOptions }));
 
 // Listen for Add ADPS click events to add item to timeline
-$('#spellButtons div.adps li > a').click(function() {
-  if ($(this).hasClass('disabled')) return;
-  let id = $(this).data('value');
+$('#spellButtons div.adps li > a').click(e => {
+  if ($(e.currentTarget).hasClass('disabled')) {
+    return;
+  }
+  
+  let id = $(e.currentTarget).data('value');
   timeline.createAdpsItem(utils.readAdpsOption(id));
-  $(this).parent().addClass('disabled');
+  $(e.currentTarget).parent().addClass('disabled');
   $('#spellButtons div.remove-adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');      
 });
 
 // Listen for Remove ADPS click events to remove item from timeline
-$('#spellButtons div.remove-adps li > a').click(function() {
-  if ($(this).hasClass('disabled')) return;
-  let id = $(this).data('value');
+$('#spellButtons div.remove-adps li > a').click(e => {
+  if ($(e.currentTarget).hasClass('disabled')) {
+    return;
+  }
+  
+  let id = $(e.currentTarget).data('value');
   timeline.removeAdpsItemById(id);
-  $(this).parent().addClass('disabled');
+  $(e.currentTarget).parent().addClass('disabled');
   $('#spellButtons div.adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');
 });
 
 // Creates the 6 Spell selection buttons
 let spellData = [];
-$(utils.readSpellList()).each(function(index, item) {
-  spellData.push({ value: item.id, desc: item.name });  
-});
+utils.readSpellList().forEach(item => { spellData.push({ value: item.id, desc: item.name }); });
+
 let spellButtonTemplate = Handlebars.compile($("#spell-selection-button-template").html());
 utils.appendHtml($('#spellButtons'), spellButtonTemplate({ data: spellData }), 6);
       
 // Listen for spell selection changes to update button text and color and update spell chart
-$('#spellButtons div.spell').each(function(b1, group) {
+$('#spellButtons div.spell').each((b1, group) => {
   let button = $(group).find('button');
-  $(group).find('li > a').click(function(e) {
+  $(group).find('li > a').click(e => {
     let selected = $(e.currentTarget);
     button.data('value', selected.data('value'));
     
-    if (selected.data('value') == 'NONE') {
+    if (selected.data('value') === 'NONE') {
       button.find('span.desc').text("Choose Spell");
       button.removeClass('btn-default');
       button.addClass('btn-warning');
@@ -141,10 +144,10 @@ $('#spellButtons div.spell').each(function(b1, group) {
 
 // Listen for changes to dropdown options that require updating the spell chart
 // If certain items are updated then the crit rates are reloaded as well
-$('li.dropdown').each(function(i1, dropdown) {
+$('li.dropdown').each((i1, dropdown) => {
   let itemDesc = $(dropdown).find('a.dropdown-toggle');
-  $(dropdown).find('ul.dropdown-menu li a').each(function(i2, item) {
-      $(item).click(function(e) {
+  $(dropdown).find('ul.dropdown-menu li a').each((i2, item) => {
+      $(item).click(e => {
           let selected = $(e.currentTarget);
           itemDesc.find('span.desc').text(selected.text());
           itemDesc.data('value', selected.data('value'));
@@ -162,7 +165,7 @@ $('li.dropdown').each(function(i1, dropdown) {
 });
 
 // Listener for menu button click to hide/show the dropdown menus
-$('.menu-button').click(function(item) {
+$('.menu-button').click(item => {
   let menu = $('.nav-side-menu');
   if (menu.is(':hidden')) {
     menu.show();
@@ -176,21 +179,17 @@ $('.menu-button').click(function(item) {
 });    
 
 // Listen to configuration changes that need to update the spell chart
-$('#configurationSection input').change(function() {
-  timeline.callUpdateSpellChart();
-});
+$('#configurationSection input').change(() => { timeline.callUpdateSpellChart() });
 
 // Listen to configuration changes that need to update the spell chart and update crit rates
-$('#spellTimeRange, #customSettingsSection input').change(function() {
+$('#spellTimeRange, #customSettingsSection input').change(() => {
   setTimeout(timeline.loadRates, 5);
   timeline.callUpdateSpellChart();
 });
 
 // Sets listener on each collapsable dropdown menu to handle collapse/expand events
-$('.custom-collapse').each(function(i, p) {
-  $(p).click(function() {
-    utils.collapseMenu(p);
-  });
+$('.custom-collapse').each((i, p) => {
+  $(p).click(() => { utils.collapseMenu(p) });
 });
 
 // Set default collapse state

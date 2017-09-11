@@ -85,7 +85,7 @@ function initFlames(state, update) {
   utils.initNumberProperties(state, ['flamesWeaknessCounter']);
   utils.initListProperties(state, ['flamesWeaknessTimers']);
   state.fpwrExpireTime = state.workingTime + FLAMES_POWER_TIMER;
-  state.fpwrCounter = (dom.getFlamesOfPowerValue() == 4) ? 2.0 : 1.0;
+  state.fpwrCounter = (dom.getFlamesOfPowerValue() === 4) ? 2.0 : 1.0;
 
   // Count the number of potential weaknesses applied sort of like Claw
   state.flamesWeaknessCounter += update;
@@ -97,7 +97,7 @@ function initFlames(state, update) {
 export function applyDichoBug(state, id) {
   var keys = utils.getCounterKeys(id);
   // special case for Dicho to eat extra counter
-  if (state.spell.id == 'DF') {
+  if (state.spell.id === 'DF') {
     if (state[keys.counter] >= 1) {
       state[keys.counter]--;
       stats.addSpellStatistics(state, keys.charges, 1);
@@ -115,11 +115,11 @@ export function applyPostSpellProcs(state, mod) {
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
       // Claw only
-      if (G.MODE == 'wiz') {
+      if (G.MODE === 'wiz') {
         utils.initNumberProperties(state, ['clawCounter']);
         // Number of claws cast used when handling syllables
         state.clawCounter += update;
-      } else if (G.MODE == 'mage') {
+      } else if (G.MODE === 'mage') {
         initFlames(state, update);
       }
 
@@ -138,12 +138,12 @@ export function applyPostSpellProcs(state, mod) {
 
       // skip ahead since we just cast a spell
       // if Claw is cast then reduce timers by 6% including gcd
-      $(state.spells).each(function(j, t) {
+      state.spells.forEach((t) => {
         var theSpell = utils.getSpellData(t);
         var last = state.lastCastMap[theSpell.timer];
         var count = Math.floor(state.clawRefreshCount);
-        if (last && last > 0 && (((REFRESH_CAST_COUNT - count + dom.getRefreshOffsetValue())) % REFRESH_CAST_COUNT == 0)) {
-          state.lastCastMap[theSpell.timer] = 0;
+        if (last && last > 0 && (((REFRESH_CAST_COUNT - count + dom.getRefreshOffsetValue())) % REFRESH_CAST_COUNT === 0)) {
+          delete state.lastCastMap[theSpell.timer];
         }
       });
       break;
@@ -155,7 +155,7 @@ export function applyPostSpellProcs(state, mod) {
       break;
     case 'FC':
       // FC is used my mages and wizards
-      if (G.MODE == 'mage') {
+      if (G.MODE === 'mage') {
         initFlames(state, update);
       }
       break;
@@ -241,32 +241,72 @@ export function getNormalizer(spell) {
   return getMultiplier(spell.origCastTime);
 }
 
+export function isCastSpell(spell) {
+  return (spell.skill === 24 || spell.skill === 14) && spell.level <= 250;
+}
+
+export function isEqpProc(spell) {
+  return spell.skill === 52;
+}
+
+export function isFocusableSpellProc(spell) {
+  return (isCastDetSpell(spell) && spell.level <= 250) || 
+    (isEqpProc(spell) && spell.partialResist) || (isSpellProc(spell) && !spell.partialResist);  
+}
+
+export function isSpellProc(spell) {
+  // The skill 5 with no max value is only thing I can find on eqresource to avoid alliance fulminations
+  // without adding a special case
+  return spell.level > 250 && !spell.discRefresh && (spell.skill === 24 || (spell.skill === 5 && !spell.max));
+}
+
+export function canTwincast(spell) {
+  return isCastSpell(spell) && spell.manaCost >= 10 && spell.canTwincast !== false;
+}
+
+export function canTwinproc(spell) {
+  return (isSpellProc(spell) && !spell.partialResist) || (isEqpProc(spell) && spell.partialResist);
+}
+
+export function canProcSpells(spell) {
+  return isFocusableSpellProc(spell) && !spell.discRefresh;
+}
+
+export function isCastDetSpellOrAbility(spell) { 
+  return isCastDetSpell(spell) || spell.discRefresh > 0;
+}
+
+export function isCastDetSpell(spell) {
+  // cant think of a good fix for wildmagic procs at the moment
+  return spell.baseDmg > 0 && [5, 14, 24].find(x => x === spell.skill) && 
+    spell.max !== 0 && !(spell.skill === 24 && spell.level > 250);
+}
+
 export function passRequirements(reqs, state) {
   var spell = state.spell;
 
   if (reqs) {
     if (reqs.minManaCost && spell.manaCost < reqs.minManaCost) {
       return false;
-    }
-    else if (reqs.minLevel && spell.level < reqs.minlevel) {
+    } else if (reqs.minLevel && spell.level < reqs.minlevel) {
       return false;
-    }
-    else if (reqs.maxLevel && spell.level > reqs.maxLevel) {
+    } else if (reqs.maxLevel && spell.level > reqs.maxLevel) {
       return false;
-    }
-    else if (reqs.minCastTime && spell.origCastTime < reqs.minCastTime) {
+    } else if (reqs.minCastTime && spell.origCastTime < reqs.minCastTime) {
       return false;
-    }
-    else if (reqs.spellCastOnly && (!(spell.skill == 24 && spell.level < 250) || spell.discRefresh)) {
+    } else if (reqs.minDamage && spell.baseDmg < reqs.minDamage) {
       return false;
-    }
-    else if (reqs.spellCastOrEqpProc && (spell.skill != 52 && (!(spell.skill == 24 && spell.level < 250) || spell.discRefresh))) {
+    } else if (reqs.castSpellOnly && !isCastSpell(spell)) {
+      return false;
+    } else if (reqs.canProcSpells && !canProcSpells(spell)) {
       return false
-    }
-    else if (reqs.resists && $.inArray(spell.resist, reqs.resists) < 0) {
+    } else if (reqs.focusableSpellProc && !isFocusableSpellProc(spell)) {
       return false;
-   }
+    } else if (reqs.resists && !reqs.resists.find(x => x === spell.resist)) {
+      return false;
+    }
   }
+  
   return true;
 }
 
