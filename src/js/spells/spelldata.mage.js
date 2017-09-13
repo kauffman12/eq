@@ -154,6 +154,7 @@ export const SPELL_DATA = {
     "lockoutTime": 1.5,
     "resist": "NONE",
     "type3Aug": 0,
+    "target": "self",
     "timer": "summonfirebound",
     "manaCost": 9453,
     "skill": 14,

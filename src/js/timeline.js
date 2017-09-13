@@ -21,16 +21,6 @@ const GRAPH_DMG = createGraph('graphdmg', CURRENT_TIME, dom.getDomForDmgGraph(),
 const SPELL_TIMELINE = createTimeline('spellline', CURRENT_TIME, dom.getDomForSpellline(), SPELLLINE_DATA);
 const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(), TIMELINE_DATA);
 
-const REPEATED_ABILITIES = [
-  { id: 'ESYN', enabled: dom.isUsingEncSynergy, rate: dom.getEncSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
-  { id: 'EHAZY', enabled: dom.isUsingEncHazy, rate: dom.getEncHazyRate, timer: dmgU.ENC_HAZY_TIMER, count: 1 },
-  { id: 'MSYN', enabled: dom.isUsingMagSynergy, rate: dom.getMagSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
-  { id: 'NSYN', enabled: dom.isUsingNecSynergy, rate: dom.getNecSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
-  { id: 'WSYN', enabled: dom.isUsingWizSynergy, rate: dom.getWizSynergyRate, timer: dmgU.SYNERGY_TIMER, count: 1 },
-  { id: 'MR', enabled: dom.isUsingMR, rate: () => dmgU.MR_TIMER, timer: dmgU.MR_TIMER * 10, count: dmgU.MR_COUNTERS },
-  { id: 'FW', enabled: dom.isUsingFW, rate: () => dmgU.FW_TIMER, timer: dmgU.FW_TIMER * 10, count: dmgU.FW_COUNTERS }
-];
-
 let BASE_CRIT_DATA = [];
 let UPDATING_CHART = -1;
 
@@ -49,87 +39,125 @@ function createGraph(id, time, dom, data) {
   return new vis.Graph2d(dom, data, opts);
 }
 
-function castFirebound(state, time, chartIndex) {
-  let result = null;
-
+function castFirebound(state) { 
   if (G.MODE === 'mage' && state.fbOrbCounter > 0) {
-    result = castForceNuke(state, ['BJ'], time, chartIndex);
-    if (result != null) {
+    let result = castForceNuke(state, ['BJ']);
+    if (result) {
       state.fbOrbCounter--;
     }
+    
+    return result;
   }
-
-  return result;
 }
 
-function castForceNuke(state, forceNukes, time, chartIndex) {
-  let aaNuke = isSpellReady(forceNukes, time, state.lastCastMap);
-
+function castForceNuke(state, forceNukes) {
+  let aaNuke = isSpellReady(state, forceNukes);
+  
   if (aaNuke) {
-    state.chartIndex = chartIndex;
-    stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
-
-    state.workingTime = aaNuke.time;
-    state.spell = aaNuke.spell;
-    state.hasStatistics = true;
-
-    // Save time since last cast
-    if (state.lastCastMap[aaNuke.spell.timer]) {
-     stats.updateSpellStatistics(state, 'castInterval', (state.workingTime - state.lastCastMap[aaNuke.spell.timer]) / 1000);
-    }
-
-    stats.updateSpellStatistics(state, 'id', aaNuke.spell.id);
-    let aaNukeDmg = damage.computeDamage(state);
-
-    // update spell timeline
-    let content = SPELL_ITEM_TEMPLATE({title: aaNuke.spell.name, id: aaNuke.spell.id.substring(0,2), spellNumber: chartIndex})
-    let spellTime = {id: chartIndex, content: content, start: aaNuke.time, editable: false};
-    let dmgTime = {id: aaNuke.time, x: aaNuke.time, y: aaNukeDmg};
-    dmgTime.label = {content: aaNukeDmg, yOffset: 15};
-
-    return { nuke: aaNuke, spellTime: spellTime, dmgTime: dmgTime, dmg: aaNukeDmg };
+    castSpell(state, aaNuke);
+    return true;
   }
-
-  return null;
 }
 
-function isSpellReady(ids, time, lastCastMap) {
-  let result;
+function castSpell(state, spell) {  
+  // update current state with spell
+  state.chartIndex++;
+  state.spell = spell;
   
-  ids.forEach(id => {
-    let spell = utils.getSpellData(id);
-    let refresh = spell.discRefresh * 1000;
+  // abilities that can be enabled and repeat every so often like Enc Synergy
+  // cancel or reset counters based on timer, only need to check once per workingTime
+  dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item)); 
+  
+  // check if RS pets have completed  
+  let rsKeys = utils.getCounterKeys('RS');
+  utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
+  
+  // initialize stats
+  stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
+  stats.updateSpellStatistics(state, 'id', spell.id);
 
-    if (!lastCastMap[spell.timer] || (lastCastMap[spell.timer] + refresh) < time) {
-      result = { spell: spell, time: time };
-    }
-  });
+  // set time of last cast and update statistics for interval
+  if (state.lastCastMap[spell.timer]) {
+   stats.updateSpellStatistics(state, 'castInterval', (state.workingTime - state.lastCastMap[spell.timer]) / 1000);
+  } 
   
-  return result;
+  state.lastCastMap[spell.timer] = state.workingTime;
+
+  // update spell timeline
+  let spellId = (spell.id.length === 3 && isNaN(parseInt(spell.id[2]))) ? spell.id : spell.id.substr(0,2);
+  let content = SPELL_ITEM_TEMPLATE({title: spell.name, id: spellId, spellNumber: state.chartIndex})
+  SPELLLINE_DATA.add({id: state.chartIndex, content: content, start: state.workingTime, editable: false});
+
+  // round to nearest second to check against current spell landing time
+  state.timeEst = Math.round(state.workingTime / 1000) * 1000;
+
+  // figure out current crit change/damage mod
+  if (CRITR_DATA.get(state.timeEst)) {
+    state.critRate = CRITR_DATA.get(state.timeEst).y / 100;
+    state.critDmgMult = CRITD_DATA.get(state.timeEst).y / 100;
+  } else {
+    console.debug('out of range');
+    return;
+  }
+
+  // only compute for spells that do damage
+  let avgDmg = (spell.target != 'self') ? damage.calcTotalAvgDamage(state) : 0;
+
+  // dmg including other dots or abilities that have been accumulating (just RS right now)
+  let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
+
+  // update stats
+  if (avgDmg > 0) {
+    stats.addAggregateStatistics('totalAvgDmg', avgDmg);
+    stats.addMaxAggregateStatistics('maxHit', avgDmg);
+  }
+  
+  // update stats
+  if (dotDmg > 0) { // pet damage is all we currently have
+    stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
+  }
+  
+  if (avgDmg > 0 || dotDmg > 0) {
+    // update damage graph
+    let dmgPoint = {id: state.workingTime, x: state.workingTime, y: avgDmg + dotDmg, yOffset: 0};
+    dmgPoint.label = {content: avgDmg + dotDmg, yOffset: 15};
+    DMG_DATA.add(dmgPoint);
+  }
+}
+
+function isSpellReady(state, ids) {
+  let spell;
+  
+  return ids.find(id => {
+    spell = utils.getSpellData(id);
+    let refresh = spell.discRefresh * 1000;
+    return !state.lastCastMap[spell.timer] || ((state.lastCastMap[spell.timer] + refresh) < state.workingTime);
+  }) ? spell : undefined;
 }
 
 function getRSDamage(state) {
-  return dom.getRemorselessServantDPSValue() * state.rsCount;
+  return dom.getRemorselessServantDPSValue() * state.rsCounter;
 }
 
-function handleRepeatedProc(state, hasProc, lastProcMap, key, workingTime, offset, timer, refreshCount) {
-  let keys = utils.getCounterKeys(key);
+function initActivatedAbility(state, item) {
+  let keys = utils.getCounterKeys(item.id);
+  let lastProcMap = state.lastProcMap;
 
-  if (hasProc) {
-    if (!lastProcMap[key] || lastProcMap[key] + offset < workingTime) {
-      if (!lastProcMap[key]) {
-        lastProcMap[key] = CURRENT_TIME;
-        state[keys.expireTime] = CURRENT_TIME + timer;
+  if (item.enabled()) {
+    if (!lastProcMap[item.id] || lastProcMap[item.id] + item.rate() < state.workingTime) {
+      if (!lastProcMap[item.id]) {
+        lastProcMap[item.id] = CURRENT_TIME;
+        state[keys.expireTime] = CURRENT_TIME + item.timer;
       } else {
-        lastProcMap[key] += offset;
-        state[keys.expireTime] = workingTime + timer;
+        lastProcMap[item.id] += item.rate();
+        state[keys.expireTime] = state.workingTime + item.timer;
       }
 
-      state[keys.counter] = refreshCount;
+      state[keys.counter] = item.count;
     }
   }
 
-  utils.checkSimpleTimer(state, workingTime, key);
+  utils.checkSimpleTimer(state, item.id);
 }
 
 function silentUpdateTimeline(data) {
@@ -263,19 +291,19 @@ export function createLabel(adpsOption, date) {
 
 export function getAdpsDataIfActive(id, time, key) {
   let item = TIMELINE_DATA.get(id);
-  
+
   if (item && withinTimeFrame(time, getTime(item))) {
     let adpsOption = utils.readAdpsOption(id);
     return (key === undefined) ? adpsOption : adpsOption[key];
   }
-  
+
   return null;
 }
 
 export function getAdpsGroups() {
   let groups = new vis.DataSet();
   let displayList = utils.readAdpsConfig('displayList');
-  
+
   $(displayList).each(function(i, item) {
     groups.add({id: i, content: utils.readAdpsOption(item)});
   });
@@ -285,21 +313,8 @@ export function getArcaneFuryValue(time) {
   if (G.MODE === 'wiz' && getAdpsDataIfActive('AF', time)) {
     return dmgU.ARCANE_FURY_FOCUS;
   }
-  
+
   return 0;
-}
-
-export function getCritDataAtTime(time) {
-  let result;
-
-  if (CRITR_DATA.get(time)) {
-    result = {
-      critRate: CRITR_DATA.get(time).y / 100,
-      critDmgMult: CRITD_DATA.get(time).y / 100
-    };
-  }
-
-  return result;
 }
 
 export function getElementalUnionValue(time) {
@@ -338,29 +353,31 @@ export function init() {
   TIMELINE_DATA.on('remove', visTimelineListener);
 }
 
-export function initCounterBasedADPS(state, adpsKey) {
-  let counter = utils.getCounterKeys(adpsKey).counter;
-  let item = TIMELINE_DATA.get(adpsKey);
+export function initCounterBasedADPS(state) {
+  utils.getCounterBasedAdps().forEach(adpsKey => {
+    let counter = utils.getCounterKeys(adpsKey).counter;
+    let item = TIMELINE_DATA.get(adpsKey);
 
-  if (item) {
-    let time = getTime(item);
-    let timeLimit = utils.readAdpsOption(adpsKey, 'offset');
-    let maxTimeFrame = { start: time.start, end: time.start + timeLimit };
+    if (item) {
+      let time = getTime(item);
+      let timeLimit = utils.readAdpsOption(adpsKey, 'offset');
+      let maxTimeFrame = { start: time.start, end: time.start + timeLimit };
 
-    if (withinTimeFrame(state.workingTime, maxTimeFrame)) {
-      if (state[counter] === undefined) {
-        state[counter] = utils.readAdpsOption(adpsKey, 'charges');
+      if (withinTimeFrame(state.workingTime, maxTimeFrame)) {
+        if (state[counter] === undefined) {
+          state[counter] = utils.readAdpsOption(adpsKey, 'charges');
+        }
+      } else if (time.start + timeLimit < state.workingTime) {
+        state[counter] = -1;
       }
-    } else if (time.start + timeLimit < state.workingTime) {
-      state[counter] = -1;
     }
-  }
+  });
 }
 
 export function loadRates() {
   BASE_CRIT_DATA = [];
-  let baseRate = damage.calcBaseCritRate();
-  let baseDmg = damage.calcBaseCritDmg();
+  let baseRate = dmgU.getBaseCritRate();
+  let baseDmg = dmgU.getBaseCritDmg();
   let seconds = dom.getSpellTimeRangeValue();
   let displayList = utils.readAdpsConfig('displayList');
 
@@ -387,30 +404,32 @@ export function loadRates() {
   }
 }
 
-export function postCounterBasedADPS(state, adpsKey) {
-  let counter = utils.getCounterKeys(adpsKey).counter;
-  let item = TIMELINE_DATA.get(adpsKey);
-  
-  if (item) {
-    let time = getTime(item);
-    let adpsOption = utils.readAdpsOption(adpsKey);
-    if (state[counter] === 0) {
-      // this is the last one
-      item.end = state.workingTime;
-      item.content = createLabel(adpsOption, new Date(state.workingTime - time.start));
-      item.title = item.content;
-      silentUpdateTimeline(item);
-      state[counter] = -1;
-    } else if (state[counter] > 0) {
-      let timeLimit = adpsOption.offset;
-      if ( (time.end - time.start) != timeLimit ) {
-        item.end = time.start + timeLimit;
-        item.content = createLabel(adpsOption, new Date(timeLimit));
+export function postCounterBasedADPS(state) {
+  utils.getCounterBasedAdps().forEach(adpsKey => {
+    let counter = utils.getCounterKeys(adpsKey).counter;
+    let item = TIMELINE_DATA.get(adpsKey);
+
+    if (item) {
+      let time = getTime(item);
+      let adpsOption = utils.readAdpsOption(adpsKey);
+      if (state[counter] === 0) {
+        // this is the last one
+        item.end = state.workingTime;
+        item.content = createLabel(adpsOption, new Date(state.workingTime - time.start));
         item.title = item.content;
         silentUpdateTimeline(item);
+        state[counter] = -1;
+      } else if (state[counter] > 0) {
+        let timeLimit = adpsOption.offset;
+        if ( (time.end - time.start) != timeLimit ) {
+          item.end = time.start + timeLimit;
+          item.content = createLabel(adpsOption, new Date(timeLimit));
+          item.title = item.content;
+          silentUpdateTimeline(item);
+        }
       }
     }
-  }
+  });
 }
 
 export function removeAdpsItemById(id) {
@@ -439,71 +458,53 @@ export function updateSpellChart() {
   updateCritGraphs();
   removePopovers();
 
-  let spellTimeline = [];
   let spellDmgTimeline = [];
   let spells = dom.getSelectedSpells();
   let timeRange = dom.getSpellTimeRangeValue() * 1000;
-  let totalAvgDmg = 0;
-  let totalAvgPetDmg = 0;
-  let chartIndex = 0;
-  let maxHit = 0;
-  let additionalCast = null;
+  let additionalCast;
 
   let gcd = dom.getGCDValue() * 1000;
   let hasTwincast = TIMELINE_DATA.get('TC');
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
-  let hasManaburn = TIMELINE_DATA.get('MBRN');
 
-  let workingTime = CURRENT_TIME;
   let end = CURRENT_TIME + timeRange;
   let sp = 0;
-  let fullSpellsCast = [];
   let twincastHasBeenCast = false;
   let usingAANukes = dom.isUsingAAForceNukes();
   let forceNukes = dom.getForceNukes();
-  let lastProcMap = {};
   let usingFireboundOrb = dom.isUsingFireboundOrb();
-  let remorselessTTL = dom.getRemorselessServantTTLValue() * 1000;
   let gcdWaitTime = 0;
   let reportRSDamage = 0;
   let lastAddCastTime = 0;
   let allianceTimer = dom.getAllianceFulminationValue() * 1000;
 
   let state = {
-    hasStatistics: true,
+    chartIndex: -1,
     twincastChance: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
     lastCastMap: {},
+    lastProcMap: {},
     spells: spells,
     fbOrbCounter: dmgU.FIREBOUND_ORB_COUNT,
-    rsCount: 0,
-    rsTimers: []
+    workingTime:  CURRENT_TIME
   };
-
-  while (workingTime < end) {
+   
+  while (state.workingTime < end) {
     // temp fix for twincast to work with Blazing Jet when no spells selected
     if (hasTwincast) {
       let tcTime = getTime(hasTwincast);
-      if (workingTime >= tcTime.start && workingTime <= tcTime.end) {
+      if (state.workingTime >= tcTime.start && state.workingTime <= tcTime.end) {
         state.twincastChance = 1.0;
       }
     }
-
-    // Check if remorseless servants have expired
-    utils.checkTimerList(state, workingTime, 'rsCount', 'rsTimers');
-
-    // Report damage every second
-    if (state.rsCount > 0 && workingTime % 1000 === 0) {
-      reportRSDamage = getRSDamage(state);
-    }
-
+ 
     // Don't do anything if we're duing the GCD phase
-    if (gcdWaitTime < workingTime) {
+    if (gcdWaitTime < state.workingTime) {
       // Recent spell last cast times on a Forced Rejuvination
       if (hasForcedRejuv) {
         let rejuvTime = getTime(hasForcedRejuv);
-        if (withinTimeFrame(workingTime, rejuvTime)) {
+        if (withinTimeFrame(state.workingTime, rejuvTime)) {
           hasForcedRejuv = false;
           $(spells).each(function(i, id) {
             delete state.lastCastMap[utils.getSpellData(id).timer]
@@ -521,7 +522,7 @@ export function updateSpellChart() {
           id = 'SFB';
           current = utils.getSpellData('SFB');
           state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;
-        } else if (state.fboundAllianceTimer && state.fboundAllianceTimer <= workingTime) {
+        } else if (state.fboundAllianceTimer && state.fboundAllianceTimer <= state.workingTime) {
           id = 'FAF';
           current = utils.getSpellData('FAF');
           state.fboundAllianceTimer = 0;
@@ -535,7 +536,7 @@ export function updateSpellChart() {
         }
 
         let neededTime = current.castTime * 1000;
-        let timeDifference = workingTime - ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
+        let timeDifference = state.workingTime - ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
         let lockoutTime = current.lockoutTime ? (((current.lockoutTime * 1000) > gcd) ? (current.lockoutTime * 1000) : gcd) : 0;
         state.twincastChance = 0;
 
@@ -543,17 +544,17 @@ export function updateSpellChart() {
         let waitForTc = false;
         if (hasTwincast) {
           let tcTime = getTime(hasTwincast);
-          let timeToCastTc = workingTime + lockoutTime;
+          let timeToCastTc = state.workingTime + lockoutTime;
 
           // if we're about to cast a spell but it won't land until after Twincast is supposed to be
           // cast then do nothing and wait for the cast of Twincast
-          if (timeDifference >= 0 && timeToCastTc >= tcTime.start && workingTime < tcTime.end && !twincastHasBeenCast) {
+          if (timeDifference >= 0 && timeToCastTc >= tcTime.start && state.workingTime < tcTime.end && !twincastHasBeenCast) {
             waitForTc = true;
           }
 
           // Cast Twincast once we go the point where end of lockout time basically coincides
           // with where the timeline has Twincast starting
-          if (((workingTime + gcd) >= tcTime.start) && (workingTime < tcTime.end) && state.twincastChance < 1.0) {
+          if (((state.workingTime + gcd) >= tcTime.start) && (state.workingTime < tcTime.end) && state.twincastChance < 1.0) {
             // cast twincast only once (ie increment time)
             if (!twincastHasBeenCast) {
               id = 'TC';
@@ -562,9 +563,9 @@ export function updateSpellChart() {
               neededTime = 0;
 
               // Fix start point on timeline if its out of bounds
-              if (hasTwincast.start != workingTime) {
+              if (hasTwincast.start != state.workingTime) {
                 let diff = hasTwincast.end - hasTwincast.start;
-                hasTwincast.start = workingTime;
+                hasTwincast.start = state.workingTime;
                 hasTwincast.end = hasTwincast.start + diff;
                 silentUpdateTimeline(hasTwincast);
               }
@@ -576,80 +577,21 @@ export function updateSpellChart() {
           }
 
           // End twincast once we're out of the time range
-          if (workingTime + neededTime > tcTime.end && state.twincastChance > 0) {
+          if (state.workingTime + neededTime > tcTime.end && state.twincastChance > 0) {
             state.twincastChance = 0;
           }
         }
 
         if (!waitForTc && timeDifference >= 0) {
-          workingTime += neededTime;
+          state.workingTime += neededTime;
+          if (state.workingTime >= end) break; // Time EXCEEDED
 
-          // update spell damage timeline
-          state.chartIndex = chartIndex;
-          stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
-
-          // Save time since last cast
-          if (state.lastCastMap[current.timer]) {
-           stats.updateSpellStatistics(state, 'castInterval', (workingTime - state.lastCastMap[current.timer]) / 1000);
-          }
-
-          state.lastCastMap[current.timer] = workingTime;
-          if (workingTime >= end) break; // Time EXCEEDED
-
-          // Abilities that can be enabled and repeat every so often like Enc Synergy
-          REPEATED_ABILITIES.forEach((item) => {
-            handleRepeatedProc(state, item.enabled(), lastProcMap, item.id, workingTime, item.rate(), item.timer, item.count);
-          });
-
-          fullSpellsCast.push({ id: id, time: workingTime });
-
-          // update spell timeline
-          let content = SPELL_ITEM_TEMPLATE({title: current.name, id: id, spellNumber: chartIndex})
-          spellTimeline.push({id: chartIndex, content: content, start: workingTime, editable: false});
-
-          state.workingTime = workingTime;
-          state.spell = current;
-          stats.updateSpellStatistics(state, 'id', current.id);
-
-          // only compute for spells that do damage
-          let avgDmg = (current.target != 'self') ? damage.computeDamage(state) : 0;
-
-          if (avgDmg > 0) {
-            //if (current.id != 'RS') {
-              totalAvgDmg += avgDmg;
-              maxHit = (avgDmg > maxHit) ? avgDmg : maxHit;
-            //}
-
-            totalAvgPetDmg += reportRSDamage;
-
-            // Add RS Damage to current point if time happens to be the same
-            let plotDmg = reportRSDamage + avgDmg;
-            let dmgPoint = {id: workingTime, x: workingTime, y: plotDmg, content: plotDmg, yOffset: 0};
-            dmgPoint.label = {content: plotDmg, yOffset: 15};
-            spellDmgTimeline.push(dmgPoint);
-            reportRSDamage = 0;
-          }
+          castSpell(state, current);
 
           // Handle post-cast adjustments
           switch(current.id) {
             case 'RS':
-              // For Mage mode
-              if (dom.getConjurersSynergyValue() > 0) {
-                let keys = utils.getCounterKeys('MSYN');
-                state[keys.expireTime] = state.workingTime + dmgU.SYNERGY_TIMER + 3000;
-                state[keys.counter] = dom.getConjurersSynergyValue();
-              }
-
-              // Check if remorseless servants have expired
-              utils.checkTimerList(state, workingTime, 'rsCount', 'rsTimers');
-
-              state.rsCount++;
-              stats.updateSpellStatistics(state, 'rsCount', state.rsCount);
               stats.updateSpellStatistics(state, 'rsDPS', getRSDamage(state));
-
-              state.rsTimers.push(
-                utils.createTimer(workingTime + remorselessTTL, function(value) { return value - 1; })
-              );
               break;
             case 'FA':
               if (allianceTimer > 0) {
@@ -658,8 +600,7 @@ export function updateSpellChart() {
               break;
           }
 
-          chartIndex++;
-          gcdWaitTime = workingTime + Math.round(gcd + gcd * dmgU.FIZZLE_RATE);
+          gcdWaitTime = state.workingTime + Math.round(gcd + gcd * dmgU.FIZZLE_RATE);
 
           // since we did found a spell that could be cast at current time
           // break and try again at the updated workingTime
@@ -668,52 +609,46 @@ export function updateSpellChart() {
       }
     }
 
-    // If RS Damage hasn't been reported yet
-    if (reportRSDamage > 0) {
-      // Add RS Damage to current point if time happens to be the same
-      totalAvgPetDmg += reportRSDamage;
-
-      let dmgPoint = {id: workingTime, x: workingTime, y: reportRSDamage, content: reportRSDamage, yOffset: 0};
-      if (workingTime % 10000 === 0) {
-        dmgPoint.label = {content: reportRSDamage, yOffset: 15};
-      }
-      spellDmgTimeline.push(dmgPoint);
-      reportRSDamage = 0;
-    }
-
     // all spells were on lockout so increment time
-    if (gcdWaitTime >= workingTime || sp >= (spells.length-1)) {
+    if (gcdWaitTime >= state.workingTime || sp >= (spells.length-1)) {
       // do nothing for a bit
-      workingTime += 50;
+      state.workingTime += 50;
 
       // dont cast abilities between lockout too fast
-      if (!lastAddCastTime || (workingTime - lastAddCastTime) >= 1000) {
-        // Abilities that can be enabled and repeat every so often like Enc Synergy
-        $(REPEATED_ABILITIES).each(function(i, item) {
-          handleRepeatedProc(state, item.enabled(), lastProcMap, item.id, workingTime, item.rate(), item.timer, item.count);
-        });
-
+      if (!lastAddCastTime || (state.workingTime - lastAddCastTime) >= 1000) {
         // try to cast force nuke early to prevent conflicts later on
         // Ex FD can update crit dmg in the chart itself
         // Use a time during this free bit
         additionalCast = (usingAANukes && !additionalCast) ?
-          castForceNuke(state, forceNukes, workingTime, chartIndex) : additionalCast;
+          castForceNuke(state, forceNukes) : additionalCast;
         // try firebound orb
         additionalCast = (!additionalCast && usingFireboundOrb) ?
-          castFirebound(state, workingTime, chartIndex) : additionalCast;
+          castFirebound(state) : additionalCast;
 
         // handle additional cast damage
         if (additionalCast) {
-           totalAvgDmg += additionalCast.dmg;
-           maxHit = (additionalCast.dmg > maxHit) ? additionalCast.dmg : maxHit;
-           spellTimeline.push(additionalCast.spellTime);
-           spellDmgTimeline.push(additionalCast.dmgTime);
-           state.lastCastMap[additionalCast.nuke.spell.timer] = additionalCast.nuke.time;
-           chartIndex++;
+           additionalCast = undefined;
+           state.workingTime += 50;
+           lastAddCastTime = state.workingTime;
+        } else {
+          // If RS Damage hasn't been reported yet
+          if (state.workingTime % 500 === 0) {
+            // check if RS pets have completed  
+            let rsKeys = utils.getCounterKeys('RS');
+            utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
+            
+            let dotDmg = state.dotGenerator ? state.dotGenerator.next().value : 0;
+            if (dotDmg > 0) {
+              stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
 
-           additionalCast = null;
-           workingTime += 50;
-           lastAddCastTime = workingTime;
+              let dmgPoint = {id: state.workingTime, x: state.workingTime, y: dotDmg, yOffset: 0};
+              if (state.workingTime % 10000 === 0) {
+                dmgPoint.label = {content: dotDmg, yOffset: 15};
+              }
+              
+              DMG_DATA.add(dmgPoint);
+            }
+          }    
         }
       }
     }
@@ -727,15 +662,11 @@ export function updateSpellChart() {
     updateCritGraphValue(CRITD_DATA, rV.time, rV.y);
   });
 
-  // Update timelines
-  SPELLLINE_DATA.add(spellTimeline);
-  DMG_DATA.add(spellDmgTimeline);
-
   // connect up popover
   connectPopovers();
 
   // print spellStats window
-  stats.printStats($('#spellCountStats'), state, totalAvgDmg, totalAvgPetDmg, timeRange, maxHit);
+  stats.printStats($('#spellCountStats'), state, timeRange);
 }
 
 export function updateWindow(caller, update, windowList){

@@ -24,25 +24,33 @@ function addIndividualProcs(state, mod) {
   let time = state.workingTime;
 
   // be sure to add Evoker's Synergy before post spell so vortex doesn't get used up right away
-  $(['WSYN', 'MR', 'FW']).each(function(i, id) {
-    utils.isCounterActive(state, id) ? executeProc(id, state, mod) : 0;
-  });
+  ['WSYN', 'MR', 'FW']
+    .filter(id => utils.isCounterActive(state, id))
+    .forEach(id => { executeProc(id, state, mod) });
 
   // enc dicho
-  utils.isCounterActive(state, 'DR') ? executeProc('DRS6', state, mod, 'DR') : 0;
+  if (utils.isCounterActive(state, 'DR')) {
+    executeProc('DRS6', state, mod, 'DR');
+  }
 
   // add Ancient Hedgewizard Brew procs
-  dom.isUsingHedgewizard() ? executeProc('AB', state, mod) : 0;
+  if (dom.isUsingHedgewizard()) {
+    executeProc('AB', state, mod);
+  }
 
   // add eqp aug procs
-  $(dom.getEqpProcIDs()).each(function(i, id) {
-    executeProc(id, state, mod, 'EQP');
-  });
+  [ dom.getStaffProcValue(), dom.getBeltProcValue(), dom.getRangeAugValue(), dom.getDPSAug1AugValue(),
+    dom.getDPSAug2AugValue(), dom.getShieldProcValue() ]
+      .filter(id => id !== 'NONE')
+      .forEach(id => { executeProc(id, state, mod, 'EQP') });
+
 
   switch (G.MODE) {
     case 'wiz':
       // add Arcane Fusion proc
-      dom.isUsingArcaneFusion() ? executeProc(dom.getArcaneFusionValue(), state, mod, 'AFU') : 0;
+      if (dom.isUsingArcaneFusion()) {
+        executeProc(dom.getArcaneFusionValue(), state, mod, 'AFU');
+      }
       break;
     case 'mage':
       // TODO - if there are any
@@ -132,12 +140,12 @@ function calcAvgDamage(state, mod, dmgKey) {
     // update stats for main damage spells
     if (dmgU.isCastDetSpellOrAbility(state.spell)) {
       // save total crit rate including from twincats and procs plus associated count
-      stats.addAggregateStatistics(state, 'critRate', critRate * mod);
-      stats.addAggregateStatistics(state, 'spellCount', mod);
+      stats.addAggregateStatistics('critRate', critRate * mod);
+      stats.addAggregateStatistics('spellCount', mod);
       
       // save count of unique detrimental spells cast
       if (!state.inTwincast) {
-        stats.addAggregateStatistics(state, 'detCastCount', mod);
+        stats.addAggregateStatistics('detCastCount', mod);
       }
 
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
@@ -214,64 +222,6 @@ function calcFuseDamage(state, mod) {
   if (!state.inTwincast) {
     calcCompoundSpellDamage(state, mod, 'fuseProcDmg', dmgU.getCompoundSpellList('FU'));
   }
-}
-
-function calcTotalAvgDamage(state, mod, dmgKey) {
-  // Default to full strength
-  mod = (mod === undefined) ? 1 : mod;
-
-  // initialize counter based ADPS Arcane Destruction
-  timeline.initCounterBasedADPS(state, 'AD');
-  // initialize counter based ADPS Frenzied Devestation
-  timeline.initCounterBasedADPS(state, 'FD');
-  // initialize counter based ADPS Improved Twincast
-  timeline.initCounterBasedADPS(state, 'ITC');
-  // initialize counter based ADPS Chromatic Haze
-  timeline.initCounterBasedADPS(state, 'CH');
-  // initialize counter based ADPS Mana Charge
-  timeline.initCounterBasedADPS(state, 'MC');
-  // initialize counter based ADPS Dichotomic Reinforcement 6
-  timeline.initCounterBasedADPS(state, 'DR');
-  // initialize counter based ADPS Mana Burn
-  timeline.initCounterBasedADPS(state, 'MBRN');
-
-  // add any pre spell cast checks required
-  dmgU.applyPreSpellProcs(state);
-
-  // avg damage for one spell cast
-  lookupCalcDmgFunction(state.spell)(state, mod, dmgKey);
-
-  // Current twincast rate before procs may increase it
-  let twincastChance = calcTwincastChance(state, mod);
-
-  // add any post spell procs/mods before we're ready to
-  // twincast another spell
-  dmgU.applyPostSpellProcs(state);
-
-  // now twincast the spell
-  if (twincastChance > 0 && !state.aeWave) {
-    // add any pre spell cast checks required
-    dmgU.applyPreSpellProcs(state, twincastChance);
-
-    // cast twincast and increment the inTwincast state for cases like
-    // wildether where it can twincast from a twincast so we don't turn the property off
-    state.inTwincast = (state.inTwincast > 0) ? state.inTwincast + 1 : 1;
-    let twincastDmg = Math.trunc(lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey));
-    state.inTwincast--;
-
-    // handle post checks
-    dmgU.applyPostSpellProcs(state, twincastChance);
-  }
-
-  // post checks for counter based ADPS
-  timeline.postCounterBasedADPS(state, 'AD');
-  timeline.postCounterBasedADPS(state, 'FD');
-  timeline.postCounterBasedADPS(state, 'ITC');
-  timeline.postCounterBasedADPS(state, 'CH');
-  timeline.postCounterBasedADPS(state, 'MC');
-  timeline.postCounterBasedADPS(state, 'DR');
-  timeline.postCounterBasedADPS(state, 'MBRN');
-  stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
 }
 
 function calcTwincastChance(state, mod) {
@@ -735,31 +685,45 @@ function lookupCalcDmgFunction(spell) {
   }
 }
 
-export function calcBaseCritDmg() {
-  // Wiz Pet is Crit DMG Focus Spell (SPA 170)
-  // Definitely stacks with FD and works with DF and AA Nukes
-  return dom.getPetCritFocusValue() + dom.getDestructiveFuryValue() + dom.getCritDmgValue();
-}
+export function calcTotalAvgDamage(state, mod, dmgKey) {
+  // Default to full strength
+  mod = (mod === undefined) ? 1 : mod;
+ 
+  // abilities enabled on the ADPS timeline that have counters
+  // needs to be called every time since counters are modified by procs/twincasts
+  timeline.initCounterBasedADPS(state);
 
-export function calcBaseCritRate() {
-  return dom.getDoNValue() + dom.getFuryOfMagicValue() + dom.getCritRateValue();
-}
+  // add any pre spell cast checks
+  dmgU.applyPreSpellProcs(state);
 
-export function computeDamage(state) {
-  // Round to nearest second to check against current spell landing time
-  state.timeEst = Math.round(state.workingTime / 1000) * 1000;
+  // avg damage for one spell cast
+  lookupCalcDmgFunction(state.spell)(state, mod, dmgKey);
 
-  let critData = timeline.getCritDataAtTime(state.timeEst);
-  if (!critData) {
-    console.debug('out of range');
-    return 0;
+  // Current twincast rate before procs may increase it
+  let twincastChance = calcTwincastChance(state, mod);
+
+  // add any post spell procs/mods before we're ready to
+  // twincast another spell
+  dmgU.applyPostSpellProcs(state);
+
+  // now twincast the spell
+  if (twincastChance > 0 && !state.aeWave) {
+    // add any pre spell cast checks required
+    dmgU.applyPreSpellProcs(state, twincastChance);
+
+    // cast twincast and increment the inTwincast state for cases like
+    // wildether where it can twincast from a twincast so we don't turn the property off
+    state.inTwincast = (state.inTwincast > 0) ? state.inTwincast + 1 : 1;
+    let twincastDmg = Math.trunc(lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey));
+    state.inTwincast--;
+
+    // handle post checks
+    dmgU.applyPostSpellProcs(state, twincastChance);
   }
 
-  // Total Crit Chance
-  state.critRate = critData.critRate;
-  // Total Critical Multiplier
-  state.critDmgMult = critData.critDmgMult;
+  // post checks for counter based ADPS
+  timeline.postCounterBasedADPS(state);
 
-  calcTotalAvgDamage(state);
+  stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
   return stats.getSpellStatistics(state.chartIndex).get('totalDmg');
 }

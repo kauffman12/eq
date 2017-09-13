@@ -42,7 +42,7 @@ export function getStatisticsSummary(spellStats) {
   addDecimalStatDescription(data, "Cast Time(s)", spell.castTime, true);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'));
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - spell.castTime);
-  addNumberStatDescription(data, "Pet Count", spellStats.get('rsCount'));
+  addNumberStatDescription(data, "Pet Count", spellStats.get('rsCounter'));
   addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
 
     // Only print spellStats for spells that do damage and not WE/WF
@@ -113,13 +113,17 @@ export function getStatisticsSummary(spellStats) {
   return data;
 }
 
-export function printStats(output, state, totalAvgDmg, totalAvgPetDmg, timeRange, maxHit) {
+export function printStats(output, state, timeRange) {
+  let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
+  let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
+  let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timeRange / 1000);
+
+  let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
   let aggrCritRate = getSpellCastInfo().get('critRate') || 0;
   let totalCastCount = getSpellCastInfo().get('totalCastCount') || 0;
   let totalDetCastCount = getSpellCastInfo().get('detCastCount') || 0;
-  let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timeRange / 1000);
-
+  
   // Spell Count
   updateStatSection('#spellCountStats', avgDPS, 'Spells + TC/Proc', totalCastCount, totalCastCount, 'totalCastCount');
 
@@ -176,9 +180,16 @@ function initSpellStatistics(index, name, value) {
   return indexMap;
 }
 
-export function addAggregateStatistics(state, name, value) {
-  let count = STATISTICS.aggr.get(name);
-  STATISTICS.aggr.set(name, count ? count + value : value);
+export function addAggregateStatistics(name, value) {
+  let count = STATISTICS.aggr.get(name) || 0;
+  STATISTICS.aggr.set(name, count + value);
+}
+
+export function addMaxAggregateStatistics(name, value) {
+  let count = STATISTICS.aggr.get(name) || 0;
+  if (value > count) {
+    STATISTICS.aggr.set(name, value);
+  }
 }
 
 export function addSpellStatistics(state, name, value) {

@@ -69,6 +69,17 @@ export const FIZZLE_RATE = 0.005;
 export const FUSE_PROC_SPELL_CHANCE = FUSE_PROC_CHANCE * FUSE_PROC_INDIVIDUAL_SPELL_CHANCE;
 export const REFRESH_CAST_COUNT = Math.ceil(1 / CLAW_REFRESH_CHANCE);
 
+// Activated Abilities section enabled via checkbox
+export const ACTIVATED_ABILITIES = [
+  { id: 'ESYN', enabled: dom.isUsingEncSynergy, rate: dom.getEncSynergyRate, timer: SYNERGY_TIMER, count: 1 },
+  { id: 'EHAZY', enabled: dom.isUsingEncHazy, rate: dom.getEncHazyRate, timer: ENC_HAZY_TIMER, count: 1 },
+  { id: 'MSYN', enabled: dom.isUsingMagSynergy, rate: dom.getMagSynergyRate, timer: SYNERGY_TIMER, count: 1 },
+  { id: 'NSYN', enabled: dom.isUsingNecSynergy, rate: dom.getNecSynergyRate, timer: SYNERGY_TIMER, count: 1 },
+  { id: 'WSYN', enabled: dom.isUsingWizSynergy, rate: dom.getWizSynergyRate, timer: SYNERGY_TIMER, count: 1 },
+  { id: 'MR', enabled: dom.isUsingMR, rate: () => MR_TIMER, timer: MR_TIMER * 10, count: MR_COUNTERS },
+  { id: 'FW', enabled: dom.isUsingFW, rate: () => FW_TIMER, timer: FW_TIMER * 10, count: FW_COUNTERS }
+];
+
 function getMultiplier(castTime) {
   var multiplier = 0.25;
 
@@ -159,16 +170,34 @@ export function applyPostSpellProcs(state, mod) {
         initFlames(state, update);
       }
       break;
+    case 'RS':
+      if (dom.getConjurersSynergyValue() > 0) {
+        let keys = utils.getCounterKeys('MSYN');
+        state[keys.expireTime] = state.workingTime + SYNERGY_TIMER + 3000;
+        state[keys.counter] = dom.getConjurersSynergyValue();
+      }
+
+      let keys = utils.getCounterKeys('RS');
+      utils.initNumberProperties(state, [keys.counter]);
+      utils.initListProperties(state, [keys.timers]);
+      state[keys.counter]++;
+      stats.updateSpellStatistics(state, keys.counter, state[keys.counter]);
+      state[keys.timers].push(
+        utils.createTimer(state.workingTime + dom.getRemorselessServantTTLValue(), (value) => { return value - 1; })
+      );
+      
+      if (!state.dotGenerator) {
+        state.dotGenerator = genDamageOverTime(state);
+      }
+      break;
   }
 }
 
 export function applyPreSpellProcs(state, twincastChance) {
   // Check for effects to cancel
-  utils.checkSimpleTimer(state, state.workingTime, 'VFX');
-  utils.checkSimpleTimer(state, state.workingTime, 'WSYN');
-  utils.checkSimpleTimer(state, state.workingTime, 'FPWR');
-  utils.checkTimerList(state, state.workingTime, 'clawTcProcRate', 'clawTcTimers');
-  utils.checkTimerList(state, state.workingTime, 'flamesWeaknessCounter', 'flamesWeaknessTimers');
+  ['VFX', 'WSYN', 'FPWR'].forEach(id => utils.checkSimpleTimer(state, id)); // simple timers
+  utils.checkTimerList(state, 'clawTcProcRate', 'clawTcTimers');
+  utils.checkTimerList(state, 'flamesWeaknessCounter', 'flamesWeaknessTimers');
 
   // Update Storm of Many damage based on selected value
   // Start handling spell recast timer mods, etc here instead of in run or
@@ -178,6 +207,30 @@ export function applyPreSpellProcs(state, twincastChance) {
       state.spell.baseDmg = state.spell['baseDmg' + dom.getStormOfManyCountValue()];
       break;
   }
+}
+
+export function* genDamageOverTime(state) {
+  let dps = dom.getRemorselessServantDPSValue();
+  let keys = utils.getCounterKeys('RS');
+  let current = state.workingTime;
+  
+  while (dps > 0) {
+    let result = (state[keys.counter] || 0) * dps * ((state.workingTime - current) / 1000);
+    current = state.workingTime;
+    yield result;
+  }
+
+  return 0;
+}
+
+export function getBaseCritDmg() {
+  // Wiz Pet is Crit DMG Focus Spell (SPA 170)
+  // Definitely stacks with FD and works with DF and AA Nukes
+  return dom.getPetCritFocusValue() + dom.getDestructiveFuryValue() + dom.getCritDmgValue();
+}
+
+export function getBaseCritRate() {
+  return dom.getDoNValue() + dom.getFuryOfMagicValue() + dom.getCritRateValue();
 }
 
 export function getCompoundSpellList(id) {
@@ -191,12 +244,12 @@ export function getCompoundSpellList(id) {
       'WE': [
         { id: 'PE', chance: WILDMAGIC_PURE_CHANCE },
         { id: 'HC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
-        { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }          
+        { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
       'FU': [
         { id: 'ES', chance: FUSE_PROC_SPELL_CHANCE },
         { id: 'ER', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EF', chance: FUSE_PROC_SPELL_CHANCE }        
+        { id: 'EF', chance: FUSE_PROC_SPELL_CHANCE }
       ]
     }[id];
   });
@@ -250,8 +303,8 @@ export function isEqpProc(spell) {
 }
 
 export function isFocusableSpellProc(spell) {
-  return (isCastDetSpell(spell) && spell.level <= 250) || 
-    (isEqpProc(spell) && spell.partialResist) || (isSpellProc(spell) && !spell.partialResist);  
+  return (isCastDetSpell(spell) && spell.level <= 250) ||
+    (isEqpProc(spell) && spell.partialResist) || (isSpellProc(spell) && !spell.partialResist);
 }
 
 export function isSpellProc(spell) {
@@ -272,13 +325,13 @@ export function canProcSpells(spell) {
   return isFocusableSpellProc(spell) && !spell.discRefresh;
 }
 
-export function isCastDetSpellOrAbility(spell) { 
+export function isCastDetSpellOrAbility(spell) {
   return isCastDetSpell(spell) || spell.discRefresh > 0;
 }
 
 export function isCastDetSpell(spell) {
   // cant think of a good fix for wildmagic procs at the moment
-  return spell.baseDmg > 0 && [5, 14, 24].find(x => x === spell.skill) && 
+  return spell.baseDmg > 0 && [5, 14, 24].find(x => x === spell.skill) &&
     spell.max !== 0 && !(spell.skill === 24 && spell.level > 250);
 }
 
@@ -306,7 +359,7 @@ export function passRequirements(reqs, state) {
       return false;
     }
   }
-  
+
   return true;
 }
 

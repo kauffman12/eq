@@ -177,21 +177,6 @@ export function getEncSynergyRate() {
   return 1000 * utils.getNumberValue(($('#encSynergyRate').val()));
 }
 
-export function getEqpProcIDs() {
-  let result = [];
-
-  $([
-    getStaffProcValue(), getBeltProcValue(), getRangeAugValue(),
-    getDPSAug1AugValue(), getDPSAug2AugValue(), getShieldProcValue()
-  ]).each(function(i, id) {
-    if (id != 'NONE') {
-      result.push(id);
-    }
-  });
-
-  return result;
-}
-
 export function getEvokersSynergyValue() {
   return utils.useCache('.evokers-synergy', function() {
     return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
@@ -281,9 +266,9 @@ export function getNilsaraAriaValue() {
 
 export function getPetCritFocusValue() {
   if (G.MODE === 'wiz') {
-    let petFocus = getWizPetFocus();
-    if (petFocus.type === 'improved') {
-      return petFocus.value * 100;
+    let type = $('.spell-pet-focus .dropdown-toggle').data('value');
+    if (['improved', 'improvedKera'].find(t => t === type)) {
+      return dmgU.IMPROVED_FAMILIAR_CRIT * 100;
     }
   }
   return 0;
@@ -291,11 +276,11 @@ export function getPetCritFocusValue() {
 
 export function getPetDmgFocusValue() {
   if (G.MODE =='wiz') {
-    let petFocus = getWizPetFocus();
-    if (petFocus.type === 'kera') {
-      return petFocus.value;
+    let type = $('.spell-pet-focus .dropdown-toggle').data('value');
+    if (['kera', 'improvedKera'].find(t => t === type)) {
+      return dmgU.KERA_FAMILIAR_FOCUS;
     }
-  }
+  } 
   return 0;
 }
 
@@ -319,7 +304,7 @@ export function getRemorselessServantDPSValue() {
 
 export function getRemorselessServantTTLValue() {
   return utils.useCache('.remorseless-servant-ttl', function() {
-    return utils.getNumberValue($('#remorselessTTL').val());
+    return 1000 * utils.getNumberValue($('#remorselessTTL').val());
   });
 }
 
@@ -423,18 +408,6 @@ export function getType3AugValue(spell) {
   return utils.useCache('.worn-type3augs-' + spell.id, function() {
     return $('.worn-type3augs .dropdown-toggle').data('value') ? spell.type3Aug || 0 : 0;
   });
-}
-
-export function getWizPetFocus() {
-  let value;
-  let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-  if (type === "improved") {
-    value = dmgU.IMPROVED_FAMILIAR_CRIT;
-  } else if(type === "kera") {
-    value = dmgU.KERA_FAMILIAR_FOCUS;
-  }
-
-  return {type: type, value: value};
 }
 
 export function getWizSynergyRate() {

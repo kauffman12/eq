@@ -16,9 +16,9 @@ export function asDecimal32Precision(value) {
   return Number(value.toFixed(7));
 }
 
-export function checkSimpleTimer(state, workingTime, key) {
+export function checkSimpleTimer(state, key) {
   let keys = getCounterKeys(key);
-  if (state[keys.counter] > 0 && workingTime > state[keys.expireTime]) {
+  if (state[keys.counter] > 0 && state.workingTime > state[keys.expireTime]) {
     state[keys.counter] = 0;
   }
 }
@@ -50,13 +50,13 @@ export function checkStacking(hasUsedMap, map, item, key) {
   return result;
 }
 
-export function checkTimerList(state, workingTime, counterKey, timerKey) {
+export function checkTimerList(state, counterKey, timerKey) {
   let timers = state[timerKey];
 
   if (timers && timers.length > 0) {
     let updatedTimers = [];
     $(timers).each(function(i, timer) {
-      if (workingTime > timer.expireTime) {
+      if (state.workingTime > timer.expireTime) {
         state[counterKey] = timer.update(state[counterKey]);
       } else {
         updatedTimers.push(timer);
@@ -107,8 +107,16 @@ export function getCounterKeys(key) {
       counter: lower + 'Counter',
       charges: lower + 'ChargesUsed',
       addDmg: lower + 'AddDmg',
-      expireTime: lower + 'ExpireTime'
+      expireTime: lower + 'ExpireTime',
+      timers: lower + 'Timers'
     };
+  });
+}
+
+export function getCounterBasedAdps() {
+  return useCache('counter-based-adps', () => {
+    let options = readAdpsConfig('options');
+    return readAdpsConfig('displayList').filter(id => options[id].chargeBased);
   });
 }
 

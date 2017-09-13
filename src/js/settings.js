@@ -4,11 +4,13 @@ export const globals = {
   WIZ_TITLE: 'EQ Wizard DPS Tool'
 }
 
+// wizard spells to display in spell drop down
 export const wizSpellList = [
   'CF', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FA',
   'FC', 'MB', 'SV', 'WF', 'WE'
 ];
 
+// mage spells to display in spell drop down
 export const mageSpellList = [
   'BS', 'CF', 'CR', 'FA', 'FC', 'RC', 'RS', 'SB',
   'SS', 'SM'
@@ -689,6 +691,7 @@ export const wizDPSAAContext = [
     data: [
       { value: 'kera', desc: 'Kerafyrm\'s Prismatic Familiar (4)' },
       { value: 'improved', desc: 'Improved Familiar (9)' },
+      { value: 'improvedKera', desc: 'Improved Familiar (28) (Test)' },
       { value: 'none', desc: 'No Familiar Selected' }
     ]
   },
@@ -1160,6 +1163,7 @@ export const adpsConfig = {
       id: 'ITC',
       content: 'Improved Twincast',
       offset: 150000,
+      chargeBased: true,
       charges: 18
     },
     'M1': {
@@ -1217,7 +1221,7 @@ export const chartOptions = {
     zoomable: true,
     editable: false,
     clickToUse: false,
-    maxHeight: '135px',
+    maxHeight: '155px',
     selectable: false
   },
   timeline: {
@@ -1298,7 +1302,7 @@ export const chartOptions = {
       },
       visible: false
     },
-    interpolation: true,
+    interpolation: false,
     height: '130px',
     drawPoints: {
       size: 1,
