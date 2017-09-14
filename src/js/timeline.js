@@ -109,6 +109,7 @@ function castSpell(state, spell) {
   // update stats
   if (avgDmg > 0) {
     stats.addAggregateStatistics('totalAvgDmg', avgDmg);
+    stats.addAggregateStatistics('detCastCount', 1);    
     stats.addMaxAggregateStatistics('maxHit', avgDmg);
   }
   

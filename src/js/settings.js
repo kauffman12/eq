@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.81',
+  VERSION: 'Version 0.82',
   MAGE_TITLE: 'EQ Mage DPS Tool',
   WIZ_TITLE: 'EQ Wizard DPS Tool'
 }
@@ -903,7 +903,7 @@ export const additionalModifiers = {
       enabled: false,
       hasInput: true,
       title: 'Gift of Hazy Thoughts',
-      tooltip: 'How often to proc a single Gift of Hazy Thoughts (in seconds).\\kKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
+      tooltip: 'How often to proc a single Gift of Hazy Thoughts (in seconds).\rKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
       defaultTime: 20
     },
     encSynergy: {
@@ -956,7 +956,7 @@ export const additionalModifiersDebuffs = {
 
 export const adpsConfig = {
   options: {
-    'AD': {
+    AD: {
       id: 'AD',
       content: 'Arcane Destruction V',
       class: 'wiz',
@@ -967,7 +967,7 @@ export const adpsConfig = {
       spa: 212,
       slot: 1
     },
-    'AF': {
+    AF: {
       id: 'AF',
       content: 'Arcane Fury III',
       class: 'wiz',
@@ -975,7 +975,7 @@ export const adpsConfig = {
       spa: 302,
       slot: 1
     },
-    'AUS': {
+    AUS: {
       id: 'AUS',
       critRateMod: 33,
       content: 'Auspice of the Hunter',
@@ -983,7 +983,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 1
     },
-    'BW': {
+    BW: {
       id: 'BW',
       critRateMod: 10,
       critDmgMod: 100,
@@ -992,7 +992,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 8
     },    
-    'CH': {
+    CH: {
       id: 'CH',
       critDmgMod: 375,
       critRateMod: 100,
@@ -1003,12 +1003,12 @@ export const adpsConfig = {
       spa: 302,
       slot: 1
     },
-    'DR': {
+    DR: {
       id: 'DR',
       charges: 16,
       content: 'Dichotomic Reinforcement 6',
       offset: 18000,
-      'beforeCritAdd': 3959,
+      beforeCritAdd: 3959,
       chargeBased: true,
       spa: 303,
       slot: 8,
@@ -1018,7 +1018,7 @@ export const adpsConfig = {
         castSpellOnly: true
       }      
     },
-    'E3': {
+    E3: {
       id: 'E3',
       critRateMod: 9,
       content: 'Enchanter 3rd Spire',
@@ -1026,7 +1026,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 11
     },
-    'EU': {
+    EU: {
       id: 'EU',
       afterCritMult: 0.95,
       content: 'Elemental Union XIII',
@@ -1035,13 +1035,13 @@ export const adpsConfig = {
       spa: 124,
       slot: 1
     },
-    'FR': {
+    FR: {
       id: 'FR',
       content: 'Forceful Rejuvenation',
       offset: 20000,
-      'instant': true
+      instant: true
     },
-    'FD': {
+    FD: {
       id: 'FD',
       content: 'Frenzied Devestation XIX',
       class: 'wiz',
@@ -1053,7 +1053,7 @@ export const adpsConfig = {
       spa: 212,
       slot: 1
     },
-    'FE': {
+    FE: {
       id: 'FE',
       critRateMod: 12,
       critDmgMod: 12,
@@ -1062,7 +1062,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 5
     },
-    'FURYDRUZ': {
+    FURYDRUZ: {
       id: 'FURYDRUZ',
       content: 'Fury of Druzzil XIII',
       class: 'wiz',
@@ -1071,7 +1071,7 @@ export const adpsConfig = {
       spa: 303,
       slot: 1
     },
-    'FURYECI': {
+    FURYECI: {
       id: 'FURYECI',
       content: 'Fury of Eci XIII',
       class: 'wiz',
@@ -1080,7 +1080,7 @@ export const adpsConfig = {
       spa: 303,
       slot: 1
     },
-    'FURYRO': {
+    FURYRO: {
       id: 'FURYRO',
       content: 'Fury of Ro XIII',
       class: 'wiz',
@@ -1089,7 +1089,7 @@ export const adpsConfig = {
       spa: 303,
       slot: 1
     },
-    'FURYKERA': {
+    FURYKERA: {
       id: 'FURYKERA',
       content: 'Fury of Kerafyrm IX',
       class: 'wiz',
@@ -1098,7 +1098,7 @@ export const adpsConfig = {
       spa: 303,
       slot: 1
     },
-    'GLYPH': {
+    GLYPH: {
       id: 'GLYPH',
       critDmgMod: 60,
       content: 'Glyph of Destruction II',
@@ -1106,7 +1106,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 7
     },
-    'HF': {
+    HF: {
       id: 'HF',
       afterCritMult: 1.10,
       content: 'Heart of Flames XII',
@@ -1116,7 +1116,7 @@ export const adpsConfig = {
       spa: 124,
       slot: 1
     },
-    'MBRN': {
+    MBRN: {
       id: 'MBRN',
       charges: 500,
       content: 'Mana Burn XVI',
@@ -1126,10 +1126,10 @@ export const adpsConfig = {
       spa: 484,
       slot: 1,
       requirements: {
-        focusableSpellProc: true
+        focusable: true
       }      
     },    
-    'MC': {
+    MC: {
       id: 'MC',
       critDmgMod: 50,
       critRateMod: 175,
@@ -1140,7 +1140,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 1
     },
-    'HV': {
+    HV: {
       id: 'HV',
       critDmgMod: 35,
       critRateMod: 0,
@@ -1150,7 +1150,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 99
     },
-    'IOG': {
+    IOG: {
       id: 'IOG',
       critRateMod: 12,
       critDmgMod: 155,
@@ -1159,14 +1159,14 @@ export const adpsConfig = {
       spa: 294,
       slot: 5
     },
-    'ITC': {
+    ITC: {
       id: 'ITC',
       content: 'Improved Twincast',
       offset: 150000,
       chargeBased: true,
       charges: 18
     },
-    'M1': {
+    M1: {
       id: 'M1',
       critRateMod: 24,
       content: 'First Spire of Elements IV',
@@ -1175,20 +1175,20 @@ export const adpsConfig = {
       spa: 294,
       slot: 2
     },
-    'TC': {
+    TC: {
       id: 'TC',
       content: 'Twincast Spell',
       offset: 21000
     },
-    'SW': {
+    SW: {
       id: 'SW',
-      'beforeCritFocus': 0.185,
+      beforeCritFocus: 0.185,
       content: 'Season\'s Wrath V',
       offset: 30000,
       spa: 296,
       slot: 1
     },
-    'VES': {
+    VES: {
       id: 'VES',
       critRateMod: 12,
       content: 'Spirit of Vesagran (Bard Epic)',
@@ -1196,7 +1196,7 @@ export const adpsConfig = {
       spa: 294,
       slot: 9
     },
-    'W2': {
+    W2: {
       id: 'W2',
       critDmgMod: 160,
       content: 'Second Spire of Arcanum IV',

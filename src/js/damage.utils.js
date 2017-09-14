@@ -294,17 +294,16 @@ export function getNormalizer(spell) {
   return getMultiplier(spell.origCastTime);
 }
 
+export function trunc(value) {
+  return Math.trunc(utils.asDecimal32Precision(value));
+}
+
 export function isCastSpell(spell) {
   return (spell.skill === 24 || spell.skill === 14) && spell.level <= 250;
 }
 
 export function isEqpProc(spell) {
   return spell.skill === 52;
-}
-
-export function isFocusableSpellProc(spell) {
-  return (isCastDetSpell(spell) && spell.level <= 250) ||
-    (isEqpProc(spell) && spell.partialResist) || (isSpellProc(spell) && !spell.partialResist);
 }
 
 export function isSpellProc(spell) {
@@ -318,11 +317,11 @@ export function canTwincast(spell) {
 }
 
 export function canTwinproc(spell) {
-  return (isSpellProc(spell) && !spell.partialResist) || (isEqpProc(spell) && spell.partialResist);
+  return (isSpellProc(spell) && spell.isFocusable) || (isEqpProc(spell) && spell.isFocusable);
 }
 
 export function canProcSpells(spell) {
-  return isFocusableSpellProc(spell) && !spell.discRefresh;
+  return spell.isFocusable && spell.baseDmg > 0 && !spell.discRefresh;
 }
 
 export function isCastDetSpellOrAbility(spell) {
@@ -330,7 +329,6 @@ export function isCastDetSpellOrAbility(spell) {
 }
 
 export function isCastDetSpell(spell) {
-  // cant think of a good fix for wildmagic procs at the moment
   return spell.baseDmg > 0 && [5, 14, 24].find(x => x === spell.skill) &&
     spell.max !== 0 && !(spell.skill === 24 && spell.level > 250);
 }
@@ -353,7 +351,7 @@ export function passRequirements(reqs, state) {
       return false;
     } else if (reqs.canProcSpells && !canProcSpells(spell)) {
       return false
-    } else if (reqs.focusableSpellProc && !isFocusableSpellProc(spell)) {
+    } else if (reqs.focusable && !spell.isFocusable) {
       return false;
     } else if (reqs.resists && !reqs.resists.find(x => x === spell.resist)) {
       return false;
@@ -386,4 +384,93 @@ export function processCounter(state, id, mod, value, calcOnly) {
   }
 
   return partUsed * value;
+}
+
+let VALID_TEST_DATA = [{"title":"Is Equip Proc","General-18":["ASVI","BFVI","BOIX","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","HOM3","OS","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Spell Proc","General-7":["AB","DRS6","FW","MR","MRR","MRRR","MRRRR"],"Mage-0":[],"Wizard-2":["AFU1","AFU2"]},{"title":"Is Focusable","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-21":["BJ","BS","CF","CR","FA","FC","FE1","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SFB","SM","SS"],"Wizard-19":["CF","CI","CS","CS2","DF","EF","ER","ES","FA","FC","FU","HC","MB","PE","PF","RC2","SV","WE","WF"]},{"title":"Can Proc Spells Effects","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-9":["BS","CF","CR","FC","RC","RS","SB","SM","SS"],"Wizard-16":["CF","CI","CS","CS2","DF","EF","ER","ES","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Can Twincast","General-0":[],"Mage-10":["BJ","BS","CF","CR","FC","RC","SB","SFB","SM","SS"],"Wizard-14":["CF","CI","CS","EF","ER","ES","FC","FU","HC","MB","PE","SV","WE","WF"]},{"title":"Can Twinproc","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Cast Detrimental","General-0":[],"Mage-11":["BJ","BS","CF","CR","FAF","FC","RC","RS","SB","SM","SS"],"Wizard-17":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Is Cast Detrimental OR Used Ability","General-0":[],"Mage-26":["BJ","BS","CF","CR","FAF","FC","FE1","FE10","FE11","FE12","FE13","FE14","FE15","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SM","SS"],"Wizard-55":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FF1","FF2","FF3","FF4","FF5","FF6","FI1","FI2","FI3","FI4","FI5","FI6","FU","FW1","FW10","FW11","FW12","FW13","FW14","FW15","FW16","FW17","FW18","FW19","FW2","FW20","FW21","FW22","FW23","FW24","FW25","FW26","FW3","FW4","FW5","FW6","FW7","FW8","FW9","HC","MB","PE","PF","RC2","SV"]}];
+
+export function displaySpellInfo(target) {
+  $(target).css('height', '600px');
+  $(target).css('overflow-y', 'auto');
+
+  let test = $(target).find('.test-data');  
+  let current = $(target).find('.current-data');  
+  let list = [];
+  
+  list.push(getSpellSection('Is Equip Proc', isEqpProc)); 
+  list.push(getSpellSection('Is Spell Proc', isSpellProc)); 
+  list.push(getSpellSection('Is Focusable', (spell) => spell.isFocusable)); 
+  list.push(getSpellSection('Can Proc Spells Effects', canProcSpells)); 
+  list.push(getSpellSection('Can Twincast', canTwincast)); 
+  list.push(getSpellSection('Can Twinproc', canTwinproc)); 
+  list.push(getSpellSection('Is Cast Detrimental', isCastDetSpell)); 
+  list.push(getSpellSection('Is Cast Detrimental OR Used Ability', isCastDetSpellOrAbility));
+  
+  let foundError = false;
+  let section;
+  VALID_TEST_DATA.forEach((item, i) => {
+    if (!foundError) {
+      Object.keys(item).forEach(key => {
+        if (key === 'title') {
+          foundError = foundError ? foundError : item[key] !== list[i][key];
+        } else {
+          foundError = foundError ? foundError : item[key].length !== (list[i][key] ? list[i][key].length : -1);
+          item[key].forEach(id => {
+            foundError = foundError ? foundError : (list[i][key].find(x => id === x) === undefined);
+          });
+        }
+      })
+    } 
+    
+    if (section === undefined && foundError) {
+      section = i + 1;
+    }
+  });
+ 
+  if (foundError) {
+    let txt = $('#myModal .modal-title').text(); 
+    $('#myModal .modal-title').text(txt + ' (Error Section #' + section + ')'); 
+  }
+  
+  //$(current).append('<pre>' + JSON.stringify(list)+ '</pre>');
+  $(current).append('<pre>' + JSON.stringify(list, null, 2)+ '</pre>');
+  $(test).append('<pre>' + JSON.stringify(VALID_TEST_DATA, null, 2)+ '</pre>');
+}
+
+function getSpellSection(title, f) {
+  let result = { title: title };
+
+  utils.getAllSpellData().forEach(data => {
+    let filtered = Object.keys(data.spells).map(key => key).sort().filter(i => f(data.spells[i]));
+    result[data.name + '-' + filtered.length] = filtered;
+  });    
+
+  return result;
+}
+
+function __getSpellSection2(title, f) {
+  let html = '';
+
+  html += '<h4>' + title + '</h4>';    
+  utils.getAllSpellData().forEach(data => {
+    let list = [];
+    Object.keys(data.spells).forEach(key => {
+      list.push({ key: key, name: data.spells[key]['name']});
+    });
+    
+    list.sort((a, b) => a.name > b.name);
+    
+    let filtered = list.filter(item => f(data.spells[item.key]));
+    if (filtered.length > 0) {
+      html += '<table class="table table-striped table-condensed">';
+      html += '<caption>' + data.name + ' Spells (' + filtered.length + ')</caption>';
+      filtered.forEach(item => {
+        html += '<tr>';
+        ['name', 'id', 'resist', 'skill', 'level'].forEach(attr => html += '<td>' + attr + ': ' + data.spells[item.key][attr] + '</td>');
+        html += '</tr>';
+      });
+      html += '</table>';
+    }
+  });
+  
+  return html;
 }

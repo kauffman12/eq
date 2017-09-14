@@ -192,6 +192,10 @@ $('.custom-collapse').each((i, p) => {
   $(p).click(() => { utils.collapseMenu(p) });
 });
 
+$('#myModal').on('shown.bs.modal', () => {
+  dmgU.displaySpellInfo($('#myModal .modal-body'));
+})
+
 // Set default collapse state
 utils.collapseMenu($('#additionalModifiersDebuffsSection .custom-collapse'));
 utils.collapseMenu($('#additionalModifiersSection .custom-collapse'));
@@ -199,6 +203,7 @@ utils.collapseMenu($('#basicDmgFocusSection'));
 utils.collapseMenu($('#spellFocusAASection'));
 utils.collapseMenu($('#mainDPSAASection'));
 utils.collapseMenu($('#customSettingsSection .custom-collapse'));
+utils.collapseMenu($('#testSection .custom-collapse'));
 
 // Init timeline stuff and load the chart
 timeline.init();

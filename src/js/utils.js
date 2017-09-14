@@ -155,6 +155,14 @@ export function getSpellData(id) {
   }
 }
 
+export function getAllSpellData() {
+  return [
+    { name: 'General', spells: GEN_SPELLS },
+    { name: 'Mage', spells: MAGE_SPELLS },
+    { name: 'Wizard', spells: WIZ_SPELLS }
+  ];
+}
+
 export function getUrlParameter(sParam) {
   let sPageURL = decodeURIComponent(window.location.search.substring(1)),
     sURLVariables = sPageURL.split('&'),
