@@ -194,7 +194,7 @@
       <li>
         <ul id="customSettingsSection" class="nav nav-pills nav-stacked">
           <li class="active custom-collapse">
-            <a href="#">Custom<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+            <a href="#">Custom Settings<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
           <li class="list-group-item-heading">
             <span class="stats">Innate Crit Damage (%)<input id="innatCritDmg" type="number" class="form-control input-xs settings-input" min="0" max="1000" step="1"></span>
@@ -219,7 +219,14 @@
           </li>
         </ul>
       </li>
-    </ul>
+      <li>
+        <ul id="testSection" class="nav nav-pills nav-stacked">
+          <li class="active custom-collapse">
+            <a href="#">Testing<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+          </li>
+          <li class="list-group-item-heading"><button class="btn btn-link btn-xs" data-toggle="modal" data-target="#myModal">Display Spell/Proc Rules</button></li>          
+        </ul>
+      </li>
   </div>
   <span><button type="button" class="btn btn-default switch-button"></button></span>
 </div>
@@ -256,5 +263,26 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Spell/Proc Rules</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="row"><div class="col-sm-6">Currently Loaded Rules</div><div class="col-sm-6">Valid Test Data</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 current-data"></div><div class="col-sm-6 test-data"></div>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>      
+    </div>
+  </div>
 </body>
 </html>

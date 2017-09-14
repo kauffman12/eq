@@ -88,16 +88,16 @@ function calcAvgDamage(state, mod, dmgKey) {
     let postCalcMult = getPostCalcMult(state);
 
     // find avergage non crit
-    let effDmg = state.spell.baseDmg + Math.trunc(utils.asDecimal32Precision(state.spell.baseDmg * effectiveness));
-    let critFocusDmg = effDmg + Math.trunc(utils.asDecimal32Precision(effDmg * beforeCritMult)) + beforeCritAdd;
-    let avgBaseDmg = critFocusDmg + Math.trunc(utils.asDecimal32Precision(effDmg * afterCritMult)) + afterCritAdd;
+    let effDmg = state.spell.baseDmg + dmgU.trunc(state.spell.baseDmg * effectiveness);
+    let critFocusDmg = effDmg + dmgU.trunc(effDmg * beforeCritMult) + beforeCritAdd;
+    let avgBaseDmg = critFocusDmg + dmgU.trunc(effDmg * afterCritMult) + afterCritAdd;
     
     // find average crit
-    let avgCritDmg = avgBaseDmg + Math.trunc(utils.asDecimal32Precision(critFocusDmg * critDmgMult));
+    let avgCritDmg = avgBaseDmg + dmgU.trunc(critFocusDmg * critDmgMult);
     
     // apply post calculation modifier for SPA 461
-    avgBaseDmg += Math.trunc(avgBaseDmg * postCalcMult);
-    avgCritDmg += Math.trunc(avgCritDmg * postCalcMult);
+    avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcMult);
+    avgCritDmg += dmgU.trunc(avgCritDmg * postCalcMult);
 
     // save stats of everything we just calculated
     stats.updateSpellStatistics(state, 'critRate', critRate);
@@ -112,13 +112,14 @@ function calcAvgDamage(state, mod, dmgKey) {
     stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
 
     // find average damage overall before additional twincasts
-    avgDmg = Math.trunc((avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate);
-    // apply mod
-    avgDmg = Math.trunc(avgDmg * mod);
+    avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
 
     // add twinproc dmg
-    avgDmg += dmgU.canTwinproc(state.spell) ? Math.trunc(avgDmg * dom.getTwinprocValue()) : 0;
+    avgDmg += dmgU.canTwinproc(state.spell) ? avgDmg * dom.getTwinprocValue() : 0;
     
+    // apply mod
+    avgDmg = dmgU.trunc(avgDmg * mod);
+
     // Handle AE waves if current spell is an AE
     if (state.spell.target === 'AE' && !state.aeWave) {
       addAEWaves(state, mod, avgDmg);
@@ -143,11 +144,6 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.addAggregateStatistics('critRate', critRate * mod);
       stats.addAggregateStatistics('spellCount', mod);
       
-      // save count of unique detrimental spells cast
-      if (!state.inTwincast) {
-        stats.addAggregateStatistics('detCastCount', mod);
-      }
-
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
         // Update graph
         state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
@@ -309,8 +305,9 @@ function getAfterCritFocus(state, mod) {
   // AA seems to focus everything even spells labeled non focus
   afterCritMult = (spell.manaCost >= 10 && !spell.discRefresh) ? dom.getDestructiveAdeptValue() : 0;
 
-  // Worn and Spell SPA 124 generally exclude AEs
-  if (spell.level <= 105 && spell.target != 'AE') {
+  // Worn and Spell SPA 124 are generally max level but recent armor is max+5
+  // always exclude AEs
+  if (spell.level <= 110 && spell.target != 'AE') {
     // Damage Focus Spell (SPA 124) Slot 1
     // avg pre-calculated (min+max) / 2 in spell data json
     let spa124Spell = dom.getPetDmgFocusValue();
@@ -339,7 +336,7 @@ function getAfterCritFocus(state, mod) {
         value = dmgU.processCounter(state, 'FPWR', mod, value);
         spa124Spell += value;
 
-        // Store rate which be based off mod during partial counter
+        // Store rate which be based off mod during counter update
         if (!state.inTwincast) {
           stats.updateSpellStatistics(state, 'fpwr', value);
         }
@@ -388,7 +385,7 @@ function getBeforeCritAdd(state, mod) {
   let spellDmg = dmgU.getSpellDamage(spell);
 
   // The ranged augs seem to get stuck at 2x their damage
-  if (spell.spellDmgCap && spellDmg > spell.spellDmgCap) {
+  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
     spellDmg = spell.spellDmgCap;
   }
 
@@ -396,7 +393,7 @@ function getBeforeCritAdd(state, mod) {
 
   // Before Crit Worn (SPA 303) Before Crit Type3 Augs
   // Include SpellDmg in before crit ADD
-  let beforeCritAdd = state.spell.isZeroFocusable ? 0 : spellDmg + dom.getType3AugValue(state.spell);
+  let beforeCritAdd = spellDmg + dom.getType3AugValue(state.spell);
 
   // + Before Crit Spell (SPA 303) Fury of Ro,Kera, etc
   // Fury of Kera/Ro, etc
@@ -528,25 +525,26 @@ function getSPA296Focus(state, mod) {
   let beforeCritMult = 0;
   let time = state.workingTime;
 
-  if (state.spell.manaCost > 0 && state.spell.level <= 110) {
+  if (dmgU.passRequirements({focusable: true, maxLevel: 110}, state)) {
     // Before Crit Focus Spell (SPA 296)
-    if (utils.isCounterActive(state, 'VFX') && state.spell.manaCost >= 100) {
+    if (utils.isCounterActive(state, 'VFX') && dmgU.passRequirements({minManaCost: 100}, state)) {
       beforeCritMult = dmgU.AVG_VORTEX_FOCUS;
       beforeCritMult = dmgU.processCounter(state, 'VFX', mod, beforeCritMult);
     }
 
     // Before Crit Focus Spell (SPA 296) Season's Wrath
-    let swValue = timeline.getAdpsDataIfActive('SW', time, 'beforeCritFocus') || 0;
-    beforeCritMult = (beforeCritMult > swValue) ? beforeCritMult : swValue;
+    let swValue = timeline.getAdpsDataIfActive('SW', time, 'beforeCritFocus') || 0; 
 
     let debuff = 0;
     switch(state.spell.resist) {
       case 'FIRE':
         // Before Crit Focus Spell (SPA 296) Fire Only
+        beforeCritMult = (beforeCritMult > swValue) ? beforeCritMult : swValue;
         debuff = dom.getSeedlingsValue();
         break;
       case 'ICE':
         // Before Crit Focus Spell (SPA 296) Ice Only
+        beforeCritMult = (beforeCritMult > swValue) ? beforeCritMult : swValue;
         debuff = dom.getBlizzardBreathValue();
         break;
       case 'MAGIC':
@@ -566,7 +564,7 @@ function getSPA302Focus(state, mod) {
   let beforeCritMult = 0;
 
   // Before Crit Focus AA (SPA 302) only for Focus: Ethereal Flash and Shocking Vortex
-  if (spell.id === 'EF' || spell.id === 'SV' || spell.id === 'CF') {
+  if (['EF', 'SV', 'CF'].find(id => id === spell.id)) {
     beforeCritMult += dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -614,7 +612,7 @@ function getSPA303Spell(state, mod) {
   let time = state.workingTime;
   let beforeCritAdd = 0;
 
-  if (dmgU.isFocusableSpellProc(state.spell)) {
+  if (state.spell.isFocusable) {
     // Before Crit Add Spell (SPA 303) Magic/Fire/Ice
     let furyKera = 0;
     // checking for AB since disease from hedgewizards doesnt get benefit but disease
@@ -714,7 +712,7 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
     // cast twincast and increment the inTwincast state for cases like
     // wildether where it can twincast from a twincast so we don't turn the property off
     state.inTwincast = (state.inTwincast > 0) ? state.inTwincast + 1 : 1;
-    let twincastDmg = Math.trunc(lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey));
+    lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey);
     state.inTwincast--;
 
     // handle post checks
