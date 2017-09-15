@@ -39,39 +39,32 @@ function createGraph(id, time, dom, data) {
   return new vis.Graph2d(dom, data, opts);
 }
 
-function castFirebound(state) { 
-  if (G.MODE === 'mage' && state.fbOrbCounter > 0) {
-    let result = castForceNuke(state, ['BJ']);
-    if (result) {
-      state.fbOrbCounter--;
-    }
-    
-    return result;
-  }
-}
+function castForceNuke(state, activatedNukes) {
+  let aaNuke = isSpellReady(state, activatedNukes);
 
-function castForceNuke(state, forceNukes) {
-  let aaNuke = isSpellReady(state, forceNukes);
-  
   if (aaNuke) {
-    castSpell(state, aaNuke);
-    return true;
+    return castSpell(state, aaNuke);
   }
 }
 
-function castSpell(state, spell) {  
+function castSpell(state, spell) {
   // update current state with spell
   state.chartIndex++;
   state.spell = spell;
-  
+
+  let neededTime = state.workingTime + spell.castTime * 1000;
+  if (neededTime > state.endTime) return false; // Time EXCEEDED
+
+  state.workingTime = neededTime;
+
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
-  dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item)); 
-  
-  // check if RS pets have completed  
+  dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item));
+
+  // check if RS pets have completed
   let rsKeys = utils.getCounterKeys('RS');
   utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
-  
+
   // initialize stats
   stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
   stats.updateSpellStatistics(state, 'id', spell.id);
@@ -79,8 +72,8 @@ function castSpell(state, spell) {
   // set time of last cast and update statistics for interval
   if (state.lastCastMap[spell.timer]) {
    stats.updateSpellStatistics(state, 'castInterval', (state.workingTime - state.lastCastMap[spell.timer]) / 1000);
-  } 
-  
+  }
+
   state.lastCastMap[spell.timer] = state.workingTime;
 
   // update spell timeline
@@ -106,38 +99,42 @@ function castSpell(state, spell) {
   // dmg including other dots or abilities that have been accumulating (just RS right now)
   let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
 
+  let plotDmg = 0;
   // update stats
   if (avgDmg > 0) {
     stats.addAggregateStatistics('totalAvgDmg', avgDmg);
-    stats.addAggregateStatistics('detCastCount', 1);    
+    stats.addAggregateStatistics('detCastCount', 1);
     stats.addMaxAggregateStatistics('maxHit', avgDmg);
+    plotDmg += avgDmg;
   }
-  
+
   // update stats
   if (dotDmg > 0) { // pet damage is all we currently have
     stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
+    plotDmg += dotDmg;
   }
-  
-  if (avgDmg > 0 || dotDmg > 0) {
-    // update damage graph
-    let dmgPoint = {id: state.workingTime, x: state.workingTime, y: avgDmg + dotDmg, yOffset: 0};
-    dmgPoint.label = {content: avgDmg + dotDmg, yOffset: 15};
-    DMG_DATA.add(dmgPoint);
-  }
+
+  // upgrade graph
+  updateDmgGraph(state, plotDmg);
+  return true;
+}
+
+function isCastPending(state, time, timeDifference, spell) {
+  let lockout = false;
+  let lockoutTime = spell.lockoutTime ? (((spell.lockoutTime * 1000) > state.gcd) ? (spell.lockoutTime * 1000) : state.gcd) : 0;
+  let timeToCast = state.workingTime + lockoutTime;
+
+  return (timeDifference >= 0 && timeToCast >= time.start && state.workingTime < time.end);
 }
 
 function isSpellReady(state, ids) {
   let spell;
-  
+
   return ids.find(id => {
     spell = utils.getSpellData(id);
     let refresh = spell.discRefresh * 1000;
     return !state.lastCastMap[spell.timer] || ((state.lastCastMap[spell.timer] + refresh) < state.workingTime);
   }) ? spell : undefined;
-}
-
-function getRSDamage(state) {
-  return dom.getRemorselessServantDPSValue() * state.rsCounter;
 }
 
 function initActivatedAbility(state, item) {
@@ -151,7 +148,7 @@ function initActivatedAbility(state, item) {
         state[keys.expireTime] = CURRENT_TIME + item.timer;
       } else {
         lastProcMap[item.id] += item.rate();
-        state[keys.expireTime] = state.workingTime + item.timer;
+        state[keys.expireTime] = lastProcMap[item.id] + item.timer;
       }
 
       state[keys.counter] = item.count;
@@ -159,6 +156,15 @@ function initActivatedAbility(state, item) {
   }
 
   utils.checkSimpleTimer(state, item.id);
+}
+
+function setAdpsStartTime(state, item) {
+  if (item.start != state.workingTime) {
+    let diff = (item.end - item.start);
+    item.start = state.workingTime;
+    item.end = item.start + diff;
+    silentUpdateTimeline(item);
+  }
 }
 
 function silentUpdateTimeline(data) {
@@ -220,6 +226,33 @@ function updateCritGraphValue(data, time, value) {
   }
 }
 
+function updateDmgGraph(state, dmg, labelFreq) {
+  if (dmg >= 0) {   
+  
+    // in case were plotting multiple damage at some point
+    let pointData = DMG_DATA.get(state.workingTime);  
+    if (pointData) {
+      pointData.y += dmg;
+      
+      // update label if it exists
+      if (pointData.label) {
+        pointData.label.content = pointData.y;
+      }
+      
+      DMG_DATA.update(pointData);
+    } else {
+      pointData = {id: state.workingTime, x: state.workingTime, y: dmg, yOffset: 0};
+      
+      // add label if meets requirements
+      if (!labelFreq || (state.workingTime % labelFreq === 0)) {
+        pointData.label = {content: pointData.y, yOffset: 15};
+      }
+      
+      DMG_DATA.add(pointData);
+    }
+  }
+}
+
 function withinTimeFrame(time, data) {
   return (data && (data.start <= time && data.end >= time));
 }
@@ -259,35 +292,12 @@ export function createAdpsItem(adpsOption, repeat) {
     end: CURRENT_TIME + adpsOption.offset
   };
 
-  let label = createLabel(adpsOption, new Date(adpsItem.end - adpsItem.start));
+  let label = utils.createLabel(adpsOption, new Date(adpsItem.end - adpsItem.start));
   adpsItem.content = label;
   adpsItem.title = label;
   adpsItem.group = utils.readAdpsConfig('displayList').indexOf(adpsOption.id);
   TIMELINE_DATA.add(adpsItem);
   return adpsItem;
-}
-
-export function createLabel(adpsOption, date) {
-  let label;
-  if (!adpsOption.instant) {
-    label = adpsOption.content + ' (zzz)';
-
-    let m = date.getMinutes();
-    let s = date.getSeconds();
-    if (m > 0) {
-      if (s > 0) {
-        label = label.replace('zzz', (m + 'm' + s));
-      } else {
-        label = label.replace('zzz', (m + 'm'));
-      }
-    } else {
-      label = label.replace('zzz', (s + 's'));
-    }
-  } else {
-    label = adpsOption.content;
-  }
-
-  return label;
 }
 
 export function getAdpsDataIfActive(id, time, key) {
@@ -416,7 +426,7 @@ export function postCounterBasedADPS(state) {
       if (state[counter] === 0) {
         // this is the last one
         item.end = state.workingTime;
-        item.content = createLabel(adpsOption, new Date(state.workingTime - time.start));
+        item.content = utils.createLabel(adpsOption, new Date(state.workingTime - time.start));
         item.title = item.content;
         silentUpdateTimeline(item);
         state[counter] = -1;
@@ -424,7 +434,7 @@ export function postCounterBasedADPS(state) {
         let timeLimit = adpsOption.offset;
         if ( (time.end - time.start) != timeLimit ) {
           item.end = time.start + timeLimit;
-          item.content = createLabel(adpsOption, new Date(timeLimit));
+          item.content = utils.createLabel(adpsOption, new Date(timeLimit));
           item.title = item.content;
           silentUpdateTimeline(item);
         }
@@ -442,7 +452,7 @@ export function removePopovers() {
 }
 
 export function setTitle(data, adpsOption, date) {
-  let label = createLabel(adpsOption, date);
+  let label = utils.createLabel(adpsOption, date);
   let lineItem = data.get(adpsOption.id);
   if (lineItem.content != label) {
     lineItem.content = label;
@@ -459,207 +469,161 @@ export function updateSpellChart() {
   updateCritGraphs();
   removePopovers();
 
-  let spellDmgTimeline = [];
-  let spells = dom.getSelectedSpells();
   let timeRange = dom.getSpellTimeRangeValue() * 1000;
   let additionalCast;
-
-  let gcd = dom.getGCDValue() * 1000;
   let hasTwincast = TIMELINE_DATA.get('TC');
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
-
-  let end = CURRENT_TIME + timeRange;
   let sp = 0;
   let twincastHasBeenCast = false;
-  let usingAANukes = dom.isUsingAAForceNukes();
-  let forceNukes = dom.getForceNukes();
-  let usingFireboundOrb = dom.isUsingFireboundOrb();
   let gcdWaitTime = 0;
-  let reportRSDamage = 0;
   let lastAddCastTime = 0;
-  let allianceTimer = dom.getAllianceFulminationValue() * 1000;
 
   let state = {
     chartIndex: -1,
+    gcd: dom.getGCDValue() * 1000,
     twincastChance: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
     lastCastMap: {},
     lastProcMap: {},
-    spells: spells,
-    fbOrbCounter: dmgU.FIREBOUND_ORB_COUNT,
+    spells: dom.getSelectedSpells(),
+    fbOrbCounter: dom.isUsingFireboundOrb() ? dmgU.FIREBOUND_ORB_COUNT : 0,
+    endTime: CURRENT_TIME + timeRange,
     workingTime:  CURRENT_TIME
   };
-   
-  while (state.workingTime < end) {
+
+  while (state.workingTime <= state.endTime) {
     // temp fix for twincast to work with Blazing Jet when no spells selected
-    if (hasTwincast) {
-      let tcTime = getTime(hasTwincast);
-      if (state.workingTime >= tcTime.start && state.workingTime <= tcTime.end) {
-        state.twincastChance = 1.0;
-      }
+    if (hasTwincast && withinTimeFrame(state.workingTime, getTime(hasTwincast))) {
+      state.twincastChance = 1.0;
+    } else {
+      state.twincastChance = 0;
     }
- 
-    // Don't do anything if we're duing the GCD phase
-    if (gcdWaitTime < state.workingTime) {
-      // Recent spell last cast times on a Forced Rejuvination
-      if (hasForcedRejuv) {
-        let rejuvTime = getTime(hasForcedRejuv);
-        if (withinTimeFrame(state.workingTime, rejuvTime)) {
-          hasForcedRejuv = false;
-          $(spells).each(function(i, id) {
-            delete state.lastCastMap[utils.getSpellData(id).timer]
-          });
-        }
+
+     // Forced Rejuvination resets lockouts and ends GCD
+    if (hasForcedRejuv && withinTimeFrame(state.workingTime, getTime(hasForcedRejuv))) {
+      hasForcedRejuv = false;
+      state.spells.forEach(id => { delete state.lastCastMap[utils.getSpellData(id).timer] });
+      gcdWaitTime = state.workingTime;
+    }
+
+    // Display/Cast alliance damage when timer expires
+    if (utils.checkSimpleTimer(state, 'FA')) {
+      castSpell(state, utils.getSpellData('FAF'));
+    }
+
+    // abilities that can be enabled and repeat every so often like Enc Synergy
+    // cancel or reset counters based on timer, only need to check once per workingTime
+    dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item));
+
+    // Don't do anything if we're during the GCD phase
+    if (gcdWaitTime <= state.workingTime) {
+      // Summon more Orbs
+      if (dom.isUsingFireboundOrb() && state.fbOrbCounter <= 0) {
+        castSpell(state, utils.getSpellData('SFB'));
+        state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;
       }
 
-      for (sp = 0; sp < spells.length; sp++) {
-        let id = spells[sp];
-        let current = utils.getSpellData(id);
+      // find a spell to cast
+      for (sp = 0; sp < state.spells.length; sp++) {
+        let current = utils.getSpellData(state.spells[sp]);
         let recastMod = 0;
 
-        // Override current spell if we need to cast more orbs
-        if (state.fbOrbCounter <= 0) {
-          id = 'SFB';
-          current = utils.getSpellData('SFB');
-          state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;
-        } else if (state.fboundAllianceTimer && state.fboundAllianceTimer <= state.workingTime) {
-          id = 'FAF';
-          current = utils.getSpellData('FAF');
-          state.fboundAllianceTimer = 0;
-        }
-
-        // Handle pre-cast adjustments
-        switch(current.id) {
-          case 'RS':
-            recastMod = (dom.getHastenedServantValue() + dom.getType3AugValue(current)) * -1000;
-            break;
+        // Handle pre-cast adjustments for RS
+        if (current.id === 'RS') {
+          recastMod = (dom.getHastenedServantValue() + dom.getType3AugValue(current)) * -1000;
         }
 
         let neededTime = current.castTime * 1000;
-        let timeDifference = state.workingTime - ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
-        let lockoutTime = current.lockoutTime ? (((current.lockoutTime * 1000) > gcd) ? (current.lockoutTime * 1000) : gcd) : 0;
-        state.twincastChance = 0;
-
+        let timeDifference = state.workingTime - 
+          ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
+          
         // check if twincast needs to be cast soon
-        let waitForTc = false;
-        if (hasTwincast) {
-          let tcTime = getTime(hasTwincast);
-          let timeToCastTc = state.workingTime + lockoutTime;
-
-          // if we're about to cast a spell but it won't land until after Twincast is supposed to be
-          // cast then do nothing and wait for the cast of Twincast
-          if (timeDifference >= 0 && timeToCastTc >= tcTime.start && state.workingTime < tcTime.end && !twincastHasBeenCast) {
-            waitForTc = true;
-          }
-
+        state.twincastChance = 0;
+        let lockout = false;
+        if (hasTwincast) {          
           // Cast Twincast once we go the point where end of lockout time basically coincides
           // with where the timeline has Twincast starting
-          if (((state.workingTime + gcd) >= tcTime.start) && (state.workingTime < tcTime.end) && state.twincastChance < 1.0) {
+          let iTime = getTime(hasTwincast);
+          
+          // if we're about to cast a spell but it won't land until after Twincast is supposed to be
+          // cast then do nothing and wait for the cast of Twincast
+          lockout = isCastPending(state, iTime, timeDifference, current) && !twincastHasBeenCast;
+
+          if (((state.workingTime + state.gcd) >= iTime.start) && (state.workingTime < iTime.end) && state.twincastChance < 1.0) {
             // cast twincast only once (ie increment time)
             if (!twincastHasBeenCast) {
-              id = 'TC';
               current = utils.getSpellData('TC');
               timeDifference = 0;
               neededTime = 0;
 
               // Fix start point on timeline if its out of bounds
-              if (hasTwincast.start != state.workingTime) {
-                let diff = hasTwincast.end - hasTwincast.start;
-                hasTwincast.start = state.workingTime;
-                hasTwincast.end = hasTwincast.start + diff;
-                silentUpdateTimeline(hasTwincast);
-              }
+              setAdpsStartTime(state, hasTwincast);
             }
 
             state.twincastChance = 1.0;
-            waitForTc = false;
+            lockout = false;
             twincastHasBeenCast = true;
           }
 
           // End twincast once we're out of the time range
-          if (state.workingTime + neededTime > tcTime.end && state.twincastChance > 0) {
+          if (state.workingTime + neededTime > iTime.end && state.twincastChance > 0) {
             state.twincastChance = 0;
           }
         }
 
-        if (!waitForTc && timeDifference >= 0) {
-          state.workingTime += neededTime;
-          if (state.workingTime >= end) break; // Time EXCEEDED
-
-          castSpell(state, current);
-
-          // Handle post-cast adjustments
-          switch(current.id) {
-            case 'RS':
-              stats.updateSpellStatistics(state, 'rsDPS', getRSDamage(state));
-              break;
-            case 'FA':
-              if (allianceTimer > 0) {
-                state.fboundAllianceTimer = state.workingTime + allianceTimer;
-              }
-              break;
+        if (!lockout && timeDifference >= 0) {
+          // if cast successful update gcd wait time
+          if (castSpell(state, current)) {
+            gcdWaitTime = state.workingTime + state.gcd;
           }
 
-          gcdWaitTime = state.workingTime + Math.round(gcd + gcd * dmgU.FIZZLE_RATE);
-
-          // since we did found a spell that could be cast at current time
-          // break and try again at the updated workingTime
-          break;
+          break; // break and try again at the updated workingTime
         }
       }
     }
 
-    // all spells were on lockout so increment time
-    if (gcdWaitTime >= state.workingTime || sp >= (spells.length-1)) {
-      // do nothing for a bit
-      state.workingTime += 50;
-
+    // spell not available so handle other click/AA abilities
+    if (sp === state.spells.length || gcdWaitTime > state.workingTime) {
       // dont cast abilities between lockout too fast
-      if (!lastAddCastTime || (state.workingTime - lastAddCastTime) >= 1000) {
+      if ((!lastAddCastTime || (state.workingTime - lastAddCastTime) > 0)) {
         // try to cast force nuke early to prevent conflicts later on
         // Ex FD can update crit dmg in the chart itself
         // Use a time during this free bit
-        additionalCast = (usingAANukes && !additionalCast) ?
-          castForceNuke(state, forceNukes) : additionalCast;
-        // try firebound orb
-        additionalCast = (!additionalCast && usingFireboundOrb) ?
-          castFirebound(state) : additionalCast;
+        let activatedNukes = dom.getActivatedNukes();
+        additionalCast = (activatedNukes.length > 0 && !additionalCast) ?
+          castForceNuke(state, activatedNukes) : additionalCast;
 
         // handle additional cast damage
         if (additionalCast) {
-           additionalCast = undefined;
-           state.workingTime += 50;
+           additionalCast = false;
            lastAddCastTime = state.workingTime;
         } else {
           // If RS Damage hasn't been reported yet
-          if (state.workingTime % 500 === 0) {
-            // check if RS pets have completed  
+          if (state.workingTime % 1000 === 0) {
+            // check if RS pets have completed
             let rsKeys = utils.getCounterKeys('RS');
             utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
-            
+
             let dotDmg = state.dotGenerator ? state.dotGenerator.next().value : 0;
             if (dotDmg > 0) {
               stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
-
-              let dmgPoint = {id: state.workingTime, x: state.workingTime, y: dotDmg, yOffset: 0};
-              if (state.workingTime % 10000 === 0) {
-                dmgPoint.label = {content: dotDmg, yOffset: 15};
-              }
-              
-              DMG_DATA.add(dmgPoint);
+              updateDmgGraph(state, dotDmg, 10000);
             }
-          }    
+          }
         }
       }
     }
+
+    // do nothing if additional casts available otherwise increment time
+    state.workingTime += additionalCast ? 0 : 200;
   }
 
   // update charts
-  $(state.updatedCritRValues).each(function(rI, rV) {
+  state.updatedCritRValues.forEach((rI, rV) => {
     updateCritGraphValue(CRITR_DATA, rV.time, rV.y);
   });
-  $(state.updatedCritDValues).each(function(rI, rV) {
+  state.updatedCritDValues.forEach((rI, rV) => {
     updateCritGraphValue(CRITD_DATA, rV.time, rV.y);
   });
 

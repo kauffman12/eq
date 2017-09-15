@@ -195,16 +195,28 @@ export function getFlamesOfPowerValue() {
   });
 }
 
-export function getForceNukes() {
+export function getActivatedNukes(state) {
   let list = [];
-  let version = utils.getNumberValue($('.aa-force-of-will .dropdown-toggle').data('value'));
-  if (version > 0) list.push('FW' + version);
-  version = utils.getNumberValue($('.aa-force-of-flame .dropdown-toggle').data('value'));
-  if (version > 0) list.push('FF' + version);
-  version = utils.getNumberValue($('.aa-force-of-ice .dropdown-toggle').data('value'));
-  if (version > 0) list.push('FI' + version);
-  version = utils.getNumberValue($('.aa-force-of-elements .dropdown-toggle').data('value'));
-  if (version > 0) list.push('FE' + version);
+  
+  if (isUsingAANukes()) {
+    let version = utils.getNumberValue($('.aa-force-of-will .dropdown-toggle').data('value'));
+    if (version > 0) list.push('FW' + version);
+    version = utils.getNumberValue($('.aa-force-of-flame .dropdown-toggle').data('value'));
+    if (version > 0) list.push('FF' + version);
+    version = utils.getNumberValue($('.aa-force-of-ice .dropdown-toggle').data('value'));
+    if (version > 0) list.push('FI' + version);
+    version = utils.getNumberValue($('.aa-force-of-elements .dropdown-toggle').data('value'));
+    if (version > 0) list.push('FE' + version);
+  }
+ 
+  if (isUsingDarkShield()) {
+    list.push('DS');
+  }
+  
+  if (isUsingFireboundOrb()) {
+    list.push('BJ');
+  }
+  
   return list;
 }
 
@@ -414,12 +426,16 @@ export function getWizSynergyRate() {
   return 1000 * utils.getNumberValue(($('#wizSynergyRate').val()));
 }
 
-export function isUsingAAForceNukes() {
+export function isUsingAANukes() {
   return $('#aaForceNukes').is(':checked');
 }
 
 export function isUsingArcaneFusion() {
   return (getArcaneFusionValue() != 'NONE');
+}
+
+export function isUsingDarkShield() {
+  return $('#darkShield').is(':checked');
 }
 
 export function isUsingEncHazy() {

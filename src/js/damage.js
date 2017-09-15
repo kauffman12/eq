@@ -223,7 +223,8 @@ function calcFuseDamage(state, mod) {
 function calcTwincastChance(state, mod) {
   let value = 0;
 
-  if (dmgU.canTwincast(state.spell)) {
+  // Added extra max level check to avoid special case for Dark Shield of Scholar
+  if (dmgU.passRequirements({canTwincast: true, maxLevel: 250}, state)) {
     if (!state.itcCounter || state.itcCounter <= 0) {
       // AA Twincast, Twincast Aura, and other passed in modifiers
       // Max sure it never goes over 100%
@@ -697,12 +698,12 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   // avg damage for one spell cast
   lookupCalcDmgFunction(state.spell)(state, mod, dmgKey);
 
-  // Current twincast rate before procs may increase it
-  let twincastChance = calcTwincastChance(state, mod);
-
   // add any post spell procs/mods before we're ready to
   // twincast another spell
   dmgU.applyPostSpellProcs(state);
+
+  // Current twincast rate before procs may increase it
+  let twincastChance = calcTwincastChance(state, mod);
 
   // now twincast the spell
   if (twincastChance > 0 && !state.aeWave) {
@@ -713,15 +714,15 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
     // wildether where it can twincast from a twincast so we don't turn the property off
     state.inTwincast = (state.inTwincast > 0) ? state.inTwincast + 1 : 1;
     lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey);
-    state.inTwincast--;
 
     // handle post checks
     dmgU.applyPostSpellProcs(state, twincastChance);
+    state.inTwincast--;
   }
 
   // post checks for counter based ADPS
   timeline.postCounterBasedADPS(state);
 
   stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
-  return stats.getSpellStatistics(state.chartIndex).get('totalDmg');
+  return stats.getSpellStatistics(state.chartIndex).get('totalDmg') || 0; // Alliance
 }

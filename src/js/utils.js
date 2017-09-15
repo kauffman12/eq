@@ -17,10 +17,20 @@ export function asDecimal32Precision(value) {
 }
 
 export function checkSimpleTimer(state, key) {
+  let expired = false;
+  
   let keys = getCounterKeys(key);
-  if (state[keys.counter] > 0 && state.workingTime > state[keys.expireTime]) {
-    state[keys.counter] = 0;
+  if (state[keys.counter] !== 0 && state[keys.expireTime] > 0 && state.workingTime > state[keys.expireTime]) {
+    state[keys.expireTime] = -1;
+    expired = true;
+
+    // cleanup counters if any
+    if (state[keys.counter]) {
+      state[keys.counter] = 0;
+    }
   }
+  
+  return expired;
 }
 
 export function checkStacking(hasUsedMap, map, item, key) {
@@ -69,6 +79,29 @@ export function checkTimerList(state, counterKey, timerKey) {
 
 export function clearCache() {
   QUERY_CACHE = {};
+}
+
+export function createLabel(adpsOption, date) {
+  let label;
+  if (!adpsOption.instant) {
+    label = adpsOption.content + ' (zzz)';
+
+    let m = date.getMinutes();
+    let s = date.getSeconds();
+    if (m > 0) {
+      if (s > 0) {
+        label = label.replace('zzz', (m + 'm' + s));
+      } else {
+        label = label.replace('zzz', (m + 'm'));
+      }
+    } else {
+      label = label.replace('zzz', (s + 's'));
+    }
+  } else {
+    label = adpsOption.content;
+  }
+
+  return label;
 }
 
 export function collapseMenu(p) {

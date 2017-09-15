@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.82',
+  VERSION: 'Version 0.83',
   MAGE_TITLE: 'EQ Mage DPS Tool',
   WIZ_TITLE: 'EQ Wizard DPS Tool'
 }
@@ -895,6 +895,7 @@ export const additionalModifiers = {
   options: {
     aaForceNukes: { enabled: false, title: 'AA Force Nukes' },
     fireboundOrb: { enabled: false, title: 'Firebound Orb Rk. III  (Blazing Jet)', mode: 'mage' },
+    darkShield: { enabled: false, title: 'Dark Shield of the Scholar'},
     hedgewizard: { enabled: false, title: 'Ancient Hedgewizards Brew' },
     ariaMaetanrus: { enabled: false, title: 'Aria of Maetanrus Rk. III' },
     nilsara: { enabled: false, title: 'Nilsara\'s Aria Rk. III' },
@@ -940,7 +941,7 @@ export const additionalModifiers = {
     tcAura: { enabled: false, title: 'Twincast Aura Rk. III' },
     fwAura: { enabled: false, title: 'Frostweave Aura Rk. III' }
   },
-  displayList: [ 'aaForceNukes', 'hedgewizard', 'ariaMaetanrus', 'fireboundOrb', 'nilsara', 'augAura',
+  displayList: [ 'aaForceNukes', 'darkShield', 'fireboundOrb', 'hedgewizard', 'ariaMaetanrus',  'nilsara', 'augAura',
      'fwAura', 'mrAura', 'tcAura', 'encHazy', 'encSynergy', 'magSynergy', 'necSynergy', 'wizSynergy']
 };
 

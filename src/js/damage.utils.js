@@ -62,9 +62,6 @@ export const MALO_FOCUS = 0.055;
 export const SEEDLINGS_FOCUS = 0.065;
 export const TC_AURA_PERCENT = 0.11;
 
-// Other Settings
-export const FIZZLE_RATE = 0.005;
-
 // Calculated Settings
 export const FUSE_PROC_SPELL_CHANCE = FUSE_PROC_CHANCE * FUSE_PROC_INDIVIDUAL_SPELL_CHANCE;
 export const REFRESH_CAST_COUNT = Math.ceil(1 / CLAW_REFRESH_CHANCE);
@@ -100,9 +97,7 @@ function initFlames(state, update) {
 
   // Count the number of potential weaknesses applied sort of like Claw
   state.flamesWeaknessCounter += update;
-  state.flamesWeaknessTimers.push(utils.createTimer(state.workingTime + FLAMES_WEAKNESS_TIMER, function(value) {
-    return value - update;
-  }));
+  state.flamesWeaknessTimers.push(utils.createTimer(state.workingTime + FLAMES_WEAKNESS_TIMER, (value) => {value - update}));
 }
 
 export function applyDichoBug(state, id) {
@@ -123,6 +118,9 @@ export function applyPostSpellProcs(state, mod) {
   var update = mod ? mod : 1;
 
   switch(state.spell.id) {
+    case 'BJ':
+      state.fbOrbCounter = state.inTwincast ? state.fbOrbCounter : state.fbOrbCounter - 1;
+      break;    
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
       // Claw only
@@ -186,9 +184,15 @@ export function applyPostSpellProcs(state, mod) {
         utils.createTimer(state.workingTime + dom.getRemorselessServantTTLValue(), (value) => { return value - 1; })
       );
       
+      // save simple for expected DPS at this time
+      stats.updateSpellStatistics(state, 'rsDPS', dom.getRemorselessServantDPSValue() * state[keys.counter]);
+      
       if (!state.dotGenerator) {
         state.dotGenerator = genDamageOverTime(state);
       }
+      break;
+    case 'FA':
+      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue() * 1000;
       break;
   }
 }
@@ -313,11 +317,12 @@ export function isSpellProc(spell) {
 }
 
 export function canTwincast(spell) {
-  return isCastSpell(spell) && spell.manaCost >= 10 && spell.canTwincast !== false;
+  // final case covers Dark Shield of Scholar
+  return spell.canTwincast !== false && spell.manaCost >= 10 && (isCastSpell(spell) || (isEqpProc(spell) && spell.discRefresh > 0));
 }
 
 export function canTwinproc(spell) {
-  return (isSpellProc(spell) && spell.isFocusable) || (isEqpProc(spell) && spell.isFocusable);
+  return (isSpellProc(spell) && spell.isFocusable) || (isEqpProc(spell) && !spell.discRefresh && spell.isFocusable);
 }
 
 export function canProcSpells(spell) {
@@ -350,6 +355,8 @@ export function passRequirements(reqs, state) {
     } else if (reqs.castSpellOnly && !isCastSpell(spell)) {
       return false;
     } else if (reqs.canProcSpells && !canProcSpells(spell)) {
+      return false
+    } else if (reqs.canTwincast && !canTwincast(spell)) {
       return false
     } else if (reqs.focusable && !spell.isFocusable) {
       return false;
