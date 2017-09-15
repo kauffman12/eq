@@ -591,3 +591,18 @@ export const SPELL_DATA = {
     }
   }
 };
+
+// Dark Shield of the Scholar procs Force of Magic XV so use that for default settings
+SPELL_DATA.DS = Object.assign(
+  {},
+  SPELL_DATA.FOMXV,
+  {
+    id: 'DS',
+    name: 'Dark Shield of the Scholar',
+    castTime: 0.1,
+    origCastTime: 0.1,
+    timer: '3',
+    discRefresh: 10.0,
+    manaCost: 10
+  }
+);
