@@ -224,8 +224,8 @@ function calcTwincastChance(state, mod) {
   let value = 0;
 
   // Added extra max level check to avoid special case for Dark Shield of Scholar
-  if (dmgU.passRequirements({canTwincast: true, maxLevel: 250}, state)) {
-    if (!state.itcCounter || state.itcCounter <= 0) {
+  if (dmgU.canTwincast(state.spell)) {
+    if (!state.itcCounter || state.itcCounter <= 0 || state.spell.level >= 250) { // Dark Shield of Scholar hack
       // AA Twincast, Twincast Aura, and other passed in modifiers
       // Max sure it never goes over 100%
       value += (state.twincastChance + dom.getTwincastAAValue() + dom.getTwincastAuraValue());
