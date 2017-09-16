@@ -37,49 +37,49 @@ const WIZ_FOCUS_AA_KEYS = {
 //
 
 export function getAERainHitsValue() {
-  return utils.useCache('.ae-rain-hits', function() {
+  return utils.useCache('.ae-rain-hits', () => {
     return utils.getNumberValue($('#aeRainHits').val());
   });
 }
 
 export function getAddAfterCritFocusValue() {
-  return utils.useCache('.add-after-crit-focus', function() {
+  return utils.useCache('.add-after-crit-focus', () => {
     return utils.getNumberValue($('#addAfterCritFocus').val() / 100);
   });
 }
 
 export function getAddAfterCritAddValue() {
-  return utils.useCache('.add-after-crit-add', function() {
+  return utils.useCache('.add-after-crit-add', () => {
     return utils.getNumberValue($('#addAfterCritAdd').val());
   });
 }
 
 export function getAddBeforeCritFocusValue() {
-  return utils.useCache('.add-before-crit-focus', function() {
+  return utils.useCache('.add-before-crit-focus', () => {
     return utils.getNumberValue($('#addBeforeCritFocus').val() / 100);
   });
 }
 
 export function getAddBeforeCritAddValue() {
-  return utils.useCache('.add-before-crit-add', function() {
+  return utils.useCache('.add-before-crit-add', () => {
     return utils.getNumberValue($('#addBeforeCritAdd').val());
   });
 }
 
 export function getAddEffectivenessValue() {
-  return utils.useCache('.add-effectiveness', function() {
+  return utils.useCache('.add-effectiveness', () => {
     return utils.getNumberValue($('#addEffectiveness').val() / 100);
   });
 }
 
 export function getAllianceFulminationValue() {
-  return utils.useCache('.allianceFulmination', function() {
+  return utils.useCache('.allianceFulmination', () => {
     return utils.getNumberValue($('#allianceFulmination').val());
   });
 }
 
 export function getArcaneFusionValue() {
-  return utils.useCache('.aa-arcane-fusion', function() {
+  return utils.useCache('.aa-arcane-fusion', () => {
     return $('.aa-arcane-fusion .dropdown-toggle').data('value');
   });
 }
@@ -93,7 +93,7 @@ export function getAugmentingAuraValue() {
 }
 
 export function getAvgWornDamageFocus(resist) {
-  return utils.useCache('avg-worn-dmg-focus-' + resist, function() {
+  return utils.useCache('avg-worn-dmg-focus-' + resist, () => {
     let value = 0;
 
     switch(resist) {
@@ -116,7 +116,7 @@ export function getAvgWornDamageFocus(resist) {
 }
 
 export function getBeltProcValue() {
-  return utils.useCache('.belt-proc', function() {
+  return utils.useCache('.belt-proc', () => {
     return $('.belt-proc .dropdown-toggle').data('value');
   });
 }
@@ -126,37 +126,37 @@ export function getBlizzardBreathValue() {
 }
 
 export function getConjurersSynergyValue() {
-  return utils.useCache('.conjurers-synergy', function() {
+  return utils.useCache('.conjurers-synergy', () => {
     return utils.getNumberValue($('.aa-conjurers-synergy .dropdown-toggle').data('value'));
   });
 }
 
 export function getCritDmgValue() {
-  return utils.useCache('.innate-crit-dmg', function() {
+  return utils.useCache('.innate-crit-dmg', () => {
     return utils.getNumberValue($('#innatCritDmg').val());
   });
 }
 
 export function getCritRateValue() {
-  return utils.useCache('.innate-crit-rate', function() {
+  return utils.useCache('.innate-crit-rate', () => {
     return utils.getNumberValue($('#innatCritRate').val());
   });
 }
 
 export function getDPSAug1AugValue() {
-  return utils.useCache('.add-dps-aug1', function() {
+  return utils.useCache('.add-dps-aug1', () => {
     return $('.add-dps-aug1 .dropdown-toggle').data('value');
   });
 }
 
 export function getDPSAug2AugValue() {
-  return utils.useCache('.add-dps-aug2', function() {
+  return utils.useCache('.add-dps-aug2', () => {
     return $('.add-dps-aug2 .dropdown-toggle').data('value');
   });
 }
 
 export function getDestructiveAdeptValue() {
-  return utils.useCache('.aa-destructive-adept', function() {
+  return utils.useCache('.aa-destructive-adept', () => {
     return utils.getNumberValue($('.aa-destructive-adept .dropdown-toggle').data('value'));
   });
 }
@@ -178,19 +178,19 @@ export function getEncSynergyRate() {
 }
 
 export function getEvokersSynergyValue() {
-  return utils.useCache('.evokers-synergy', function() {
+  return utils.useCache('.evokers-synergy', () => {
     return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
   });
 }
 
 export function getEyeOfDecayValue() {
-  return utils.useCache('.eye-of-decay', function() {
+  return utils.useCache('.eye-of-decay', () => {
     return utils.getNumberValue($('.eye-of-decay .dropdown-toggle').data('value'));
   });
 }
 
 export function getFlamesOfPowerValue() {
-  return utils.useCache('.aa-flames-of-power', function() {
+  return utils.useCache('.aa-flames-of-power', () => {
     return utils.getNumberValue($('.aa-flames-of-power .dropdown-toggle').data('value'));
   });
 }
@@ -220,12 +220,18 @@ export function getActivatedNukes(state) {
   return list;
 }
 
+export function getConfiguredCharges(adpsKey) {
+  if (adpsKey === 'MBRN') {
+    return getManaburnCountValue();
+  }
+}
+
 export function getFuryOfMagicValue() {
   return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
 }
 
 export function getGCDValue() {
-  return utils.useCache('.gcd-value', function() {
+  return utils.useCache('.gcd-value', () => {
     return utils.getNumberValue($('#gcd').val());
   });
 }
@@ -251,7 +257,7 @@ export function getDomForTimeline() {
 }
 
 export function getHastenedServantValue() {
-  return utils.useCache('.aa-hastened-servant', function() {
+  return utils.useCache('.aa-hastened-servant', () => {
     return utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
   });
 }
@@ -266,6 +272,12 @@ export function getMagSynergyRate() {
 
 export function getMaloValue() {
   return $('#malo').is(':checked') ? dmgU.MALO_FOCUS : 0;
+}
+
+export function getManaburnCountValue() {
+  return utils.useCache('.manaburn-count', () => {
+    return utils.getNumberValue($('#manaburnCount').val());
+  });
 }
 
 export function getNecSynergyRate() {
@@ -297,31 +309,31 @@ export function getPetDmgFocusValue() {
 }
 
 export function getRangeAugValue() {
-  return utils.useCache('.range-aug', function() {
+  return utils.useCache('.range-aug', () => {
     return $('.range-aug .dropdown-toggle').data('value');
   });
 }
 
 export function getRefreshOffsetValue() {
-  return utils.useCache('.refresh-offset', function() {
+  return utils.useCache('.refresh-offset', () => {
     return utils.getNumberValue($('#refreshOffset').val());
   });
 }
 
 export function getRemorselessServantDPSValue() {
-  return utils.useCache('.remorseless-servant-dps', function() {
+  return utils.useCache('.remorseless-servant-dps', () => {
     return utils.getNumberValue($('#remorselessDPS').val());
   });
 }
 
 export function getRemorselessServantTTLValue() {
-  return utils.useCache('.remorseless-servant-ttl', function() {
+  return utils.useCache('.remorseless-servant-ttl', () => {
     return 1000 * utils.getNumberValue($('#remorselessTTL').val());
   });
 }
 
 export function getRobeValue() {
-  return utils.useCache('.worn-chest-focus', function() {
+  return utils.useCache('.worn-chest-focus', () => {
     return utils.getNumberValue($('.worn-chest-focus .dropdown-toggle').data('value'));
   });
 }
@@ -343,31 +355,31 @@ export function getSelectedSpells() {
 }
 
 export function getShieldProcValue() {
-  return utils.useCache('.shield-proc', function() {
+  return utils.useCache('.shield-proc', () => {
     return $('.shield-proc .dropdown-toggle').data('value');
   });
 }
 
 export function getShockingVortexEffectValue() {
-  return utils.useCache('.vortex-effects', function() {
+  return utils.useCache('.vortex-effects', () => {
     return utils.getNumberValue($('#vortexEffects').val());
   });
 }
 
 export function getSorcererVengeananceValue() {
-  return utils.useCache('.aa-sorcerer-vengeance', function() {
+  return utils.useCache('.aa-sorcerer-vengeance', () => {
     return utils.getNumberValue($('.aa-sorcerer-vengeance .dropdown-toggle').data('value'));
   });
 }
 
 export function getSpellDamageValue() {
-  return utils.useCache('.spell-damage', function() {
+  return utils.useCache('.spell-damage', () => {
     return utils.getNumberValue($('#spellDamage').val());
   });
 }
 
 export function getSpellFocusAAValue(id) {
-  return utils.useCache('.spell-focus-aa-' + id, function() {
+  return utils.useCache('.spell-focus-aa-' + id, () => {
     let value = 0;
 
     let keys = (G.MODE === 'wiz') ? WIZ_FOCUS_AA_KEYS : MAGE_FOCUS_AA_KEYS;
@@ -389,19 +401,19 @@ export function getSpellTimeRangeValue() {
 }
 
 export function getStaffProcValue() {
-  return utils.useCache('.staff-proc', function() {
+  return utils.useCache('.staff-proc', () => {
     return $('.staff-proc .dropdown-toggle').data('value');
   });
 }
 
 export function getStormOfManyCountValue() {
-  return utils.useCache('.storm-of-many-count', function() {
+  return utils.useCache('.storm-of-many-count', () => {
     return utils.getNumberValue($('#stormOfManyCount').val());
   });
 }
 
 export function getTwincastAAValue() {
-  return utils.useCache('.aa-twincast', function() {
+  return utils.useCache('.aa-twincast', () => {
     return utils.getNumberValue($('.aa-twincast .dropdown-toggle').data('value'));
   });
 }
@@ -411,14 +423,20 @@ export function getTwincastAuraValue() {
 }
 
 export function getTwinprocValue() {
-  return utils.useCache('.aa-twinproc', function() {
+  return utils.useCache('.aa-twinproc', () => {
     return utils.getNumberValue($('.aa-twinproc .dropdown-toggle').data('value'));
   });
 }
 
 export function getType3AugValue(spell) {
-  return utils.useCache('.worn-type3augs-' + spell.id, function() {
+  return utils.useCache('.worn-type3augs-' + spell.id, () => {
     return $('.worn-type3augs .dropdown-toggle').data('value') ? spell.type3Aug || 0 : 0;
+  });
+}
+
+export function getType3DmdAugValue(spell) {
+  return utils.useCache('.worn-type3dmgaugs-' + spell.id, () => {
+    return $('.worn-type3augs .dropdown-toggle').data('value') ? spell.type3DmgAug || 0 : 0;
   });
 }
 

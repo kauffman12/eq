@@ -2,6 +2,7 @@ export const SPELL_DATA = {
   TC: {
     id: 'TC',
     name: 'Twincast Rk. III',
+    beneficial: true,
     baseDmg: 0,
     castTime: 0,
     origCastTime: 0,
@@ -15,27 +16,6 @@ export const SPELL_DATA = {
     isFocusable: false,
     skill: 4,
     level: 85
-  },
-  WSYN: {
-    id: 'WSYN',
-    name: 'Evoker\'s Synergy Strike I',
-    baseDmg: 25000,
-    castTime: 0.0,
-    origCastTime: 0.0,
-    recastTime: 0.0,
-    lockoutTime: 0.0,
-    resist: 'MAGIC',
-    type3Aug: 0,
-    timer: 'WSYN',
-    manaCost: 0,
-    spellDmgCap: 0,
-    isFocusable: false,
-    skill: 98,
-    level: 254,
-    requirements: {
-      canProcSpells: true,
-      resists: ['MAGIC', 'ICE', 'DISEASE', 'CORRUPTION', 'CHROMATIC']
-    }
   },
   AB: {
     id: 'AB',
