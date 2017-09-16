@@ -17,25 +17,17 @@ $('span.version').text(G.VERSION);
 let switchButton = $('button.switch-button');
 switchButton.click(utils.switchMode);
 
-// Handle current mode and save cookies
-let urlParam = utils.getUrlParameter('class');
-if (urlParam === 'mage' || (!urlParam && document.cookie === 'mode=mage')) {
-  $('.wiz-only').hide();      
-  G.MODE = 'mage';
-  $('#innatCritRate').val(dmgU.MAGE_INNATE_CRIT_RATE);
-  $('#innatCritDmg').val(dmgU.MAGE_INNATE_CRIT_DMG);
-  switchButton.text('Switch to Wizard Spells');
-  document.title = G.MAGE_TITLE;
-  document.cookie = "mode=mage; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-} else {
-  G.MODE = 'wiz';
-  $('.mage-only').hide();
-  document.title = G.WIZ_TITLE;
-  $('#innatCritRate').val(dmgU.WIZ_INNATE_CRIT_RATE);
-  $('#innatCritDmg').val(dmgU.WIZ_INNATE_CRIT_DMG);
-  switchButton.text('Switch to Magician Spells');
-  document.cookie = "mode=wiz; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-}
+// try to find mode set in url then in cookie then default to wiz
+let mode = utils.getUrlParameter('class') || document.cookie.split('=')[1];
+mode = (!mode || !G.CLASSES[mode]) ? 'wiz' : mode;
+
+$('.' + G.CLASSES[mode].css).removeClass(G.CLASSES[mode].css);
+document.title = G.CLASSES[mode].title;
+$('#innatCritRate').val(dmgU[G.CLASSES[mode].critRate]);
+$('#innatCritDmg').val(dmgU[G.CLASSES[mode].critDmg]);
+switchButton.text('Switch to ' + G.CLASSES[mode].switchTo + ' Spells');
+document.cookie = 'mode=' + mode + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+G.MODE = mode;
             
 // Creates the dropdown menu sections DPS AAs, Focus AAs, and Equipment
 let settingsTemplate = Handlebars.compile($("#settings-dropdown-item-template").html());

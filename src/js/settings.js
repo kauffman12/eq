@@ -1,7 +1,23 @@
 export const globals = {
-  VERSION: 'Version 0.84',
-  MAGE_TITLE: 'EQ Mage DPS Tool',
-  WIZ_TITLE: 'EQ Wizard DPS Tool'
+  VERSION: 'Version 0.842',
+  CLASSES: {
+    mage: {
+      switchTo: 'Wizard',
+      title: 'EQ Mage DPS Tool',
+      critRate: 'MAGE_INNATE_CRIT_RATE',
+      critDmg: 'MAGE_INNATE_CRIT_DMG',
+      cookie: 'mode=mage',
+      css: 'mage-only'
+    },
+    wiz: {
+      switchTo: 'Magician',
+      title: 'EQ Wizard DPS Tool',
+      critRate: 'WIZ_INNATE_CRIT_RATE',
+      critDmg: 'WIZ_INNATE_CRIT_DMG',
+      cookie: 'mode=wiz',
+      css: 'wiz-only'
+    } 
+  }
 }
 
 // wizard spells to display in spell drop down
