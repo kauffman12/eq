@@ -77,6 +77,9 @@ export const ACTIVATED_ABILITIES = [
   { id: 'FW', enabled: dom.isUsingFW, rate: () => FW_TIMER, timer: FW_TIMER * 10, count: FW_COUNTERS }
 ];
 
+// Spell/Abilities that exist on both spell timeline and adps (they can overlap)
+export const PREEMPT_SPELL_CASTS = [ 'TC', 'MBRN' ];
+
 function getMultiplier(castTime) {
   var multiplier = 0.25;
 
@@ -114,7 +117,7 @@ export function applyDichoBug(state, id) {
   }
 }
 
-export function applyPostSpellProcs(state, mod) {
+export function applyPostSpellProcs(state, timeline, mod) {
   var update = mod ? mod : 1;
 
   switch(state.spell.id) {
@@ -194,10 +197,17 @@ export function applyPostSpellProcs(state, mod) {
     case 'FA':
       state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue() * 1000;
       break;
+    case 'SFB':
+      state.fbOrbCounter = FIREBOUND_ORB_COUNT;
+      break;
+    case 'TC':
+      state.tcExpireTime = timeline.getTimelineItemTime('TC').end;
+      state.tcCounter = 1;
+      break;
   }
 }
 
-export function applyPreSpellProcs(state, twincastChance) {
+export function applyPreSpellProcs(state, timeline) {
   // Check for effects to cancel
   ['VFX', 'WSYN', 'FPWR'].forEach(id => utils.checkSimpleTimer(state, id)); // simple timers
   utils.checkTimerList(state, 'clawTcProcRate', 'clawTcTimers');
@@ -316,9 +326,13 @@ export function isSpellProc(spell) {
   return spell.level > 250 && !spell.discRefresh && (spell.skill === 24 || (spell.skill === 5 && !spell.max));
 }
 
+export function isSpellOrEqpProc(spell) {
+  return isSpellProc(spell) || isEqpProc(spell);
+}
+
 export function canTwincast(spell) {
   // final case covers Dark Shield of Scholar
-  return spell.canTwincast !== false && spell.manaCost >= 10 && (isCastSpell(spell) || (isEqpProc(spell) && spell.discRefresh > 0));
+  return spell.canTwincast !== false && !spell.beneficial && spell.manaCost >= 10 && (isCastSpell(spell) || (isEqpProc(spell) && spell.discRefresh > 0));
 }
 
 export function canTwinproc(spell) {
@@ -360,6 +374,8 @@ export function passRequirements(reqs, state) {
       return false
     } else if (reqs.focusable && !spell.isFocusable) {
       return false;
+    } else if (reqs.spellOrEqpProc && !isSpellOrEqpProc(spell)) {
+      return false;
     } else if (reqs.resists && !reqs.resists.find(x => x === spell.resist)) {
       return false;
     }
@@ -393,7 +409,7 @@ export function processCounter(state, id, mod, value, calcOnly) {
   return partUsed * value;
 }
 
-let VALID_TEST_DATA = [{"title":"Is Equip Proc","General-19":["ASVI","BFVI","BOIX","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","HOM3","OS","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Spell Proc","General-7":["AB","DRS6","FW","MR","MRR","MRRR","MRRRR"],"Mage-0":[],"Wizard-2":["AFU1","AFU2"]},{"title":"Is Focusable","General-24":["ASVI","BFVI","BOIX","DRS6","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-21":["BJ","BS","CF","CR","FA","FC","FE1","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SFB","SM","SS"],"Wizard-19":["CF","CI","CS","CS2","DF","EF","ER","ES","FA","FC","FU","HC","MB","PE","PF","RC2","SV","WE","WF"]},{"title":"Can Proc Spells Effects","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-9":["BS","CF","CR","FC","RC","RS","SB","SM","SS"],"Wizard-16":["CF","CI","CS","CS2","DF","EF","ER","ES","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Can Twincast","General-1":["DS"],"Mage-10":["BJ","BS","CF","CR","FC","RC","SB","SFB","SM","SS"],"Wizard-14":["CF","CI","CS","EF","ER","ES","FC","FU","HC","MB","PE","SV","WE","WF"]},{"title":"Can Twinproc","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Cast Detrimental","General-0":[],"Mage-11":["BJ","BS","CF","CR","FAF","FC","RC","RS","SB","SM","SS"],"Wizard-17":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Is Cast Detrimental OR Used Ability","General-1":["DS"],"Mage-26":["BJ","BS","CF","CR","FAF","FC","FE1","FE10","FE11","FE12","FE13","FE14","FE15","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SM","SS"],"Wizard-55":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FF1","FF2","FF3","FF4","FF5","FF6","FI1","FI2","FI3","FI4","FI5","FI6","FU","FW1","FW10","FW11","FW12","FW13","FW14","FW15","FW16","FW17","FW18","FW19","FW2","FW20","FW21","FW22","FW23","FW24","FW25","FW26","FW3","FW4","FW5","FW6","FW7","FW8","FW9","HC","MB","PE","PF","RC2","SV"]}];
+let VALID_TEST_DATA = [{"title":"Is Equip Proc","General-19":["ASVI","BFVI","BOIX","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","HOM3","OS","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Spell Proc","General-7":["AB","DRS6","FW","MR","MRR","MRRR","MRRRR"],"Mage-0":[],"Wizard-2":["AFU1","AFU2"]},{"title":"Is Focusable","General-24":["ASVI","BFVI","BOIX","DRS6","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-21":["BJ","BS","CF","CR","FA","FC","FE1","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SFB","SM","SS"],"Wizard-19":["CF","CI","CS","CS2","DF","EF","ER","ES","FA","FC","FU","HC","MB","PE","PF","RC2","SV","WE","WF"]},{"title":"Is Focusable Spell Or Eqp Proc","General-24":["ASVI","BFVI","BOIX","DRS6","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Can Proc Spells Effects","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-9":["BS","CF","CR","FC","RC","RS","SB","SM","SS"],"Wizard-16":["CF","CI","CS","CS2","DF","EF","ER","ES","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Can Twincast","General-1":["DS"],"Mage-9":["BJ","BS","CF","CR","FC","RC","SB","SM","SS"],"Wizard-14":["CF","CI","CS","EF","ER","ES","FC","FU","HC","MB","PE","SV","WE","WF"]},{"title":"Can Twinproc","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Cast Detrimental","General-0":[],"Mage-11":["BJ","BS","CF","CR","FAF","FC","RC","RS","SB","SM","SS"],"Wizard-17":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Is Cast Detrimental OR Used Ability","General-1":["DS"],"Mage-26":["BJ","BS","CF","CR","FAF","FC","FE1","FE10","FE11","FE12","FE13","FE14","FE15","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SM","SS"],"Wizard-56":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FF1","FF2","FF3","FF4","FF5","FF6","FI1","FI2","FI3","FI4","FI5","FI6","FU","FW1","FW10","FW11","FW12","FW13","FW14","FW15","FW16","FW17","FW18","FW19","FW2","FW20","FW21","FW22","FW23","FW24","FW25","FW26","FW3","FW4","FW5","FW6","FW7","FW8","FW9","HC","MB","MBRN","PE","PF","RC2","SV"]}];
 
 export function displaySpellInfo(target) {
   $(target).css('height', '600px');
@@ -406,6 +422,7 @@ export function displaySpellInfo(target) {
   list.push(getSpellSection('Is Equip Proc', isEqpProc)); 
   list.push(getSpellSection('Is Spell Proc', isSpellProc)); 
   list.push(getSpellSection('Is Focusable', (spell) => spell.isFocusable)); 
+  list.push(getSpellSection('Is Focusable Spell Or Eqp Proc', (spell) => spell.isFocusable && isSpellOrEqpProc(spell))); 
   list.push(getSpellSection('Can Proc Spells Effects', canProcSpells)); 
   list.push(getSpellSection('Can Twincast', canTwincast)); 
   list.push(getSpellSection('Can Twinproc', canTwinproc)); 

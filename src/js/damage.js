@@ -65,11 +65,8 @@ function calcAvgDamage(state, mod, dmgKey) {
   // mod takes a percentage of results and counters if set
   mod = (mod === undefined) ? 1 : mod;
 
-  let avgDmg = 0;
-  let avgDmgKey = state.inTwincast ? 'tcAvgDmg' : 'avgDmg';
-
   if (state.spell.baseDmg > 0) {
-    // Get Crit Dmg Multiplyer -- maybe keep this first since FD/AD counters modified in crit rate
+  // Get Crit Dmg Multiplyer -- maybe keep this first since FD/AD counters modified in crit rate
     let critDmgMult = getCritDmgMult(state, mod);
     // Get Crit Rate
     let critRate = getCritRate(state, mod);
@@ -112,7 +109,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
 
     // find average damage overall before additional twincasts
-    avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
+    let avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
 
     // add twinproc dmg
     avgDmg += dmgU.canTwinproc(state.spell) ? avgDmg * dom.getTwinprocValue() : 0;
@@ -129,10 +126,11 @@ function calcAvgDamage(state, mod, dmgKey) {
     stats.addSpellStatistics(state, 'totalDmg', avgDmg);
     
     // save avg damage of main spell
+    let avgDmgKey = state.inTwincast ? 'tcAvgDmg' : 'avgDmg';
     if (!dmgKey || state.aeWave) {
       stats.addSpellStatistics(state, avgDmgKey, avgDmg);
     }
-    
+
     // dont count twincast damage in AE Hits
     if (dmgKey && !(state.aeWave && state.inTwincast)) {
       stats.addSpellStatistics(state, dmgKey, avgDmg);
@@ -228,7 +226,7 @@ function calcTwincastChance(state, mod) {
     if (!state.itcCounter || state.itcCounter <= 0 || state.spell.level >= 250) { // Dark Shield of Scholar hack
       // AA Twincast, Twincast Aura, and other passed in modifiers
       // Max sure it never goes over 100%
-      value += (state.twincastChance + dom.getTwincastAAValue() + dom.getTwincastAuraValue());
+      value += (state.tcCounter + dom.getTwincastAAValue() + dom.getTwincastAuraValue());
 
       // Add tc chance from claw procs taking out value which would negate the need
       if (state.clawTcProcRate > 0) {
@@ -269,19 +267,19 @@ function getAfterCritAdd(state, mod) {
   let afterCritAdd = 0;
   let belt = dom.getBeltProcValue();
 
-  if (spell.manaCost >= 10 && !spell.discRefresh) {
-    afterCritAdd = spell.origCastTime > 0 ? dom.getSorcererVengeananceValue() : 0;
+  if (dmgU.passRequirements({minManaCost: 10, minCastTime: 0.001, focusable: true}, state)) {
+    afterCritAdd = dom.getSorcererVengeananceValue() || 0;
   }
 
-  if (spell.manaCost >= 10 && spell.resist === 'FIRE' && spell.level <= 105 && spell.target != 'AE') {
+  if (dmgU.passRequirements({minManaCost: 10, maxLevel: 105, resists: ['FIRE']}, state) && spell.target != 'AE') {
     afterCritAdd += dom.getNilsaraAriaValue();  // SPA 286
   }
 
-  if (belt === '500-proconly' && spell.level >= 254 && spell.manaCost === 0) {
+  if (belt === '500-proconly' && dmgU.passRequirements({focusable: true, spellOrEqpProc: true}, state)) {
     afterCritAdd += 500;
-  } else if (belt === '1000-magic' && spell.manaCost >= 10 && !spell.discRefresh && spell.resist === 'MAGIC') {
+  } else if (belt === '1000-magic' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['MAGIC']}, state)) {
     afterCritAdd += 1000;
-  } else if (belt === '500-fire' && spell.manaCost >= 10 && !spell.discRefresh && spell.resist === 'FIRE') {
+  } else if (belt === '500-fire' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['FIRE']}, state)) {
     afterCritAdd += 500;
   }
   
@@ -304,7 +302,7 @@ function getAfterCritFocus(state, mod) {
 
   // Damage Focus AA (SPA 124)
   // AA seems to focus everything even spells labeled non focus
-  afterCritMult = (spell.manaCost >= 10 && !spell.discRefresh) ? dom.getDestructiveAdeptValue() : 0;
+  afterCritMult = dmgU.passRequirements({focusable: true, minManaCost: 10}, state) ? dom.getDestructiveAdeptValue() : 0;
 
   // Worn and Spell SPA 124 are generally max level but recent armor is max+5
   // always exclude AEs
@@ -394,7 +392,7 @@ function getBeforeCritAdd(state, mod) {
 
   // Before Crit Worn (SPA 303) Before Crit Type3 Augs
   // Include SpellDmg in before crit ADD
-  let beforeCritAdd = spellDmg + dom.getType3AugValue(state.spell);
+  let beforeCritAdd = spellDmg + dom.getType3DmdAugValue(state.spell);
 
   // + Before Crit Spell (SPA 303) Fury of Ro,Kera, etc
   // Fury of Kera/Ro, etc
@@ -693,14 +691,14 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   timeline.initCounterBasedADPS(state);
 
   // add any pre spell cast checks
-  dmgU.applyPreSpellProcs(state);
+  dmgU.applyPreSpellProcs(state, timeline);
 
   // avg damage for one spell cast
   lookupCalcDmgFunction(state.spell)(state, mod, dmgKey);
 
   // add any post spell procs/mods before we're ready to
   // twincast another spell
-  dmgU.applyPostSpellProcs(state);
+  dmgU.applyPostSpellProcs(state, timeline);
 
   // Current twincast rate before procs may increase it
   let twincastChance = calcTwincastChance(state, mod);
@@ -708,7 +706,7 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   // now twincast the spell
   if (twincastChance > 0 && !state.aeWave) {
     // add any pre spell cast checks required
-    dmgU.applyPreSpellProcs(state, twincastChance);
+    dmgU.applyPreSpellProcs(state, twincastChance, timeline);
 
     // cast twincast and increment the inTwincast state for cases like
     // wildether where it can twincast from a twincast so we don't turn the property off
@@ -716,7 +714,7 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
     lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey);
 
     // handle post checks
-    dmgU.applyPostSpellProcs(state, twincastChance);
+    dmgU.applyPostSpellProcs(state, twincastChance, timeline);
     state.inTwincast--;
   }
 

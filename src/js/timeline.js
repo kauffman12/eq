@@ -5,46 +5,39 @@ import * as dom  from './dom.js';
 import * as stats from './stats.js';
 import * as utils from './utils.js';
 
+// html templates for spell icon popup and the icon themselves on the spell timeline
 const SPELL_DETAILS_TEMPLATE = Handlebars.compile($('#spell-details-template').html());
 const SPELL_ITEM_TEMPLATE = Handlebars.compile($('#spell-timeline-item-template').html());
 
+// timelines start at the time the browser loads and then the date/time info is removed
 const CURRENT_TIME = utils.getCurrentTime();
+
+// create the graphs and data set objects
 const CRITR_DATA = new vis.DataSet([]);
 const CRITD_DATA = new vis.DataSet([]);
 const DMG_DATA = new vis.DataSet([]);
 const SPELLLINE_DATA = new vis.DataSet([]);
 const TIMELINE_DATA = new vis.DataSet([]);
-
 const GRAPH_CRITR = createGraph('graphcritr', CURRENT_TIME, dom.getDomForCritRGraph(), CRITR_DATA);
 const GRAPH_CRITD = createGraph('graphcritd', CURRENT_TIME, dom.getDomForCritDGraph(), CRITD_DATA);
 const GRAPH_DMG = createGraph('graphdmg', CURRENT_TIME, dom.getDomForDmgGraph(), DMG_DATA);
 const SPELL_TIMELINE = createTimeline('spellline', CURRENT_TIME, dom.getDomForSpellline(), SPELLLINE_DATA);
 const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(), TIMELINE_DATA);
 
-let BASE_CRIT_DATA = [];
-let UPDATING_CHART = -1;
+let BASE_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
+let UPDATING_CHART = -1; // used to throttle calls to update the chart data
 
+// helper for creating a timeline
 function createTimeline(id, time, dom, data, template) {
   let opts = utils.readChartOptions(id, time);
-
-  if (template) {
-    opts.template = template;
-  }
-
+  if (template) opts.template = template;
   return new vis.Timeline(dom, data, opts);
 }
 
+// helper for creating a graph
 function createGraph(id, time, dom, data) {
   let opts = utils.readChartOptions(id, time);
   return new vis.Graph2d(dom, data, opts);
-}
-
-function castForceNuke(state, activatedNukes) {
-  let aaNuke = isSpellReady(state, activatedNukes);
-
-  if (aaNuke) {
-    return castSpell(state, aaNuke);
-  }
 }
 
 function castSpell(state, spell) {
@@ -56,6 +49,9 @@ function castSpell(state, spell) {
   if (neededTime > state.endTime) return false; // Time EXCEEDED
 
   state.workingTime = neededTime;
+
+  // if twincast spell is no longer active
+  utils.checkSimpleTimer(state, 'TC');
 
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
@@ -94,7 +90,7 @@ function castSpell(state, spell) {
   }
 
   // only compute for spells that do damage
-  let avgDmg = (spell.target != 'self') ? damage.calcTotalAvgDamage(state) : 0;
+  let avgDmg = damage.calcTotalAvgDamage(state);
 
   // dmg including other dots or abilities that have been accumulating (just RS right now)
   let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
@@ -119,15 +115,16 @@ function castSpell(state, spell) {
   return true;
 }
 
-function isCastPending(state, time, timeDifference, spell) {
-  let lockout = false;
-  let lockoutTime = spell.lockoutTime ? (((spell.lockoutTime * 1000) > state.gcd) ? (spell.lockoutTime * 1000) : state.gcd) : 0;
-  let timeToCast = state.workingTime + lockoutTime;
-
-  return (timeDifference >= 0 && timeToCast >= time.start && state.workingTime < time.end);
+// RS has type 3 aug and AAs that reduce the recast so account for that here
+function getModifiedSpellRecastTime(spell) {
+  return utils.useCache('spell-recast-time' + spell.id, () => {
+    let recastMod = (spell.id === 'RS') ? (dom.getHastenedServantValue() + dom.getType3AugValue(spell)) * -1 : 0;
+    return 1000 * (spell.recastTime + recastMod);
+  });
 }
 
-function isSpellReady(state, ids) {
+// Returns the first ability from list that has able to be cast based on recast timers
+function isSpellAbilityReady(state, ids) {
   let spell;
 
   return ids.find(id => {
@@ -137,6 +134,7 @@ function isSpellReady(state, ids) {
   }) ? spell : undefined;
 }
 
+// Initialze counters and expire time for items like Enc Synergy in the Abilities In Use section
 function initActivatedAbility(state, item) {
   let keys = utils.getCounterKeys(item.id);
   let lastProcMap = state.lastProcMap;
@@ -158,21 +156,42 @@ function initActivatedAbility(state, item) {
   utils.checkSimpleTimer(state, item.id);
 }
 
-function setAdpsStartTime(state, item) {
-  if (item.start != state.workingTime) {
-    let diff = (item.end - item.start);
-    item.start = state.workingTime;
-    item.end = item.start + diff;
+// Adjust start time of a timeline item
+function setTimelineItemStart(time, item, offset) {
+  let newStartTime = time + offset;
+  let newEndTime = newStartTime + (item.end - item.start);
+  
+  if (item.start != newStartTime) {
+    item.start = newStartTime;
+    item.end = newEndTime;
     silentUpdateTimeline(item);
   }
 }
 
+// Turn off events when updating the timeline programmatically
 function silentUpdateTimeline(data) {
   TIMELINE_DATA.off('update', visTimelineListener);
   TIMELINE_DATA.update(data);
   TIMELINE_DATA.on('update', visTimelineListener);
 }
 
+// The start and end time of a vis.js timeline object is inconsistent depending
+// on whether it's set somewhere hear or via drag/move events. This just gives
+// back one representation using time in millis
+function getTime(item) {
+  let result = {};
+
+  if (item) {
+    let start = item.start.getTime ? item.start.getTime() : item.start;
+    let end = item.end.getTime ? item.end.getTime() : item.end;
+    result.start = start;
+    result.end = end;
+  }
+
+  return result;
+}
+
+// Clears and redraws the crit graphs from the starting dataset
 function updateCritGraphs() {
   CRITR_DATA.clear();
   CRITD_DATA.clear();
@@ -227,30 +246,39 @@ function updateCritGraphValue(data, time, value) {
 }
 
 function updateDmgGraph(state, dmg, labelFreq) {
-  if (dmg >= 0) {   
-  
+  if (dmg >= 0) {
+
     // in case were plotting multiple damage at some point
-    let pointData = DMG_DATA.get(state.workingTime);  
+    let pointData = DMG_DATA.get(state.workingTime);
     if (pointData) {
       pointData.y += dmg;
-      
+
       // update label if it exists
       if (pointData.label) {
         pointData.label.content = pointData.y;
       }
-      
+
       DMG_DATA.update(pointData);
     } else {
       pointData = {id: state.workingTime, x: state.workingTime, y: dmg, yOffset: 0};
-      
+
       // add label if meets requirements
       if (!labelFreq || (state.workingTime % labelFreq === 0)) {
         pointData.label = {content: pointData.y, yOffset: 15};
       }
-      
+
       DMG_DATA.add(pointData);
     }
   }
+}
+
+function willCastDuring(state, time, spell) {
+  let lockout = false;
+  let lockoutTime = spell.lockoutTime ? (((spell.lockoutTime * 1000) > state.gcd) ? (spell.lockoutTime * 1000) : state.gcd) : 0;
+  lockoutTime += spell.castTime * 1000; // total time the spell will be busy
+  let timeToCast = state.workingTime + lockoutTime;
+
+  return (timeToCast >= time.start && state.workingTime < time.end);
 }
 
 function withinTimeFrame(time, data) {
@@ -336,19 +364,6 @@ export function getHeartOfFlamesValue(time) {
   return ((G.MODE === 'mage') ? getAdpsDataIfActive('HF', time, 'afterCritMult') : 0) || 0;
 }
 
-export function getTime(item) {
-  let result = {};
-
-  if (item) {
-    let start = item.start.getTime ? item.start.getTime() : item.start;
-    let end = item.end.getTime ? item.end.getTime() : item.end;
-    result.start = start;
-    result.end = end;
-  }
-
-  return result;
-}
-
 export function init() {
   // connect all the zoom/pan/range events together of the charts
   let chartList = [SPELL_TIMELINE, TIMELINE, GRAPH_CRITR, GRAPH_CRITD, GRAPH_DMG];
@@ -383,6 +398,10 @@ export function initCounterBasedADPS(state) {
       }
     }
   });
+}
+
+export function getTimelineItemTime(id) {
+  return getTime(TIMELINE_DATA.get(id));
 }
 
 export function loadRates() {
@@ -470,18 +489,19 @@ export function updateSpellChart() {
   removePopovers();
 
   let timeRange = dom.getSpellTimeRangeValue() * 1000;
-  let additionalCast;
-  let hasTwincast = TIMELINE_DATA.get('TC');
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
   let sp = 0;
   let twincastHasBeenCast = false;
   let gcdWaitTime = 0;
-  let lastAddCastTime = 0;
-
+  let tcItem = TIMELINE_DATA.get('TC');
+  let mbrnItem = TIMELINE_DATA.get('MBRN');
+  let lockout = false;
+  let preemptSpells = [];
+  
   let state = {
     chartIndex: -1,
     gcd: dom.getGCDValue() * 1000,
-    twincastChance: 0,
+    tcCounter: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
     lastCastMap: {},
@@ -492,15 +512,48 @@ export function updateSpellChart() {
     workingTime:  CURRENT_TIME
   };
 
-  while (state.workingTime <= state.endTime) {
-    // temp fix for twincast to work with Blazing Jet when no spells selected
-    if (hasTwincast && withinTimeFrame(state.workingTime, getTime(hasTwincast))) {
-      state.twincastChance = 1.0;
-    } else {
-      state.twincastChance = 0;
+  // Items that exist both as abilties on the spell timeline as well as ADPS chart. They need to be in sync.
+  // Check that spell exists since it may not depending on Mage vs Wiz abilities
+  dmgU.PREEMPT_SPELL_CASTS.filter(id => utils.getSpellData(id).id !== undefined).forEach(id => {
+    let item = TIMELINE_DATA.get(id);
+    
+    if (item) {
+      preemptSpells.push({ id: id, item: item, iTime: getTime(item), spell: utils.getSpellData(id), hasBeenCast: false });
     }
+  });
+  
+  let checkPreempt = (entry, current, spellReady) => {
+    // stop after first spell that's successful using 'update'
+    if (entry.item && !entry.hasBeenCast) {
+      // if we're about to cast a spell but it won't land until after this ability is supposed to be
+      // cast then do nothing and wait
+      lockout = current && (spellReady && willCastDuring(state, entry.iTime, current));
 
-     // Forced Rejuvination resets lockouts and ends GCD
+      if (withinTimeFrame(state.workingTime + (entry.spell.castTime * 1000), entry.item)) {
+        // Fix start point on timeline if its out of bounds
+        let adpsStartTime = state.workingTime;
+        
+        castSpell(state, entry.spell);
+        setTimelineItemStart(adpsStartTime, entry.item, entry.spell.castTime * 1000);
+        entry.hasBeenCast = true;
+        lockout = false;
+
+        if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
+          gcdWaitTime = state.workingTime + state.gcd;            
+        }          
+          
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
+  while (state.workingTime <= state.endTime) {
+    // workaround to get these on the timeline for AA or abilities like Firebound Orb
+    preemptSpells.find(entry => checkPreempt(entry));
+        
+     // Forced Rejuvination resets lockouts and end GCD
     if (hasForcedRejuv && withinTimeFrame(state.workingTime, getTime(hasForcedRejuv))) {
       hasForcedRejuv = false;
       state.spells.forEach(id => { delete state.lastCastMap[utils.getSpellData(id).timer] });
@@ -510,72 +563,36 @@ export function updateSpellChart() {
     // Display/Cast alliance damage when timer expires
     if (utils.checkSimpleTimer(state, 'FA')) {
       castSpell(state, utils.getSpellData('FAF'));
+      continue;
     }
 
     // abilities that can be enabled and repeat every so often like Enc Synergy
     // cancel or reset counters based on timer, only need to check once per workingTime
     dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item));
 
-    // Don't do anything if we're during the GCD phase
+    // Don't do any spell cast if we're during the GCD lockout phase
     if (gcdWaitTime <= state.workingTime) {
       // Summon more Orbs
       if (dom.isUsingFireboundOrb() && state.fbOrbCounter <= 0) {
         castSpell(state, utils.getSpellData('SFB'));
-        state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;
       }
 
       // find a spell to cast
       for (sp = 0; sp < state.spells.length; sp++) {
         let current = utils.getSpellData(state.spells[sp]);
-        let recastMod = 0;
+        let castTime = current.castTime * 1000;
+        let recastTime = getModifiedSpellRecastTime(current);
+        let spellReady = (state.workingTime - ((state.lastCastMap[current.timer] || 0) + recastTime) > 0);
 
-        // Handle pre-cast adjustments for RS
-        if (current.id === 'RS') {
-          recastMod = (dom.getHastenedServantValue() + dom.getType3AugValue(current)) * -1000;
-        }
+        // check if these spells need to be cast soon
+        if (preemptSpells.find(entry => checkPreempt(entry, current, spellReady))) { break; }
 
-        let neededTime = current.castTime * 1000;
-        let timeDifference = state.workingTime - 
-          ((state.lastCastMap[current.timer] ? state.lastCastMap[current.timer] : 0) + (current.recastTime * 1000 + recastMod));
-          
-        // check if twincast needs to be cast soon
-        state.twincastChance = 0;
-        let lockout = false;
-        if (hasTwincast) {          
-          // Cast Twincast once we go the point where end of lockout time basically coincides
-          // with where the timeline has Twincast starting
-          let iTime = getTime(hasTwincast);
-          
-          // if we're about to cast a spell but it won't land until after Twincast is supposed to be
-          // cast then do nothing and wait for the cast of Twincast
-          lockout = isCastPending(state, iTime, timeDifference, current) && !twincastHasBeenCast;
-
-          if (((state.workingTime + state.gcd) >= iTime.start) && (state.workingTime < iTime.end) && state.twincastChance < 1.0) {
-            // cast twincast only once (ie increment time)
-            if (!twincastHasBeenCast) {
-              current = utils.getSpellData('TC');
-              timeDifference = 0;
-              neededTime = 0;
-
-              // Fix start point on timeline if its out of bounds
-              setAdpsStartTime(state, hasTwincast);
-            }
-
-            state.twincastChance = 1.0;
-            lockout = false;
-            twincastHasBeenCast = true;
-          }
-
-          // End twincast once we're out of the time range
-          if (state.workingTime + neededTime > iTime.end && state.twincastChance > 0) {
-            state.twincastChance = 0;
-          }
-        }
-
-        if (!lockout && timeDifference >= 0) {
+        if (!lockout && spellReady) {
           // if cast successful update gcd wait time
           if (castSpell(state, current)) {
-            gcdWaitTime = state.workingTime + state.gcd;
+            if (current.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
+              gcdWaitTime = state.workingTime + state.gcd;            
+            }
           }
 
           break; // break and try again at the updated workingTime
@@ -585,38 +602,30 @@ export function updateSpellChart() {
 
     // spell not available so handle other click/AA abilities
     if (sp === state.spells.length || gcdWaitTime > state.workingTime) {
-      // dont cast abilities between lockout too fast
-      if ((!lastAddCastTime || (state.workingTime - lastAddCastTime) > 0)) {
-        // try to cast force nuke early to prevent conflicts later on
-        // Ex FD can update crit dmg in the chart itself
-        // Use a time during this free bit
-        let activatedNukes = dom.getActivatedNukes();
-        additionalCast = (activatedNukes.length > 0 && !additionalCast) ?
-          castForceNuke(state, activatedNukes) : additionalCast;
+      // try to cast force nuke early to prevent conflicts later on
+      // Ex FD can update crit dmg in the chart itself
+      let activatedNukes = dom.getActivatedNukes();
+      if (activatedNukes.length > 0) {
+        let spell = isSpellAbilityReady(state, activatedNukes);
+        if (spell) castSpell(state, spell);
+      }
 
-        // handle additional cast damage
-        if (additionalCast) {
-           additionalCast = false;
-           lastAddCastTime = state.workingTime;
-        } else {
-          // If RS Damage hasn't been reported yet
-          if (state.workingTime % 1000 === 0) {
-            // check if RS pets have completed
-            let rsKeys = utils.getCounterKeys('RS');
-            utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
+      // add dot/RS damage
+      if (state.workingTime % 1000 === 0) {
+        // check if RS pets have completed
+        let rsKeys = utils.getCounterKeys('RS');
+        utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
 
-            let dotDmg = state.dotGenerator ? state.dotGenerator.next().value : 0;
-            if (dotDmg > 0) {
-              stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
-              updateDmgGraph(state, dotDmg, 10000);
-            }
-          }
+        let dotDmg = state.dotGenerator ? state.dotGenerator.next().value : 0;
+        if (dotDmg > 0) {
+          stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
+          updateDmgGraph(state, dotDmg, 10000);
         }
       }
     }
 
     // do nothing if additional casts available otherwise increment time
-    state.workingTime += additionalCast ? 0 : 200;
+    state.workingTime += 200;
   }
 
   // update charts

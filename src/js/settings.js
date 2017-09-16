@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.83',
+  VERSION: 'Version 0.84',
   MAGE_TITLE: 'EQ Mage DPS Tool',
   WIZ_TITLE: 'EQ Wizard DPS Tool'
 }
@@ -1222,7 +1222,8 @@ export const chartOptions = {
     zoomable: true,
     editable: false,
     clickToUse: false,
-    maxHeight: '155px',
+    maxHeight: '160px',
+    minHeight: '120px',
     selectable: false
   },
   timeline: {
