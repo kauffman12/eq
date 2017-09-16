@@ -391,7 +391,7 @@ export function initCounterBasedADPS(state) {
 
       if (withinTimeFrame(state.workingTime, maxTimeFrame)) {
         if (state[counter] === undefined) {
-          state[counter] = utils.readAdpsOption(adpsKey, 'charges');
+          state[counter] = dom.getConfiguredCharges(adpsKey) || utils.readAdpsOption(adpsKey, 'charges');
         }
       } else if (time.start + timeLimit < state.workingTime) {
         state[counter] = -1;

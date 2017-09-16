@@ -220,6 +220,12 @@ export function getActivatedNukes(state) {
   return list;
 }
 
+export function getConfiguredCharges(adpsKey) {
+  if (adpsKey === 'MBRN') {
+    return getManaburnCountValue();
+  }
+}
+
 export function getFuryOfMagicValue() {
   return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
 }
@@ -266,6 +272,12 @@ export function getMagSynergyRate() {
 
 export function getMaloValue() {
   return $('#malo').is(':checked') ? dmgU.MALO_FOCUS : 0;
+}
+
+export function getManaburnCountValue() {
+  return utils.useCache('.manaburn-count', () => {
+    return utils.getNumberValue($('#manaburnCount').val());
+  });
 }
 
 export function getNecSynergyRate() {
