@@ -1223,7 +1223,7 @@ export const chartOptions = {
     editable: false,
     clickToUse: false,
     maxHeight: '160px',
-    minHeight: '120px',
+    minHeight: '100px',
     selectable: false
   },
   timeline: {
