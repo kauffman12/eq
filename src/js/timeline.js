@@ -73,7 +73,7 @@ function castSpell(state, spell) {
   state.lastCastMap[spell.timer] = state.workingTime;
 
   // update spell timeline
-  let spellId = (spell.id.length === 3 && isNaN(parseInt(spell.id[2]))) ? spell.id : spell.id.substr(0,2);
+  let spellId = (spell.id.length > 2 && isNaN(parseInt(spell.id[2]))) ? spell.id : spell.id.substr(0,2);
   let content = SPELL_ITEM_TEMPLATE({title: spell.name, id: spellId, spellNumber: state.chartIndex})
   SPELLLINE_DATA.add({id: state.chartIndex, content: content, start: state.workingTime, editable: false});
 
