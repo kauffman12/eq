@@ -1,3 +1,9 @@
+.wiz-only,
+.mage-only,
+.enc-only {
+  display: none !important;
+}
+
 .switch-button {
   width: 99%;
   padding: 4px 4px 4px 2px;

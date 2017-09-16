@@ -696,12 +696,12 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   // avg damage for one spell cast
   lookupCalcDmgFunction(state.spell)(state, mod, dmgKey);
 
+  // Current twincast rate before procs may increase it
+  let twincastChance = calcTwincastChance(state, mod);
+
   // add any post spell procs/mods before we're ready to
   // twincast another spell
   dmgU.applyPostSpellProcs(state, timeline);
-
-  // Current twincast rate before procs may increase it
-  let twincastChance = calcTwincastChance(state, mod);
 
   // now twincast the spell
   if (twincastChance > 0 && !state.aeWave) {
@@ -714,7 +714,7 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
     lookupCalcDmgFunction(state.spell)(state, mod * twincastChance, dmgKey);
 
     // handle post checks
-    dmgU.applyPostSpellProcs(state, twincastChance, timeline);
+    dmgU.applyPostSpellProcs(state, timeline, twincastChance);
     state.inTwincast--;
   }
 
