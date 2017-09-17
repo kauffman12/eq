@@ -43,6 +43,8 @@ export const FIREBOUND_ORB_COUNT = 10;
 
 // ADPS Settings
 export const AUG_AURA_PERCENT = 0.04;
+export const AM_COUNTERS = 4;
+export const AM_TIMER = 6500; // basically every tick
 export const ARIA_MAETANRUS_PERCENT = 0.45;
 export const ENC_SYNERGY_PERCENT = 0.40;
 export const SYNERGY_TIMER = 12000;
@@ -73,6 +75,7 @@ export const ACTIVATED_ABILITIES = [
   { id: 'MSYN', enabled: dom.isUsingMagSynergy, rate: dom.getMagSynergyRate, timer: SYNERGY_TIMER, count: 1 },
   { id: 'NSYN', enabled: dom.isUsingNecSynergy, rate: dom.getNecSynergyRate, timer: SYNERGY_TIMER, count: 1 },
   { id: 'WSYN', enabled: dom.isUsingWizSynergy, rate: dom.getWizSynergyRate, timer: SYNERGY_TIMER, count: 1 },
+  { id: 'AM', enabled: dom.isUsingAM, rate: () => AM_TIMER, timer: AM_TIMER * 10, count: AM_COUNTERS },
   { id: 'MR', enabled: dom.isUsingMR, rate: () => MR_TIMER, timer: MR_TIMER * 10, count: MR_COUNTERS },
   { id: 'FW', enabled: dom.isUsingFW, rate: () => FW_TIMER, timer: FW_TIMER * 10, count: FW_COUNTERS }
 ];
@@ -83,10 +86,10 @@ export const PREEMPT_SPELL_CASTS = [ 'TC', 'MBRN' ];
 function getMultiplier(castTime) {
   var multiplier = 0.25;
 
-  if(castTime >= 2.5 && castTime <= 7) {
-    multiplier = 0.167 * (castTime - 1);
-  } else if(castTime > 7) {
-    multiplier = 1 * castTime / 7;
+  if(castTime >= 2500 && castTime <= 7000) {
+    multiplier = .000167 * (castTime - 1000);
+  } else if(castTime > 7000) {
+    multiplier = 1 * castTime / 7000;
   }
 
   return multiplier;
@@ -195,7 +198,7 @@ export function applyPostSpellProcs(state, timeline, mod) {
       }
       break;
     case 'FA':
-      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue() * 1000;
+      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       break;
     case 'SFB':
       state.fbOrbCounter = FIREBOUND_ORB_COUNT;
@@ -323,7 +326,7 @@ export function isEqpProc(spell) {
 export function isSpellProc(spell) {
   // The skill 5 with no max value is only thing I can find on eqresource to avoid alliance fulminations
   // without adding a special case
-  return spell.level > 250 && !spell.discRefresh && (spell.skill === 24 || (spell.skill === 5 && !spell.max));
+  return spell.level > 250 && !spell.discRefresh && (spell.skill === 24 || (spell.skill === 5 && !spell.max) || spell.skill === 98);
 }
 
 export function isSpellOrEqpProc(spell) {

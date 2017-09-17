@@ -74,7 +74,7 @@ export function getAddEffectivenessValue() {
 
 export function getAllianceFulminationValue() {
   return utils.useCache('.allianceFulmination', () => {
-    return utils.getNumberValue($('#allianceFulmination').val());
+    return 1000 * utils.getNumberValue($('#allianceFulmination').val());
   });
 }
 
@@ -232,7 +232,7 @@ export function getFuryOfMagicValue() {
 
 export function getGCDValue() {
   return utils.useCache('.gcd-value', () => {
-    return utils.getNumberValue($('#gcd').val());
+    return 1000 * utils.getNumberValue($('#gcd').val());
   });
 }
 
@@ -258,7 +258,7 @@ export function getDomForTimeline() {
 
 export function getHastenedServantValue() {
   return utils.useCache('.aa-hastened-servant', () => {
-    return utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
+    return 1000 * utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
   });
 }
 
@@ -285,7 +285,9 @@ export function getNecSynergyRate() {
 }
 
 export function getNilsaraAriaValue() {
-  return $('#nilsara').is(':checked') ? dmgU.NILSARA_ARIA_DMG : 0;
+  return utils.useCache('nilsara-aria-value', () => {
+    return $('#nilsara').is(':checked') ? dmgU.NILSARA_ARIA_DMG : 0;
+  });
 }
 
 export function getPetCritFocusValue() {
@@ -397,7 +399,7 @@ export function getSpellTimeRangeControl() {
 
 export function getSpellTimeRangeValue() {
   let timeRange = utils.getNumberValue(getSpellTimeRangeControl().val());
-  return (timeRange < 0) ? 0 : timeRange;
+  return 1000 * ((timeRange < 0) ? 0 : timeRange);
 }
 
 export function getStaffProcValue() {
@@ -442,6 +444,10 @@ export function getType3DmdAugValue(spell) {
 
 export function getWizSynergyRate() {
   return 1000 * utils.getNumberValue(($('#wizSynergyRate').val()));
+}
+
+export function isUsingAM() {
+  return $('#amAura').is(':checked');
 }
 
 export function isUsingAANukes() {

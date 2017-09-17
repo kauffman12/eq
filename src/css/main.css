@@ -21,7 +21,7 @@
   overflow: auto;
   position: fixed;
   top: 30px;
-  width: 270px;
+  width: 280px;
   height: calc(100% - 30px);
 }
 
@@ -37,7 +37,7 @@
     display: block;
   }
   .shared {
-  	width:calc(100% - 265px);
+  	width:calc(100% - 270px);
   	float: right;
   }
   .full {
@@ -69,13 +69,14 @@ a:hover, a:focus {
 }
 
 body {
+  font-family: Open Sans,Helvetica Neue,Helvetica,Arial;  
   font-size: 12px;
   margin: 0px;
   padding: 0px;
 }
 
 #spellline, #timeline, #dmgGraph, #critRGraph, #critDGraph {
-  font-family: Helvetica;
+  font-family: Open Sans,Helvetica Neue,Helvetica,Arial;
   font-size: 10px;
   position: relative;
 }
@@ -170,7 +171,7 @@ li.disabled {
 }
 
 .vis-item-content > a {
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .vis-item .vis-item-content {
