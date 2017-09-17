@@ -83,10 +83,10 @@ export const PREEMPT_SPELL_CASTS = [ 'TC', 'MBRN' ];
 function getMultiplier(castTime) {
   var multiplier = 0.25;
 
-  if(castTime >= 2.5 && castTime <= 7) {
-    multiplier = 0.167 * (castTime - 1);
-  } else if(castTime > 7) {
-    multiplier = 1 * castTime / 7;
+  if(castTime >= 2500 && castTime <= 7000) {
+    multiplier = .000167 * (castTime - 1000);
+  } else if(castTime > 7000) {
+    multiplier = 1 * castTime / 7000;
   }
 
   return multiplier;
@@ -195,7 +195,7 @@ export function applyPostSpellProcs(state, timeline, mod) {
       }
       break;
     case 'FA':
-      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue() * 1000;
+      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       break;
     case 'SFB':
       state.fbOrbCounter = FIREBOUND_ORB_COUNT;

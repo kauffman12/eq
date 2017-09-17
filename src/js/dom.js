@@ -74,7 +74,7 @@ export function getAddEffectivenessValue() {
 
 export function getAllianceFulminationValue() {
   return utils.useCache('.allianceFulmination', () => {
-    return utils.getNumberValue($('#allianceFulmination').val());
+    return 1000 * utils.getNumberValue($('#allianceFulmination').val());
   });
 }
 
@@ -232,7 +232,7 @@ export function getFuryOfMagicValue() {
 
 export function getGCDValue() {
   return utils.useCache('.gcd-value', () => {
-    return utils.getNumberValue($('#gcd').val());
+    return 1000 * utils.getNumberValue($('#gcd').val());
   });
 }
 
@@ -258,7 +258,7 @@ export function getDomForTimeline() {
 
 export function getHastenedServantValue() {
   return utils.useCache('.aa-hastened-servant', () => {
-    return utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
+    return 1000 * utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
   });
 }
 
@@ -397,7 +397,7 @@ export function getSpellTimeRangeControl() {
 
 export function getSpellTimeRangeValue() {
   let timeRange = utils.getNumberValue(getSpellTimeRangeControl().val());
-  return (timeRange < 0) ? 0 : timeRange;
+  return 1000 * ((timeRange < 0) ? 0 : timeRange);
 }
 
 export function getStaffProcValue() {

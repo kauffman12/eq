@@ -45,7 +45,7 @@ function castSpell(state, spell) {
   state.chartIndex++;
   state.spell = spell;
 
-  let neededTime = state.workingTime + spell.castTime * 1000;
+  let neededTime = state.workingTime + spell.castTime;
   if (neededTime > state.endTime) return false; // Time EXCEEDED
 
   state.workingTime = neededTime;
@@ -98,6 +98,7 @@ function castSpell(state, spell) {
   let plotDmg = 0;
   // update stats
   if (avgDmg > 0) {
+    stats.addAggregateStatistics('totalAvgTcRate', stats.getSpellStatistics(state, 'twincastChance') || 0);
     stats.addAggregateStatistics('totalAvgDmg', avgDmg);
     stats.addAggregateStatistics('detCastCount', 1);
     stats.addMaxAggregateStatistics('maxHit', avgDmg);
@@ -119,7 +120,7 @@ function castSpell(state, spell) {
 function getModifiedSpellRecastTime(spell) {
   return utils.useCache('spell-recast-time' + spell.id, () => {
     let recastMod = (spell.id === 'RS') ? (dom.getHastenedServantValue() + dom.getType3AugValue(spell)) * -1 : 0;
-    return 1000 * (spell.recastTime + recastMod);
+    return (spell.recastTime + recastMod);
   });
 }
 
@@ -129,8 +130,7 @@ function isSpellAbilityReady(state, ids) {
 
   return ids.find(id => {
     spell = utils.getSpellData(id);
-    let refresh = spell.discRefresh * 1000;
-    return !state.lastCastMap[spell.timer] || ((state.lastCastMap[spell.timer] + refresh) < state.workingTime);
+    return !state.lastCastMap[spell.timer] || ((state.lastCastMap[spell.timer] + spell.discRefresh) < state.workingTime);
   }) ? spell : undefined;
 }
 
@@ -274,8 +274,8 @@ function updateDmgGraph(state, dmg, labelFreq) {
 
 function willCastDuring(state, time, spell) {
   let lockout = false;
-  let lockoutTime = spell.lockoutTime ? (((spell.lockoutTime * 1000) > state.gcd) ? (spell.lockoutTime * 1000) : state.gcd) : 0;
-  lockoutTime += spell.castTime * 1000; // total time the spell will be busy
+  let lockoutTime = spell.lockoutTime ? ((spell.lockoutTime > state.gcd) ? (spell.lockoutTime) : state.gcd) : 0;
+  lockoutTime += spell.castTime; // total time the spell will be busy
   let timeToCast = state.workingTime + lockoutTime;
 
   return (timeToCast >= time.start && state.workingTime < time.end);
@@ -305,7 +305,7 @@ export function connectPopovers() {
   items.unbind('inserted.bs.popover');
   items.on('inserted.bs.popover', function(e) {
     let index = $(e.currentTarget).data('value');
-    let statInfo = stats.getSpellStatistics(index);
+    let statInfo = stats.getSpellStatisticsForIndex(index);
 
     let popover = $('#spellPopover' + index);
     popover.html('');
@@ -411,7 +411,7 @@ export function loadRates() {
   let seconds = dom.getSpellTimeRangeValue();
   let displayList = utils.readAdpsConfig('displayList');
 
-  for(let i=0; i<=(seconds*1000); i+=1000) {
+  for(let i=0; i<=seconds; i+=1000) {
     let time = CURRENT_TIME + i;
     let rate = baseRate;
     let dmg = baseDmg;
@@ -488,7 +488,6 @@ export function updateSpellChart() {
   updateCritGraphs();
   removePopovers();
 
-  let timeRange = dom.getSpellTimeRangeValue() * 1000;
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
   let sp = 0;
   let twincastHasBeenCast = false;
@@ -500,7 +499,7 @@ export function updateSpellChart() {
   
   let state = {
     chartIndex: -1,
-    gcd: dom.getGCDValue() * 1000,
+    gcd: dom.getGCDValue(),
     tcCounter: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
@@ -508,7 +507,7 @@ export function updateSpellChart() {
     lastProcMap: {},
     spells: dom.getSelectedSpells(),
     fbOrbCounter: dom.isUsingFireboundOrb() ? dmgU.FIREBOUND_ORB_COUNT : 0,
-    endTime: CURRENT_TIME + timeRange,
+    endTime: CURRENT_TIME + dom.getSpellTimeRangeValue(),
     workingTime:  CURRENT_TIME
   };
 
@@ -529,12 +528,12 @@ export function updateSpellChart() {
       // cast then do nothing and wait
       lockout = current && (spellReady && willCastDuring(state, entry.iTime, current));
 
-      if (withinTimeFrame(state.workingTime + (entry.spell.castTime * 1000), entry.item)) {
+      if (withinTimeFrame(state.workingTime + (entry.spell.castTime), entry.item)) {
         // Fix start point on timeline if its out of bounds
         let adpsStartTime = state.workingTime;
         
         castSpell(state, entry.spell);
-        setTimelineItemStart(adpsStartTime, entry.item, entry.spell.castTime * 1000);
+        setTimelineItemStart(adpsStartTime, entry.item, entry.spell.castTime);
         entry.hasBeenCast = true;
         lockout = false;
 
@@ -580,7 +579,6 @@ export function updateSpellChart() {
       // find a spell to cast
       for (sp = 0; sp < state.spells.length; sp++) {
         let current = utils.getSpellData(state.spells[sp]);
-        let castTime = current.castTime * 1000;
         let recastTime = getModifiedSpellRecastTime(current);
         let spellReady = (state.workingTime - ((state.lastCastMap[current.timer] || 0) + recastTime) > 0);
 
@@ -640,7 +638,7 @@ export function updateSpellChart() {
   connectPopovers();
 
   // print spellStats window
-  stats.printStats($('#spellCountStats'), state, timeRange);
+  stats.printStats($('#spellCountStats'), state, dom.getSpellTimeRangeValue());
 }
 
 export function updateWindow(caller, update, windowList){

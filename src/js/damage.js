@@ -267,7 +267,7 @@ function getAfterCritAdd(state, mod) {
   let afterCritAdd = 0;
   let belt = dom.getBeltProcValue();
 
-  if (dmgU.passRequirements({minManaCost: 10, minCastTime: 0.001, focusable: true}, state)) {
+  if (dmgU.passRequirements({minManaCost: 10, minCastTime: 1, focusable: true}, state)) {
     afterCritAdd = dom.getSorcererVengeananceValue() || 0;
   }
 
@@ -722,5 +722,5 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   timeline.postCounterBasedADPS(state);
 
   stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
-  return stats.getSpellStatistics(state.chartIndex).get('totalDmg') || 0; // Alliance
+  return stats.getSpellStatistics(state, 'totalDmg') || 0; // Alliance
 }

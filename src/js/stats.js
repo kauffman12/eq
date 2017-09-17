@@ -39,9 +39,9 @@ export function getStatisticsSummary(spellStats) {
   let spell = utils.getSpellData(spellStats.get('id'));
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
-  addDecimalStatDescription(data, "Cast Time(s)", spell.castTime, true);
+  addDecimalStatDescription(data, "Cast Time(s)", spell.castTime / 1000, true);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'));
-  addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - spell.castTime);
+  addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));
   addNumberStatDescription(data, "Pet Count", spellStats.get('rsCounter'));
   addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
 
@@ -113,14 +113,15 @@ export function getStatisticsSummary(spellStats) {
   return data;
 }
 
-export function printStats(output, state, timeRange) {
+export function printStats(output, state, timerange) {
   let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
   let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
-  let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timeRange / 1000);
+  let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timerange / 1000);
 
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
   let aggrCritRate = getSpellCastInfo().get('critRate') || 0;
+  let totalAvgTcRate = getSpellCastInfo().get('totalAvgTcRate') || 0;
   let totalCastCount = getSpellCastInfo().get('totalCastCount') || 0;
   let totalDetCastCount = getSpellCastInfo().get('detCastCount') || 0;
   
@@ -135,7 +136,7 @@ export function printStats(output, state, timeRange) {
 
   // Avg Hit
   let avgHit = (totalDetCastCount > 0) ? totalAvgDmg / totalDetCastCount : 0;
-  updateStatSection('#averageHitStats', avgDPS, 'Average Cast', utils.numberWithCommas(Math.trunc(avgHit)), avgHit, 'avgHit');
+  updateStatSection('#averageHitStats', avgDPS, 'Avg Cast', utils.numberWithCommas(Math.trunc(avgHit)), avgHit, 'avgHit');
 
   // Total Damage from Spell Casts
   updateStatSection('#castDamageStats', avgDPS, 'Cast Damage ', utils.numberWithCommas(Math.trunc(totalAvgDmg)), totalAvgDmg, 'totalAvgCastDmg');
@@ -150,6 +151,10 @@ export function printStats(output, state, timeRange) {
   // Avg Crit Rate
   let avgCritRate = aggrSpellCount ? aggrCritRate / aggrSpellCount * 100 : 0;
   updateStatSection('#critRateStats', avgDPS, 'Crit Rate ', avgCritRate.toFixed(2) + '%', avgCritRate, 'avgCritRate');
+
+  // Avg TC Rate
+  let avgTcRate = (totalDetCastCount > 0) && totalAvgTcRate ? totalAvgTcRate / totalDetCastCount * 100 : 0;
+  updateStatSection('#tcRateStats', avgDPS, 'TC Rate ', avgTcRate.toFixed(2) + '%', avgTcRate, 'avgTcRate');
 
   getSpellCastInfo().get('castMap').forEach((v, k) => {
     output.append(STAT_SUB_TEMPLATE({ label: utils.getSpellData(k).name, value: v}));
@@ -204,7 +209,11 @@ export function getSpellCastInfo() {
   return info;
 }
 
-export function getSpellStatistics(index) {
+export function getSpellStatistics(state, key) {
+  return STATISTICS.spells.get(state.chartIndex).get(key);
+}
+
+export function getSpellStatisticsForIndex(index) {
   return STATISTICS.spells.get(index) || new Map();
 }
 
