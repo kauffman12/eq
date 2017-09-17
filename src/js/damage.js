@@ -24,7 +24,7 @@ function addIndividualProcs(state, mod) {
   let time = state.workingTime;
 
   // be sure to add Evoker's Synergy before post spell so vortex doesn't get used up right away
-  ['WSYN', 'MR', 'FW']
+  ['WSYN', 'MR', 'FW', 'AM']
     .filter(id => utils.isCounterActive(state, id))
     .forEach(id => { executeProc(id, state, mod) });
 
@@ -265,16 +265,14 @@ function getAfterCritAdd(state, mod) {
   let time = state.workingTime;
   let spell = state.spell;
   let afterCritAdd = 0;
-  let belt = dom.getBeltProcValue();
 
+  // AA PSA 286
   if (dmgU.passRequirements({minManaCost: 10, minCastTime: 1, focusable: true}, state)) {
     afterCritAdd = dom.getSorcererVengeananceValue() || 0;
   }
 
-  if (dmgU.passRequirements({minManaCost: 10, maxLevel: 105, resists: ['FIRE']}, state) && spell.target != 'AE') {
-    afterCritAdd += dom.getNilsaraAriaValue();  // SPA 286
-  }
-
+  // Worn SPA 286
+  let belt = dom.getBeltProcValue();
   if (belt === '500-proconly' && dmgU.passRequirements({focusable: true, spellOrEqpProc: true}, state)) {
     afterCritAdd += 500;
   } else if (belt === '1000-magic' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['MAGIC']}, state)) {
@@ -282,6 +280,24 @@ function getAfterCritAdd(state, mod) {
   } else if (belt === '500-fire' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['FIRE']}, state)) {
     afterCritAdd += 500;
   }
+
+  // Spell SPA 286
+  let afterCritAddSpell = 0;
+  let nilsara = dom.getNilsaraAriaValue();
+  if (nilsara > 0 && dmgU.passRequirements({minManaCost: 10, maxLevel: 105, resists: ['FIRE']}, state) && spell.target != 'AE') {
+    afterCritAddSpell = dom.getNilsaraAriaValue();
+  }
+  
+  // Spell SPA 286
+  if (timeline.getAdpsDataIfActive('B2', time)) {
+    let adpsOption = utils.readAdpsOption('B2');
+    
+    if (dmgU.passRequirements(adpsOption.requirements, state)) {
+      afterCritAddSpell = Math.max(afterCritAddSpell, adpsOption.afterCritAdd);
+    }
+  }
+  
+  afterCritAdd += afterCritAddSpell;
   
   // Enc Dicho, charges are accounted for when procs are handled
   if (timeline.getAdpsDataIfActive('MBRN', time)) {
@@ -313,15 +329,15 @@ function getAfterCritFocus(state, mod) {
 
     // Damge Focus Spell (SPA 124) Slot 1
     let bardFocus = dom.getAriaMaetanrusValue();
-    spa124Spell = (spa124Spell > bardFocus) ? spa124Spell : bardFocus;
+    spa124Spell = Math.max(spa124Spell, bardFocus);
 
     // Damge Focus Spell (SPA 124) Slot 1
     let elementalUnion = timeline.getElementalUnionValue(time);
-    spa124Spell = (spa124Spell > elementalUnion) ? spa124Spell : elementalUnion;
+    spa124Spell = Math.max(spa124Spell, elementalUnion);
 
     // Damge Focus Spell (SPA 124) Slot 1
     let heartFlames = timeline.getHeartOfFlamesValue(time);
-    spa124Spell = (spa124Spell > heartFlames) ? spa124Spell : heartFlames;
+    spa124Spell = Math.max(spa124Spell, heartFlames);
 
     // Do this one last
     // Net effect is to increase SPA 124 Spell by the difference between
@@ -598,10 +614,10 @@ function getSPA302Focus(state, mod) {
     }
   }
 
-  if (dmgU.passRequirements({ minManaCost: 10, maxLevel: 110 }, state)) {
-    // Arcane Fury
-    let arcaneFury = timeline.getArcaneFuryValue(state.workingTime);
-    beforeCritMult += ((arcaneFury > spa302SpellValue) ? arcaneFury : spa302SpellValue);
+  // Arcane Fury
+  let arcaneFury = timeline.getArcaneFuryValue(state.workingTime);
+  if (arcaneFury > 0 && dmgU.passRequirements({ minManaCost: 10, maxLevel: 110 }, state)) {
+    beforeCritMult += Math.max(arcaneFury, spa302SpellValue);
   }
   
   return beforeCritMult;
@@ -624,7 +640,7 @@ function getSPA303Spell(state, mod) {
       case 'FIRE':
         // Fury of Ro XIII
         if (timeline.getAdpsDataIfActive('FURYRO', time)) {
-          beforeCritAdd = (beforeCritAdd > dmgU.FURY_RO_DMG) ? beforeCritAdd : dmgU.FURY_RO_DMG;
+          beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_RO_DMG);
         } else {
           beforeCritAdd = furyKera;
         }
@@ -635,7 +651,7 @@ function getSPA303Spell(state, mod) {
       case 'ICE':
         // Fury of Eci XIII
         if (timeline.getAdpsDataIfActive('FURYECI', time)) {
-          beforeCritAdd = (beforeCritAdd > dmgU.FURY_ECI_DMG) ? beforeCritAdd : dmgU.FURY_ECI_DMG;
+          beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_ECI_DMG);
         } else {
           beforeCritAdd = furyKera;
         }
@@ -646,7 +662,7 @@ function getSPA303Spell(state, mod) {
       case 'MAGIC':
         // Fury of Druzzil XIII
         if (timeline.getAdpsDataIfActive('FURYDRUZ', time)) {
-           beforeCritAdd = (beforeCritAdd > dmgU.FURY_DRUZ_DMG) ? beforeCritAdd : dmgU.FURY_DRUZ_DMG;
+           beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_DRUZ_DMG);
         } else {
           beforeCritAdd = furyKera;
         }
@@ -663,7 +679,7 @@ function getSPA303Spell(state, mod) {
     let drChargePer = 1 + dmgU.getProcRate(state.spell, utils.getSpellData('DRS6'));
     let value = utils.readAdpsOption('DR', 'beforeCritAdd');
     value = Math.trunc(dmgU.processCounter(state, 'DR', mod * drChargePer, value, true));
-    beforeCritAdd = (value > beforeCritAdd) ? value : beforeCritAdd; // they dont stack
+    beforeCritAdd = Math.max(value, beforeCritAdd); // they dont stack
   }
 
   return beforeCritAdd;

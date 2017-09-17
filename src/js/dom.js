@@ -285,7 +285,9 @@ export function getNecSynergyRate() {
 }
 
 export function getNilsaraAriaValue() {
-  return $('#nilsara').is(':checked') ? dmgU.NILSARA_ARIA_DMG : 0;
+  return utils.useCache('nilsara-aria-value', () => {
+    return $('#nilsara').is(':checked') ? dmgU.NILSARA_ARIA_DMG : 0;
+  });
 }
 
 export function getPetCritFocusValue() {
@@ -442,6 +444,10 @@ export function getType3DmdAugValue(spell) {
 
 export function getWizSynergyRate() {
   return 1000 * utils.getNumberValue(($('#wizSynergyRate').val()));
+}
+
+export function isUsingAM() {
+  return $('#amAura').is(':checked');
 }
 
 export function isUsingAANukes() {

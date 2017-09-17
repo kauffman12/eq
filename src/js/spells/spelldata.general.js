@@ -40,6 +40,27 @@ export const SPELL_DATA = {
       canProcSpells: true
     }
   },
+  AM: {
+    id: 'AM',
+    name: 'Arcane Melody Effect III',
+    baseDmg: 1206,
+    castTime: 0,
+    origCastTime: 0,
+    recastTime: 0,
+    lockoutTime: 0,
+    resist: 'MAGIC',
+    type3Dmg: 0,
+    timer: 'AM',
+    manaCost: 0,
+    isFocusable: true,
+    skill: 98,
+    level: 255,
+    requirements: {
+      minManaCost: 10,
+      maxLevel: 105,
+      canProcSpells: true
+    }
+  },  
   ASVI: {
     id: 'ASVI',
     name: 'Arcane Strike VI',

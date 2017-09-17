@@ -174,7 +174,8 @@ export function getPercentText(first, second) {
     value = (value > 0 ? second / first * 100 - 100 : 100 - second / first * 100);
   }
 
-  return ((second - first) > 0 ? '+' : '-') + value.toFixed(2) + '%';
+  value = (value > 99999) ? value.toExponential(2) : value.toFixed(2);
+  return ((second - first) > 0 ? '+' : '-') + value + '%';
 }
 
 export function getSpellData(id) {
@@ -288,9 +289,13 @@ export function readSpellList() {
 export function switchMode() {
   let className = (G.MODE === 'wiz') ? 'mage' : 'wiz';
   let classInfo = className ? "?class=" + className : "";
-  window.location.assign(window.location.protocol + "//" +
-    window.location.hostname + window.location.pathname +
-    classInfo);
+  window.location.assign(
+    window.location.protocol + "//" +
+    window.location.hostname +
+    ((window.location.port !== '') ? (':' +  window.location.port) : '') +
+    window.location.pathname +
+    classInfo
+  );
 }
 
 export function useCache(cacheKey, readFunc) {

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.842',
+  VERSION: 'Version 0.85',
   CLASSES: {
     mage: {
       switchTo: 'Wizard',
@@ -16,7 +16,7 @@ export const globals = {
       critDmg: 'WIZ_INNATE_CRIT_DMG',
       cookie: 'mode=wiz',
       css: 'wiz-only'
-    } 
+    }
   }
 }
 
@@ -909,31 +909,31 @@ export const mageDPSAAContext = [
 
 export const additionalModifiers = {
   options: {
-    aaForceNukes: { enabled: false, title: 'AA Force Nukes' },
-    fireboundOrb: { enabled: false, title: 'Firebound Orb Rk. III  (Blazing Jet)', mode: 'mage' },
+    aaForceNukes: { enabled: false, title: 'AA Nukes' },
+    fireboundOrb: { enabled: false, title: 'Mag: Firebound Orb Rk. III', mode: 'mage' },
     darkShield: { enabled: false, title: 'Dark Shield of the Scholar'},
     hedgewizard: { enabled: false, title: 'Ancient Hedgewizards Brew' },
-    ariaMaetanrus: { enabled: false, title: 'Aria of Maetanrus Rk. III' },
-    nilsara: { enabled: false, title: 'Nilsara\'s Aria Rk. III' },
-    augAura: { enabled: false, title: 'Augmenting Aura Rk. III' },
+    ariaMaetanrus: { enabled: false, title: 'Brd: Aria of Maetanrus Rk. III' },
+    nilsara: { enabled: false, title: 'Brd: Nilsara\'s Aria Rk. III' },
+    augAura: { enabled: false, title: 'Enc: Augmenting Aura Rk. III' },
     encHazy: {
       enabled: false,
       hasInput: true,
-      title: 'Gift of Hazy Thoughts',
+      title: 'Enc: Gift of Hazy Thoughts',
       tooltip: 'How often to proc a single Gift of Hazy Thoughts (in seconds).\rKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
       defaultTime: 20
     },
     encSynergy: {
       enabled: false,
       hasInput: true,
-      title: 'Beguiler\'s Synergy I',
+      title: 'Enc: Beguiler\'s Synergy I',
       tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindsunder.',
       defaultTime: 11
     },
     magSynergy: {
       enabled: false,
       hasInput: true,
-      title: 'Conjurer\'s Synergy I',
+      title: 'Mag: Conjurer\'s Synergy I',
       tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
       defaultTime: 13,
       mode: 'wiz'
@@ -941,24 +941,25 @@ export const additionalModifiers = {
     necSynergy: {
       enabled: false,
       hasInput: true,
-      title: 'Defiler\'s Synergy I',
+      title: 'Nec: Defiler\'s Synergy I',
       tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Impose for Blood.',
       defaultTime: 7
     },
     wizSynergy: {
       enabled: false,
       hasInput: true,
-      title: 'Evoker\'s Synergy I',
+      title: 'Wiz: Evoker\'s Synergy I',
       tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
       defaultTime: 25,
       mode: 'mage'
     },
-    mrAura: { enabled: false, title: 'Mana Reciprocation Aura Rk. III' },
-    tcAura: { enabled: false, title: 'Twincast Aura Rk. III' },
-    fwAura: { enabled: false, title: 'Frostweave Aura Rk. III' }
+    mrAura: { enabled: false, title: 'Enc: Mana Recip... Aura Rk. III' },
+    tcAura: { enabled: false, title: 'Enc: Twincast Aura Rk. III' },
+    fwAura: { enabled: false, title: 'Dru: Frostweave Aura Rk. III' },
+    amAura: { enabled: false, title: 'Brd: Arcane Melody Rk. III' }
   },
-  displayList: [ 'aaForceNukes', 'darkShield', 'fireboundOrb', 'hedgewizard', 'ariaMaetanrus',  'nilsara', 'augAura',
-     'fwAura', 'mrAura', 'tcAura', 'encHazy', 'encSynergy', 'magSynergy', 'necSynergy', 'wizSynergy']
+  displayList: [ 'aaForceNukes', 'hedgewizard', 'darkShield', 'amAura', 'ariaMaetanrus', 'nilsara', 'fwAura', 
+      'augAura', 'encSynergy', 'encHazy', 'mrAura', 'tcAura', 'fireboundOrb', 'wizSynergy', 'magSynergy', 'necSynergy' ]
 };
 
 export const additionalModifiersDebuffs = {
@@ -975,7 +976,7 @@ export const adpsConfig = {
   options: {
     AD: {
       id: 'AD',
-      content: 'Arcane Destruction V',
+      content: 'Wiz: Arcane Destruction V',
       class: 'wiz',
       offset: 280000,
       charges: 24,
@@ -986,7 +987,7 @@ export const adpsConfig = {
     },
     AF: {
       id: 'AF',
-      content: 'Arcane Fury III',
+      content: 'Wiz: Arcane Fury III',
       class: 'wiz',
       offset: 245000,
       spa: 302,
@@ -995,26 +996,37 @@ export const adpsConfig = {
     AUS: {
       id: 'AUS',
       critRateMod: 33,
-      content: 'Auspice of the Hunter',
+      content: 'Rng: Auspice of the Hunter',
       offset: 96000,
       spa: 294,
+      slot: 1
+    },
+    B2: {
+      id: 'B2',
+      afterCritAdd: 2000,
+      content: 'Brd: Second Spire',
+      offset: 90000,
+      requirements: {
+        minManaCost: 10
+      },
+      spa: 286,
       slot: 1
     },
     BW: {
       id: 'BW',
       critRateMod: 10,
       critDmgMod: 100,
-      content: 'Group Spirit of Black Wolf',
+      content: 'Dru: Group Spirit of Black Wolf',
       offset: 225000,
       spa: 294,
       slot: 8
-    },    
+    },
     CH: {
       id: 'CH',
       critDmgMod: 375,
       critRateMod: 100,
       charges: 2,
-      content: 'Chroma Haze VII',
+      content: 'Enc: Chroma Haze VII',
       offset: 12000,
       chargeBased: true,
       spa: 302,
@@ -1023,7 +1035,7 @@ export const adpsConfig = {
     DR: {
       id: 'DR',
       charges: 16,
-      content: 'Dichotomic Reinforcement 6',
+      content: 'Enc: Dichotomic Reinforcement 6',
       offset: 18000,
       beforeCritAdd: 3959,
       chargeBased: true,
@@ -1033,12 +1045,12 @@ export const adpsConfig = {
         minManaCost: 100,
         maxLevel: 110,
         castSpellOnly: true
-      }      
+      }
     },
     E3: {
       id: 'E3',
       critRateMod: 9,
-      content: 'Enchanter 3rd Spire',
+      content: 'Enc: Third Spire',
       offset: 90000,
       spa: 294,
       slot: 11
@@ -1046,7 +1058,7 @@ export const adpsConfig = {
     EU: {
       id: 'EU',
       afterCritMult: 0.95,
-      content: 'Elemental Union XIII',
+      content: 'Mag: Elemental Union XIII',
       class: 'mage',
       offset: 144000,
       spa: 124,
@@ -1060,7 +1072,7 @@ export const adpsConfig = {
     },
     FD: {
       id: 'FD',
-      content: 'Frenzied Devestation XIX',
+      content: 'Wiz: Frenzied Devestation XIX',
       class: 'wiz',
       offset: 410000,
       charges: 45,
@@ -1074,14 +1086,14 @@ export const adpsConfig = {
       id: 'FE',
       critRateMod: 12,
       critDmgMod: 12,
-      content: 'Fierce Eye',
+      content: 'Brd: Fierce Eye',
       offset: 120000,
       spa: 294,
       slot: 5
     },
     FURYDRUZ: {
       id: 'FURYDRUZ',
-      content: 'Fury of Druzzil XIII',
+      content: 'Wiz: Fury of Druzzil XIII',
       class: 'wiz',
       offset: 600000,
       resist: 'MAGIC',
@@ -1090,7 +1102,7 @@ export const adpsConfig = {
     },
     FURYECI: {
       id: 'FURYECI',
-      content: 'Fury of Eci XIII',
+      content: 'Wiz: Fury of Eci XIII',
       class: 'wiz',
       offset: 600000,
       resist: 'ICE',
@@ -1099,7 +1111,7 @@ export const adpsConfig = {
     },
     FURYRO: {
       id: 'FURYRO',
-      content: 'Fury of Ro XIII',
+      content: 'Wiz: Fury of Ro XIII',
       class: 'wiz',
       offset: 600000,
       resist: 'FIRE',
@@ -1108,7 +1120,7 @@ export const adpsConfig = {
     },
     FURYKERA: {
       id: 'FURYKERA',
-      content: 'Fury of Kerafyrm IX',
+      content: 'Wiz: Fury of Kerafyrm IX',
       class: 'wiz',
       offset: 600000,
       resist: 'ANY',
@@ -1126,7 +1138,7 @@ export const adpsConfig = {
     HF: {
       id: 'HF',
       afterCritMult: 1.10,
-      content: 'Heart of Flames XII',
+      content: 'Mag: Heart of Flames XII',
       class: 'mage',
       offset: 276000,
       resist: 'FIRE',
@@ -1136,7 +1148,7 @@ export const adpsConfig = {
     MBRN: {
       id: 'MBRN',
       charges: 500,
-      content: 'Mana Burn XVI',
+      content: 'Wiz: Mana Burn XVI',
       offset: 120000,
       afterCritAdd: 19200,
       chargeBased: true,
@@ -1144,8 +1156,8 @@ export const adpsConfig = {
       slot: 1,
       requirements: {
         focusable: true
-      }      
-    },    
+      }
+    },
     MC: {
       id: 'MC',
       critDmgMod: 50,
@@ -1161,7 +1173,7 @@ export const adpsConfig = {
       id: 'HV',
       critDmgMod: 35,
       critRateMod: 0,
-      content: 'Heart of Vapor XIV',
+      content: 'Mag: Heart of Vapor XIV',
       class: 'mage',
       offset: 276000,
       spa: 294,
@@ -1171,7 +1183,7 @@ export const adpsConfig = {
       id: 'IOG',
       critRateMod: 12,
       critDmgMod: 155,
-      content: 'Illusions of Grandeur',
+      content: 'Enc: Illusions of Grandeur',
       offset: 120000,
       spa: 294,
       slot: 5
@@ -1186,7 +1198,7 @@ export const adpsConfig = {
     M1: {
       id: 'M1',
       critRateMod: 24,
-      content: 'First Spire of Elements IV',
+      content: 'Mag: First Spire',
       class: 'mage',
       offset: 90000,
       spa: 294,
@@ -1200,7 +1212,7 @@ export const adpsConfig = {
     SW: {
       id: 'SW',
       beforeCritFocus: 0.185,
-      content: 'Season\'s Wrath V',
+      content: 'Dru: Season\'s Wrath V',
       offset: 30000,
       spa: 296,
       slot: 1
@@ -1208,7 +1220,7 @@ export const adpsConfig = {
     VES: {
       id: 'VES',
       critRateMod: 12,
-      content: 'Spirit of Vesagran (Bard Epic)',
+      content: 'Brd: Epic (Spirit of Vesagran)',
       offset: 120000,
       spa: 294,
       slot: 9
@@ -1216,7 +1228,7 @@ export const adpsConfig = {
     W2: {
       id: 'W2',
       critDmgMod: 160,
-      content: 'Second Spire of Arcanum IV',
+      content: 'Wiz: Second Spire',
       class: 'wiz',
       offset: 90000,
       spa: 294,
@@ -1224,8 +1236,8 @@ export const adpsConfig = {
     }
   },
   displayList: [
-    'AD', 'AF', 'AUS', 'CH', 'DR', 'EU', 'E3', 'FE', 'M1', 'FR', 'FD', 'FURYDRUZ', 'FURYECI', 'FURYRO', 'FURYKERA', 'GLYPH',
-    'BW', 'HF', 'HV', 'IOG', 'ITC', 'MBRN', 'MC', 'SW', 'W2', 'VES',  'TC'
+    'FR', 'GLYPH', 'ITC', 'MC', 'TC', 'VES', 'FE', 'B2', 'BW', 'SW', 'CH', 'DR', 'IOG', 'E3', 'EU', 'M1',
+    'HF', 'HV', 'AUS', 'AD', 'AF', 'FD', 'FURYDRUZ', 'FURYECI', 'FURYKERA', 'FURYRO', 'MBRN', 'W2'
   ]
 };
 

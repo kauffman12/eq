@@ -51,6 +51,7 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "FD Charges", spellStats.get('fdChargesUsed'));
     addDecimalStatDescription(data, "ITC Charges", spellStats.get('itcChargesUsed'));
     addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
+    addDecimalStatDescription(data, "AMelody Charges", spellStats.get('amChargesUsed'));
     addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwChargesUsed'));
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mrChargesUsed'));
     addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
@@ -97,8 +98,9 @@ export function getStatisticsSummary(spellStats) {
 
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
-  addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwAddDmg'));
+  addNumberStatDescription(data, "AMelody Proc", spellStats.get('amAddDmg'));
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
+  addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mrAddDmg'));
   addNumberStatDescription(data, "Hedgewizards", spellStats.get('abAddDmg'));
 
@@ -126,7 +128,7 @@ export function printStats(output, state, timerange) {
   let totalDetCastCount = getSpellCastInfo().get('detCastCount') || 0;
   
   // Spell Count
-  updateStatSection('#spellCountStats', avgDPS, 'Spells + TC/Proc', totalCastCount, totalCastCount, 'totalCastCount');
+  updateStatSection('#spellCountStats', avgDPS, '#Spells + TC/Proc', totalCastCount, totalCastCount, 'totalCastCount');
 
   // DPS
   updateStatSection('#dpsStats', avgDPS, 'DPS ', utils.numberWithCommas(avgDPS.toFixed(2)), avgDPS, 'avgDPS');
