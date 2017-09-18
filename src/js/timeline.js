@@ -486,6 +486,7 @@ export function updateSpellChart() {
   let preemptSpells = [];
   
   let state = {
+    cache: {},
     chartIndex: -1,
     gcd: dom.getGCDValue(),
     tcCounter: 0,

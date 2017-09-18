@@ -227,12 +227,7 @@ function calcTwincastChance(state, mod) {
       // AA Twincast, Twincast Aura, and other passed in modifiers
       // Max sure it never goes over 100%
       value += (state.tcCounter + dom.getTwincastAAValue() + dom.getTwincastAuraValue());
-
-      // Add tc chance from claw procs taking out value which would negate the need
-      if (state.clawTcProcRate > 0) {
-        let scaledValue = ((1 - value) * state.clawTcProcRate + (1 - state.clawTcProcRate) * value);
-        value = (value > scaledValue) ? value : scaledValue;
-      }
+      value = dmgU.getClawTwincastRate(state, value);
     } else {
       value = dmgU.processCounter(state, 'ITC', mod, 1);
     }
@@ -695,6 +690,7 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
 
   // Current twincast rate before procs may increase it
   let twincastChance = calcTwincastChance(state, mod);
+  stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
 
   // add any post spell procs/mods before we're ready to
   // twincast another spell
@@ -718,6 +714,5 @@ export function calcTotalAvgDamage(state, mod, dmgKey) {
   // post checks for counter based ADPS
   timeline.postCounterBasedADPS(state);
 
-  stats.updateSpellStatistics(state, 'twincastChance', twincastChance);
   return stats.getSpellStatistics(state, 'totalDmg') || 0; // Alliance
 }

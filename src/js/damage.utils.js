@@ -138,14 +138,13 @@ export function applyPostSpellProcs(state, timeline, mod) {
       }
 
       var tcLength = utils.readAdpsOption('TC', 'offset');
-      utils.initNumberProperties(state, ['clawRefreshCount', 'clawTcProcRate']);
+      utils.initNumberProperties(state, ['clawRefreshCount', 'clawTcCounter']);
       utils.initListProperties(state, ['clawTcTimers']);
-
-      // Update claw proc chance
-      state.clawTcProcRate += CLAW_TWINCAST_CHANCE * update;
-      state.clawTcTimers.push(utils.createTimer(state.workingTime + tcLength, function(value) {
-        return value - CLAW_TWINCAST_CHANCE * update;
-      }));
+      
+      if (!state.inTwincast) {
+        state.clawTcCounter++;
+        state.clawTcTimers.push(utils.createTimer(state.workingTime + tcLength, (value) => value - 1 ));
+      }
 
       // only count main spells for normalization
       state.clawRefreshCount += update;
@@ -212,7 +211,7 @@ export function applyPostSpellProcs(state, timeline, mod) {
 export function applyPreSpellProcs(state, timeline) {
   // Check for effects to cancel
   ['VFX', 'WSYN', 'FPWR'].forEach(id => utils.checkSimpleTimer(state, id)); // simple timers
-  utils.checkTimerList(state, 'clawTcProcRate', 'clawTcTimers');
+  utils.checkTimerList(state, 'clawTcCounter', 'clawTcTimers');
   utils.checkTimerList(state, 'flamesWeaknessCounter', 'flamesWeaknessTimers');
 
   // Update Storm of Many damage based on selected value
@@ -252,6 +251,27 @@ export function getBaseCritDmg() {
 
 export function getBaseCritRate() {
   return dom.getDoNValue() + dom.getFuryOfMagicValue() + dom.getCritRateValue();
+}
+
+export function getClawTwincastRate(state, value) {
+  // Add tc chance from claw procs taking out value which would negate the need
+  if (state.clawTcCounter > 0) {
+    let cacheKey = String(state.clawTcCounter) + value;
+    let rate = state.cache[cacheKey];
+    if (!rate) {
+      let procRate = CLAW_TWINCAST_CHANCE + CLAW_TWINCAST_CHANCE * value;
+      for (let i=0; i<state.clawTcCounter; i++) {
+        procRate = procRate + value * procRate;
+        value = value + procRate;            
+      }
+      
+      state.cache[cacheKey] = value;
+    } else {
+      value = rate;        
+    }
+  }
+  
+  return value;
 }
 
 export function getCompoundSpellList(id) {

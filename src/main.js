@@ -11,7 +11,7 @@ import * as utils from './js/utils.js';
 import * as timeline from './js/timeline.js';
 
 // Set app version
-$('span.version').text(G.VERSION);    
+$('span.version').text(G.VERSION);
 
 // on click for changing between wiz mode and mage mode
 let switchButton = $('button.switch-button');
