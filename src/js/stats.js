@@ -109,9 +109,8 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
 
-  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()));
+  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()) * 1000);
   data.push({ title: "DPS", value: utils.numberWithCommas(dps) + "/s"});
-
   return data;
 }
 

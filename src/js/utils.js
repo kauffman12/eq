@@ -242,6 +242,10 @@ export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+export function readActiveAbility(a) {
+  return SETTINGS.additionalModifiers['options'][a]; 
+}
+
 export function readAdpsConfig(cfg) {
   return SETTINGS.adpsConfig[cfg];
 }

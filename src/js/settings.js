@@ -914,8 +914,17 @@ export const additionalModifiers = {
     darkShield: { enabled: false, title: 'Dark Shield of the Scholar'},
     hedgewizard: { enabled: false, title: 'Ancient Hedgewizards Brew' },
     ariaMaetanrus: { enabled: false, title: 'Brd: Aria of Maetanrus Rk. III' },
-    nilsara: { enabled: false, title: 'Brd: Nilsara\'s Aria Rk. III' },
     augAura: { enabled: false, title: 'Enc: Augmenting Aura Rk. III' },
+    nilsara: {
+      enabled: false,
+      title: 'Brd: Nilsara\'s Aria Rk. III',
+      requirements: {
+        minManaCost: 10,
+        maxLevel: 105,
+        resists: ['FIRE'],
+        exTargets: ['AE']
+      }
+    },
     encHazy: {
       enabled: false,
       hasInput: true,
@@ -1062,7 +1071,11 @@ export const adpsConfig = {
       class: 'mage',
       offset: 144000,
       spa: 124,
-      slot: 1
+      slot: 1,
+      requirements: {
+        exTargets: ['AE'],
+        maxLevel: 105
+      }
     },
     FR: {
       id: 'FR',
@@ -1143,7 +1156,12 @@ export const adpsConfig = {
       offset: 276000,
       resist: 'FIRE',
       spa: 124,
-      slot: 1
+      slot: 1,
+      requirements: {
+        exTargets: ['AE'],
+        maxLevel: 105,
+        resists: ['FIRE']
+      }      
     },
     MBRN: {
       id: 'MBRN',

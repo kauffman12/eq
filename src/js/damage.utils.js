@@ -240,6 +240,11 @@ export function* genDamageOverTime(state) {
   return 0;
 }
 
+export function checkAbilityReqs(state, a) {
+  let ability = utils.readActiveAbility(a);
+  return !ability || !ability.requirements || passReqs(ability.requirements, state);
+}
+
 export function getBaseCritDmg() {
   // Wiz Pet is Crit DMG Focus Spell (SPA 170)
   // Definitely stacks with FD and works with DF and AA Nukes
@@ -355,7 +360,7 @@ export function isCastDetSpell(spell) {
     spell.max !== 0 && !(spell.skill === 24 && spell.level > 250);
 }
 
-export function passRequirements(reqs, state) {
+export function passReqs(reqs, state) {
   var spell = state.spell;
 
   if (reqs) {
@@ -378,6 +383,8 @@ export function passRequirements(reqs, state) {
     } else if (reqs.focusable && !spell.isFocusable) {
       return false;
     } else if (reqs.spellOrEqpProc && !isSpellOrEqpProc(spell)) {
+      return false;
+    } else if (reqs.exTargets && reqs.exTargets.find(x => x === spell.target)) {
       return false;
     } else if (reqs.resists && !reqs.resists.find(x => x === spell.resist)) {
       return false;

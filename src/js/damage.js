@@ -88,10 +88,10 @@ function calcAvgDamage(state, mod, dmgKey) {
     let effDmg = state.spell.baseDmg + dmgU.trunc(state.spell.baseDmg * effectiveness);
     let critFocusDmg = effDmg + dmgU.trunc(effDmg * beforeCritMult) + beforeCritAdd;
     let avgBaseDmg = critFocusDmg + dmgU.trunc(effDmg * afterCritMult) + afterCritAdd;
-    
+
     // find average crit
     let avgCritDmg = avgBaseDmg + dmgU.trunc(critFocusDmg * critDmgMult);
-    
+
     // apply post calculation modifier for SPA 461
     avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcMult);
     avgCritDmg += dmgU.trunc(avgCritDmg * postCalcMult);
@@ -113,18 +113,18 @@ function calcAvgDamage(state, mod, dmgKey) {
 
     // add twinproc dmg
     avgDmg += dmgU.canTwinproc(state.spell) ? avgDmg * dom.getTwinprocValue() : 0;
-    
+
     // apply mod
     avgDmg = dmgU.trunc(avgDmg * mod);
 
     // Handle AE waves if current spell is an AE
     if (state.spell.target === 'AE' && !state.aeWave) {
       addAEWaves(state, mod, avgDmg);
-    }    
+    }
 
     // update totals
     stats.addSpellStatistics(state, 'totalDmg', avgDmg);
-    
+
     // save avg damage of main spell
     let avgDmgKey = state.inTwincast ? 'tcAvgDmg' : 'avgDmg';
     if (!dmgKey || state.aeWave) {
@@ -135,13 +135,13 @@ function calcAvgDamage(state, mod, dmgKey) {
     if (dmgKey && !(state.aeWave && state.inTwincast)) {
       stats.addSpellStatistics(state, dmgKey, avgDmg);
     }
-    
+
     // update stats for main damage spells
     if (dmgU.isCastDetSpellOrAbility(state.spell)) {
       // save total crit rate including from twincats and procs plus associated count
       stats.addAggregateStatistics('critRate', critRate * mod);
       stats.addAggregateStatistics('spellCount', mod);
-      
+
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
         // Update graph
         state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
@@ -248,7 +248,7 @@ function executeProc(id, state, mod, statId) {
 
   // Procs like FW have counters set during updateSpellChart while Hedgewizards has none
   if (proc.id && state && proc != state.spell) {
-    if (dmgU.passRequirements(proc.requirements, state)) {
+    if (dmgU.passReqs(proc.requirements, state)) {
       let dmgKey = utils.getCounterKeys(key).addDmg;
       (id != 'MR') ? calcAvgProcDamage(state, proc, mod, dmgKey) : calcAvgMRProcDamage(state, mod, dmgKey);
 
@@ -267,48 +267,34 @@ function getAfterCritAdd(state, mod) {
   let afterCritAdd = 0;
 
   // AA PSA 286
-  if (dmgU.passRequirements({minManaCost: 10, minCastTime: 1, focusable: true}, state)) {
+  if (dmgU.passReqs({minManaCost: 10, minCastTime: 1, focusable: true}, state)) {
     afterCritAdd = dom.getSorcererVengeananceValue() || 0;
   }
 
   // Worn SPA 286
   let belt = dom.getBeltProcValue();
-  if (belt === '500-proconly' && dmgU.passRequirements({focusable: true, spellOrEqpProc: true}, state)) {
+  if (belt === '500-proconly' && dmgU.passReqs({focusable: true, spellOrEqpProc: true}, state)) {
     afterCritAdd += 500;
-  } else if (belt === '1000-magic' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['MAGIC']}, state)) {
+  } else if (belt === '1000-magic' && dmgU.passReqs({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['MAGIC']}, state)) {
     afterCritAdd += 1000;
-  } else if (belt === '500-fire' && dmgU.passRequirements({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['FIRE']}, state)) {
+  } else if (belt === '500-fire' && dmgU.passReqs({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['FIRE']}, state)) {
     afterCritAdd += 500;
   }
 
-  // Spell SPA 286
-  let afterCritAddSpell = 0;
-  let nilsara = dom.getNilsaraAriaValue();
-  if (nilsara > 0 && dmgU.passRequirements({minManaCost: 10, maxLevel: 105, resists: ['FIRE']}, state) && spell.target != 'AE') {
-    afterCritAddSpell = dom.getNilsaraAriaValue();
-  }
-  
-  // Spell SPA 286
-  if (timeline.getAdpsDataIfActive('B2', time)) {
-    let adpsOption = utils.readAdpsOption('B2');
-    
-    if (dmgU.passRequirements(adpsOption.requirements, state)) {
-      afterCritAddSpell = Math.max(afterCritAddSpell, adpsOption.afterCritAdd);
-    }
-  }
-  
-  afterCritAdd += afterCritAddSpell;
-  
-  // Enc Dicho, charges are accounted for when procs are handled
-  if (timeline.getAdpsDataIfActive('MBRN', time)) {
-    let adpsOption = utils.readAdpsOption('MBRN');
-    
-    if (dmgU.passRequirements(adpsOption.requirements, state)) {
-      afterCritAdd += Math.trunc(dmgU.processCounter(state, 'MBRN', mod, adpsOption.afterCritAdd));
-    }
+  // SPA 286 Manaburn stacks with the others
+  let mbrn = timeline.getAdpsData(state, 'MBRN', time, 'afterCritAdd');
+  if (mbrn > 0) {
+    afterCritAdd += Math.trunc(dmgU.processCounter(state, 'MBRN', mod, mbrn));
   }
 
-  return afterCritAdd;
+  // Spell SPA 286 bard nilsara
+  let nilsara = dom.getNilsaraAriaValue();
+  let afterCritAddSpell = (nilsara > 0 && dmgU.checkAbilityReqs(state, 'nilsara')) ? nilsara : 0;
+
+  // Spell SPA 286 bard 2nd spire
+  afterCritAddSpell = Math.max(afterCritAddSpell, timeline.getAdpsData(state, 'B2', time, 'afterCritAdd') || 0);  
+
+  return afterCritAdd + afterCritAddSpell;
 }
 
 function getAfterCritFocus(state, mod) {
@@ -318,7 +304,7 @@ function getAfterCritFocus(state, mod) {
 
   // Damage Focus AA (SPA 124)
   // AA seems to focus everything even spells labeled non focus
-  afterCritMult = dmgU.passRequirements({focusable: true, minManaCost: 10}, state) ? dom.getDestructiveAdeptValue() : 0;
+  afterCritMult = dmgU.passReqs({focusable: true, minManaCost: 10}, state) ? dom.getDestructiveAdeptValue() : 0;
 
   // Worn and Spell SPA 124 are generally max level but recent armor is max+5
   // always exclude AEs
@@ -332,12 +318,10 @@ function getAfterCritFocus(state, mod) {
     spa124Spell = Math.max(spa124Spell, bardFocus);
 
     // Damge Focus Spell (SPA 124) Slot 1
-    let elementalUnion = timeline.getElementalUnionValue(time);
-    spa124Spell = Math.max(spa124Spell, elementalUnion);
+    spa124Spell = Math.max(spa124Spell, timeline.getAdpsData(state, 'EU', time, 'afterCritMult') || 0);
 
     // Damge Focus Spell (SPA 124) Slot 1
-    let heartFlames = timeline.getHeartOfFlamesValue(time);
-    spa124Spell = Math.max(spa124Spell, heartFlames);
+    spa124Spell = Math.max(spa124Spell, timeline.getAdpsData(state, 'HF', time, 'afterCritMult') || 0);
 
     // Do this one last
     // Net effect is to increase SPA 124 Spell by the difference between
@@ -527,7 +511,7 @@ function getPostCalcMult(state) {
   let value = 0;
 
   if (utils.isCounterActive(state, 'ESYN') &&
-    dmgU.passRequirements({ maxLevel: 249, resists: ['FIRE', 'MAGIC', 'ICE']}, state)) {
+    dmgU.passReqs({ maxLevel: 249, resists: ['FIRE', 'MAGIC', 'ICE']}, state)) {
       value = dmgU.ENC_SYNERGY_PERCENT;
       stats.addSpellStatistics(state, utils.getCounterKeys('ESYN').charges, 1);
       state[utils.getCounterKeys('ESYN').counter]--;
@@ -540,15 +524,15 @@ function getSPA296Focus(state, mod) {
   let beforeCritMult = 0;
   let time = state.workingTime;
 
-  if (dmgU.passRequirements({focusable: true, maxLevel: 110}, state)) {
+  if (dmgU.passReqs({focusable: true, maxLevel: 110}, state)) {
     // Before Crit Focus Spell (SPA 296)
-    if (utils.isCounterActive(state, 'VFX') && dmgU.passRequirements({minManaCost: 100}, state)) {
+    if (utils.isCounterActive(state, 'VFX') && dmgU.passReqs({minManaCost: 100}, state)) {
       beforeCritMult = dmgU.AVG_VORTEX_FOCUS;
       beforeCritMult = dmgU.processCounter(state, 'VFX', mod, beforeCritMult);
     }
 
     // Before Crit Focus Spell (SPA 296) Season's Wrath
-    let swValue = timeline.getAdpsDataIfActive('SW', time, 'beforeCritFocus') || 0; 
+    let swValue = timeline.getAdpsData(state, 'SW', time, 'beforeCritFocus') || 0;
 
     let debuff = 0;
     switch(state.spell.resist) {
@@ -587,15 +571,15 @@ function getSPA302Focus(state, mod) {
   let spa302SpellValue = 0
 
   let ch, ehazy = 0;
-  if (dmgU.passRequirements({ minManaCost: 10, minDamage: 100, maxLevel: 110 }, state)) {
+  if (dmgU.passReqs({ minManaCost: 10, minDamage: 100, maxLevel: 110 }, state)) {
     // Chromatic Haze
     ch = utils.isCounterActive(state, 'CH') ? utils.readAdpsOption('CH', 'critDmgMod') / 100 : 0;
     // Gift of Chromatic Haze
-    ehazy = utils.isCounterActive(state, 'EHAZY') ? dmgU.ENC_HAZY_FOCUS : 0;  
+    ehazy = utils.isCounterActive(state, 'EHAZY') ? dmgU.ENC_HAZY_FOCUS : 0;
   }
-  
+
   let msyn = 0;
-  if (dmgU.passRequirements({ minDamage: 100, maxLevel: 250, resists: ['FIRE', 'CHROMATIC'] }, state)) {
+  if (dmgU.passReqs({ minDamage: 100, maxLevel: 250, resists: ['FIRE', 'CHROMATIC'] }, state)) {
     // Conjurer's Synergy I
     msyn = utils.isCounterActive(state, 'MSYN') ?  dmgU.MAG_SYNERGY_PERCENT : 0;
   }
@@ -615,11 +599,11 @@ function getSPA302Focus(state, mod) {
   }
 
   // Arcane Fury
-  let arcaneFury = timeline.getArcaneFuryValue(state.workingTime);
-  if (arcaneFury > 0 && dmgU.passRequirements({ minManaCost: 10, maxLevel: 110 }, state)) {
-    beforeCritMult += Math.max(arcaneFury, spa302SpellValue);
+  let arcaneFury = (G.MODE === 'wiz') && timeline.getAdpsData(state, 'AF', state.workingTime);
+  if (arcaneFury && dmgU.passReqs({ minManaCost: 10, maxLevel: 110 }, state)) {
+    beforeCritMult += Math.max(dmgU.ARCANE_FURY_FOCUS, spa302SpellValue);
   }
-  
+
   return beforeCritMult;
 }
 
@@ -632,14 +616,14 @@ function getSPA303Spell(state, mod) {
     let furyKera = 0;
     // checking for AB since disease from hedgewizards doesnt get benefit but disease
     // from weapon procs do for some reason
-    if (timeline.getAdpsDataIfActive('FURYKERA', time)) {
+    if (timeline.getAdpsData(state, 'FURYKERA', time)) {
       beforeCritAdd = furyKera = dmgU.FURY_KERA_DMG;
     }
 
     switch(state.spell.resist) {
       case 'FIRE':
         // Fury of Ro XIII
-        if (timeline.getAdpsDataIfActive('FURYRO', time)) {
+        if (timeline.getAdpsData(state, 'FURYRO', time)) {
           beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_RO_DMG);
         } else {
           beforeCritAdd = furyKera;
@@ -650,7 +634,7 @@ function getSPA303Spell(state, mod) {
         break;
       case 'ICE':
         // Fury of Eci XIII
-        if (timeline.getAdpsDataIfActive('FURYECI', time)) {
+        if (timeline.getAdpsData(state, 'FURYECI', time)) {
           beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_ECI_DMG);
         } else {
           beforeCritAdd = furyKera;
@@ -661,7 +645,7 @@ function getSPA303Spell(state, mod) {
         break;
       case 'MAGIC':
         // Fury of Druzzil XIII
-        if (timeline.getAdpsDataIfActive('FURYDRUZ', time)) {
+        if (timeline.getAdpsData(state, 'FURYDRUZ', time)) {
            beforeCritAdd = Math.max(beforeCritAdd, dmgU.FURY_DRUZ_DMG);
         } else {
           beforeCritAdd = furyKera;
@@ -673,8 +657,8 @@ function getSPA303Spell(state, mod) {
     }
   }
 
-  let drData = timeline.getAdpsDataIfActive('DR', time);
-  if (drData && dmgU.passRequirements(drData.requirements, state)) {
+  let drData = timeline.getAdpsData(state, 'DR', time);
+  if (drData && dmgU.passReqs(drData.requirements, state)) {
     // Enc Dicho, charges are accounted for when procs are handled
     let drChargePer = 1 + dmgU.getProcRate(state.spell, utils.getSpellData('DRS6'));
     let value = utils.readAdpsOption('DR', 'beforeCritAdd');
@@ -701,7 +685,7 @@ function lookupCalcDmgFunction(spell) {
 export function calcTotalAvgDamage(state, mod, dmgKey) {
   // Default to full strength
   mod = (mod === undefined) ? 1 : mod;
- 
+
   // abilities enabled on the ADPS timeline that have counters
   // needs to be called every time since counters are modified by procs/twincasts
   timeline.initCounterBasedADPS(state);

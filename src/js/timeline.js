@@ -328,12 +328,16 @@ export function createAdpsItem(adpsOption, repeat) {
   return adpsItem;
 }
 
-export function getAdpsDataIfActive(id, time, key) {
+export function getAdpsData(state, id, time, key) {
   let item = TIMELINE_DATA.get(id);
 
   if (item && withinTimeFrame(time, getTime(item))) {
     let adpsOption = utils.readAdpsOption(id);
-    return (key === undefined) ? adpsOption : adpsOption[key];
+    
+    // check requirements
+    if (adpsOption.requirements && dmgU.passReqs(adpsOption.requirements, state)) {
+      return (key === undefined) ? adpsOption : adpsOption[key];    
+    }
   }
 
   return null;
@@ -346,22 +350,6 @@ export function getAdpsGroups() {
   $(displayList).each(function(i, item) {
     groups.add({id: i, content: utils.readAdpsOption(item)});
   });
-}
-
-export function getArcaneFuryValue(time) {
-  if (G.MODE === 'wiz' && getAdpsDataIfActive('AF', time)) {
-    return dmgU.ARCANE_FURY_FOCUS;
-  }
-
-  return 0;
-}
-
-export function getElementalUnionValue(time) {
-  return ((G.MODE === 'mage') ? getAdpsDataIfActive('EU', time, 'afterCritMult') : 0) || 0;
-}
-
-export function getHeartOfFlamesValue(time) {
-  return ((G.MODE === 'mage') ? getAdpsDataIfActive('HF', time, 'afterCritMult') : 0) || 0;
 }
 
 export function init() {
