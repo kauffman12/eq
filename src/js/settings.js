@@ -996,11 +996,16 @@ export const adpsConfig = {
     },
     AF: {
       id: 'AF',
+      beforeCritMult: 0.15,
       content: 'Wiz: Arcane Fury III',
       class: 'wiz',
       offset: 245000,
       spa: 302,
-      slot: 1
+      slot: 1,
+      requirements: {
+        minManaCost: 10,
+        maxLevel: 110
+      }
     },
     AUS: {
       id: 'AUS',
@@ -1229,7 +1234,7 @@ export const adpsConfig = {
     },
     SW: {
       id: 'SW',
-      beforeCritFocus: 0.185,
+      beforeCritMult: 0.185,
       content: 'Dru: Season\'s Wrath V',
       offset: 30000,
       spa: 296,

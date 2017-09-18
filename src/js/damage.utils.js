@@ -4,7 +4,6 @@ import * as stats from './stats.js';
 import * as utils from './utils.js';
 
 // Wiz Settings
-export const ARCANE_FURY_FOCUS = 0.15;
 export const ARCANE_FUSION_CHANCE = 0.04;
 export const CLAW_PROC_MAGIC_CHANCE = 0.05;
 export const CLAW_PROC_ICE_CHANCE = 0.05;

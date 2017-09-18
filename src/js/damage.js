@@ -532,7 +532,7 @@ function getSPA296Focus(state, mod) {
     }
 
     // Before Crit Focus Spell (SPA 296) Season's Wrath
-    let swValue = timeline.getAdpsData(state, 'SW', time, 'beforeCritFocus') || 0;
+    let swValue = timeline.getAdpsData(state, 'SW', time, 'beforeCritMult') || 0;
 
     let debuff = 0;
     switch(state.spell.resist) {
@@ -588,21 +588,18 @@ function getSPA302Focus(state, mod) {
     if (ch > msyn) {
       spa302SpellValue = dmgU.processCounter(state, 'CH', mod, ch);
     } else if (ch) { // check they all weren't zero
-      spa302SpellValue = dmgU.processCounter(state, 'MSYN', mod, msyn);
+      spa302SpellValue = dmgU.processCounter(state, 'MSYN', mod, msyn) || 0;
     }
   } else {
     if (ehazy > msyn) {
       spa302SpellValue = dmgU.processCounter(state, 'EHAZY', mod, ehazy);
     } else if(msyn) { // check they all weren't zero
-      spa302SpellValue = dmgU.processCounter(state, 'MSYN', mod, msyn);
+      spa302SpellValue = dmgU.processCounter(state, 'MSYN', mod, msyn) || 0;
     }
   }
 
   // Arcane Fury
-  let arcaneFury = (G.MODE === 'wiz') && timeline.getAdpsData(state, 'AF', state.workingTime);
-  if (arcaneFury && dmgU.passReqs({ minManaCost: 10, maxLevel: 110 }, state)) {
-    beforeCritMult += Math.max(dmgU.ARCANE_FURY_FOCUS, spa302SpellValue);
-  }
+  beforeCritMult += Math.max(timeline.getAdpsData(state, 'AF', state.workingTime, 'beforeCritMult') || 0, spa302SpellValue);
 
   return beforeCritMult;
 }
