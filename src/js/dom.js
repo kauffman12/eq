@@ -42,6 +42,17 @@ export function getAERainHitsValue() {
   });
 }
 
+export function getAbilityRate(ability) {
+  return utils.useCache('ability-rate-' + ability, () => {
+    let data = utils.readActiveAbility(ability);
+    if (data.hasInput) {
+      return 1000 * utils.getNumberValue(($('#' + ability + 'Rate').val()));
+    } else {
+      return data.defaultTime || 0;
+    }   
+  });
+}
+
 export function getAddAfterCritFocusValue() {
   return utils.useCache('.add-after-crit-focus', () => {
     return utils.getNumberValue($('#addAfterCritFocus').val() / 100);
@@ -174,7 +185,7 @@ export function getEncHazyRate() {
 }
 
 export function getEncSynergyRate() {
-  return 1000 * utils.getNumberValue(($('#encSynergyRate').val()));
+  return 1000 * utils.getNumberValue(($('#ESYNRate').val()));
 }
 
 export function getEvokersSynergyValue() {
@@ -284,30 +295,28 @@ export function getNecSynergyRate() {
   return 1000 * utils.getNumberValue(($('#necSynergyRate').val()));
 }
 
-export function getNilsaraAriaValue() {
-  return utils.useCache('nilsara-aria-value', () => {
-    return $('#nilsara').is(':checked') ? dmgU.NILSARA_ARIA_DMG : 0;
+export function getPetCritFocusValue() {
+  return utils.useCache('.spell-pet-focus-crit', () => {
+    if (G.MODE === 'wiz') {
+      let type = $('.spell-pet-focus .dropdown-toggle').data('value');
+      if (type === 'improvedKera') {
+        return dmgU.IMPROVED_FAMILIAR_CRIT * 100;
+      }
+    }
+    return 0;
   });
 }
 
-export function getPetCritFocusValue() {
-  if (G.MODE === 'wiz') {
-    let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-    if (['improved', 'improvedKera'].find(t => t === type)) {
-      return dmgU.IMPROVED_FAMILIAR_CRIT * 100;
-    }
-  }
-  return 0;
-}
-
 export function getPetDmgFocusValue() {
-  if (G.MODE =='wiz') {
-    let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-    if (['kera', 'improvedKera'].find(t => t === type)) {
-      return dmgU.KERA_FAMILIAR_FOCUS;
-    }
-  } 
-  return 0;
+  return utils.useCache('.spell-pet-focus-dmg', () => {
+    if (G.MODE == 'wiz') {
+      let type = $('.spell-pet-focus .dropdown-toggle').data('value');
+      if (type === 'improvedKera') {
+        return dmgU.IMPROVED_FAMILIAR_FOCUS;
+      }
+    } 
+    return 0;
+  });
 }
 
 export function getRangeAugValue() {
@@ -446,10 +455,6 @@ export function getWizSynergyRate() {
   return 1000 * utils.getNumberValue(($('#wizSynergyRate').val()));
 }
 
-export function isUsingAM() {
-  return $('#amAura').is(':checked');
-}
-
 export function isUsingAANukes() {
   return $('#aaForceNukes').is(':checked');
 }
@@ -462,38 +467,12 @@ export function isUsingDarkShield() {
   return $('#darkShield').is(':checked');
 }
 
-export function isUsingEncHazy() {
-  return $('#encHazy').is(':checked');
-}
-
-export function isUsingEncSynergy() {
-  return $('#encSynergy').is(':checked');
-}
-
 export function isUsingFireboundOrb() {
   return $('#fireboundOrb').is(':checked');
 }
 
-export function isUsingFW() {
-  return $('#fwAura').is(':checked');
-}
-
-export function isUsingHedgewizard() {
-  return $('#hedgewizard').is(':checked');
-}
-
-export function isUsingMagSynergy() {
-  return $('#magSynergy').is(':checked');
-}
-
-export function isUsingMR() {
-  return $('#mrAura').is(':checked');
-}
-
-export function isUsingNecSynergy() {
-  return $('#necSynergy').is(':checked');
-}
-
-export function isUsingWizSynergy() {
-  return $('#wizSynergy').is(':checked');
+export function isUsingAbility(ability) {
+  return utils.useCache('is-using-' + ability, () => {
+    return $('#' + ability).is(':checked') || false;
+  });
 }

@@ -102,16 +102,15 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mrAddDmg'));
-  addNumberStatDescription(data, "Hedgewizards", spellStats.get('abAddDmg'));
+  addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
 
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsynAddDmg'));
 
   addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
 
-  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()));
+  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()) * 1000);
   data.push({ title: "DPS", value: utils.numberWithCommas(dps) + "/s"});
-
   return data;
 }
 

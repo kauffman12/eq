@@ -136,16 +136,17 @@ function isSpellAbilityReady(state, ids) {
 
 // Initialze counters and expire time for items like Enc Synergy in the Abilities In Use section
 function initActivatedAbility(state, item) {
-  let keys = utils.getCounterKeys(item.id);
   let lastProcMap = state.lastProcMap;
 
-  if (item.enabled()) {
-    if (!lastProcMap[item.id] || lastProcMap[item.id] + item.rate() < state.workingTime) {
+  if (dom.isUsingAbility(item.id)) {
+    let keys = utils.getCounterKeys(item.id);
+    let rate = dom.getAbilityRate(item.id);
+    if (!lastProcMap[item.id] || lastProcMap[item.id] + rate < state.workingTime) {
       if (!lastProcMap[item.id]) {
         lastProcMap[item.id] = CURRENT_TIME;
         state[keys.expireTime] = CURRENT_TIME + item.timer;
       } else {
-        lastProcMap[item.id] += item.rate();
+        lastProcMap[item.id] += rate;
         state[keys.expireTime] = lastProcMap[item.id] + item.timer;
       }
 
@@ -328,12 +329,24 @@ export function createAdpsItem(adpsOption, repeat) {
   return adpsItem;
 }
 
-export function getAdpsDataIfActive(id, time, key) {
+export function getAdpsData(state, id, time, key) {
   let item = TIMELINE_DATA.get(id);
 
   if (item && withinTimeFrame(time, getTime(item))) {
     let adpsOption = utils.readAdpsOption(id);
-    return (key === undefined) ? adpsOption : adpsOption[key];
+    
+    // check if counters are involved
+    if (adpsOption.chargeBased) {
+      let counter = utils.getCounterKeys(id).counter;
+      if (!state[counter] || state[counter] <= 0 || state.aeWave) { // AE waves don't use extra
+        return null;
+      }
+    }
+    
+    // check requirements
+    if (!adpsOption.requirements || dmgU.passReqs(adpsOption.requirements, state)) {
+      return (key === undefined) ? adpsOption : adpsOption[key];    
+    }
   }
 
   return null;
@@ -346,22 +359,6 @@ export function getAdpsGroups() {
   $(displayList).each(function(i, item) {
     groups.add({id: i, content: utils.readAdpsOption(item)});
   });
-}
-
-export function getArcaneFuryValue(time) {
-  if (G.MODE === 'wiz' && getAdpsDataIfActive('AF', time)) {
-    return dmgU.ARCANE_FURY_FOCUS;
-  }
-
-  return 0;
-}
-
-export function getElementalUnionValue(time) {
-  return ((G.MODE === 'mage') ? getAdpsDataIfActive('EU', time, 'afterCritMult') : 0) || 0;
-}
-
-export function getHeartOfFlamesValue(time) {
-  return ((G.MODE === 'mage') ? getAdpsDataIfActive('HF', time, 'afterCritMult') : 0) || 0;
 }
 
 export function init() {
@@ -498,6 +495,7 @@ export function updateSpellChart() {
   let preemptSpells = [];
   
   let state = {
+    cache: {},
     chartIndex: -1,
     gcd: dom.getGCDValue(),
     tcCounter: 0,
