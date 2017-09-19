@@ -20,7 +20,7 @@ export const FURY_KERA_DMG = 1550;
 export const FUSE_PROC_CHANCE = 0.35;
 export const FUSE_PROC_INDIVIDUAL_SPELL_CHANCE = 0.32;
 export const IMPROVED_FAMILIAR_CRIT = 0.27;
-export const KERA_FAMILIAR_FOCUS = 0.50;
+export const IMPROVED_FAMILIAR_FOCUS = 0.50;
 export const AVG_VORTEX_FOCUS = 0.75;
 export const VORTEX_EFFECT_TIMER = 21000;
 export const WILDMAGIC_CHAOS_CHANCE = 0.35;
@@ -45,14 +45,9 @@ export const AUG_AURA_PERCENT = 0.04;
 export const AM_COUNTERS = 4;
 export const AM_TIMER = 6500; // basically every tick
 export const ARIA_MAETANRUS_PERCENT = 0.45;
-export const ENC_SYNERGY_PERCENT = 0.40;
 export const SYNERGY_TIMER = 12000;
-export const ENC_HAZY_CRIT_RATE = 1.00;
-export const ENC_HAZY_FOCUS = 0.40;
 export const ENC_HAZY_TIMER = 12000;
-export const MAG_SYNERGY_PERCENT = 0.50;
 export const NEC_SYNERGY_PERCENT = 0.15;
-export const NILSARA_ARIA_DMG = 1638;
 export const FW_COUNTERS = 6;
 export const FW_TIMER = 18000;
 export const MR_COUNTERS = 6;
@@ -69,14 +64,14 @@ export const REFRESH_CAST_COUNT = Math.ceil(1 / CLAW_REFRESH_CHANCE);
 
 // Activated Abilities section enabled via checkbox
 export const ACTIVATED_ABILITIES = [
-  { id: 'ESYN', enabled: dom.isUsingEncSynergy, rate: dom.getEncSynergyRate, timer: SYNERGY_TIMER, count: 1 },
-  { id: 'EHAZY', enabled: dom.isUsingEncHazy, rate: dom.getEncHazyRate, timer: ENC_HAZY_TIMER, count: 1 },
-  { id: 'MSYN', enabled: dom.isUsingMagSynergy, rate: dom.getMagSynergyRate, timer: SYNERGY_TIMER, count: 1 },
-  { id: 'NSYN', enabled: dom.isUsingNecSynergy, rate: dom.getNecSynergyRate, timer: SYNERGY_TIMER, count: 1 },
-  { id: 'WSYN', enabled: dom.isUsingWizSynergy, rate: dom.getWizSynergyRate, timer: SYNERGY_TIMER, count: 1 },
-  { id: 'AM', enabled: dom.isUsingAM, rate: () => AM_TIMER, timer: AM_TIMER * 10, count: AM_COUNTERS },
-  { id: 'MR', enabled: dom.isUsingMR, rate: () => MR_TIMER, timer: MR_TIMER * 10, count: MR_COUNTERS },
-  { id: 'FW', enabled: dom.isUsingFW, rate: () => FW_TIMER, timer: FW_TIMER * 10, count: FW_COUNTERS }
+  { id: 'ESYN', timer: SYNERGY_TIMER, count: 1 },
+  { id: 'EHAZY', timer: ENC_HAZY_TIMER, count: 1 },
+  { id: 'MSYN', timer: SYNERGY_TIMER, count: 1 },
+  { id: 'NSYN', timer: SYNERGY_TIMER, count: 1 },
+  { id: 'WSYN', timer: SYNERGY_TIMER, count: 1 },
+  { id: 'AM', timer: AM_TIMER * 10, count: AM_COUNTERS },
+  { id: 'MR', timer: MR_TIMER * 10, count: MR_COUNTERS },
+  { id: 'FW', timer: FW_TIMER * 10, count: FW_COUNTERS }
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
@@ -238,9 +233,24 @@ export function* genDamageOverTime(state) {
   return 0;
 }
 
-export function checkAbilityReqs(state, a) {
-  let ability = utils.readActiveAbility(a);
-  return !ability || !ability.requirements || passReqs(ability.requirements, state);
+export function getAbilityData(state, id, key) {
+  if (!dom.isUsingAbility(id)) return;
+  
+  let ability = utils.readActiveAbility(id);
+  if (ability) {
+    // check if counter based
+    if (ability.charges) {
+      let counter = utils.getCounterKeys(id).counter;
+      if (!state[counter] || state[counter] <= 0 || state.aeWave) { // AE waves don't use extra
+        return null;
+      }
+    }
+    
+    // check requirements
+    if (!ability.requirements || passReqs(ability.requirements, state)) {
+      return (key === undefined) ? ability : ability[key];
+    }
+  }
 }
 
 export function getBaseCritDmg() {
@@ -294,6 +304,18 @@ export function getCompoundSpellList(id) {
       ]
     }[id];
   });
+}
+
+export function getEqpProcs(state) {
+  return [ dom.getStaffProcValue(), dom.getBeltProcValue(),
+    dom.getRangeAugValue(), dom.getDPSAug1AugValue(),
+    dom.getDPSAug2AugValue(), dom.getShieldProcValue() 
+  ].filter(id => {
+     if (id !== 'NONE') {
+       let spell = utils.getSpellData(id);
+       return !spell.requirements || passReqs(spell.requirements, state);
+     } 
+   });
 }
 
 export function getFickleRate(rate) {
@@ -395,6 +417,8 @@ export function passReqs(reqs, state) {
       return false;
     } else if (reqs.castSpellOnly && !isCastSpell(spell)) {
       return false;
+    } else if (reqs.castDetSpellOrAbility && !isCastDetSpellOrAbility(spell)) {
+      return false;
     } else if (reqs.canProcSpells && !canProcSpells(spell)) {
       return false
     } else if (reqs.canTwincast && !canTwincast(spell)) {
@@ -431,14 +455,14 @@ export function processCounter(state, id, mod, value, calcOnly) {
 
   // calcuation but not updating of statistics
   if (!calcOnly) {
-    state[keys.counter] = current;
+    state[keys.counter] = (current < 0.000001) ? 0 : current;
     stats.addSpellStatistics(state, keys.charges, counterUsed);
   }
 
   return partUsed * value;
 }
 
-let VALID_TEST_DATA = [{"title":"Is Equip Proc","General-19":["ASVI","BFVI","BOIX","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","HOM3","OS","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Spell Proc","General-7":["AB","DRS6","FW","MR","MRR","MRRR","MRRRR"],"Mage-0":[],"Wizard-2":["AFU1","AFU2"]},{"title":"Is Focusable","General-24":["ASVI","BFVI","BOIX","DRS6","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-21":["BJ","BS","CF","CR","FA","FC","FE1","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SFB","SM","SS"],"Wizard-19":["CF","CI","CS","CS2","DF","EF","ER","ES","FA","FC","FU","HC","MB","PE","PF","RC2","SV","WE","WF"]},{"title":"Is Focusable Spell Or Eqp Proc","General-24":["ASVI","BFVI","BOIX","DRS6","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Can Proc Spells Effects","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-9":["BS","CF","CR","FC","RC","RS","SB","SM","SS"],"Wizard-16":["CF","CI","CS","CS2","DF","EF","ER","ES","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Can Twincast","General-1":["DS"],"Mage-9":["BJ","BS","CF","CR","FC","RC","SB","SM","SS"],"Wizard-14":["CF","CI","CS","EF","ER","ES","FC","FU","HC","MB","PE","SV","WE","WF"]},{"title":"Can Twinproc","General-23":["ASVI","BFVI","BOIX","DRS6","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Cast Detrimental","General-0":[],"Mage-11":["BJ","BS","CF","CR","FAF","FC","RC","RS","SB","SM","SS"],"Wizard-17":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Is Cast Detrimental OR Used Ability","General-1":["DS"],"Mage-26":["BJ","BS","CF","CR","FAF","FC","FE1","FE10","FE11","FE12","FE13","FE14","FE15","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SM","SS"],"Wizard-56":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FF1","FF2","FF3","FF4","FF5","FF6","FI1","FI2","FI3","FI4","FI5","FI6","FU","FW1","FW10","FW11","FW12","FW13","FW14","FW15","FW16","FW17","FW18","FW19","FW2","FW20","FW21","FW22","FW23","FW24","FW25","FW26","FW3","FW4","FW5","FW6","FW7","FW8","FW9","HC","MB","MBRN","PE","PF","RC2","SV"]}];
+let VALID_TEST_DATA = [{"title":"Is Equip Proc","General-19":["ASVI","BFVI","BOIX","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","HOM3","OS","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Spell Proc","General-9":["AHB","AM","DR","FW","MR","MRR","MRRR","MRRRR","WSYN"],"Mage-0":[],"Wizard-2":["AFU1","AFU2"]},{"title":"Is Focusable","General-25":["AM","ASVI","BFVI","BOIX","DR","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-21":["BJ","BS","CF","CR","FA","FC","FE1","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SFB","SM","SS"],"Wizard-19":["CF","CI","CS","CS2","DF","EF","ER","ES","FA","FC","FU","HC","MB","PE","PF","RC2","SV","WE","WF"]},{"title":"Is Focusable Spell Or Eqp Proc","General-25":["AM","ASVI","BFVI","BOIX","DR","DS","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Can Proc Spells Effects","General-24":["AM","ASVI","BFVI","BOIX","DR","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-9":["BS","CF","CR","FC","RC","RS","SB","SM","SS"],"Wizard-16":["CF","CI","CS","CS2","DF","EF","ER","ES","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Can Twincast","General-1":["DS"],"Mage-9":["BJ","BS","CF","CR","FC","RC","SB","SM","SS"],"Wizard-14":["CF","CI","CS","EF","ER","ES","FC","FU","HC","MB","PE","SV","WE","WF"]},{"title":"Can Twinproc","General-24":["AM","ASVI","BFVI","BOIX","DR","FCVII","FCX","FOMIX","FOMVII","FOMXIII","FOMXV","FSVI","FSVII","FW","HOM3","MR","MRR","MRRR","MRRRR","SOFV","SOFXIII","SOFXIV","VOSIV","WOC4"],"Mage-0":[],"Wizard-0":[]},{"title":"Is Cast Detrimental","General-0":[],"Mage-11":["BJ","BS","CF","CR","FAF","FC","RC","RS","SB","SM","SS"],"Wizard-17":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FU","HC","MB","PE","PF","RC2","SV"]},{"title":"Is Cast Detrimental OR Used Ability","General-1":["DS"],"Mage-26":["BJ","BS","CF","CR","FAF","FC","FE1","FE10","FE11","FE12","FE13","FE14","FE15","FE2","FE3","FE4","FE5","FE6","FE7","FE8","FE9","RC","RS","SB","SM","SS"],"Wizard-56":["CF","CI","CS","CS2","DF","EF","ER","ES","FAF","FC","FF1","FF2","FF3","FF4","FF5","FF6","FI1","FI2","FI3","FI4","FI5","FI6","FU","FW1","FW10","FW11","FW12","FW13","FW14","FW15","FW16","FW17","FW18","FW19","FW2","FW20","FW21","FW22","FW23","FW24","FW25","FW26","FW3","FW4","FW5","FW6","FW7","FW8","FW9","HC","MB","MBRN","PE","PF","RC2","SV"]}];
 
 export function displaySpellInfo(target) {
   $(target).css('height', '600px');
@@ -484,7 +508,7 @@ export function displaySpellInfo(target) {
     $('#myModal .modal-title').text(txt + ' (Error Section #' + section + ')'); 
   }
   
-  //$(current).append('<pre>' + JSON.stringify(list)+ '</pre>');
+  // $(current).append('<pre>' + JSON.stringify(list)+ '</pre>');
   $(current).append('<pre>' + JSON.stringify(list, null, 2)+ '</pre>');
   $(test).append('<pre>' + JSON.stringify(VALID_TEST_DATA, null, 2)+ '</pre>');
 }

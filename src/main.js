@@ -61,7 +61,7 @@ utils.readAdditionalModifiers().forEach(item => {
       $('#' + id).after(rateTemplate({
         inputId: id + 'Rate',
         tooltip: item.tooltip,
-        defaultTime: item.defaultTime
+        defaultTime: item.defaultTime / 1000
       }));
       
       $('#' + id + 'Rate').change(() => { timeline.callUpdateSpellChart() });

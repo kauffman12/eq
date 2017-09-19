@@ -136,16 +136,17 @@ function isSpellAbilityReady(state, ids) {
 
 // Initialze counters and expire time for items like Enc Synergy in the Abilities In Use section
 function initActivatedAbility(state, item) {
-  let keys = utils.getCounterKeys(item.id);
   let lastProcMap = state.lastProcMap;
 
-  if (item.enabled()) {
-    if (!lastProcMap[item.id] || lastProcMap[item.id] + item.rate() < state.workingTime) {
+  if (dom.isUsingAbility(item.id)) {
+    let keys = utils.getCounterKeys(item.id);
+    let rate = dom.getAbilityRate(item.id);
+    if (!lastProcMap[item.id] || lastProcMap[item.id] + rate < state.workingTime) {
       if (!lastProcMap[item.id]) {
         lastProcMap[item.id] = CURRENT_TIME;
         state[keys.expireTime] = CURRENT_TIME + item.timer;
       } else {
-        lastProcMap[item.id] += item.rate();
+        lastProcMap[item.id] += rate;
         state[keys.expireTime] = lastProcMap[item.id] + item.timer;
       }
 
@@ -334,8 +335,16 @@ export function getAdpsData(state, id, time, key) {
   if (item && withinTimeFrame(time, getTime(item))) {
     let adpsOption = utils.readAdpsOption(id);
     
+    // check if counters are involved
+    if (adpsOption.chargeBased) {
+      let counter = utils.getCounterKeys(id).counter;
+      if (!state[counter] || state[counter] <= 0 || state.aeWave) { // AE waves don't use extra
+        return null;
+      }
+    }
+    
     // check requirements
-    if (adpsOption.requirements && dmgU.passReqs(adpsOption.requirements, state)) {
+    if (!adpsOption.requirements || dmgU.passReqs(adpsOption.requirements, state)) {
       return (key === undefined) ? adpsOption : adpsOption[key];    
     }
   }

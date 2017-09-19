@@ -14,13 +14,7 @@ export const SPELL_DATA = {
     base1: 10,
     isFocusable: false,
     skill: 24,
-    level: 254,
-    requirements: {
-      minManaCost: 10,
-      minCastTime: 3000,
-      minDamage: 1,
-      castSpellOnly: true
-    }
+    level: 254
   },
   AFU2: {
     id: 'AFU2',
@@ -37,13 +31,7 @@ export const SPELL_DATA = {
     base1: 10,
     isFocusable: false,
     skill: 24,
-    level: 254,
-    requirements: {
-      minManaCost: 10,
-      minCastTime: 3000,
-      minDamage: 1,
-      castSpellOnly: true
-    }
+    level: 254
   },
   MBRN: {
     id: 'MBRN',

@@ -17,8 +17,8 @@ export const SPELL_DATA = {
     skill: 4,
     level: 85
   },
-  AB: {
-    id: 'AB',
+  AHB: {
+    id: 'AHB',
     name: 'Hedgewizard\'s Spell',
     baseDmg: 6500,
     castTime: 0,
@@ -33,12 +33,7 @@ export const SPELL_DATA = {
     base1: 100,
     isFocusable: false,
     skill: 24,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      minLevel: 75,
-      canProcSpells: true
-    }
+    level: 255
   },
   AM: {
     id: 'AM',
@@ -54,13 +49,8 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 98,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 105,
-      canProcSpells: true
-    }
-  },  
+    level: 255
+  },
   ASVI: {
     id: 'ASVI',
     name: 'Arcane Strike VI',
@@ -474,15 +464,10 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 24,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 110,
-      canProcSpells: true
-    }
+    level: 255
   },
-  DRS6: {
-    id: 'DRS6',
+  DR: {
+    id: 'DR',
     name: 'Dichotomic Reinforced Strike 6',
     baseDmg: 21944,
     castTime: 0,
@@ -491,17 +476,12 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     resist: 'CHROMATIC',
     type3Dmg: 0,
-    timer: 'DRS6',
+    timer: 'DR',
     manaCost: 0,
     base1: 160,
     isFocusable: true,
     skill: 24,
-    level: 255,
-    requirements: {
-      minManaCost: 100,
-      maxLevel: 110,
-      canProcSpells: true
-    }
+    level: 255
   },
   MR: {
     id: 'MR',
@@ -518,12 +498,7 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 5,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 105,
-      canProcSpells: true
-    }
+    level: 255
   },
   MRR: {
     id: 'MRR',
@@ -540,12 +515,7 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 5,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 105,
-      canProcSpells: true
-    }
+    level: 255
   },
   MRRR: {
     id: 'MRRR',
@@ -562,12 +532,7 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 5,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 105,
-      canProcSpells: true
-    }
+    level: 255
   },
   MRRRR: {
     id: 'MRRRR',
@@ -584,12 +549,7 @@ export const SPELL_DATA = {
     manaCost: 0,
     isFocusable: true,
     skill: 5,
-    level: 255,
-    requirements: {
-      minManaCost: 10,
-      maxLevel: 105,
-      canProcSpells: true
-    }
+    level: 255
   },
   WSYN: {
     id: 'WSYN',
@@ -605,12 +565,8 @@ export const SPELL_DATA = {
     spellDmgCap: 0,
     isFocusable: false,
     skill: 98,
-    level: 254,
-    requirements: {
-      canProcSpells: true,
-      resists: ['MAGIC', 'ICE', 'DISEASE', 'CORRUPTION', 'CHROMATIC']
-    }
-  },    
+    level: 254
+  }
 };
 
 // Dark Shield of the Scholar procs Force of Magic XV so use that for default settings

@@ -102,7 +102,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mrAddDmg'));
-  addNumberStatDescription(data, "Hedgewizards", spellStats.get('abAddDmg'));
+  addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
 
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsynAddDmg'));
 

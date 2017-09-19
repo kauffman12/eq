@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.852',
+  VERSION: 'Version 0.855',
   CLASSES: {
     mage: {
       switchTo: 'Wizard',
@@ -702,13 +702,11 @@ export const wizDPSAAContext = [
   },
   {
     id: 'spell-pet-focus',
-    value: 'kera',
-    desc: 'Kerafyrm\'s Prismatic Familiar (4)',
+    value: 'improvedKera',
+    desc: 'Improved Familiar (28)',
     data: [
-      { value: 'kera', desc: 'Kerafyrm\'s Prismatic Familiar (4)' },
-      { value: 'improved', desc: 'Improved Familiar (9)' },
-      { value: 'improvedKera', desc: 'Improved Familiar (28) (Test)' },
-      { value: 'none', desc: 'No Familiar Selected' }
+      { value: 'improvedKera', desc: 'Improved Familiar (28)' },
+      { value: 'NONE', desc: 'No Familiar Selected' }
     ]
   },
   {
@@ -912,11 +910,20 @@ export const additionalModifiers = {
     aaForceNukes: { enabled: false, title: 'AA Nukes' },
     fireboundOrb: { enabled: false, title: 'Mag: Firebound Orb Rk. III', mode: 'mage' },
     darkShield: { enabled: false, title: 'Dark Shield of the Scholar'},
-    hedgewizard: { enabled: false, title: 'Ancient Hedgewizards Brew' },
+    AHB: {
+      enabled: false,
+      title: 'Ancient Hedgewizards Brew',
+      requirements: {
+        minManaCost: 10,
+        minLevel: 75,
+        canProcSpells: true
+      }
+    },
     ariaMaetanrus: { enabled: false, title: 'Brd: Aria of Maetanrus Rk. III' },
     augAura: { enabled: false, title: 'Enc: Augmenting Aura Rk. III' },
-    nilsara: {
+    NILSARA: {
       enabled: false,
+      afterCritAdd: 1638,
       title: 'Brd: Nilsara\'s Aria Rk. III',
       requirements: {
         minManaCost: 10,
@@ -925,50 +932,101 @@ export const additionalModifiers = {
         exTargets: ['AE']
       }
     },
-    encHazy: {
+    EHAZY: {
       enabled: false,
       hasInput: true,
       title: 'Enc: Gift of Hazy Thoughts',
       tooltip: 'How often to proc a single Gift of Hazy Thoughts (in seconds).\rKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
-      defaultTime: 20
+      defaultTime: 20000,
+      beforeCritMult: 0.40,
+      critRateMod: 1.0
     },
-    encSynergy: {
+    ESYN: {
       enabled: false,
       hasInput: true,
       title: 'Enc: Beguiler\'s Synergy I',
       tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindsunder.',
-      defaultTime: 11
+      defaultTime: 11000,
+      postCalcMult: 0.40,
+      requirements: {
+        maxLevel: 249,
+        resists: ['FIRE', 'MAGIC', 'ICE']
+      }
     },
-    magSynergy: {
+    MSYN: {
       enabled: false,
       hasInput: true,
       title: 'Mag: Conjurer\'s Synergy I',
       tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
-      defaultTime: 13,
+      defaultTime: 13000,
+      beforeCritMult: 0.50,
+      requirements: {
+        minDamage: 100,
+        maxLevel: 250,
+        resists: ['FIRE', 'CHROMATIC']
+      },      
       mode: 'wiz'
     },
-    necSynergy: {
+    NSYN: {
       enabled: false,
       hasInput: true,
       title: 'Nec: Defiler\'s Synergy I',
       tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Impose for Blood.',
-      defaultTime: 7
+      defaultTime: 7000
     },
-    wizSynergy: {
+    WSYN: {
       enabled: false,
       hasInput: true,
       title: 'Wiz: Evoker\'s Synergy I',
       tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
-      defaultTime: 25,
-      mode: 'mage'
+      defaultTime: 25000,
+      mode: 'mage',
+      charges: 1,
+      requirements: {
+        canProcSpells: true,
+        resists: ['MAGIC', 'ICE', 'DISEASE', 'CORRUPTION', 'CHROMATIC']
+      }
     },
-    mrAura: { enabled: false, title: 'Enc: Mana Recip... Aura Rk. III' },
-    tcAura: { enabled: false, title: 'Enc: Twincast Aura Rk. III' },
-    fwAura: { enabled: false, title: 'Dru: Frostweave Aura Rk. III' },
-    amAura: { enabled: false, title: 'Brd: Arcane Melody Rk. III' }
+    MR: {
+      enabled: false,
+      title: 'Enc: Mana Recip... Aura Rk. III',
+      defaultTime: 18000,
+      charges: 6,
+      requirements: {
+        minManaCost: 10,
+        maxLevel: 105,
+        canProcSpells: true
+      }
+    },
+    tcAura: {
+      enabled: false,
+      title: 'Enc: Twincast Aura Rk. III'
+    },
+    FW: {
+      enabled: false,
+      title: 'Dru: Frostweave Aura Rk. III',
+      defaultTime: 18000,
+      charges: 6,
+      requirements: {
+        minManaCost: 10,
+        maxLevel: 110,
+        canProcSpells: true
+      }
+    },
+    AM: {
+      enabled: false,
+      title: 'Brd: Arcane Melody Rk. III',
+      defaultTime: 6500,
+      charges: 4,
+      requirements: {
+        minManaCost: 10,
+        maxLevel: 105,
+        canProcSpells: true
+      }
+    }
   },
-  displayList: [ 'aaForceNukes', 'hedgewizard', 'darkShield', 'amAura', 'ariaMaetanrus', 'nilsara', 'fwAura', 
-      'augAura', 'encSynergy', 'encHazy', 'mrAura', 'tcAura', 'fireboundOrb', 'wizSynergy', 'magSynergy', 'necSynergy' ]
+  displayList: [ 'aaForceNukes', 'AHB', 'darkShield', 'AM', 'ariaMaetanrus', 'NILSARA', 'FW',
+      'augAura', 'ESYN', 'EHAZY', 'MR', 'tcAura', 'fireboundOrb', 'WSYN', 'MSYN', 'NSYN' ]
 };
 
 export const additionalModifiersDebuffs = {
@@ -989,10 +1047,14 @@ export const adpsConfig = {
       class: 'wiz',
       offset: 280000,
       charges: 24,
-      critRateMod: 60,
+      critRateMod: 0.6,
       chargeBased: true,
       spa: 212,
-      slot: 1
+      slot: 1,
+      requirements: {
+        minManaCost: 10,
+        castDetSpellOrAbility: true
+      }
     },
     AF: {
       id: 'AF',
@@ -1037,8 +1099,8 @@ export const adpsConfig = {
     },
     CH: {
       id: 'CH',
-      critDmgMod: 375,
-      critRateMod: 100,
+      beforeCritMult: 3.75,
+      critRateMod: 1,
       charges: 2,
       content: 'Enc: Chroma Haze VII',
       offset: 12000,
@@ -1094,11 +1156,15 @@ export const adpsConfig = {
       class: 'wiz',
       offset: 410000,
       charges: 45,
-      critDmgMod: 80,
-      critRateMod: 50,
+      critDmgMod: 0.8,
+      critRateMod: 0.5,
       chargeBased: true,
       spa: 212,
-      slot: 1
+      slot: 1,
+      requirements: {
+        minManaCost: 10,
+        castDetSpellOrAbility: true
+      }
     },
     FE: {
       id: 'FE',
@@ -1166,7 +1232,7 @@ export const adpsConfig = {
         exTargets: ['AE'],
         maxLevel: 105,
         resists: ['FIRE']
-      }      
+      }
     },
     MBRN: {
       id: 'MBRN',
@@ -1184,7 +1250,7 @@ export const adpsConfig = {
     MC: {
       id: 'MC',
       critDmgMod: 50,
-      critRateMod: 175,
+      critRateMod: 1.75,
       charges: 3,
       content: 'Mana Charge',
       offset: 42000,
