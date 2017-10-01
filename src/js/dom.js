@@ -1,5 +1,5 @@
 import {globals as G} from './settings.js';
-import * as dmgU from './damage.utils.js';
+import * as abilities from './abilities.js';
 import * as utils from './utils.js';
 
 // What to query on to find a spell focus value by ID
@@ -42,14 +42,63 @@ export function getAERainHitsValue() {
   });
 }
 
-export function getAbilityRate(ability) {
-  return utils.useCache('ability-rate-' + ability, () => {
-    let data = utils.readActiveAbility(ability);
-    if (data.hasInput) {
-      return 1000 * utils.getNumberValue(($('#' + ability + 'Rate').val()));
-    } else {
-      return data.defaultTime || 0;
-    }   
+export function getConfiguredAbilities(state) {
+  return utils.useCache('active-configured-abilities', () => {
+    let active = [];
+    let spellProc = [];
+
+    // familiar
+    let familiar = getFamiliarValue();
+    if (familiar && abilities.get(familiar)) {
+      active.push(familiar);
+    }
+
+    // twincast AA
+    let tcaa = getTwincastAAValue();
+    if (tcaa && abilities.get('TCAA')) {
+      abilities.setSPAValue('TCAA', 399, tcaa)
+      active.push('TCAA');
+    }
+
+    let setSpellProc = (id, value) => {
+      let ability = abilities.get(id);
+      if (value && ability) {
+        abilities.setProcValue(id, value);
+
+        // only configure manual abilities here
+        // dont return them
+        if (!ability.manuallyActivated) {
+          spellProc.push(id);
+        }
+      }
+    };
+
+    // Arcane Fusion, Force of Elements/Flames/Ice/Will
+    setSpellProc('AFU', getArcaneFusionValue());
+    setSpellProc('FE', getForceOfElementsValue());
+    setSpellProc('FF', getForceOfFlameValue());
+    setSpellProc('FI', getForceOfIceValue());
+    setSpellProc('FW', getForceOfWillValue());
+
+    return { active: active, spellProc: spellProc };
+  });
+}
+
+export function getActiveRepeatingAbilities() {
+  return utils.useCache('active-repeating-abilities', () => {
+    return $('input.repeating-ability:checked').toArray().map(item => item.id);
+  });
+}
+
+export function getAbilityCharges(id) {
+  return utils.useCache('ability-charges-' + id, () => {
+    return utils.getNumberValue(($('#' + id + 'Charges').val()));
+  });
+}
+
+export function getAbilityRate(id) {
+  return utils.useCache('ability-rate-' + id, () => {
+    return 1000 * utils.getNumberValue(($('#' + id + 'Rate').val()));
   });
 }
 
@@ -64,6 +113,17 @@ export function getAddAfterCritAddValue() {
     return utils.getNumberValue($('#addAfterCritAdd').val());
   });
 }
+export function getAddAfterCritAddNoModValue() {
+  return utils.useCache('.add-after-crit-add-nomod', () => {
+    return utils.getNumberValue($('#addAfterCritAddNoMod').val());
+  });
+}
+
+export function getAddAfterCritFocusNoModValue() {
+  return utils.useCache('.add-after-crit-focus-nomod', () => {
+    return utils.getNumberValue($('#addAfterCritFocusNoMod').val() / 100);
+  });
+}
 
 export function getAddBeforeCritFocusValue() {
   return utils.useCache('.add-before-crit-focus', () => {
@@ -74,6 +134,12 @@ export function getAddBeforeCritFocusValue() {
 export function getAddBeforeCritAddValue() {
   return utils.useCache('.add-before-crit-add', () => {
     return utils.getNumberValue($('#addBeforeCritAdd').val());
+  });
+}
+
+export function getAddBeforeDoTCritFocusValue() {
+  return utils.useCache('.add-before-dot-crit-focus', () => {
+    return utils.getNumberValue($('#addBeforeDoTCritFocus').val() / 100);
   });
 }
 
@@ -91,54 +157,23 @@ export function getAllianceFulminationValue() {
 
 export function getArcaneFusionValue() {
   return utils.useCache('.aa-arcane-fusion', () => {
-    return $('.aa-arcane-fusion .dropdown-toggle').data('value');
+    return G.MODE === 'wiz' ? $('.aa-arcane-fusion .dropdown-toggle').data('value') : undefined;
   });
 }
 
-export function getAriaMaetanrusValue() {
-  return $('#ariaMaetanrus').is(':checked') ? dmgU.ARIA_MAETANRUS_PERCENT : 0;
-}
-
-export function getAugmentingAuraValue() {
-  return $('#augAura').is(':checked') ? dmgU.AUG_AURA_PERCENT : 0;
-}
-
-export function getAvgWornDamageFocus(resist) {
-  return utils.useCache('avg-worn-dmg-focus-' + resist, () => {
-    let value = 0;
-
-    switch(resist) {
-      case 'FIRE':
-        // avg pre-calculated (min+max) / 2 in spell data json
-        value = utils.getNumberValue($('.worn-arms-focus .dropdown-toggle').data('value'));
-        break;
-      case 'ICE':
-        // avg pre-calculated (min+max) / 2 in spell data json
-        value = utils.getNumberValue($('.worn-hands-focus .dropdown-toggle').data('value'));
-        break;
-      case 'MAGIC':
-        // avg pre-calculated (min+max) / 2 in spell data json
-        value = utils.getNumberValue($('.worn-head-focus .dropdown-toggle').data('value'));
-        break;
-    }
-
-    return value;
+export function getWornDamageFocusList() {
+  return utils.useCache('avg-worn-dmg-focus-list', () => {
+    return [
+      $('.worn-arms-focus .dropdown-toggle').data('value'),
+      $('.worn-hands-focus .dropdown-toggle').data('value'),
+      $('.worn-head-focus .dropdown-toggle').data('value')
+    ];
   });
 }
 
 export function getBeltProcValue() {
   return utils.useCache('.belt-proc', () => {
     return $('.belt-proc .dropdown-toggle').data('value');
-  });
-}
-
-export function getBlizzardBreathValue() {
-  return $('#blizzard').is(':checked') ? dmgU.MALO_FOCUS : 0;
-}
-
-export function getConjurersSynergyValue() {
-  return utils.useCache('.conjurers-synergy', () => {
-    return utils.getNumberValue($('.aa-conjurers-synergy .dropdown-toggle').data('value'));
   });
 }
 
@@ -180,20 +215,6 @@ export function getDoNValue() {
   return utils.getNumberValue($('.aa-don .dropdown-toggle').data('value'));
 }
 
-export function getEncHazyRate() {
-  return 1000 * utils.getNumberValue(($('#encHazyRate').val()));
-}
-
-export function getEncSynergyRate() {
-  return 1000 * utils.getNumberValue(($('#ESYNRate').val()));
-}
-
-export function getEvokersSynergyValue() {
-  return utils.useCache('.evokers-synergy', () => {
-    return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
-  });
-}
-
 export function getEyeOfDecayValue() {
   return utils.useCache('.eye-of-decay', () => {
     return utils.getNumberValue($('.eye-of-decay .dropdown-toggle').data('value'));
@@ -206,35 +227,28 @@ export function getFlamesOfPowerValue() {
   });
 }
 
-export function getActivatedNukes(state) {
-  let list = [];
-  
-  if (isUsingAANukes()) {
-    let version = utils.getNumberValue($('.aa-force-of-will .dropdown-toggle').data('value'));
-    if (version > 0) list.push('FW' + version);
-    version = utils.getNumberValue($('.aa-force-of-flame .dropdown-toggle').data('value'));
-    if (version > 0) list.push('FF' + version);
-    version = utils.getNumberValue($('.aa-force-of-ice .dropdown-toggle').data('value'));
-    if (version > 0) list.push('FI' + version);
-    version = utils.getNumberValue($('.aa-force-of-elements .dropdown-toggle').data('value'));
-    if (version > 0) list.push('FE' + version);
-  }
- 
-  if (isUsingDarkShield()) {
-    list.push('DS');
-  }
-  
-  if (isUsingFireboundOrb()) {
-    list.push('BJ');
-  }
-  
-  return list;
+export function getForceOfElementsValue() {
+  return utils.useCache('.aa-force-of-elements', () => {
+    return $('.aa-force-of-elements .dropdown-toggle').data('value');
+  });
 }
 
-export function getConfiguredCharges(adpsKey) {
-  if (adpsKey === 'MBRN') {
-    return getManaburnCountValue();
-  }
+export function getForceOfFlameValue() {
+  return utils.useCache('.aa-force-of-flame', () => {
+    return $('.aa-force-of-flame .dropdown-toggle').data('value');
+  });
+}
+
+export function getForceOfIceValue() {
+  return utils.useCache('.aa-force-of-ice', () => {
+    return $('.aa-force-of-ice .dropdown-toggle').data('value');
+  });
+}
+
+export function getForceOfWillValue() {
+  return utils.useCache('.aa-force-of-will', () => {
+    return $('.aa-force-of-will .dropdown-toggle').data('value');
+  });
 }
 
 export function getFuryOfMagicValue() {
@@ -273,50 +287,10 @@ export function getHastenedServantValue() {
   });
 }
 
-export function getLingeringCryValue() {
-  return $('#lingeringcry').is(':checked') ? dmgU.LINGERING_CRY_FOCUS : 0;
-}
-
-export function getMagSynergyRate() {
-  return 1000 * utils.getNumberValue(($('#magSynergyRate').val()));
-}
-
-export function getMaloValue() {
-  return $('#malo').is(':checked') ? dmgU.MALO_FOCUS : 0;
-}
-
-export function getManaburnCountValue() {
-  return utils.useCache('.manaburn-count', () => {
-    return utils.getNumberValue($('#manaburnCount').val());
-  });
-}
-
-export function getNecSynergyRate() {
-  return 1000 * utils.getNumberValue(($('#necSynergyRate').val()));
-}
-
-export function getPetCritFocusValue() {
-  return utils.useCache('.spell-pet-focus-crit', () => {
-    if (G.MODE === 'wiz') {
-      let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-      if (type === 'improvedKera') {
-        return dmgU.IMPROVED_FAMILIAR_CRIT * 100;
-      }
-    }
-    return 0;
-  });
-}
-
-export function getPetDmgFocusValue() {
-  return utils.useCache('.spell-pet-focus-dmg', () => {
-    if (G.MODE == 'wiz') {
-      let type = $('.spell-pet-focus .dropdown-toggle').data('value');
-      if (type === 'improvedKera') {
-        return dmgU.IMPROVED_FAMILIAR_FOCUS;
-      }
-    } 
-    return 0;
-  });
+export function getFamiliarValue() {
+  if (G.MODE === 'wiz') {
+    return $('.spell-pet-focus .dropdown-toggle').data('value');
+  }
 }
 
 export function getRangeAugValue() {
@@ -349,10 +323,6 @@ export function getRobeValue() {
   });
 }
 
-export function getSeedlingsValue() {
-  return $('#seedlings').is(':checked') ? dmgU.SEEDLINGS_FOCUS : 0;
-}
-
 export function getSelectedSpells() {
   let spells = [];
   $('#spellButtons div.spell button').each(function(item, b) {
@@ -368,12 +338,6 @@ export function getSelectedSpells() {
 export function getShieldProcValue() {
   return utils.useCache('.shield-proc', () => {
     return $('.shield-proc .dropdown-toggle').data('value');
-  });
-}
-
-export function getShockingVortexEffectValue() {
-  return utils.useCache('.vortex-effects', () => {
-    return utils.getNumberValue($('#vortexEffects').val());
   });
 }
 
@@ -429,10 +393,6 @@ export function getTwincastAAValue() {
   });
 }
 
-export function getTwincastAuraValue() {
-  return $('#tcAura').is(':checked') ? dmgU.TC_AURA_PERCENT : 0;
-}
-
 export function getTwinprocValue() {
   return utils.useCache('.aa-twinproc', () => {
     return utils.getNumberValue($('.aa-twinproc .dropdown-toggle').data('value'));
@@ -451,28 +411,10 @@ export function getType3DmdAugValue(spell) {
   });
 }
 
-export function getWizSynergyRate() {
-  return 1000 * utils.getNumberValue(($('#wizSynergyRate').val()));
-}
-
-export function isUsingAANukes() {
-  return $('#aaForceNukes').is(':checked');
-}
-
 export function isUsingArcaneFusion() {
   return (getArcaneFusionValue() != 'NONE');
 }
 
-export function isUsingDarkShield() {
-  return $('#darkShield').is(':checked');
-}
-
 export function isUsingFireboundOrb() {
   return $('#fireboundOrb').is(':checked');
-}
-
-export function isUsingAbility(ability) {
-  return utils.useCache('is-using-' + ability, () => {
-    return $('#' + ability).is(':checked') || false;
-  });
 }
