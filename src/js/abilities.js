@@ -1586,6 +1586,7 @@ const ABILITIES = {
         slot: 1,
         value: 0.11,
         limits: [
+          { currentHitPoints: true },
           { exTwincastMarker: true },
           { minManaCost: 10 },
           { exSkills: COMBAT_SKILLS },

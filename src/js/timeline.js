@@ -405,7 +405,9 @@ function withinTimeFrame(time, data) {
   return (data && (data.start <= time && data.end >= time));
 }
 
-export function addSpellProcAbility(state, id, initialize) {
+export function addSpellProcAbility(state, id, mod, initialize) {
+  mod = (mod === undefined) ? 1 : mod;
+
   let ability = abilities.get(id);
   if (!ability) return;
 
@@ -413,7 +415,8 @@ export function addSpellProcAbility(state, id, initialize) {
   if (initialize) {
     let keys = utils.getCounterKeys(id);
     if (ability.charges) {
-      state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+      // mod initially added for conjurer's synergy proc rate
+      state[keys.counter] = mod * (dom.getAbilityCharges(id) || ability.charges);
     }
 
     state[keys.expireTime] = state.workingTime + ability.duration;    

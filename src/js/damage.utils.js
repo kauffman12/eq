@@ -349,7 +349,6 @@ export function getSpellProcs(abilities, spell) {
 }
 
 export function getProcRate(spell, proc) {
-  // spell being cast vs spell id of what is being proc'd
   return (proc.base1) ? proc.base1 / 100 * getNormalizer(spell) : 1.0;
 }
 
@@ -422,10 +421,11 @@ export function isCastDetSpellOrAbility(spell) {
 }
 
 export function processCounter(state, id, mod) {
-  var keys = utils.getCounterKeys(id);
-  var partUsed = 1;
-  var counterUsed = 0;
-  var current = state[keys.counter];
+  let keys = utils.getCounterKeys(id);
+  let partUsed = 1;
+  let counterUsed = 0;
+  let current = state[keys.counter];
+  let start = (current >= 1) ? 1 : current;
 
   if (current >= mod) {
     current -= mod;
@@ -441,7 +441,9 @@ export function processCounter(state, id, mod) {
   state[keys.counter] = (current < 0.000001) ? 0 : current;
   stats.addSpellStatistics(state, keys.charges, counterUsed);
 
-  return partUsed;
+  // Why x start? So, 1 charge is normally required. mod that for twincast. Easy.
+  // But if there's only 0.5 total left then it's really only half strength. ie think proc damage
+  return partUsed * start;
 }
 
 export function trunc(value) {

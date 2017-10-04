@@ -49,7 +49,7 @@ function applyPostSpellEffects(state, mod) {
           if (id === 'REFRESH') {
             timeline.resetTimers(state);
           } else {
-            timeline.addSpellProcAbility(state, id, true);
+            timeline.addSpellProcAbility(state, id, 1, true);
           }
       });
       break;
@@ -57,11 +57,11 @@ function applyPostSpellEffects(state, mod) {
       state.fcSpellProcGenerator.next(mod).value.forEach(id => timeline.addSpellProcAbility(state, id, true));
       break;
     case 'SV':
-      timeline.addSpellProcAbility(state, 'VFX', true);
-      timeline.addSpellProcAbility(state, 'WSYN', true);
+      timeline.addSpellProcAbility(state, 'VFX', 1, true);
+      timeline.addSpellProcAbility(state, 'WSYN', dom.getEvokersSynergyValue(), true);
       break;
     case 'RS':
-      timeline.addSpellProcAbility(state, 'MSYN', true);
+      timeline.addSpellProcAbility(state, 'MSYN', dom.getConjurersSynergyValue(), true);
 
       let keys = utils.getCounterKeys('RS');
       if (state[keys.timers] === undefined) {
@@ -298,18 +298,19 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 function executeProc(id, state, mod, statId) {
   let value = 0;
   let key = statId ? statId : id;
+  let keys = utils.getCounterKeys(key);
   let proc = utils.getSpellData(id);
   let partUsed = 1;
 
-  // update counters if it uses the
+  // update counters if it uses them
   if (utils.isAbilityActive(state, key)) {
     let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
     partUsed = dmgU.processCounter(state, key, mod * chargesPer);
   }
 
   if (partUsed > 0) { // if charges were consumed for abilities that need them
-    let dmgKey = utils.getCounterKeys(key).addDmg;
-    (id != 'MR') ? calcAvgProcDamage(state, proc, mod, dmgKey) : calcAvgMRProcDamage(state, mod, dmgKey);
+    partUsed = partUsed * mod;
+    (id != 'MR') ? calcAvgProcDamage(state, proc, partUsed, keys.addDmg) : calcAvgMRProcDamage(state, partUsed, keys.addDmg);
   }
 
   return partUsed > 0;
