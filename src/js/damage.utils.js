@@ -511,6 +511,7 @@ export function displaySpellInfo(target) {
     }
   }
 
+  $('.modal-header .errorMsg').html('');
   if (error === -1) {
     $('.modal-header .errorMsg').append(' -- All Results Match Test Data');
   } else {
