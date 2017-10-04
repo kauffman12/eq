@@ -32,6 +32,7 @@ export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
 export const SPA_FOCUSABLE = new Set([124, 212, 286, 302, 303, 399, 461, 484]);
+export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
 // Build SPA to key Map
@@ -53,7 +54,17 @@ export function get(ability) {
 }
 
 export function getAll() {
-  return Object.keys(ABILITIES).sort()
+  return Object.keys(ABILITIES).sort((a, b) => {
+    if (a.name > b.name) {
+      return 1;
+    }
+  
+    if (b.name > a.name) {
+      return -1;
+    }
+
+    return 0;
+  });
 }
 
 export function getProcEffectForAbility(ability) {
@@ -770,7 +781,10 @@ const ABILITIES = {
     effects: [
       {
         spa: 389,
-        slot: 1
+        slot: 1,
+        limits: [
+          { exSpells: new Set(['TC']) }
+        ]
       }
     ]
   },

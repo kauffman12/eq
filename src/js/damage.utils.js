@@ -85,7 +85,7 @@ function checkLimits(id, spell, effect) {
     } else if (!spell.focusable && abilities.SPA_FOCUSABLE.has(effect.spa)) {
       check = 'not focusable';
       pass = false;
-    } else if (!spell.baseDmg && !abilities.SPA_TWINCAST.has(effect.spa)) {
+    } else if (!spell.baseDmg && !abilities.SPA_NO_DMG.has(effect.spa)) {
       check = 'no damage';
       pass = false;
     } else if (effect.limits) {
@@ -458,8 +458,13 @@ export function displaySpellInfo(target) {
   let lines = [];
 
   utils.getAllSpellData().forEach(data => {
-    Object.keys(data.spells).sort().forEach(sid => {
+    Object.keys(data.spells).sort((a, b) => {
+      if (data.spells[a].name > data.spells[b].name) { return 1; }
+      if (data.spells[b].name > data.spells[a].name) { return -1; }
+      return 0;
+    }).forEach(sid => {
       let spell = data.spells[sid];
+
       lines.push(String(count++).padStart(4, '0') + ': <strong style="font-size: 15px;">' + spell.name + '</strong>');
 
       abilities.getAll().forEach(aid => {
@@ -500,7 +505,7 @@ export function displaySpellInfo(target) {
   // check for errors
   let error = -1;
   for (let i=0; i<lines.length; i++) {
-    if (lines[i] !== TEST_DATA[i]) {
+    if (lines[i] !== testData.VALID_RULES[i]) {
       error = i + 1;
       break;
     }
