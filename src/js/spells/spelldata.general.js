@@ -13,7 +13,7 @@ export const SPELL_DATA = {
     target: 'self',
     timer: 'twincast',
     manaCost: 1,
-    isFocusable: false,
+    focusable: false,
     skill: 4,
     level: 85
   },
@@ -31,7 +31,7 @@ export const SPELL_DATA = {
     manaCost: 0,
     max: 0,
     base1: 100,
-    isFocusable: false,
+    focusable: false,
     skill: 24,
     level: 255
   },
@@ -47,7 +47,7 @@ export const SPELL_DATA = {
     type3Dmg: 0,
     timer: 'AM',
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 98,
     level: 255
   },
@@ -66,13 +66,8 @@ export const SPELL_DATA = {
     base1: 100,
     spellDmgCap: 225,
     level: 255,
-    isFocusable: true,
-    skill: 52,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    focusable: true,
+    skill: 52
   },
   BFVI: {
     id: 'BFVI',
@@ -87,14 +82,9 @@ export const SPELL_DATA = {
     timer: 'BFVI',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   BOIX: {
     id: 'BOIX',
@@ -104,19 +94,14 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     lockoutTime: 0,
-    resist: 'ICE',
+    resist: 'COLD',
     type3Dmg: 0,
     timer: 'BOIX',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FCVII: {
     id: 'FCVII',
@@ -131,14 +116,9 @@ export const SPELL_DATA = {
     timer: 'FCVII',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FCX: {
     id: 'FCX',
@@ -153,14 +133,9 @@ export const SPELL_DATA = {
     timer: 'FCX',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FOMVII: {
     id: 'FOMVII',
@@ -175,14 +150,9 @@ export const SPELL_DATA = {
     timer: 'FOMVII',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FOMIX: {
     id: 'FOMIX',
@@ -197,14 +167,9 @@ export const SPELL_DATA = {
     timer: 'FOMIX',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FOMXIII: {
     id: 'FOMXIII',
@@ -219,14 +184,9 @@ export const SPELL_DATA = {
     timer: 'FOMXIII',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FOMXV: {
     id: 'FOMXV',
@@ -241,14 +201,9 @@ export const SPELL_DATA = {
     timer: 'FOMXV',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FSVI: {
     id: 'FSVI',
@@ -264,14 +219,9 @@ export const SPELL_DATA = {
     manaCost: 0,
     base1: 100,
     spellDmgCap: 225,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FSVII: {
     id: 'FSVII',
@@ -287,14 +237,9 @@ export const SPELL_DATA = {
     manaCost: 0,
     base1: 100,
     spellDmgCap: 250,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   HOM3: {
     id: 'HOM3',
@@ -309,14 +254,9 @@ export const SPELL_DATA = {
     timer: 'HOM3',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   OS: {
     id: 'OS',
@@ -331,14 +271,9 @@ export const SPELL_DATA = {
     timer: 'OS',
     manaCost: 0,
     base1: 100,
-    isFocusable: false,
+    focusable: false,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 675,
-      canProcSpells: true
-    }
+    level: 255
   },
   SOFV: {
     id: 'SOFV',
@@ -353,14 +288,9 @@ export const SPELL_DATA = {
     timer: 'SOFV',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   SOFXIII: {
     id: 'SOFXIII',
@@ -375,14 +305,9 @@ export const SPELL_DATA = {
     timer: 'SOFXIII',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   SOFXIV: {
     id: 'SOFXIV',
@@ -397,14 +322,9 @@ export const SPELL_DATA = {
     timer: 'SOFXIV',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   VOSIV: {
     id: 'VOSIV',
@@ -419,14 +339,9 @@ export const SPELL_DATA = {
     timer: 'VOSIV',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   WOC4: {
     id: 'WOC4',
@@ -441,14 +356,9 @@ export const SPELL_DATA = {
     timer: 'WOC4',
     manaCost: 0,
     base1: 100,
-    isFocusable: true,
+    focusable: true,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 10,
-      canProcSpells: true
-    }
+    level: 255
   },
   FW: {
     id: 'FW',
@@ -458,11 +368,11 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     lockoutTime: 0,
-    resist: 'ICE',
+    resist: 'COLD',
     type3Dmg: 0,
     timer: 'FW',
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 24,
     level: 255
   },
@@ -479,7 +389,7 @@ export const SPELL_DATA = {
     timer: 'DR',
     manaCost: 0,
     base1: 160,
-    isFocusable: true,
+    focusable: true,
     skill: 24,
     level: 255
   },
@@ -496,7 +406,7 @@ export const SPELL_DATA = {
     timer: 'MRR',
     max: 0,
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 5,
     level: 255
   },
@@ -513,7 +423,7 @@ export const SPELL_DATA = {
     timer: 'MRR',
     max: 0,
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 5,
     level: 255
   },
@@ -530,7 +440,7 @@ export const SPELL_DATA = {
     timer: 'MRRR',
     max: 0,
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 5,
     level: 255
   },
@@ -547,7 +457,7 @@ export const SPELL_DATA = {
     timer: 'MRRRR',
     max: 0,
     manaCost: 0,
-    isFocusable: true,
+    focusable: true,
     skill: 5,
     level: 255
   },
@@ -563,7 +473,7 @@ export const SPELL_DATA = {
     timer: 'WSYN',
     manaCost: 0,
     spellDmgCap: 0,
-    isFocusable: false,
+    focusable: false,
     skill: 98,
     level: 254
   }
@@ -579,7 +489,8 @@ SPELL_DATA.DS = Object.assign(
     castTime: 100,
     origCastTime: 100,
     timer: '3',
-    discRefresh: 10000,
-    manaCost: 10
+    manaCost: 10, // twincast requires mana..
+    skill: 52,
+    inventory: true
   }
 );

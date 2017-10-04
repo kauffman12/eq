@@ -36,7 +36,7 @@
       </button>
       <ul class="dropdown-menu">
         {{#each data}}
-          <li class="{{../disabled}}"><a data-value="{{id}}" href="#">{{content}}</a></li>
+          <li class="{{../disabled}}"><a data-value="{{id}}" href="#">{{name}}</a></li>
         {{/each}}
       </ul>
     </div>
@@ -45,18 +45,20 @@
     <a href="#" data-toggle="popover" data-content="<div id='spellPopover{{spellNumber}}'></div>"data-value="{{spellNumber}}" data-trigger="hover" data-placement="bottom" data-container="body" title="{{title}}">{{id}}</a>
   </script>
   <script id="spell-details-template" type="text/x-handlebars-template">
+    <div class="container-fluid">
     {{#each data}}
       <div class="row custom-row">
-        <div class="col-sm-6" align="right">{{{title}}}</div>
-        <div class="col-sm-6">{{value}}</div>
+        <div class="col-xs-7" align="right">{{{title}}}</div>
+        <div class="col-xs-5">{{value}}</div>
       </div>
     {{/each}}
+    </div>
   </script>
-  <script id="additional-modifiers-button-template" type="text/x-handlebars-template">
+  <script id="abilities-input-template" type="text/x-handlebars-template">
     {{#each data}}
       <li class="list-group-item-heading">
-        <span class="stats">{{title}}
-        <input id="{{id}}" class="form-control input-xs settings-checkbox-input" {{isChecked}} data-toggle="toggle" type="checkbox"></input>
+        <span class="stats">{{name}}
+        <input id="{{id}}" class="form-control input-xs settings-checkbox-input repeating-ability" {{isChecked}} data-toggle="toggle" type="checkbox"></input>
         </span>
       </li>
     {{/each}}
@@ -95,8 +97,8 @@
           <li id="tcRateStats" class="list-group-item-heading"></li>
           <li id="averageHitStats" class="list-group-item-heading"></li>
           <li id="maxHitStats" class="list-group-item-heading"></li>
-          <li id="castDamageStats" class="mage-only list-group-item-heading"></li>
-          <li id="petDamageStats" class="mage-only list-group-item-heading"></li>
+          <li id="castDamageStats" class="mag-only list-group-item-heading"></li>
+          <li id="petDamageStats" class="mag-only list-group-item-heading"></li>
           <li id="totalDamageStats" class="list-group-item-heading"></li>
           <li id="dpsStats" class="list-group-item-heading"></li>
         </ul>
@@ -107,7 +109,7 @@
             <a href="#">Spell Settings<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
           <li class="list-group-item-heading">
-            <span class="stats">GCD Override<input id="gcd" type="number" class="form-control input-xs settings-input" value="1.65" min="1.5" max="2.0" step="0.01"></span>
+            <span class="stats">GCD Override<input id="gcd" type="number" class="form-control input-xs settings-input" value="1.60" min="1.5" max="2.0" step="0.01"></span>
           </li>
           <li class="list-group-item-heading">
             <span class="stats">Spell Damage<input id="spellDamage" type="number" class="form-control input-xs settings-input" value="1800" min="1"></span>
@@ -125,36 +127,30 @@
             </span>
           </li>
           <li class="list-group-item-heading">
-            <input id="refreshOffset" type="number" class="form-control input-xs settings-input" value="17" min="1" max="17">
-            <span class="stats">Refreshment Offset <span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
-              class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Syllable of Refreshment will refresh all spell gems every 17 casts (about 6% of the time) when Wizard Claw and Mage Chaotic spells are used. This value lets you choose which spell cast to start the refresh cycle so it's easier to see how refresh can affect a smaller timescale. Defaults to the 17th cast."></span>
-            </span>
-          </li>
-          <li class="list-group-item-heading">
-            <input id="manaburnCount" type="number" class="form-control input-xs settings-input" value="500" min="1" max="500">
+            <input id="MBRNCharges" type="number" class="form-control input-xs settings-input" value="500" min="1" max="500">
             <span class="stats">Mana Burn Effect Count<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The maximum number of charges to use from the Mana Burn damage increasing effect. Spell casts, equipment procs, and aura procs, etc all use these charges and you may not be able to use many during a raid."></span>
             </span>
           </li>
           <li class="list-group-item-heading wiz-only">
-            <input id="vortexEffects" type="number" class="form-control input-xs settings-input" value="24" min="0" max="24">
+            <input id="VFXCharges" type="number" class="form-control input-xs settings-input" value="24" min="0" max="24">
             <span class="stats">Shocking Vortex Effect Count<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The maximum number of charges to use from the Shocking Vortex Effect. Keep in mind that other players will also be using up charges. So, with this value you need to estimate how many charges will be avaiable for your spells. Genereally only DDs with mana cost of 100+ will count. (besides Dicho and other special cases)"></span>
             </span>
           </li>
-          <li class="list-group-item-heading mage-only">
+          <li class="list-group-item-heading mag-only">
             <input id="remorselessDPS" type="number" class="form-control input-xs settings-input" style="width: 66px;" value="10500" min="1" max="99999">
             <span class="stats">Remorseless Servant DPS<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The Damage Per Second (DPS) to assign to each Remorseless Servant pet."></span>
             </span>
           </li>
-          <li class="list-group-item-heading mage-only">
+          <li class="list-group-item-heading mag-only">
             <input id="remorselessTTL" type="number" class="form-control input-xs settings-input" value="40" min="1" max="60">
             <span class="stats">Remorseless Servant TTL<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The Time To Live (TTL) in seconds for each Remorseless Servant pet."></span>
             </span>
           </li>
-          <li class="list-group-item-heading mage-only">
+          <li class="list-group-item-heading mag-only">
             <input id="stormOfManyCount" type="number" class="form-control input-xs settings-input" value="15" min="1" max="15">
             <span class="stats">Storm of Many Pet Count<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The number of pets currently on the hate list when figured out Storm of Many damage. Damage currently maxes out when 15+ pets are on the hate list."></span>
@@ -163,14 +159,14 @@
         </ul>
       </li>
       <li>
-        <ul id="additionalModifiersSection" class="nav nav-pills nav-stacked">
+        <ul id="abilitiesSection" class="nav nav-pills nav-stacked">
           <li class="active custom-collapse">
             <a href="#">Abilities Active<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
         </ul>
       </li>
       <li>
-        <ul id="additionalModifiersDebuffsSection" class="nav nav-pills nav-stacked">
+        <ul id="debuffsSection" class="nav nav-pills nav-stacked">
           <li class="active custom-collapse">
             <a href="#">Debuffs/Weakness<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
@@ -218,10 +214,19 @@
             <span class="stats">Addt'l Before Crit Focus (%)<input id="addBeforeCritFocus" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
           </li>
           <li class="list-group-item-heading">
+            <span class="stats">Addt'l Before DoT Crit Focus (%)<input id="addBeforeDoTCritFocus" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
+          </li>
+          <li class="list-group-item-heading">
             <span class="stats">Addt'l After Crit Add<input id="addAfterCritAdd" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
           </li>
           <li class="list-group-item-heading">
             <span class="stats">Addt'l After Crit Focus (%)<input id="addAfterCritFocus" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
+          </li>
+          <li class="list-group-item-heading">
+            <span class="stats">Addt'l After Crit Add (Not Mod) <input id="addAfterCritAddNoMod" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
+          </li>
+          <li class="list-group-item-heading">
+            <span class="stats">Addt'l After Crit Focus (Not Mod) (%)<input id="addAfterCritFocusNoMod" type="number" class="form-control input-xs settings-input" value="0" min="0" max="100" step="1"></span>
           </li>
         </ul>
       </li>
@@ -230,7 +235,7 @@
           <li class="active custom-collapse">
             <a href="#">Testing<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
-          <li class="list-group-item-heading"><button class="btn btn-link btn-xs" data-toggle="modal" data-target="#myModal">Display Spell/Proc Rules</button></li>          
+          <li class="list-group-item-heading"><button class="btn btn-link btn-xs" data-toggle="modal" data-target="#myModal">Display Spell and Ability Rules</button></li>          
         </ul>
       </li>
   </div>
@@ -245,7 +250,7 @@
             <div class="btn-group">
               <div class="input-group input-group-xs" style="width: 144px;">
                 <span class="input-group-addon input-xs active-input-group">Time Span(s)</span>
-                <input id="spellTimeRange" type="number" class="form-control input-xs" value="120" min="10" max="2000">
+                <input id="spellTimeRange" type="number" class="form-control input-xs" value="120" min="10" max="1000">
               </div>
             </div>
           </div>
@@ -271,16 +276,19 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-xlg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Spell/Proc Rules</h4>
+        <div>
+          <div class="row">
+            <div class="col-sm-6"><h4><span class='errorMsg'>Active Rules</h4></div>
+            <div><h4>Saved Rules (Test/Validation Data)</h4></div>
+          </div>
+        </div>
       </div>
       <div class="modal-body">
         <div>
-          <div class="row"><div class="col-sm-6">Currently Loaded Rules</div><div class="col-sm-6">Valid Test Data</div>
-          </div>
           <div class="row">
             <div class="col-sm-6 current-data"></div><div class="col-sm-6 test-data"></div>
           </div>

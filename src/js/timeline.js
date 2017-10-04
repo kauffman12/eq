@@ -1,4 +1,5 @@
 import {globals as G} from './settings.js';
+import * as abilities from './abilities.js';
 import * as damage from './damage.js';
 import * as dmgU from './damage.utils.js';
 import * as dom  from './dom.js';
@@ -55,7 +56,7 @@ function castSpell(state, spell) {
 
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
-  dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item));
+  updateActiveAbilities(state)
 
   // check if RS pets have completed
   let rsKeys = utils.getCounterKeys('RS');
@@ -71,6 +72,7 @@ function castSpell(state, spell) {
   }
 
   state.lastCastMap[spell.timer] = state.workingTime;
+  state.spellTimerMap[spell.timer] = state.workingTime;
 
   // update spell timeline
   let spellId = (spell.id.length > 2 && isNaN(parseInt(spell.id[2]))) ? spell.id : spell.id.substr(0,2);
@@ -88,9 +90,9 @@ function castSpell(state, spell) {
     console.debug('out of range');
     return;
   }
-
+ 
   // only compute for spells that do damage
-  let avgDmg = damage.calcTotalAvgDamage(state);
+  let avgDmg = damage.execute(state);
 
   // dmg including other dots or abilities that have been accumulating (just RS right now)
   let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
@@ -98,7 +100,7 @@ function castSpell(state, spell) {
   let plotDmg = 0;
   // update stats
   if (avgDmg > 0) {
-    stats.addAggregateStatistics('totalAvgTcRate', stats.getSpellStatistics(state, 'twincastChance') || 0);
+    stats.addAggregateStatistics('totalAvgTcRate', stats.getSpellStatistics(state, 'twincastRate') || 0);
     stats.addAggregateStatistics('totalAvgDmg', avgDmg);
     stats.addAggregateStatistics('detCastCount', 1);
     stats.addMaxAggregateStatistics('maxHit', avgDmg);
@@ -116,6 +118,122 @@ function castSpell(state, spell) {
   return true;
 }
 
+function initAbility(state, id, ability) {
+  let active = true;
+
+  if (ability.charges) {
+    let keys = utils.getCounterKeys(id);
+
+    if (ability.manuallyActivated) {
+      // init manual ability (should move this at some point)
+      if (state[keys.counter] === undefined) {
+        state[keys.counter] = ability.charges;
+      }
+    }
+ 
+    // abilties that get repeated periodically
+    else if (ability.repeatEvery && !ability.manuallyActivated) {
+      let lastProcMap = state.lastProcMap;
+      // get rate from UI if there is an override or use default refresh time
+      let rate = dom.getAbilityRate(id) || ability.refreshTime;
+
+      if (!lastProcMap[id] || lastProcMap[id] + rate < state.workingTime) {
+        if (!lastProcMap[id]) {
+          lastProcMap[id] = CURRENT_TIME;
+          state[keys.expireTime] = CURRENT_TIME + ability.duration;
+        } else {
+          lastProcMap[id] += rate;
+          state[keys.expireTime] = lastProcMap[id] + ability.duration;
+        }
+
+        state[keys.counter] = ability.charges;
+      }
+
+      utils.checkSimpleTimer(state, id);
+      active = utils.isAbilityActive(state, id);
+    } 
+
+    // abilities that only get used once
+    else if (!ability.repeatEvery) {
+      // initialize for first use
+      if (state[keys.counter] === undefined) {
+        state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+
+      } else {
+        let item = TIMELINE_DATA.get(id);
+        let time = getTime(item);
+
+        if (state[keys.counter] === 0) {
+          // this is the last one
+          item.end = state.workingTime;
+          item.content = utils.createLabel(ability, new Date(state.workingTime - time.start));
+          item.title = item.content;
+          silentUpdateTimeline(item);
+          state[keys.counter] = -1;
+          active = false;
+        } else if (state[keys.counter] > 0) {
+          if ( (time.end - time.start) != ability.duration) {
+            item.end = time.start + ability.duration;
+            item.content = utils.createLabel(ability, new Date(ability.duration));
+            item.title = item.content;
+            silentUpdateTimeline(item);
+          }
+        }
+      }
+    }
+  }
+
+  return active;
+}
+
+// Get list of active abilities by ID
+function updateActiveAbilities(state) {
+  let preConfigured = dom.getConfiguredAbilities();
+  state.activeAbilities = new Set(preConfigured.active);
+  state.spellProcAbilities = new Set(preConfigured.spellProc);
+  state.manualAbilities = new Set();
+
+  // get abilities the user has enabled to repeat from the
+  // activated abilities options
+  dom.getActiveRepeatingAbilities().forEach(id => {
+    let ability = abilities.get(id);
+
+    if (initAbility(state, id, ability)) {
+      if (ability.manuallyActivated) {
+        state.manualAbilities.add(id);
+      } else {
+        if (!abilities.getProcEffectForAbility(ability)) {
+          state.activeAbilities.add(id);
+        } else {
+          state.spellProcAbilities.add(id);
+        }
+      }
+    }
+  });
+ 
+  // add any on the timeline
+  TIMELINE_DATA.forEach(item => {
+    if (withinTimeFrame(state.workingTime, getTime(item))) {
+      let ability = abilities.get(item.id);
+
+      // make sure ability is active if it has charges
+      if (initAbility(state, item.id, ability)) {
+        // all of these included here
+        state.activeAbilities.add(item.id);
+
+        // some of these also proc spells
+        if (abilities.getProcEffectForAbility(ability)) {
+          state.spellProcAbilities.add(item.id);
+        }
+      }
+    }
+  });
+
+  // add spell procs that may result from spells being cast
+  dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isAbilityActive(state, id))
+    .forEach(id => addSpellProcAbility(state, id));
+}
+
 // RS has type 3 aug and AAs that reduce the recast so account for that here
 function getModifiedSpellRecastTime(spell) {
   return utils.useCache('spell-recast-time' + spell.id, () => {
@@ -125,36 +243,37 @@ function getModifiedSpellRecastTime(spell) {
 }
 
 // Returns the first ability from list that has able to be cast based on recast timers
-function isSpellAbilityReady(state, ids) {
-  let spell;
+function executeManualAbilities(state) {
+  let idSet = state.manualAbilities;
 
-  return ids.find(id => {
-    spell = utils.getSpellData(id);
-    return !state.lastCastMap[spell.timer] || ((state.lastCastMap[spell.timer] + spell.discRefresh) < state.workingTime);
-  }) ? spell : undefined;
-}
+  if (idSet.size > 0) {
+    let spell;
+    let ability;
+    let abilityId;
 
-// Initialze counters and expire time for items like Enc Synergy in the Abilities In Use section
-function initActivatedAbility(state, item) {
-  let lastProcMap = state.lastProcMap;
+    let ready = [...idSet].find(id => {
+      ability = abilities.get(id);
+      abilityId = id;
 
-  if (dom.isUsingAbility(item.id)) {
-    let keys = utils.getCounterKeys(item.id);
-    let rate = dom.getAbilityRate(item.id);
-    if (!lastProcMap[item.id] || lastProcMap[item.id] + rate < state.workingTime) {
-      if (!lastProcMap[item.id]) {
-        lastProcMap[item.id] = CURRENT_TIME;
-        state[keys.expireTime] = CURRENT_TIME + item.timer;
-      } else {
-        lastProcMap[item.id] += rate;
-        state[keys.expireTime] = lastProcMap[item.id] + item.timer;
-      }
+      let effect = abilities.getProcEffectForAbility(ability);
+      spell = utils.getSpellData(effect.proc);
+      return !state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime);
+    });
 
-      state[keys.counter] = item.count;
+    if (ready) {
+      castSpell(state, spell);
+      state.spellTimerMap[ability.timer] = state.workingTime;
+
+     if (ability.charges) {
+       let keys = utils.getCounterKeys(abilityId);
+       state[keys.counter]--;
+
+       if (state[keys.counter] <= 0 && ability.refreshTrigger) {
+         state.castQueue.push(ability.refreshTrigger);
+       }
+     }
     }
   }
-
-  utils.checkSimpleTimer(state, item.id);
 }
 
 // Adjust start time of a timeline item
@@ -286,6 +405,29 @@ function withinTimeFrame(time, data) {
   return (data && (data.start <= time && data.end >= time));
 }
 
+export function addSpellProcAbility(state, id, initialize) {
+  let ability = abilities.get(id);
+  if (!ability) return;
+
+  // init ability in addition to checking if active
+  if (initialize) {
+    let keys = utils.getCounterKeys(id);
+    if (ability.charges) {
+      state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+    }
+
+    state[keys.expireTime] = state.workingTime + ability.duration;    
+  }
+
+  if (!utils.checkSimpleTimer(state, id)) {
+    if (!abilities.getProcEffectForAbility(ability)) {
+      state.activeAbilities.add(id);
+    } else {
+      state.spellProcAbilities.add(id);
+    }
+  }
+}
+
 export function callUpdateSpellChart() {
   if (UPDATING_CHART === -1) {
     UPDATING_CHART = setTimeout(function() {
@@ -314,51 +456,16 @@ export function connectPopovers() {
   });
 }
 
-export function createAdpsItem(adpsOption, repeat) {
-  let adpsItem = {
-    id: adpsOption.id,
-    start: CURRENT_TIME,
-    end: CURRENT_TIME + adpsOption.offset
-  };
+export function createAdpsItem(id) {
+  let ability = abilities.get(id);
+  let adpsItem = { id: id, start: CURRENT_TIME, end: CURRENT_TIME + ability.duration };
+  let label = utils.createLabel(ability, new Date(adpsItem.end - adpsItem.start));
 
-  let label = utils.createLabel(adpsOption, new Date(adpsItem.end - adpsItem.start));
   adpsItem.content = label;
   adpsItem.title = label;
-  adpsItem.group = utils.readAdpsConfig('displayList').indexOf(adpsOption.id);
   TIMELINE_DATA.add(adpsItem);
+
   return adpsItem;
-}
-
-export function getAdpsData(state, id, time, key) {
-  let item = TIMELINE_DATA.get(id);
-
-  if (item && withinTimeFrame(time, getTime(item))) {
-    let adpsOption = utils.readAdpsOption(id);
-    
-    // check if counters are involved
-    if (adpsOption.chargeBased) {
-      let counter = utils.getCounterKeys(id).counter;
-      if (!state[counter] || state[counter] <= 0 || state.aeWave) { // AE waves don't use extra
-        return null;
-      }
-    }
-    
-    // check requirements
-    if (!adpsOption.requirements || dmgU.passReqs(adpsOption.requirements, state)) {
-      return (key === undefined) ? adpsOption : adpsOption[key];    
-    }
-  }
-
-  return null;
-}
-
-export function getAdpsGroups() {
-  let groups = new vis.DataSet();
-  let displayList = utils.readAdpsConfig('displayList');
-
-  $(displayList).each(function(i, item) {
-    groups.add({id: i, content: utils.readAdpsOption(item)});
-  });
 }
 
 export function init() {
@@ -370,31 +477,9 @@ export function init() {
     });
   });
 
-  TIMELINE.setGroups(getAdpsGroups());
   TIMELINE_DATA.on('add', visTimelineListener);
   TIMELINE_DATA.on('update', visTimelineListener);
   TIMELINE_DATA.on('remove', visTimelineListener);
-}
-
-export function initCounterBasedADPS(state) {
-  utils.getCounterBasedAdps().forEach(adpsKey => {
-    let counter = utils.getCounterKeys(adpsKey).counter;
-    let item = TIMELINE_DATA.get(adpsKey);
-
-    if (item) {
-      let time = getTime(item);
-      let timeLimit = utils.readAdpsOption(adpsKey, 'offset');
-      let maxTimeFrame = { start: time.start, end: time.start + timeLimit };
-
-      if (withinTimeFrame(state.workingTime, maxTimeFrame)) {
-        if (state[counter] === undefined) {
-          state[counter] = dom.getConfiguredCharges(adpsKey) || utils.readAdpsOption(adpsKey, 'charges');
-        }
-      } else if (time.start + timeLimit < state.workingTime) {
-        state[counter] = -1;
-      }
-    }
-  });
 }
 
 export function getTimelineItemTime(id) {
@@ -406,60 +491,46 @@ export function loadRates() {
   let baseRate = dmgU.getBaseCritRate();
   let baseDmg = dmgU.getBaseCritDmg();
   let seconds = dom.getSpellTimeRangeValue();
-  let displayList = utils.readAdpsConfig('displayList');
+
+  // add all the timeline items
+  let ids = TIMELINE_DATA.getIds().filter(id => {
+    let ability = abilities.get(id);
+    return !ability.charges && 
+           (abilities.hasSPA(ability, abilities.SPA_CRIT_RATE_NUKE) ||
+            abilities.hasSPA(ability, abilities.SPA_CRIT_DMG_NUKE));
+  });
 
   for(let i=0; i<=seconds; i+=1000) {
     let time = CURRENT_TIME + i;
     let rate = baseRate;
     let dmg = baseDmg;
-    let rateStacking = {};
-    let dmgStacking = {};
-    let hasUsedMap = {};
 
-    $(displayList).each(function(index, item) {
-      let adpsItem = TIMELINE_DATA.get(item);
+    let abilityList = [];
+    ids.forEach(id => {
+      let adpsItem = TIMELINE_DATA.get(id);
       if (withinTimeFrame(time, adpsItem)) {
-        let adpsOption = utils.readAdpsOption(item);
-        if (!adpsOption.chargeBased) {
-          rate += utils.checkStacking(hasUsedMap, rateStacking, adpsOption, 'critRateMod');
-          dmg += utils.checkStacking(hasUsedMap, dmgStacking, adpsOption, 'critDmgMod');
-        }
+        abilityList.push(id);
       }
     });
 
+    dmgU.buildSPAData(abilityList).spaMap.forEach((value, key) => {
+      let spa = Number.parseInt(key.substring(0, 3));
+
+      if (abilities.SPA_CRIT_RATE_NUKE.has(spa)) {
+        rate += value.value;
+      }
+      if (abilities.SPA_CRIT_DMG_NUKE.has(spa)) {
+        dmg += value.value;
+      }
+    });
+    
+    rate = dmgU.trunc(rate * 100);
+    dmg = dmgU.trunc(dmg * 100);
     BASE_CRIT_DATA.push({time: time, rate: rate, dmg: dmg});
   }
 }
 
-export function postCounterBasedADPS(state) {
-  utils.getCounterBasedAdps().forEach(adpsKey => {
-    let counter = utils.getCounterKeys(adpsKey).counter;
-    let item = TIMELINE_DATA.get(adpsKey);
-
-    if (item) {
-      let time = getTime(item);
-      let adpsOption = utils.readAdpsOption(adpsKey);
-      if (state[counter] === 0) {
-        // this is the last one
-        item.end = state.workingTime;
-        item.content = utils.createLabel(adpsOption, new Date(state.workingTime - time.start));
-        item.title = item.content;
-        silentUpdateTimeline(item);
-        state[counter] = -1;
-      } else if (state[counter] > 0) {
-        let timeLimit = adpsOption.offset;
-        if ( (time.end - time.start) != timeLimit ) {
-          item.end = time.start + timeLimit;
-          item.content = utils.createLabel(adpsOption, new Date(timeLimit));
-          item.title = item.content;
-          silentUpdateTimeline(item);
-        }
-      }
-    }
-  });
-}
-
-export function removeAdpsItemById(id) {
+export function removeAdpsItem(id) {
   TIMELINE_DATA.remove(id);
 }
 
@@ -467,8 +538,14 @@ export function removePopovers() {
   $('.popover').remove();
 }
 
+export function resetTimers(state) {
+  state.spells.forEach(id => { delete state.spellTimerMap[utils.getSpellData(id).timer] });
+  state.gcdWaitTime = state.workingTime;
+}
+
 export function setTitle(data, adpsOption, date) {
-  let label = utils.createLabel(adpsOption, date);
+  let ability = abilities.get(adpsOption.id);
+  let label = utils.createLabel(ability, date);
   let lineItem = data.get(adpsOption.id);
   if (lineItem.content != label) {
     lineItem.content = label;
@@ -488,7 +565,6 @@ export function updateSpellChart() {
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
   let sp = 0;
   let twincastHasBeenCast = false;
-  let gcdWaitTime = 0;
   let tcItem = TIMELINE_DATA.get('TC');
   let mbrnItem = TIMELINE_DATA.get('MBRN');
   let lockout = false;
@@ -496,15 +572,17 @@ export function updateSpellChart() {
   
   let state = {
     cache: {},
-    chartIndex: -1,
+    castQueue: [],
+    chartIndex: -1, 
     gcd: dom.getGCDValue(),
-    tcCounter: 0,
+    gcdWaitTime: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
+    spellTimerMap: {},
+    plotFreq: Math.round(dom.getSpellTimeRangeValue() / 100000) * 100,
     lastCastMap: {},
     lastProcMap: {},
     spells: dom.getSelectedSpells(),
-    fbOrbCounter: dom.isUsingFireboundOrb() ? dmgU.FIREBOUND_ORB_COUNT : 0,
     endTime: CURRENT_TIME + dom.getSpellTimeRangeValue(),
     workingTime:  CURRENT_TIME
   };
@@ -536,7 +614,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          gcdWaitTime = state.workingTime + state.gcd;            
+          state.gcdWaitTime = state.workingTime + state.gcd;            
         }          
           
         return true;
@@ -553,8 +631,7 @@ export function updateSpellChart() {
      // Forced Rejuvination resets lockouts and end GCD
     if (hasForcedRejuv && withinTimeFrame(state.workingTime, getTime(hasForcedRejuv))) {
       hasForcedRejuv = false;
-      state.spells.forEach(id => { delete state.lastCastMap[utils.getSpellData(id).timer] });
-      gcdWaitTime = state.workingTime;
+      resetTimers(state);
     }
 
     // Display/Cast alliance damage when timer expires
@@ -565,20 +642,21 @@ export function updateSpellChart() {
 
     // abilities that can be enabled and repeat every so often like Enc Synergy
     // cancel or reset counters based on timer, only need to check once per workingTime
-    dmgU.ACTIVATED_ABILITIES.forEach(item => initActivatedAbility(state, item));
+    updateActiveAbilities(state);
 
     // Don't do any spell cast if we're during the GCD lockout phase
-    if (gcdWaitTime <= state.workingTime) {
-      // Summon more Orbs
-      if (dom.isUsingFireboundOrb() && state.fbOrbCounter <= 0) {
-        castSpell(state, utils.getSpellData('SFB'));
+    if (state.gcdWaitTime <= state.workingTime) {
+      // if any spells proc or automated spells are pending
+      if (state.castQueue.length > 0) {
+        let id = state.castQueue.shift();
+        castSpell(state, utils.getSpellData(id));
       }
 
       // find a spell to cast
       for (sp = 0; sp < state.spells.length; sp++) {
         let current = utils.getSpellData(state.spells[sp]);
         let recastTime = getModifiedSpellRecastTime(current);
-        let spellReady = (state.workingTime - ((state.lastCastMap[current.timer] || 0) + recastTime) > 0);
+        let spellReady = (state.workingTime - ((state.spellTimerMap[current.timer] || 0) + recastTime) > 0);
 
         // check if these spells need to be cast soon
         if (preemptSpells.find(entry => checkPreempt(entry, current, spellReady))) { break; }
@@ -587,7 +665,7 @@ export function updateSpellChart() {
           // if cast successful update gcd wait time
           if (castSpell(state, current)) {
             if (current.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-              gcdWaitTime = state.workingTime + state.gcd;            
+              state.gcdWaitTime = state.workingTime + state.gcd;            
             }
           }
 
@@ -597,14 +675,10 @@ export function updateSpellChart() {
     }
 
     // spell not available so handle other click/AA abilities
-    if (sp === state.spells.length || gcdWaitTime > state.workingTime) {
+    if (sp === state.spells.length || state.gcdWaitTime > state.workingTime) {
       // try to cast force nuke early to prevent conflicts later on
       // Ex FD can update crit dmg in the chart itself
-      let activatedNukes = dom.getActivatedNukes();
-      if (activatedNukes.length > 0) {
-        let spell = isSpellAbilityReady(state, activatedNukes);
-        if (spell) castSpell(state, spell);
-      }
+      executeManualAbilities(state);
 
       // add dot/RS damage
       if (state.workingTime % 1000 === 0) {
@@ -625,10 +699,10 @@ export function updateSpellChart() {
   }
 
   // update charts
-  state.updatedCritRValues.forEach((rI, rV) => {
+  state.updatedCritRValues.forEach(rV => {
     updateCritGraphValue(CRITR_DATA, rV.time, rV.y);
   });
-  state.updatedCritDValues.forEach((rI, rV) => {
+  state.updatedCritDValues.forEach(rV => {
     updateCritGraphValue(CRITD_DATA, rV.time, rV.y);
   });
 
@@ -657,8 +731,8 @@ export function updateWindow(caller, update, windowList){
 }
 
 export function visTimelineListener(e, item) {
-  let opt = utils.readAdpsOption(item.items[0]);
-  if (opt) {
+  let ability = abilities.get(item.items[0]);
+  if (ability) {
     if (e === 'remove') {
       $('#spellButtons div.adps li > a[data-value=' + item.items[0] + ']')
         .parent().removeClass('disabled');
@@ -667,17 +741,13 @@ export function visTimelineListener(e, item) {
     } else if (e === 'update') {
       let lineItem = TIMELINE_DATA.get(item.items[0]);
       let time = new Date(lineItem.end - lineItem.start);
-      setTitle(TIMELINE_DATA, opt, time);
+      setTitle(TIMELINE_DATA, lineItem, time);
     }
 
-    // don't really have to reload rate data for every type
-    switch(item.items[0]) {
-      case 'TC': case 'ITC': case 'FURYDRUZ': case 'FURYRO': case 'FURYECI':
-      case 'FURYKERA': case 'AF': case 'FR': case 'FD': case 'AD':
-        break;
-      default:
-        setTimeout(loadRates, 5);
-        break;
+    // only update rates when changing abilities that effect them
+    if (!ability.charges && (abilities.hasSPA(ability, abilities.SPA_CRIT_RATE_NUKE) ||
+      abilities.hasSPA(ability, abilities.SPA_CRIT_DMG_NUKE))) {
+      setTimeout(loadRates, 5);
     }
 
     if (e != 'update' || item.oldData[0].start != item.data[0].start || item.oldData[0].end != item.data[0].end) {

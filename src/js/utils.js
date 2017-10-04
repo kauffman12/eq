@@ -20,7 +20,7 @@ export function checkSimpleTimer(state, key) {
   let expired = false;
   
   let keys = getCounterKeys(key);
-  if (state[keys.counter] !== 0 && state[keys.expireTime] > 0 && state.workingTime > state[keys.expireTime]) {
+  if ((state[keys.expireTime] !== -1 && state.workingTime > state[keys.expireTime]) || state[keys.counter] === 0) {
     state[keys.expireTime] = -1;
     expired = true;
 
@@ -31,33 +31,6 @@ export function checkSimpleTimer(state, key) {
   }
   
   return expired;
-}
-
-export function checkStacking(hasUsedMap, map, item, key) {
-  let result = item[key] || 0;
-
-  if (result) {
-    if ( !(hasUsedMap['FE'] && item.id === 'IOG') ) {
-      let lookup = item.spa + "-" + item.slot;
-      if (lookup) {
-        let previous = map[lookup];
-        if ((item.id === 'FE' && hasUsedMap['IOG']) || !previous || previous < result) {
-          // save highest value
-          map[lookup] = result;
-          // return the difference to make up for what was
-          // already accounted for
-          result -= (previous || 0);
-        } else {
-          result = 0; // do nothing
-        }
-      }
-    } else {
-      result = 0;
-    }
-  }
-
-  hasUsedMap[item.id] = true;
-  return result;
 }
 
 export function checkTimerList(state, counterKey, timerKey) {
@@ -81,10 +54,10 @@ export function clearCache() {
   QUERY_CACHE = {};
 }
 
-export function createLabel(adpsOption, date) {
+export function createLabel(ability, date) {
   let label;
-  if (!adpsOption.instant) {
-    label = adpsOption.content + ' (zzz)';
+  if (!ability.instant) {
+    label = ability.name + ' (zzz)';
 
     let m = date.getMinutes();
     let s = date.getSeconds();
@@ -98,14 +71,14 @@ export function createLabel(adpsOption, date) {
       label = label.replace('zzz', (s + 's'));
     }
   } else {
-    label = adpsOption.content;
+    label = ability.name;
   }
 
   return label;
 }
 
 export function collapseMenu(p) {
-  let className = (G.MODE === 'wiz') ? '.mage-only' : '.wiz-only';
+  let className = (G.MODE === 'wiz') ? '.mag-only' : '.wiz-only';
   let hidden = $(p).siblings('li:hidden:not(' + className + ')');
   if (hidden.length > 0) {
     hidden.show();
@@ -146,13 +119,6 @@ export function getCounterKeys(key) {
   });
 }
 
-export function getCounterBasedAdps() {
-  return useCache('counter-based-adps', () => {
-    let options = readAdpsConfig('options');
-    return readAdpsConfig('displayList').filter(id => options[id].chargeBased);
-  });
-}
-
 export function getNumberValue(n) {
   return Number(n) || 0;
 }
@@ -180,20 +146,18 @@ export function getPercentText(first, second) {
 
 export function getSpellData(id) {
   switch(G.MODE) {
-    case 'mage':
+    case 'mag':
       return GEN_SPELLS[id] || MAGE_SPELLS[id] || {};
     case 'wiz':
       return GEN_SPELLS[id] || WIZ_SPELLS[id] || {};
-    default:
-      return {};
   }
 }
 
 export function getAllSpellData() {
   return [
-    { name: 'General', spells: GEN_SPELLS },
-    { name: 'Mage', spells: MAGE_SPELLS },
-    { name: 'Wizard', spells: WIZ_SPELLS }
+    { name: 'gen', spells: GEN_SPELLS },
+    { name: 'mag', spells: MAGE_SPELLS },
+    { name: 'wiz', spells: WIZ_SPELLS }
   ];
 }
 
@@ -212,54 +176,14 @@ export function getUrlParameter(sParam) {
   }
 }
 
-export function initListProperties(obj, propList) {
-  $(propList).each(function(i, item) {
-    if (!obj[item]) {
-      obj[item] = [];
-    }
-  });
-}
-
-export function initNumberProperties(obj, propList) {
-  $(propList).each(function(i, item) {
-    if (!obj[item]) {
-      obj[item] = 0;
-    }
-  });
-}
-
-export function isCounterActive(state, key) {
+export function isAbilityActive(state, key) {
   let keys = getCounterKeys(key);
-  if (keys && keys.counter) {
-    return (state[keys.counter] > 0);
-  }
-
-  return false;
+  return state[keys.expireTime] >= state.workingTime || state[keys.counter] > 0;
 }
 
 export function numberWithCommas(x) {
   if (!x) return x;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-export function readActiveAbility(a) {
-  return SETTINGS.additionalModifiers['options'][a]; 
-}
-
-export function readAdpsConfig(cfg) {
-  return SETTINGS.adpsConfig[cfg];
-}
-
-export function readAdpsOption(opt, value) {
-  let adpsOption = readAdpsConfig('options')[opt];
-  return (value === undefined) ? adpsOption : adpsOption[value];
-}
-
-export function readAdditionalModifiers() {
-  return [
-    { id: 'additionalModifiersSection', section: SETTINGS.additionalModifiers },
-    { id: 'additionalModifiersDebuffsSection', section: SETTINGS.additionalModifiersDebuffs }
-  ];
 }
 
 export function readChartOptions(key, time) {
@@ -291,7 +215,7 @@ export function readSpellList() {
 }
 
 export function switchMode() {
-  let className = (G.MODE === 'wiz') ? 'mage' : 'wiz';
+  let className = (G.MODE === 'wiz') ? 'mag' : 'wiz';
   let classInfo = className ? "?class=" + className : "";
   window.location.assign(
     window.location.protocol + "//" +
@@ -300,6 +224,10 @@ export function switchMode() {
     window.location.pathname +
     classInfo
   );
+}
+
+export function toUpper(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 export function useCache(cacheKey, readFunc) {

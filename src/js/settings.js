@@ -1,13 +1,13 @@
 export const globals = {
-  VERSION: 'Version 0.855',
+  VERSION: 'Version 0.90',
   CLASSES: {
-    mage: {
+    mag: {
       switchTo: 'Wizard',
       title: 'EQ Mage DPS Tool',
       critRate: 'MAGE_INNATE_CRIT_RATE',
       critDmg: 'MAGE_INNATE_CRIT_DMG',
-      cookie: 'mode=mage',
-      css: 'mage-only'
+      cookie: 'mode=mag',
+      css: 'mag-only'
     },
     wiz: {
       switchTo: 'Magician',
@@ -22,14 +22,13 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CF', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FA',
-  'FC', 'MB', 'SV', 'WF', 'WE'
+  'CF', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FC',
+  'FA', 'MB', 'SV', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down
-export const mageSpellList = [
-  'BS', 'CF', 'CR', 'FA', 'FC', 'RC', 'RS', 'SB',
-  'SS', 'SM'
+export const magSpellList = [
+  'BS', 'CF', 'CR', 'FC', 'FA', 'RC', 'RS', 'SB', 'SS', 'SM'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -59,26 +58,38 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-head-focus',
-    value: '0.84',
+    value: 'FMAGIC67',
     desc: 'Velazul\'s Cap',
     data: [
-      { value: '0.84', desc: 'Velazul\'s Cap' },
-      { value: '0.66', desc: 'Selrach\'s Cap' },
-      { value: '0.825', desc: 'Deathseeker\'s Cap' },
-      { value: '0.65', desc: 'Crypt-Hunter\'s Cap' },
-      { value: '0', desc: 'No Cap Selected' }
+      { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
+      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
+      { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
+      { value: 'FMAGIC55', desc: 'Cohort\'s Cap' },
+      { value: '', desc: 'No Cap Selected' }
     ]
   },
   {
     id: 'worn-hands-focus',
-    value: '0.84',
+    value: 'FCOLD67',
     desc: 'Velazul\'s Gloves',
     data: [
-      { value: '0.84', desc: 'Velazul\'s Gloves' },
-      { value: '0.66', desc: 'Selrach\'s Gloves' },
-      { value: '0.825', desc: 'Deathseeker\'s Gloves' },
-      { value: '0.65', desc: 'Crypt-Hunter\'s Gloves' },
-      { value: '0', desc: 'No Gloves Selected' }
+      { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
+      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
+      { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
+      { value: 'FCOLD55', desc: 'Cohort\'s Gloves' },
+      { value: '', desc: 'No Gloves Selected' }
+    ]
+  },
+  {
+    id: 'worn-arms-focus',
+    value: 'FFIRE67',
+    desc: 'Velazul\'s Sleeves',
+    data: [
+      { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
+      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
+      { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
+      { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
+      { value: '0', desc: 'No Sleeves Selected' }
     ]
   },
   {
@@ -89,20 +100,8 @@ export const basicDmgFocusContext = [
       { value: '0.07', desc: 'Velazul\'s Robe' },
       { value: '0.05', desc: 'Selrach\'s Robe' },
       { value: '0.07', desc: 'Deathseeker\'s Robe' },
-      { value: '0.05', desc: 'Crypt-Hunter\'s Robe' },
+      { value: '0.05', desc: 'Cohort\'s Robe' },
       { value: '0', desc: 'No Robe Selected' }
-    ]
-  },
-  {
-    id: 'worn-arms-focus',
-    value: '0.84',
-    desc: 'Velazul\'s Sleeves',
-    data: [
-      { value: '0.84', desc: 'Velazul\'s Sleeves' },
-      { value: '0.66', desc: 'Selrach\'s Sleeves' },
-      { value: '0.825', desc: 'Deathseeker\'s Sleeves' },
-      { value: '0.65', desc: 'Crypt-Hunter\'s Sleeves' },
-      { value: '0', desc: 'No Sleeves Selected' }
     ]
   },
   {
@@ -136,9 +135,9 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: '500-proconly', desc: 'Emblazoned Belt of Boromas' },
-      { value: '1000-magic', desc: 'Parogressio' },
-      { value: '500-fire', desc: 'Burning Sash of Ro' },
+      { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
+      { value: 'THREADS', desc: 'Parogressio' },
+      { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
   },
@@ -379,7 +378,7 @@ export const wizSpellFocusAAContext = [
   }
 ];
 
-export const mageSpellFocusAAContext = [
+export const magSpellFocusAAContext = [
   {
     id: 'aa-conjurers-synergy',
     value: '1',
@@ -600,64 +599,32 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-force-of-flame',
-    value: '6',
+    value: 'FF6',
     desc: 'Force of Flame (6/6)',
     data: [
-      { value: '6', desc: 'Force of Flame (6/6)' },
-      { value: '5', desc: 'Force of Flame (5/6)' },
-      { value: '4', desc: 'Force of Flame (4/6)' },
-      { value: '3', desc: 'Force of Flame (3/6)' },
-      { value: '2', desc: 'Force of Flame (2/6)' },
-      { value: '1', desc: 'Force of Flame (1/6)' },
-      { value: '0', desc: 'Force of Flame (0/6)' }
+      { value: 'FF6', desc: 'Force of Flame (6/6)' },
+      { value: 'FF5', desc: 'Force of Flame (5/6)' },
+      { value: 'FF4', desc: 'Force of Flame (4/6)' }
     ]
   },
   {
     id: 'aa-force-of-ice',
-    value: '6',
+    value: 'FI6',
     desc: 'Force of Ice (6/6)',
     data: [
-      { value: '6', desc: 'Force of Ice (6/6)' },
-      { value: '5', desc: 'Force of Ice (5/6)' },
-      { value: '4', desc: 'Force of Ice (4/6)' },
-      { value: '3', desc: 'Force of Ice (3/6)' },
-      { value: '2', desc: 'Force of Ice (2/6)' },
-      { value: '1', desc: 'Force of Ice (1/6)' },
-      { value: '0', desc: 'Force of Ice (0/6)' }
+      { value: 'FI6', desc: 'Force of Ice (6/6)' },
+      { value: 'FI5', desc: 'Force of Ice (5/6)' },
+      { value: 'FI4', desc: 'Force of Ice (4/6)' }
     ]
   },
   {
     id: 'aa-force-of-will',
-    value: '26',
+    value: 'FW26',
     desc: 'Force of Will (26/26)',
     data: [
-      { value: '26', desc: 'Force of Will (26/26)' },
-      { value: '25', desc: 'Force of Will (25/26)' },
-      { value: '24', desc: 'Force of Will (24/26)' },
-      { value: '23', desc: 'Force of Will (23/26)' },
-      { value: '22', desc: 'Force of Will (22/26)' },
-      { value: '21', desc: 'Force of Will (21/26)' },
-      { value: '20', desc: 'Force of Will (20/26)' },
-      { value: '19', desc: 'Force of Will (19/26)' },
-      { value: '18', desc: 'Force of Will (18/26)' },
-      { value: '17', desc: 'Force of Will (17/26)' },
-      { value: '16', desc: 'Force of Will (16/26)' },
-      { value: '15', desc: 'Force of Will (15/26)' },
-      { value: '14', desc: 'Force of Will (14/26)' },
-      { value: '13', desc: 'Force of Will (13/26)' },
-      { value: '12', desc: 'Force of Will (12/26)' },
-      { value: '11', desc: 'Force of Will (11/26)' },
-      { value: '10', desc: 'Force of Will (10/26)' },
-      { value: '9', desc: 'Force of Will (9/26)' },
-      { value: '8', desc: 'Force of Will (8/26)' },
-      { value: '7', desc: 'Force of Will (7/26)' },
-      { value: '6', desc: 'Force of Will (6/26)' },
-      { value: '5', desc: 'Force of Will (5/26)' },
-      { value: '4', desc: 'Force of Will (4/26)' },
-      { value: '3', desc: 'Force of Will (3/26)' },
-      { value: '2', desc: 'Force of Will (4/26)' },
-      { value: '1', desc: 'Force of Will (3/26)' },
-      { value: '0', desc: 'Force of Will (0/26)' }
+      { value: 'FW26', desc: 'Force of Will (26/26)' },
+      { value: 'FW25', desc: 'Force of Will (25/26)' },
+      { value: 'FW24', desc: 'Force of Will (24/26)' }
     ]
   },
   {
@@ -702,11 +669,11 @@ export const wizDPSAAContext = [
   },
   {
     id: 'spell-pet-focus',
-    value: 'improvedKera',
+    value: 'IMPF',
     desc: 'Improved Familiar (28)',
     data: [
-      { value: 'improvedKera', desc: 'Improved Familiar (28)' },
-      { value: 'NONE', desc: 'No Familiar Selected' }
+      { value: 'IMPF', desc: 'Improved Familiar (28)' },
+      { value: '', desc: 'No Familiar Selected' }
     ]
   },
   {
@@ -756,7 +723,7 @@ export const wizDPSAAContext = [
   }
 ];
 
-export const mageDPSAAContext = [
+export const magDPSAAContext = [
   {
     id: 'aa-destructive-fury',
     value: '330',
@@ -816,25 +783,12 @@ export const mageDPSAAContext = [
   },
   {
     id: 'aa-force-of-elements',
-    value: '15',
+    value: 'FE15',
     desc: 'Force of Elements (15/15)',
     data: [
-      { value: '15', desc: 'Force of Elements (15/15)' },
-      { value: '14', desc: 'Force of Elements (14/15)' },
-      { value: '13', desc: 'Force of Elements (13/15)' },
-      { value: '12', desc: 'Force of Elements (12/15)' },
-      { value: '11', desc: 'Force of Elements (11/15)' },
-      { value: '10', desc: 'Force of Elements (10/15)' },
-      { value: '9', desc: 'Force of Elements (9/15)' },
-      { value: '8', desc: 'Force of Elements (8/15)' },
-      { value: '7', desc: 'Force of Elements (7/15)' },
-      { value: '6', desc: 'Force of Elements (6/15)' },
-      { value: '5', desc: 'Force of Elements (5/15)' },
-      { value: '4', desc: 'Force of Elements (4/15)' },
-      { value: '3', desc: 'Force of Elements (3/15)' },
-      { value: '2', desc: 'Force of Elements (2/15)' },
-      { value: '1', desc: 'Force of Elements (1/15)' },
-      { value: '0', desc: 'Force of Elements (0/15)' }
+      { value: 'FE15', desc: 'Force of Elements (15/15)' },
+      { value: 'FE14', desc: 'Force of Elements (14/15)' },
+      { value: 'FE13', desc: 'Force of Elements (13/15)' }
     ]
   },
   {
@@ -904,431 +858,6 @@ export const mageDPSAAContext = [
     ]
   }
 ];
-
-export const additionalModifiers = {
-  options: {
-    aaForceNukes: { enabled: false, title: 'AA Nukes' },
-    fireboundOrb: { enabled: false, title: 'Mag: Firebound Orb Rk. III', mode: 'mage' },
-    darkShield: { enabled: false, title: 'Dark Shield of the Scholar'},
-    AHB: {
-      enabled: false,
-      title: 'Ancient Hedgewizards Brew',
-      requirements: {
-        minManaCost: 10,
-        minLevel: 75,
-        canProcSpells: true
-      }
-    },
-    ariaMaetanrus: { enabled: false, title: 'Brd: Aria of Maetanrus Rk. III' },
-    augAura: { enabled: false, title: 'Enc: Augmenting Aura Rk. III' },
-    NILSARA: {
-      enabled: false,
-      afterCritAdd: 1638,
-      title: 'Brd: Nilsara\'s Aria Rk. III',
-      requirements: {
-        minManaCost: 10,
-        maxLevel: 105,
-        resists: ['FIRE'],
-        exTargets: ['AE']
-      }
-    },
-    EHAZY: {
-      enabled: false,
-      hasInput: true,
-      title: 'Enc: Gift of Hazy Thoughts',
-      tooltip: 'How often to proc a single Gift of Hazy Thoughts (in seconds).\rKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
-      defaultTime: 20000,
-      beforeCritMult: 0.40,
-      critRateMod: 1.0
-    },
-    ESYN: {
-      enabled: false,
-      hasInput: true,
-      title: 'Enc: Beguiler\'s Synergy I',
-      tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindsunder.',
-      defaultTime: 11000,
-      postCalcMult: 0.40,
-      requirements: {
-        maxLevel: 249,
-        resists: ['FIRE', 'MAGIC', 'ICE']
-      }
-    },
-    MSYN: {
-      enabled: false,
-      hasInput: true,
-      title: 'Mag: Conjurer\'s Synergy I',
-      tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
-      defaultTime: 13000,
-      beforeCritMult: 0.50,
-      requirements: {
-        minDamage: 100,
-        maxLevel: 250,
-        resists: ['FIRE', 'CHROMATIC']
-      },      
-      mode: 'wiz'
-    },
-    NSYN: {
-      enabled: false,
-      hasInput: true,
-      title: 'Nec: Defiler\'s Synergy I',
-      tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Impose for Blood.',
-      defaultTime: 7000
-    },
-    WSYN: {
-      enabled: false,
-      hasInput: true,
-      title: 'Wiz: Evoker\'s Synergy I',
-      tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
-      defaultTime: 25000,
-      mode: 'mage',
-      charges: 1,
-      requirements: {
-        canProcSpells: true,
-        resists: ['MAGIC', 'ICE', 'DISEASE', 'CORRUPTION', 'CHROMATIC']
-      }
-    },
-    MR: {
-      enabled: false,
-      title: 'Enc: Mana Recip... Aura Rk. III',
-      defaultTime: 18000,
-      charges: 6,
-      requirements: {
-        minManaCost: 10,
-        maxLevel: 105,
-        canProcSpells: true
-      }
-    },
-    tcAura: {
-      enabled: false,
-      title: 'Enc: Twincast Aura Rk. III'
-    },
-    FW: {
-      enabled: false,
-      title: 'Dru: Frostweave Aura Rk. III',
-      defaultTime: 18000,
-      charges: 6,
-      requirements: {
-        minManaCost: 10,
-        maxLevel: 110,
-        canProcSpells: true
-      }
-    },
-    AM: {
-      enabled: false,
-      title: 'Brd: Arcane Melody Rk. III',
-      defaultTime: 6500,
-      charges: 4,
-      requirements: {
-        minManaCost: 10,
-        maxLevel: 105,
-        canProcSpells: true
-      }
-    }
-  },
-  displayList: [ 'aaForceNukes', 'AHB', 'darkShield', 'AM', 'ariaMaetanrus', 'NILSARA', 'FW',
-      'augAura', 'ESYN', 'EHAZY', 'MR', 'tcAura', 'fireboundOrb', 'WSYN', 'MSYN', 'NSYN' ]
-};
-
-export const additionalModifiersDebuffs = {
-  options: {
-    blizzard: { enabled: false, title: 'Blizzard Breath Rk. III' },
-    malo: { enabled: false, title: 'Malosenete Rk. III' },
-    seedlings: { enabled: false, title: 'Skin to Seedlings Rk. III' },
-    lingeringcry: { enabled: false, title: 'Tashan\'s Lingering Cry IV' }
-  },
-  displayList: [ 'blizzard', 'malo',  'seedlings', 'lingeringcry' ]
-};
-
-export const adpsConfig = {
-  options: {
-    AD: {
-      id: 'AD',
-      content: 'Wiz: Arcane Destruction V',
-      class: 'wiz',
-      offset: 280000,
-      charges: 24,
-      critRateMod: 0.6,
-      chargeBased: true,
-      spa: 212,
-      slot: 1,
-      requirements: {
-        minManaCost: 10,
-        castDetSpellOrAbility: true
-      }
-    },
-    AF: {
-      id: 'AF',
-      beforeCritMult: 0.15,
-      content: 'Wiz: Arcane Fury III',
-      class: 'wiz',
-      offset: 245000,
-      spa: 302,
-      slot: 1,
-      requirements: {
-        minManaCost: 10,
-        maxLevel: 110
-      }
-    },
-    AUS: {
-      id: 'AUS',
-      critRateMod: 33,
-      content: 'Rng: Auspice of the Hunter',
-      offset: 96000,
-      spa: 294,
-      slot: 1
-    },
-    B2: {
-      id: 'B2',
-      afterCritAdd: 2000,
-      content: 'Brd: Second Spire',
-      offset: 90000,
-      requirements: {
-        minManaCost: 10
-      },
-      spa: 286,
-      slot: 1
-    },
-    BW: {
-      id: 'BW',
-      critRateMod: 10,
-      critDmgMod: 100,
-      content: 'Dru: Group Spirit of Black Wolf',
-      offset: 225000,
-      spa: 294,
-      slot: 8
-    },
-    CH: {
-      id: 'CH',
-      beforeCritMult: 3.75,
-      critRateMod: 1,
-      charges: 2,
-      content: 'Enc: Chroma Haze VII',
-      offset: 12000,
-      chargeBased: true,
-      spa: 302,
-      slot: 1
-    },
-    DR: {
-      id: 'DR',
-      charges: 16,
-      content: 'Enc: Dichotomic Reinforcement 6',
-      offset: 18000,
-      beforeCritAdd: 3959,
-      chargeBased: true,
-      spa: 303,
-      slot: 8,
-      requirements: {
-        minManaCost: 100,
-        maxLevel: 110,
-        castSpellOnly: true
-      }
-    },
-    E3: {
-      id: 'E3',
-      critRateMod: 9,
-      content: 'Enc: Third Spire',
-      offset: 90000,
-      spa: 294,
-      slot: 11
-    },
-    EU: {
-      id: 'EU',
-      afterCritMult: 0.95,
-      content: 'Mag: Elemental Union XIII',
-      class: 'mage',
-      offset: 144000,
-      spa: 124,
-      slot: 1,
-      requirements: {
-        exTargets: ['AE'],
-        maxLevel: 105
-      }
-    },
-    FR: {
-      id: 'FR',
-      content: 'Forceful Rejuvenation',
-      offset: 20000,
-      instant: true
-    },
-    FD: {
-      id: 'FD',
-      content: 'Wiz: Frenzied Devestation XIX',
-      class: 'wiz',
-      offset: 410000,
-      charges: 45,
-      critDmgMod: 0.8,
-      critRateMod: 0.5,
-      chargeBased: true,
-      spa: 212,
-      slot: 1,
-      requirements: {
-        minManaCost: 10,
-        castDetSpellOrAbility: true
-      }
-    },
-    FE: {
-      id: 'FE',
-      critRateMod: 12,
-      critDmgMod: 12,
-      content: 'Brd: Fierce Eye',
-      offset: 120000,
-      spa: 294,
-      slot: 5
-    },
-    FURYDRUZ: {
-      id: 'FURYDRUZ',
-      content: 'Wiz: Fury of Druzzil XIII',
-      class: 'wiz',
-      offset: 600000,
-      resist: 'MAGIC',
-      spa: 303,
-      slot: 1
-    },
-    FURYECI: {
-      id: 'FURYECI',
-      content: 'Wiz: Fury of Eci XIII',
-      class: 'wiz',
-      offset: 600000,
-      resist: 'ICE',
-      spa: 303,
-      slot: 1
-    },
-    FURYRO: {
-      id: 'FURYRO',
-      content: 'Wiz: Fury of Ro XIII',
-      class: 'wiz',
-      offset: 600000,
-      resist: 'FIRE',
-      spa: 303,
-      slot: 1
-    },
-    FURYKERA: {
-      id: 'FURYKERA',
-      content: 'Wiz: Fury of Kerafyrm IX',
-      class: 'wiz',
-      offset: 600000,
-      resist: 'ANY',
-      spa: 303,
-      slot: 1
-    },
-    GLYPH: {
-      id: 'GLYPH',
-      critDmgMod: 60,
-      content: 'Glyph of Destruction II',
-      offset: 120000,
-      spa: 294,
-      slot: 7
-    },
-    HF: {
-      id: 'HF',
-      afterCritMult: 1.10,
-      content: 'Mag: Heart of Flames XII',
-      class: 'mage',
-      offset: 276000,
-      resist: 'FIRE',
-      spa: 124,
-      slot: 1,
-      requirements: {
-        exTargets: ['AE'],
-        maxLevel: 105,
-        resists: ['FIRE']
-      }
-    },
-    MBRN: {
-      id: 'MBRN',
-      charges: 500,
-      content: 'Wiz: Mana Burn XVI',
-      offset: 120000,
-      afterCritAdd: 19200,
-      chargeBased: true,
-      spa: 484,
-      slot: 1,
-      requirements: {
-        focusable: true
-      }
-    },
-    MC: {
-      id: 'MC',
-      critDmgMod: 50,
-      critRateMod: 1.75,
-      charges: 3,
-      content: 'Mana Charge',
-      offset: 42000,
-      chargeBased: true,
-      spa: 294,
-      slot: 1
-    },
-    HV: {
-      id: 'HV',
-      critDmgMod: 35,
-      critRateMod: 0,
-      content: 'Mag: Heart of Vapor XIV',
-      class: 'mage',
-      offset: 276000,
-      spa: 294,
-      slot: 99
-    },
-    IOG: {
-      id: 'IOG',
-      critRateMod: 12,
-      critDmgMod: 155,
-      content: 'Enc: Illusions of Grandeur',
-      offset: 120000,
-      spa: 294,
-      slot: 5
-    },
-    ITC: {
-      id: 'ITC',
-      content: 'Improved Twincast',
-      offset: 150000,
-      chargeBased: true,
-      charges: 18
-    },
-    M1: {
-      id: 'M1',
-      critRateMod: 24,
-      content: 'Mag: First Spire',
-      class: 'mage',
-      offset: 90000,
-      spa: 294,
-      slot: 2
-    },
-    TC: {
-      id: 'TC',
-      content: 'Twincast Spell',
-      offset: 21000
-    },
-    SW: {
-      id: 'SW',
-      beforeCritMult: 0.185,
-      content: 'Dru: Season\'s Wrath V',
-      offset: 30000,
-      spa: 296,
-      slot: 1
-    },
-    VES: {
-      id: 'VES',
-      critRateMod: 12,
-      content: 'Brd: Epic (Spirit of Vesagran)',
-      offset: 120000,
-      spa: 294,
-      slot: 9
-    },
-    W2: {
-      id: 'W2',
-      critDmgMod: 160,
-      content: 'Wiz: Second Spire',
-      class: 'wiz',
-      offset: 90000,
-      spa: 294,
-      slot: 3
-    }
-  },
-  displayList: [
-    'FR', 'GLYPH', 'ITC', 'MC', 'TC', 'VES', 'FE', 'B2', 'BW', 'SW', 'CH', 'DR', 'IOG', 'E3', 'EU', 'M1',
-    'HF', 'HV', 'AUS', 'AD', 'AF', 'FD', 'FURYDRUZ', 'FURYECI', 'FURYKERA', 'FURYRO', 'MBRN', 'W2'
-  ]
-};
 
 export const chartOptions = {
   spellline: {

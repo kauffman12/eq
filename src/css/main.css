@@ -1,5 +1,9 @@
+.modal-xlg {
+  width: 1100px !important;
+}
+
 .wiz-only,
-.mage-only,
+.mag-only,
 .enc-only {
   display: none !important;
 }
@@ -152,7 +156,7 @@ li.disabled {
 }
 
 .popover-title {
-  background-color: #82b3ed4d;
+  background-color: #D9E8FA;;
   width: 260px;
   text-align: center;
 }
@@ -203,8 +207,8 @@ li.disabled {
 
 .vis-item {
   color: #000;
-  background-color: #82b3ed4d;
-  border-color: #8290B799;
+  background-color: #D9E8FA;
+  border-color: #A5B3D2;
 }
 
 .vis-range {

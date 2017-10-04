@@ -5,6 +5,7 @@ import './css/main.css';
 
 // Library References
 import {globals as G} from './js/settings.js';
+import * as abilities from './js/abilities.js';
 import * as dom from './js/dom.js';
 import * as dmgU from './js/damage.utils.js';
 import * as utils from './js/utils.js';
@@ -37,45 +38,46 @@ $('#mainDPSAASection').after(settingsTemplate({context: utils.readMainContext()}
 
 // Create Abilities In Use section
 let rateTemplate = Handlebars.compile($('#additional-modifiers-synergy-template').html());
-let sectionTemplate = Handlebars.compile($("#additional-modifiers-button-template").html());
+let sectionTemplate = Handlebars.compile($("#abilities-input-template").html());
 
-utils.readAdditionalModifiers().forEach(item => {
-  let section = item.section;
-  let sectionRef = $('#' + item.id);      
-  let data = [];
-  
-  section.displayList.forEach(id => {
-    let item = section.options[id];
-    let isChecked = item.enabled ? 'checked' : '';
-    if (!item.mode || (item.mode && item.mode === G.MODE)) {
-      data.push({ id: id, isChecked: isChecked, title: item.title });
-    }
-  });
-  
-  sectionRef.append(sectionTemplate({ data: data }));
-  sectionRef.find('input').click((e) => { timeline.callUpdateSpellChart() });
-  
-  section.displayList.forEach(id => {
-    let item = section.options[id];
-    if (item.hasInput) {
-      $('#' + id).after(rateTemplate({
-        inputId: id + 'Rate',
-        tooltip: item.tooltip,
-        defaultTime: item.defaultTime / 1000
-      }));
-      
-      $('#' + id + 'Rate').change(() => { timeline.callUpdateSpellChart() });
-    }
-  });
+let abilitiesSection = $('#abilitiesSection');
+let debuffsSection = $('#debuffsSection');
+let aList = [];
+let dList = [];
+let aInputRatesList = [];
+
+abilities.getAbilityList(true).forEach(ability => {
+  let aClass = (G.MODE !== ability.class) ? ability.class : '';
+  let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
+  let list = ability.debuff ? dList : aList;
+  list.push({id: ability.id, name: name});
+
+  if (ability.repeatEvery > -1) {
+    aInputRatesList.push(ability);
+  }
+});
+
+abilitiesSection.append(sectionTemplate({ data: aList }));
+abilitiesSection.find('input').click((e) => { timeline.callUpdateSpellChart() });
+debuffsSection.append(sectionTemplate({ data: dList }));
+debuffsSection.find('input').click((e) => { timeline.callUpdateSpellChart() });
+
+aInputRatesList.forEach(ability => {
+  $('#' + ability.id).after(rateTemplate({
+    inputId: ability.id + 'Rate',
+    tooltip: ability.tooltip,
+    defaultTime: ability.repeatEvery / 1000
+  }));
+
+  $('#' + ability.id + 'Rate').change(() => { timeline.callUpdateSpellChart() });  
 });
 
 // Creates Add/Remove ADPS Buttons
 let adpsOptions = [];
-utils.readAdpsConfig('displayList').forEach(item => {   
-  let adpsItem = utils.readAdpsOption(item);
-  if (!adpsItem.class || (adpsItem.class && adpsItem.class === G.MODE)) {
-    adpsOptions.push(adpsItem);
-  }      
+abilities.getAbilityList(false).forEach(ability => {
+  let aClass = (G.MODE !== ability.class) ? ability.class : '';
+  let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
+  adpsOptions.push({id: ability.id, name: name});
 });
 
 let adpsButtonTemplate = Handlebars.compile($("#spell-adps-button-template").html());
@@ -89,7 +91,7 @@ $('#spellButtons div.adps li > a').click(e => {
   }
   
   let id = $(e.currentTarget).data('value');
-  timeline.createAdpsItem(utils.readAdpsOption(id));
+  timeline.createAdpsItem(id);
   $(e.currentTarget).parent().addClass('disabled');
   $('#spellButtons div.remove-adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');      
 });
@@ -101,7 +103,7 @@ $('#spellButtons div.remove-adps li > a').click(e => {
   }
   
   let id = $(e.currentTarget).data('value');
-  timeline.removeAdpsItemById(id);
+  timeline.removeAdpsItem(id);
   $(e.currentTarget).parent().addClass('disabled');
   $('#spellButtons div.adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');
 });
@@ -189,8 +191,8 @@ $('#myModal').on('shown.bs.modal', () => {
 })
 
 // Set default collapse state
-utils.collapseMenu($('#additionalModifiersDebuffsSection .custom-collapse'));
-utils.collapseMenu($('#additionalModifiersSection .custom-collapse'));
+utils.collapseMenu($('#debuffsSection .custom-collapse'));
+utils.collapseMenu($('#abilitiesSection .custom-collapse'));
 utils.collapseMenu($('#basicDmgFocusSection'));
 utils.collapseMenu($('#spellFocusAASection'));
 utils.collapseMenu($('#mainDPSAASection'));
