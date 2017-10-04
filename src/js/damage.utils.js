@@ -422,7 +422,7 @@ export function isCastDetSpellOrAbility(spell) {
 
 export function processCounter(state, id, mod) {
   let keys = utils.getCounterKeys(id);
-  let partUsed = 1;
+  let partUsed;
   let counterUsed = 0;
   let current = state[keys.counter];
   let start = (current >= 1) ? 1 : current;
@@ -430,6 +430,7 @@ export function processCounter(state, id, mod) {
   if (current >= mod) {
     current -= mod;
     counterUsed = mod;
+    partUsed = start;
     // use full amount if it's available
   } else {
     partUsed = current;
@@ -443,7 +444,7 @@ export function processCounter(state, id, mod) {
 
   // Why x start? So, 1 charge is normally required. mod that for twincast. Easy.
   // But if there's only 0.5 total left then it's really only half strength. ie think proc damage
-  return partUsed * start;
+  return partUsed;
 }
 
 export function trunc(value) {
