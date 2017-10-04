@@ -53,13 +53,6 @@ export function getConfiguredAbilities(state) {
       active.push(familiar);
     }
 
-    // twincast AA
-    let tcaa = getTwincastAAValue();
-    if (tcaa && abilities.get('TCAA')) {
-      abilities.setSPAValue('TCAA', 399, tcaa)
-      active.push('TCAA');
-    }
-
     let setSpellProc = (id, value) => {
       let ability = abilities.get(id);
       if (value && ability) {
@@ -67,7 +60,7 @@ export function getConfiguredAbilities(state) {
 
         // only configure manual abilities here
         // dont return them
-        if (!ability.manuallyActivated) {
+        if (!ability.manuallyActivated && ability.class === G.MODE) {
           spellProc.push(id);
         }
       }
@@ -79,6 +72,14 @@ export function getConfiguredAbilities(state) {
     setSpellProc('FF', getForceOfFlameValue());
     setSpellProc('FI', getForceOfIceValue());
     setSpellProc('FW', getForceOfWillValue());
+
+    // Setup Flames of Power
+    let power = getFlamesOfPowerValue();
+    if (power === 4) {
+      abilities.get('FPWR').charges = 2;
+    } else {
+      abilities.get('FPWR').charges = 1;
+    }
 
     return { active: active, spellProc: spellProc };
   });
@@ -157,7 +158,7 @@ export function getAllianceFulminationValue() {
 
 export function getArcaneFusionValue() {
   return utils.useCache('.aa-arcane-fusion', () => {
-    return G.MODE === 'wiz' ? $('.aa-arcane-fusion .dropdown-toggle').data('value') : undefined;
+    return $('.aa-arcane-fusion .dropdown-toggle').data('value');
   });
 }
 
@@ -208,11 +209,15 @@ export function getDestructiveAdeptValue() {
 }
 
 export function getDestructiveFuryValue() {
-  return utils.getNumberValue($('.aa-destructive-fury .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-destructive-fury', () => {
+    return utils.getNumberValue($('.aa-destructive-fury .dropdown-toggle').data('value'));
+  });
 }
 
 export function getDoNValue() {
-  return utils.getNumberValue($('.aa-don .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-don-value', () => {
+    return utils.getNumberValue($('.aa-don .dropdown-toggle').data('value'));
+  });
 }
 
 export function getEyeOfDecayValue() {
@@ -252,7 +257,9 @@ export function getForceOfWillValue() {
 }
 
 export function getFuryOfMagicValue() {
-  return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-fury-of-magic', () => {
+    return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
+  });
 }
 
 export function getGCDValue() {
@@ -288,20 +295,14 @@ export function getHastenedServantValue() {
 }
 
 export function getFamiliarValue() {
-  if (G.MODE === 'wiz') {
+  return utils.useCache('..spell-pet-focus', () => {
     return $('.spell-pet-focus .dropdown-toggle').data('value');
-  }
+  });
 }
 
 export function getRangeAugValue() {
   return utils.useCache('.range-aug', () => {
     return $('.range-aug .dropdown-toggle').data('value');
-  });
-}
-
-export function getRefreshOffsetValue() {
-  return utils.useCache('.refresh-offset', () => {
-    return utils.getNumberValue($('#refreshOffset').val());
   });
 }
 
@@ -372,6 +373,9 @@ export function getSpellTimeRangeControl() {
 
 export function getSpellTimeRangeValue() {
   let timeRange = utils.getNumberValue(getSpellTimeRangeControl().val());
+  if (timeRange > 1000) {
+    timeRange = 1000;
+  }
   return 1000 * ((timeRange < 0) ? 0 : timeRange);
 }
 
@@ -413,8 +417,4 @@ export function getType3DmdAugValue(spell) {
 
 export function isUsingArcaneFusion() {
   return (getArcaneFusionValue() != 'NONE');
-}
-
-export function isUsingFireboundOrb() {
-  return $('#fireboundOrb').is(':checked');
 }

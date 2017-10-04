@@ -10,10 +10,10 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     timer: 'BJ',
     manaCost: 10,
-    discRefresh: 12000,
     focusable: true,
     skill: 24,
-    level: 102
+    level: 102,
+    inventory: true
   },
   BS: {
     id: 'BS',
@@ -67,7 +67,6 @@ export const SPELL_DATA = {
   FA: {
     id: 'FA',
     name: 'Firebound Alliance Rk. III',
-    baseDmg: 0,
     castTime: 2000,
     origCastTime: 3000,
     recastTime: 60000,
@@ -240,7 +239,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: 'FE15',
     manaCost: 0,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -256,7 +254,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: 'FE14',
     manaCost: 0,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -272,7 +269,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: 'FE13',
     manaCost: 0,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254

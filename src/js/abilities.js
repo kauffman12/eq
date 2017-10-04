@@ -31,11 +31,29 @@ export const SPA_POST_CALC_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 286, 302, 303, 461, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 302, 303, 399, 461, 484]);
 export const SPA_TWINCAST = new Set([399]);
+
+// Build SPA to key Map
+export const SPA_KEY_MAP = new Map();
+SPA_CRIT_RATE_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritRate'));
+SPA_CRIT_DMG_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritDmg'));
+SPA_AFTER_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAdd'));
+SPA_AFTER_CRIT_ADD_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAddNoMod'));
+SPA_AFTER_CRIT_FOCUS_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocusNoMod'));
+SPA_BEFORE_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritAdd'));
+SPA_BEFORE_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritFocus'));
+SPA_BEFORE_DOT_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeDoTCritFocus'));
+SPA_POST_CALC_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'postCalcFocus'));
+SPA_EFFECTIVENESS.forEach(spa => SPA_KEY_MAP.set(spa, 'effectiveness'));
+SPA_TWINCAST.forEach(spa => SPA_KEY_MAP.set(spa, 'twincast'));
 
 export function get(ability) {
   return ABILITIES[ability];
+}
+
+export function getAll() {
+  return Object.keys(ABILITIES).sort()
 }
 
 export function getProcEffectForAbility(ability) {
@@ -49,7 +67,10 @@ function abilitySorter(a, b) {
   let bClass = (G.MODE !== b.class) ? b.class : '';
   let aName = (aClass || '') + a.name;
   let bName = (bClass || '') + b.name;
-  return aName > bName;
+
+  if (aName > bName) return 1;
+  if (bName > aName) return -1;
+  return 0;
 }
 
 export function getAbilityList(repeating) {
@@ -99,7 +120,7 @@ export function setSPAValue(id, spa, value) {
   }
 }
 
-const COMBAT_SKILLS = new Set([52, 98]);
+const COMBAT_SKILLS = new Set([]); // not needed yet
 const TARGET_AES = new Set(['AE']);
 const TICK_OFFSET = 3000;
 
@@ -180,7 +201,7 @@ const ABILITIES = {
       {
         proc: '', // value read from settings/UI choice
         limits: [
-          { canProcSpells: true },
+          { onSpellUse: true },
           { maxDuration: 0 },
           { minManaCost: 10 },
           { minLevel: 95 },
@@ -197,6 +218,7 @@ const ABILITIES = {
       {
         proc: 'AHB',
         limits: [
+          { onSpellUse: true },
           { minManaCost: 10 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -216,7 +238,7 @@ const ABILITIES = {
       {
         proc: 'AM',
         limits: [
-          { canProcSpells: true },
+          { onSpellUse: true },
           { maxLevel: 105 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -255,12 +277,14 @@ const ABILITIES = {
         spa: 294,
         slot: 1,
         value: 0.33
-      },
+      }
+/*
       {
         spa: 273,
         slot: 5,
         value: 0.33
       }
+*/
     ]
   },
   B2: {
@@ -301,6 +325,25 @@ const ABILITIES = {
       }
     ]
   },
+  BONDF: {
+    level: 255,
+    name: 'Bond of the Flame',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        value: 500,
+        limits: [
+          { resists: new Set(['FIRE']) },
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { type: 'detrimental' },
+          { minManaCost: 100 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
   CH: {
     adpsDropdown: true,
     charges: 2,
@@ -330,6 +373,8 @@ const ABILITIES = {
     ]
   },
   DADEPT: {
+    class: 'wiz',
+    mode: 'wiz',
     name: 'Destructive Adept AA',
     effects: [
       {
@@ -355,9 +400,10 @@ const ABILITIES = {
       {
         proc: 'DR',
         limits: [
+          { onSpellUse: true },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exSpells: new Set('DR') },
+          { exSpells: new Set(['DR']) },
           { minManaCost: 100 }
         ]
       },
@@ -381,7 +427,10 @@ const ABILITIES = {
     timer: '3',
     effects: [
       {
-        proc: 'DS'
+        proc: 'DS',
+        limits: [
+          { activated: true }
+        ]
       }
     ]
   },
@@ -477,11 +526,13 @@ const ABILITIES = {
     level: 255,
     name: 'Fierce Eye III',
     effects: [
+/*
       {
         spa: 273,
         slot: 2,
         value: 0.12
-      },
+      }
+*/
       {
         spa: 294,
         slot: 5,
@@ -809,7 +860,12 @@ const ABILITIES = {
     repeatEvery: -1,
     timer: '73',
     effects: [
-      { proc: '' }
+      { 
+        proc: '',
+        limits: [
+          { activated: true }
+        ]
+      }
     ]
   },
   FI: { // generated
@@ -822,19 +878,31 @@ const ABILITIES = {
     repeatEvery: -1,
     timer: '44',
     effects: [
-      { proc: '' }
+       { 
+        proc: '',
+        limits: [
+          { activated: true }
+        ]
+      }
     ]
   },
-  FO: {
+  FBO: {
+    charges: 10,
     class: 'mag',
     manuallyActivated: true,
     mode: 'mag',
     name: 'Firebound Orb III',
     refreshTime: 12000,
+    refreshTrigger: 'SFB',
     repeatEvery: -1,
     timer: '5',
     effects: [
-      { proc: 'BJ' }
+      { 
+        proc: 'BJ',
+        limits: [
+          { activated: true }
+        ]
+      }
     ]
   },
   FF: { // generated
@@ -847,7 +915,12 @@ const ABILITIES = {
     repeatEvery: -1,
     timer: '36',
     effects: [
-      { proc: '' }
+      { 
+        proc: '',
+        limits: [
+          { activated: true }
+        ]
+      }
     ]
   },
   FW: { // generated
@@ -860,7 +933,12 @@ const ABILITIES = {
     repeatEvery: -1,
     timer: '37',
     effects: [
-      { proc: '' }
+      { 
+        proc: '',
+        limits: [
+          { activated: true }
+        ]
+      }
     ]
   },
   FWAE: {
@@ -875,7 +953,7 @@ const ABILITIES = {
       {
         proc: 'FW',
         limits: [
-          { canProcSpells: true },
+          { onSpellUse: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
@@ -934,10 +1012,11 @@ const ABILITIES = {
   },
   EQPPROC: {
     level: 255,
-    name: 'General Eqp DPS Proc Rules',
+    name: 'General EQP Proc Rules',
     effects: [
       {
         limits: [
+          { onSpellUse: true },
           { type: 'detrimental' },
           { minLevel: 70 },
           { minManaCost: 10 },
@@ -956,11 +1035,58 @@ const ABILITIES = {
         spa: 170,
         slot: 10,
         value: 0.6
-      },
+      }
+/*
       {
         spa: 375,
         slot: 8,
         value: 0.6
+      }
+*/
+    ]
+  },
+  FPWR: {
+    class: 'mag',
+    charges: 2,
+    duration: 60000,
+    level: 255,
+    mode: 'mag',
+    name: 'Flames of Power IV',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        value: 1.05,
+        limits: [
+          { minDmg: 100 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 },
+          { maxLevel: 105 } // need to really verify
+        ]
+      }
+    ]
+  },
+  FWEAK: {
+    class: 'mag',
+    charges: 1000, // workaround to see count in stats
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    mode: 'mag',
+    name: 'Flames of Weakness IV',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        value: -0.25,
+        limits: [
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 105 } // need to really verify
+        ]
       }
     ]
   },
@@ -1012,11 +1138,11 @@ const ABILITIES = {
         slot: 1,
         value: 0.5,
         limits: [
-          { maxLevel: 105 }, // from testing
-          { exSkills: COMBAT_SKILLS }, // from testing
           { maxDuration: 0 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES }
+          { exTargets: TARGET_AES },
+          { maxLevel: 105 }, // from testing
+          { exSkills: COMBAT_SKILLS }, // from testing
         ]
       },
       {
@@ -1054,6 +1180,7 @@ const ABILITIES = {
     level: 254,
     name: 'Illusions of Grandeur II',
     effects: [
+/*
       {
         spa: 273,
         slot: 2,
@@ -1064,6 +1191,7 @@ const ABILITIES = {
         slot: 3,
         value: 1.15
       },
+*/
       {
         spa: 294,
         slot: 5,
@@ -1163,9 +1291,10 @@ const ABILITIES = {
       {
         proc: 'MR',
         limits: [
-          { canProcSpells: true },
+          { onSpellUse: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
+          { exSpells: new Set(['MR']) },
           { maxLevel: 105 },
           { minManaCost: 10 }
         ]
@@ -1230,12 +1359,14 @@ const ABILITIES = {
         spa: 170,
         slot: 1,
         value: 0.15
-      },
+      }
+/*
       {
         spa: 375,
         slot: 2,
         value: 0.15
       }
+*/
     ]
   },
   SEEDLINGS: {
@@ -1258,7 +1389,30 @@ const ABILITIES = {
       }
     ]
   },
+  SEERS: {
+    level: 255,
+    name: 'Boon of the Seeress',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        value: 500,
+        limits: [
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { maxManaCost: 0 },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { minLevel: 254 },
+          { maxDuration: 0 },
+          { maxCastTime: 0 }
+        ]
+      }
+    ]
+  },
   SVENG: {
+    class: 'wiz',
+    mode: 'wiz',
     name: 'Sorcerer\'s Vengeance AA',
     effects: [
       {
@@ -1274,10 +1428,105 @@ const ABILITIES = {
       }
     ]
   },
+  SYLLICE: {
+    charges: 1,
+    class: 'wiz',
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Ice III',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        value: 3469,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 105 },
+          { minManaCost: 10 },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  SYLLFIRE: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Fire III',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        value: 3469,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 105 },
+          { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  SYLLMAGIC: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Magic III',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        value: 3469,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 105 },
+          { minManaCost: 10 },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  SYLLMASTER: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Mastery III',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        value: 4232,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 105 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
   SW: {
     adpsDropdown: true,
     class: 'dru',
-    duration: 33000,
+    duration: 30000 + TICK_OFFSET,
     level: 254,
     name: 'Season\'s Wrath V',
     effects: [
@@ -1350,6 +1599,44 @@ const ABILITIES = {
       }
     ]
   },
+  THREADS: {
+    level: 255,
+    name: 'Threads of Mana',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        value: 1000,
+        limits: [
+          { resists: new Set(['MAGIC']) },
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { type: 'detrimental' },
+          { minManaCost: 100 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
+  TP: {
+    name: 'Twinproc AA',
+    effects: [
+      {
+        spa: 399,
+        slot: 1,
+        value: 0, // value read from settings/UI choice
+        limits: [
+          { maxDuration: 0 },
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { minLevel: 255 },
+          { maxManaCost: 0 },
+          { exSkills: COMBAT_SKILLS },
+          { exTwincastMarker: true }
+        ]
+      }
+    ]
+  },
   VES: {
     adpsDropdown: true,
     class: 'brd',
@@ -1361,12 +1648,14 @@ const ABILITIES = {
         spa: 294,
         slot: 9,
         value: 0.12
-      },
+      }
+/*
       {
         spa: 273,
         slot: 10,
         value: 0.12
       }
+*/
     ]
   },
   VFX: {
@@ -1418,7 +1707,7 @@ const ABILITIES = {
       {
         proc: 'WSYN',
         limits: [
-          { canProcSpells: true },
+          { onSpellUse: true },
           { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
           { type: 'detrimental' }
         ]

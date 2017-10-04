@@ -20,7 +20,7 @@ export function checkSimpleTimer(state, key) {
   let expired = false;
   
   let keys = getCounterKeys(key);
-  if (state[keys.counter] !== 0 && state[keys.expireTime] > 0 && state.workingTime > state[keys.expireTime]) {
+  if ((state[keys.expireTime] !== -1 && state.workingTime > state[keys.expireTime]) || state[keys.counter] === 0) {
     state[keys.expireTime] = -1;
     expired = true;
 
@@ -150,16 +150,14 @@ export function getSpellData(id) {
       return GEN_SPELLS[id] || MAGE_SPELLS[id] || {};
     case 'wiz':
       return GEN_SPELLS[id] || WIZ_SPELLS[id] || {};
-    default:
-      return {};
   }
 }
 
 export function getAllSpellData() {
   return [
-    { name: 'General', spells: GEN_SPELLS },
-    { name: 'Mage', spells: MAGE_SPELLS },
-    { name: 'Wizard', spells: WIZ_SPELLS }
+    { name: 'gen', spells: GEN_SPELLS },
+    { name: 'mag', spells: MAGE_SPELLS },
+    { name: 'wiz', spells: WIZ_SPELLS }
   ];
 }
 
@@ -178,29 +176,9 @@ export function getUrlParameter(sParam) {
   }
 }
 
-export function initListProperties(obj, propList) {
-  $(propList).each(function(i, item) {
-    if (!obj[item]) {
-      obj[item] = [];
-    }
-  });
-}
-
-export function initNumberProperties(obj, propList) {
-  $(propList).each(function(i, item) {
-    if (!obj[item]) {
-      obj[item] = 0;
-    }
-  });
-}
-
-export function isCounterActive(state, key) {
+export function isAbilityActive(state, key) {
   let keys = getCounterKeys(key);
-  if (keys && keys.counter) {
-    return (state[keys.counter] > 0);
-  }
-
-  return false;
+  return state[keys.expireTime] >= state.workingTime || state[keys.counter] > 0;
 }
 
 export function numberWithCommas(x) {

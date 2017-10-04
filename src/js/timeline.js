@@ -72,6 +72,7 @@ function castSpell(state, spell) {
   }
 
   state.lastCastMap[spell.timer] = state.workingTime;
+  state.spellTimerMap[spell.timer] = state.workingTime;
 
   // update spell timeline
   let spellId = (spell.id.length > 2 && isNaN(parseInt(spell.id[2]))) ? spell.id : spell.id.substr(0,2);
@@ -91,7 +92,7 @@ function castSpell(state, spell) {
   }
  
   // only compute for spells that do damage
-  let avgDmg = damage.calcTotalAvgDamage(state);
+  let avgDmg = damage.execute(state);
 
   // dmg including other dots or abilities that have been accumulating (just RS right now)
   let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
@@ -121,11 +122,18 @@ function initAbility(state, id, ability) {
   let active = true;
 
   if (ability.charges) {
-    let lastProcMap = state.lastProcMap;
     let keys = utils.getCounterKeys(id);
-    
+
+    if (ability.manuallyActivated) {
+      // init manual ability (should move this at some point)
+      if (state[keys.counter] === undefined) {
+        state[keys.counter] = ability.charges;
+      }
+    }
+ 
     // abilties that get repeated periodically
-    if (ability.repeatEvery) {
+    else if (ability.repeatEvery && !ability.manuallyActivated) {
+      let lastProcMap = state.lastProcMap;
       // get rate from UI if there is an override or use default refresh time
       let rate = dom.getAbilityRate(id) || ability.refreshTime;
 
@@ -142,11 +150,11 @@ function initAbility(state, id, ability) {
       }
 
       utils.checkSimpleTimer(state, id);
-      active = utils.isCounterActive(state, id);
+      active = utils.isAbilityActive(state, id);
     } 
 
     // abilities that only get used once
-    if (!ability.repeatEvery) {
+    else if (!ability.repeatEvery) {
       // initialize for first use
       if (state[keys.counter] === undefined) {
         state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
@@ -190,21 +198,19 @@ function updateActiveAbilities(state) {
   dom.getActiveRepeatingAbilities().forEach(id => {
     let ability = abilities.get(id);
 
-    if (ability.manuallyActivated) {
-      state.manualAbilities.add(id);
-    } else if (initAbility(state, id, ability)) {
-      if (!abilities.getProcEffectForAbility(ability)) {
-        state.activeAbilities.add(id);
+    if (initAbility(state, id, ability)) {
+      if (ability.manuallyActivated) {
+        state.manualAbilities.add(id);
       } else {
-        state.spellProcAbilities.add(id);
+        if (!abilities.getProcEffectForAbility(ability)) {
+          state.activeAbilities.add(id);
+        } else {
+          state.spellProcAbilities.add(id);
+        }
       }
     }
   });
-
-  // add spell procs that may result from spells being cast
-  dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isCounterActive(state, id))
-    .forEach(id => addSpellProcAbility(state, id));
-  
+ 
   // add any on the timeline
   TIMELINE_DATA.forEach(item => {
     if (withinTimeFrame(state.workingTime, getTime(item))) {
@@ -222,6 +228,10 @@ function updateActiveAbilities(state) {
       }
     }
   });
+
+  // add spell procs that may result from spells being cast
+  dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isAbilityActive(state, id))
+    .forEach(id => addSpellProcAbility(state, id));
 }
 
 // RS has type 3 aug and AAs that reduce the recast so account for that here
@@ -239,17 +249,29 @@ function executeManualAbilities(state) {
   if (idSet.size > 0) {
     let spell;
     let ability;
+    let abilityId;
 
     let ready = [...idSet].find(id => {
       ability = abilities.get(id);
+      abilityId = id;
+
       let effect = abilities.getProcEffectForAbility(ability);
       spell = utils.getSpellData(effect.proc);
-      return !state.lastCastMap[ability.timer] || ((state.lastCastMap[ability.timer] + ability.refreshTime) < state.workingTime);
+      return !state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime);
     });
 
     if (ready) {
       castSpell(state, spell);
-      state.lastCastMap[ability.timer] = state.workingTime;
+      state.spellTimerMap[ability.timer] = state.workingTime;
+
+     if (ability.charges) {
+       let keys = utils.getCounterKeys(abilityId);
+       state[keys.counter]--;
+
+       if (state[keys.counter] <= 0 && ability.refreshTrigger) {
+         state.castQueue.push(ability.refreshTrigger);
+       }
+     }
     }
   }
 }
@@ -385,11 +407,15 @@ function withinTimeFrame(time, data) {
 
 export function addSpellProcAbility(state, id, initialize) {
   let ability = abilities.get(id);
+  if (!ability) return;
 
   // init ability in addition to checking if active
   if (initialize) {
     let keys = utils.getCounterKeys(id);
-    state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+    if (ability.charges) {
+      state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+    }
+
     state[keys.expireTime] = state.workingTime + ability.duration;    
   }
 
@@ -512,6 +538,11 @@ export function removePopovers() {
   $('.popover').remove();
 }
 
+export function resetTimers(state) {
+  state.spells.forEach(id => { delete state.spellTimerMap[utils.getSpellData(id).timer] });
+  state.gcdWaitTime = state.workingTime;
+}
+
 export function setTitle(data, adpsOption, date) {
   let ability = abilities.get(adpsOption.id);
   let label = utils.createLabel(ability, date);
@@ -534,7 +565,6 @@ export function updateSpellChart() {
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
   let sp = 0;
   let twincastHasBeenCast = false;
-  let gcdWaitTime = 0;
   let tcItem = TIMELINE_DATA.get('TC');
   let mbrnItem = TIMELINE_DATA.get('MBRN');
   let lockout = false;
@@ -542,14 +572,17 @@ export function updateSpellChart() {
   
   let state = {
     cache: {},
-    chartIndex: -1,
+    castQueue: [],
+    chartIndex: -1, 
     gcd: dom.getGCDValue(),
+    gcdWaitTime: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
+    spellTimerMap: {},
+    plotFreq: Math.round(dom.getSpellTimeRangeValue() / 100000) * 100,
     lastCastMap: {},
     lastProcMap: {},
     spells: dom.getSelectedSpells(),
-    fbOrbCounter: dom.isUsingFireboundOrb() ? dmgU.FIREBOUND_ORB_COUNT : 0,
     endTime: CURRENT_TIME + dom.getSpellTimeRangeValue(),
     workingTime:  CURRENT_TIME
   };
@@ -581,7 +614,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          gcdWaitTime = state.workingTime + state.gcd;            
+          state.gcdWaitTime = state.workingTime + state.gcd;            
         }          
           
         return true;
@@ -598,8 +631,7 @@ export function updateSpellChart() {
      // Forced Rejuvination resets lockouts and end GCD
     if (hasForcedRejuv && withinTimeFrame(state.workingTime, getTime(hasForcedRejuv))) {
       hasForcedRejuv = false;
-      state.spells.forEach(id => { delete state.lastCastMap[utils.getSpellData(id).timer] });
-      gcdWaitTime = state.workingTime;
+      resetTimers(state);
     }
 
     // Display/Cast alliance damage when timer expires
@@ -613,17 +645,18 @@ export function updateSpellChart() {
     updateActiveAbilities(state);
 
     // Don't do any spell cast if we're during the GCD lockout phase
-    if (gcdWaitTime <= state.workingTime) {
-      // Summon more Orbs
-      if (dom.isUsingFireboundOrb() && state.fbOrbCounter <= 0) {
-        castSpell(state, utils.getSpellData('SFB'));
+    if (state.gcdWaitTime <= state.workingTime) {
+      // if any spells proc or automated spells are pending
+      if (state.castQueue.length > 0) {
+        let id = state.castQueue.shift();
+        castSpell(state, utils.getSpellData(id));
       }
 
       // find a spell to cast
       for (sp = 0; sp < state.spells.length; sp++) {
         let current = utils.getSpellData(state.spells[sp]);
         let recastTime = getModifiedSpellRecastTime(current);
-        let spellReady = (state.workingTime - ((state.lastCastMap[current.timer] || 0) + recastTime) > 0);
+        let spellReady = (state.workingTime - ((state.spellTimerMap[current.timer] || 0) + recastTime) > 0);
 
         // check if these spells need to be cast soon
         if (preemptSpells.find(entry => checkPreempt(entry, current, spellReady))) { break; }
@@ -632,7 +665,7 @@ export function updateSpellChart() {
           // if cast successful update gcd wait time
           if (castSpell(state, current)) {
             if (current.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-              gcdWaitTime = state.workingTime + state.gcd;            
+              state.gcdWaitTime = state.workingTime + state.gcd;            
             }
           }
 
@@ -642,7 +675,7 @@ export function updateSpellChart() {
     }
 
     // spell not available so handle other click/AA abilities
-    if (sp === state.spells.length || gcdWaitTime > state.workingTime) {
+    if (sp === state.spells.length || state.gcdWaitTime > state.workingTime) {
       // try to cast force nuke early to prevent conflicts later on
       // Ex FD can update crit dmg in the chart itself
       executeManualAbilities(state);

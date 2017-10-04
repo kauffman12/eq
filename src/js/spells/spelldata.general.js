@@ -273,12 +273,7 @@ export const SPELL_DATA = {
     base1: 100,
     focusable: false,
     skill: 52,
-    level: 255,
-    requirements: {
-      minLevel: 70,
-      minManaCost: 675,
-      canProcSpells: true
-    }
+    level: 255
   },
   SOFV: {
     id: 'SOFV',
@@ -494,7 +489,8 @@ SPELL_DATA.DS = Object.assign(
     castTime: 100,
     origCastTime: 100,
     timer: '3',
-    discRefresh: 10000,
-    manaCost: 10
+    manaCost: 10, // twincast requires mana..
+    skill: 52,
+    inventory: true
   }
 );

@@ -58,7 +58,7 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-head-focus',
-    value: 'MAGIC67',
+    value: 'FMAGIC67',
     desc: 'Velazul\'s Cap',
     data: [
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
@@ -135,9 +135,9 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: '500-proconly', desc: 'Emblazoned Belt of Boromas' },
-      { value: '1000-magic', desc: 'Parogressio' },
-      { value: '500-fire', desc: 'Burning Sash of Ro' },
+      { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
+      { value: 'THREADS', desc: 'Parogressio' },
+      { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
   },

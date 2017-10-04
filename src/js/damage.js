@@ -27,12 +27,9 @@ function addSpellAndEqpProcs(state, mod) {
   // should look these up at some point
   dmgU.getSpellProcs(state.spellProcAbilities, state.spell)
     .forEach(item => {
-      // previous procs can use up the current so always
-      // check if active before executing
-      if (item.hasCharges && !utils.isCounterActive(state, item.id)) {
+      // remove if execute failed to do anything
+      if (!executeProc(item.proc, state, mod, item.id)) {
         state.spellProcAbilities.delete(item.id);
-      } else {
-        executeProc(item.proc, state, mod, item.id);
       }
     });
 
@@ -41,70 +38,43 @@ function addSpellAndEqpProcs(state, mod) {
 }
 
 function applyPostSpellEffects(state, mod) {
-  let update = mod ? mod : 1;
+  mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
   switch(spell.id) {
-    case 'BJ':
-      state.fbOrbCounter = state.inTwincast ? state.fbOrbCounter : state.fbOrbCounter - 1;
-      break;    
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
-      // Claw only
-      if (G.MODE === 'wiz') {
-        utils.initNumberProperties(state, ['clawCounter']);
-        // Number of claws cast used when handling syllables
-        state.clawCounter += update;
-      } else if (G.MODE === 'mag') {
-        initFlames(state, update);
-      }
-
-      var tcLength = abilities.get('TC').duration;
-      utils.initNumberProperties(state, ['clawRefreshCount', 'clawTcCounter']);
-      utils.initListProperties(state, ['clawTcTimers']);
-      
-      if (!state.inTwincast) {
-        state.clawTcCounter++;
-        state.clawTcTimers.push(utils.createTimer(state.workingTime + tcLength, (value) => value - 1 ));
-      }
-
-      // only count main spells for normalization
-      state.clawRefreshCount += update;
-
-      // skip ahead since we just cast a spell
-      // if Claw is cast then reduce timers by 6% including gcd
-      state.spells.forEach((t) => {
-        var theSpell = utils.getSpellData(t);
-        var last = state.lastCastMap[theSpell.timer];
-        var count = Math.floor(state.clawRefreshCount);
-        if (last && last > 0 && (((dmgU.REFRESH_CAST_COUNT - count + dom.getRefreshOffsetValue())) % dmgU.REFRESH_CAST_COUNT === 0)) {
-          delete state.lastCastMap[theSpell.timer];
-        }
+      // generae proc effects
+      state.cfSpellProcGenerator.next(mod).value.forEach(id => {
+          if (id === 'REFRESH') {
+            timeline.resetTimers(state);
+          } else {
+            timeline.addSpellProcAbility(state, id, true);
+          }
       });
+      break;
+    case 'FC':
+      state.fcSpellProcGenerator.next(mod).value.forEach(id => timeline.addSpellProcAbility(state, id, true));
       break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', true);
       timeline.addSpellProcAbility(state, 'WSYN', true);
       break;
-    case 'FC':
-      // FC is used my mages and wizards
-      if (G.MODE === 'mag') {
-        initFlames(state, update);
-      }
-      break;
     case 'RS':
       timeline.addSpellProcAbility(state, 'MSYN', true);
+
       let keys = utils.getCounterKeys('RS');
-      utils.initNumberProperties(state, [keys.counter]);
-      utils.initListProperties(state, [keys.timers]);
-      state[keys.counter]++;
-      stats.updateSpellStatistics(state, keys.counter, state[keys.counter]);
+      if (state[keys.timers] === undefined) {
+        state[keys.timers] = [];
+      }
+
+      state[keys.counter] = 1 + state[keys.counter] || 0;
       state[keys.timers].push(
         utils.createTimer(state.workingTime + dom.getRemorselessServantTTLValue(), (value) => { return value - 1; })
       );
       
-      // save simple for expected DPS at this time
       stats.updateSpellStatistics(state, 'rsDPS', dom.getRemorselessServantDPSValue() * state[keys.counter]);
+      stats.updateSpellStatistics(state, keys.counter, state[keys.counter]);
       
       if (!state.dotGenerator) {
         state.dotGenerator = genDamageOverTime(state);
@@ -114,36 +84,52 @@ function applyPostSpellEffects(state, mod) {
       state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       break;
     case 'SFB':
-      state.fbOrbCounter = dmgU.FIREBOUND_ORB_COUNT;f
+      state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
     case 'FU':
       // Fuse is really just a Skyblaze
       let origSpell = spell;
       state.spell = utils.getSpellData('ES');
-      calcTotalAvgDamage(state);
+      execute(state);
       state.spell = origSpell;
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
-      calcCompoundSpellProcDamage(state, update, dmgU.getCompoundSpellList('FU'), 'fuseProcDmg');
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('FU'), 'fuseProcDmg');
       break;
     case 'WF': case 'WE':
-      calcCompoundSpellProcDamage(state, update, dmgU.getCompoundSpellList(spell.id));
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id));
       break;
   }
 }
 
 function applyPreSpellChecks(state, mod) {
-  // Check for effects to cancel
-  ['FPWR'].forEach(id => utils.checkSimpleTimer(state, id)); // simple timers
-  utils.checkTimerList(state, 'clawTcCounter', 'clawTcTimers');
-  utils.checkTimerList(state, 'flamesWeaknessCounter', 'flamesWeaknessTimers');
-
   // Update Storm of Many damage based on selected value
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
+    case 'CF':
+      if (!state.cfSpellProcGenerator) {
+        // Mage Chaotic Fire seems to twinproc its chaotic fire chance
+        // so increase the counter by that amount
+        let offset = G.MODE === 'mag' ? dom.getTwinprocValue() : 0.0;
+        state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE], offset);
+      }
+      break;
+    case 'FC':
+      if (!state.fcSpellProcGenerator) {
+        // AA modifies the proc chance
+        let offset = 0;
+        switch(dom.getFlamesOfPowerValue()) {
+          case 1: offset = 0.27; break;
+          case 2: offset = 0.30; break;
+          case 3: case 4: offset = 0.34; break; 
+        }
+        state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
+      }
+      break;
     case 'SM':
-      state.spell.baseDmg = state.spell['baseDmg' + dom.getStormOfManyCountValue()];
+      let baseDmg = state.spell['baseDmg' + dom.getStormOfManyCountValue()];
+      state.spell.baseDmg = baseDmg || state.spell.baseDmg;
       break;
     }
 }
@@ -172,12 +158,14 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Check if we've gone over 100%
     critRate = (critRate > 1.0) ? 1.0 : critRate;
 
+    // Get Spell Damage
+    let spellDmg = getSpellDamage(state);
     // Get Effectiveness
     let effectiveness = getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue();
     // Get Before Crit Focus
     let beforeCritFocus = getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue();
     // Get Before Crit Add
-    let beforeCritAdd = getBeforeCritAdd(state, spaValues) + dom.getAddBeforeCritAddValue();
+    let beforeCritAdd = dom.getType3DmdAugValue(state.spell) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
     // Get Before DoT Crit Focus
     let beforeDoTCritFocus = getBeforeDoTCritFocus(state, spaValues, mod) + dom.getAddBeforeDoTCritFocusValue();
     // Get After Crit Focus
@@ -193,7 +181,7 @@ function calcAvgDamage(state, mod, dmgKey) {
 
     // find avergage non crit
     let effDmg = state.spell.baseDmg + dmgU.trunc(state.spell.baseDmg * effectiveness);
-    let beforeCritDmg = effDmg + dmgU.trunc(effDmg * beforeCritFocus) + beforeCritAdd;
+    let beforeCritDmg = effDmg + dmgU.trunc(effDmg * beforeCritFocus) + beforeCritAdd + spellDmg;
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd;
 
@@ -210,6 +198,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     // save stats of everything we just calculated
     stats.updateSpellStatistics(state, 'critRate', critRate);
     stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
+    stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
     stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
     stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
     stats.updateSpellStatistics(state, 'beforeCritAdd', beforeCritAdd);
@@ -224,9 +213,6 @@ function calcAvgDamage(state, mod, dmgKey) {
 
     // find average damage overall before additional twincasts
     avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
-
-    // add twinproc dmg
-    avgDmg += dmgU.canTwinproc(state.spell) ? avgDmg * dom.getTwinprocValue() : 0;
 
     // apply mod
     avgDmg = dmgU.trunc(avgDmg * mod);
@@ -286,29 +272,8 @@ function calcAvgProcDamage(state, proc, mod, dmgKey) {
   let prevSpell = state.spell;
 
   state.spell = proc;
-  calcAvgDamage(state, procRate * mod, dmgKey);
+  execute(state, procRate * mod, dmgKey);
   state.spell = prevSpell;
-}
-
-function calcClawSpellAdd(state, current303SpellAdd, resistMatchChance, mod) {
-  let value = current303SpellAdd;
-
-  if (utils.isCounterActive(state, 'CLAW')) {
-    // amount the any magic syllable would have increased over current SPA 303 value
-    let anyIncrease = Math.trunc((dmgU.CLAW_PROC_ANY_DMG - current303SpellAdd) * dmgU.CLAW_PROC_ANY_CHANCE);
-    // amount the any resistance specific syllable would have increased over current SPA 303 value
-    let specificIncrease = Math.trunc((dmgU.CLAW_PROC_SPECIFIC_DMG - current303SpellAdd) * resistMatchChance);
-    // amount increase (zero) that happens otherwise with a damage increasing claw proc
-    let noIncrease = current303SpellAdd;
-
-    let clawProcDmg = anyIncrease + specificIncrease + noIncrease;
-    if (clawProcDmg > value) {
-      // dont need to update statistics for this one (clawChargesUsed not used anywhere)
-      value = Math.trunc(dmgU.processCounter(state, 'CLAW', mod, clawProcDmg));
-    }
-  }
-
-  return value;
 }
 
 function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
@@ -323,7 +288,7 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 
     // procs are their own un-twincasted spell but if they were triggered
     // from a twincast of the parent then record the damage there
-    calcTotalAvgDamage(state, item.chance * mod, inTwincast ? 'tcAvgDmg' : dmgKey);
+    execute(state, item.chance * mod, inTwincast ? 'tcAvgDmg' : dmgKey);
   });
 
   state.inTwincast = inTwincast;
@@ -334,17 +299,45 @@ function executeProc(id, state, mod, statId) {
   let value = 0;
   let key = statId ? statId : id;
   let proc = utils.getSpellData(id);
+  let partUsed = 1;
 
-  // Procs like FW have counters set during updateSpellChart while Hedgewizards has none
-  if (proc.id && state && proc != state.spell) {
+  // update counters if it uses the
+  if (utils.isAbilityActive(state, key)) {
+    let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
+    partUsed = dmgU.processCounter(state, key, mod * chargesPer);
+  }
+
+  if (partUsed > 0) { // if charges were consumed for abilities that need them
     let dmgKey = utils.getCounterKeys(key).addDmg;
     (id != 'MR') ? calcAvgProcDamage(state, proc, mod, dmgKey) : calcAvgMRProcDamage(state, mod, dmgKey);
+  }
 
-    // update counters if it uses them
-    if (utils.isCounterActive(state, key)) {
-      let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
-      dmgU.processCounter(state, key, mod * chargesPer);
-    }
+  return partUsed > 0;
+}
+
+function* genSpellProc(rateInfo, offset) {
+  let count = 1 + offset;
+  let lastProcCounts = [];
+
+  if (rateInfo) {
+    Object.keys(rateInfo).forEach(key => {
+      lastProcCounts.push({ id: key, count: rateInfo[key] });
+    });
+  }
+ 
+  while (true) {
+    let incr = yield (
+      lastProcCounts.filter(item => {
+        if (count >= item.count) {
+          item.count += rateInfo[item.id];
+          return true;
+        } else {
+          return false;
+        }
+      }).map(item => item.id)
+    );
+
+    count += (incr + (offset * incr));
   }
 }
 
@@ -366,39 +359,14 @@ function getAfterCritAdd(state, spaValues) {
   let afterCritAdd = spaValues.afterCritAdd;
 
   // AA SPA 286
-  afterCritAdd += dmgU.getSorcerersVengeanceAdd(state.spell);
+  if (G.MODE === 'wiz') {
+    afterCritAdd += dmgU.getSorcerersVengeanceAdd(state.spell);
+  }
 
   // Worn SPA 286
-  let belt = dom.getBeltProcValue();
-  if (belt === '500-proconly' && dmgU.passReqs({focusable: true, spellOrEqpProc: true}, state)) {
-    afterCritAdd += 500;
-  } else if (belt === '1000-magic' && dmgU.passReqs({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['MAGIC']}, state)) {
-    afterCritAdd += 1000;
-  } else if (belt === '500-fire' && dmgU.passReqs({castSpellOnly: true, focusable: true, minManaCost: 10, resists: ['FIRE']}, state)) {
-    afterCritAdd += 500;
-  }
+  afterCritAdd += dmgU.getBeltFocus(state.spell);
 
   return afterCritAdd;
-}
-
-function getBeforeCritAdd(state, spaValues) {
-  let spell = state.spell;
-
-  // Get Spell Damage
-  let spellDmg = dmgU.getSpellDamage(spell);
-
-  // The ranged augs seem to get stuck at 2x their damage
-  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
-    spellDmg = spell.spellDmgCap;
-  }
-
-  stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
-
-  // calcClawSpellAdd(state, beforeCritAdd, dmgU.CLAW_PROC_MAGIC_CHANCE, mod);
-  // FIX - add something for claw
-
-  // type 3 aug is SPA 303
-  return spellDmg + dom.getType3DmdAugValue(state.spell) + spaValues.beforeCritAdd;
 }
 
 function getBeforeCritFocus(state, spaValues) {
@@ -415,64 +383,19 @@ function getBeforeCritFocus(state, spaValues) {
 
 function getBeforeDoTCritFocus(state, spaValues, mod) {
   let spell = state.spell;
-  let value = 0;
+  let value = spaValues.beforeDoTCritFocus; // Spell (SPA 124)
 
-  // Damage Focus Worn (SPA 124)
-  value += dmgU.getWornDamageFocus(state.spell); 
+  // Ex: Flames of Weakness is negative and cancels everything out
+  if (value >= 0) {
+    // Damage Focus Worn (SPA 124)
+    value += dmgU.getWornDamageFocus(state.spell); 
 
-  // Damage Focus AA (SPA 124)
-  // AA seems to focus everything even spells labeled non focus
-  value += dmgU.getDestructiveAdeptFocus(state.spell);
-
-  // SPA 124 is all we really have right now being calculated
-  let spa124Spell = spaValues.beforeDoTCritFocus;
-
-  // Worn and Spell SPA 124 are generally max level but recent armor is max+5
-  // always exclude AEs
-  if (spell.level <= 110 && spell.target != 'AE') {
-    // Do this one last
-    // Net effect is to increase SPA 124 Spell by the difference between
-    // Flames of Power and the current ability taking into account the counter
-    // is based on Flames of Power only being available 25% of the time after
-    // Fickle Conflag is used
-    if (utils.isCounterActive(state, 'FPWR') && state.spell.manaCost >= 10) {
-      if (dmgU.FLAMES_POWER_FOCUS > spa124Spell) {
-        let powerRate = dmgU.getFickleRate(dmgU.FLAMES_POWER_RATE);
-        let powerValue = (dmgU.FLAMES_POWER_FOCUS - spa124Spell) * powerRate;
-        powerValue = dmgU.processCounter(state, 'FPWR', mod, powerValue);
-        spa124Spell += powerValue;
-
-        // Store rate which be based off mod during counter update
-        if (!state.inTwincast) {
-          stats.updateSpellStatistics(state, 'fpwr', powerValue);
-        }
-      }
-    }
-
-    // 1% of the time you get the Flames of Weakness rate and the rest the current rate
-    if (state.flamesWeaknessCounter && state.spell.manaCost >= 10) {
-      let totalRate = 0;
-      let flamesRate = dmgU.getFickleRate(dmgU.FLAMES_WEAKNESS_RATE);
-      let count = state.flamesWeaknessCounter;
-      while (count > 0) {
-        let mod = (count < 1) ? count : 1;
-        totalRate += (flamesRate * mod);
-        count--;
-      }
-
-      // When weakness is active all previous SPA 124 Spell is canceled out
-      // Final value is weakness * chance that weakness happened + value if it didnt
-      let weakness = dmgU.FLAMES_WEAKNESS_FOCUS * totalRate;
-      spa124Spell = weakness + spa124Spell * (1.0 - totalRate);
-
-      if (!state.inTwincast) {
-        stats.updateSpellStatistics(state, 'fpwrWeaknessRate', totalRate);
-      }
+    // Damage Focus AA (SPA 124)
+    // AA seems to focus everything even spells labeled non focus
+    if (G.MODE === 'wiz') {
+      value += dmgU.getDestructiveAdeptFocus(state.spell);
     }
   }
-
-  // add SPA 124 spell
-  value += spa124Spell;
 
   return value;
 }
@@ -486,7 +409,7 @@ function getEffectiveness(state, spaValues) {
   // Effectiveness Worn (SPA 413)
   // Robe focus only applies to Skyblaze and Fuse
   let robeFocus = (spell.id === 'ES' || spell.id === 'FU') ? dom.getRobeValue() : 0;
-  let eyeOfDecay = (spell.level <= 110 && !spell.discRefresh) ? dom.getEyeOfDecayValue() : 0;  // Should be max level 110
+  let eyeOfDecay = (spell.level <= 110 && spell.focusable) ? dom.getEyeOfDecayValue() : 0;
   let effectiveness = (eyeOfDecay > robeFocus) ? eyeOfDecay : robeFocus;
 
   // Effectiveness Spell (SPA 413) Augmenting Aura
@@ -500,9 +423,24 @@ function getEffectiveness(state, spaValues) {
   return effectiveness;
 }
 
+function getSpellDamage(state) {
+  let spell = state.spell;
+
+  // Get Spell Damage
+  let spellDmg = dmgU.getSpellDamage(spell);
+
+  // The ranged augs seem to get stuck at 2x their damage
+  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
+    spellDmg = spell.spellDmgCap;
+  }
+
+  return spellDmg;
+}
 
 function getTwincastRate(state, spaValues) {
-  let rate = spaValues.twincast;
+  let spell = state.spell;
+
+  let rate = spaValues.twincast + dmgU.getTwincastAA(spell) + dmgU.getTwinprocAA(spell);
   rate = (rate > 1.0) ? 1.0 : rate;
 
   if (rate) {
@@ -512,18 +450,7 @@ function getTwincastRate(state, spaValues) {
   return rate;
 }
 
-function initFlames(state, update) {
-  utils.initNumberProperties(state, ['flamesWeaknessCounter']);
-  utils.initListProperties(state, ['flamesWeaknessTimers']);
-  state.fpwrExpireTime = state.workingTime + dmgU.FLAMES_POWER_TIMER;
-  state.fpwrCounter = (dom.getFlamesOfPowerValue() === 4) ? 2.0 : 1.0;
-
-  // Count the number of potential weaknesses applied sort of like Claw
-  state.flamesWeaknessCounter += update;
-  state.flamesWeaknessTimers.push(utils.createTimer(state.workingTime + dmgU.FLAMES_WEAKNESS_TIMER, (value) => {value - update}));
-}
-
-export function calcTotalAvgDamage(state, mod, dmgKey) {
+export function execute(state, mod, dmgKey) {
   // Default to full strength
   mod = (mod === undefined) ? 1 : mod;
 

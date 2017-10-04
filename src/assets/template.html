@@ -127,12 +127,6 @@
             </span>
           </li>
           <li class="list-group-item-heading">
-            <input id="refreshOffset" type="number" class="form-control input-xs settings-input" value="17" min="1" max="17">
-            <span class="stats">Refreshment Offset <span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
-              class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Syllable of Refreshment will refresh all spell gems every 17 casts (about 6% of the time) when Wizard Claw and Mage Chaotic spells are used. This value lets you choose which spell cast to start the refresh cycle so it's easier to see how refresh can affect a smaller timescale. Defaults to the 17th cast."></span>
-            </span>
-          </li>
-          <li class="list-group-item-heading">
             <input id="MBRNCharges" type="number" class="form-control input-xs settings-input" value="500" min="1" max="500">
             <span class="stats">Mana Burn Effect Count<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The maximum number of charges to use from the Mana Burn damage increasing effect. Spell casts, equipment procs, and aura procs, etc all use these charges and you may not be able to use many during a raid."></span>
@@ -241,7 +235,7 @@
           <li class="active custom-collapse">
             <a href="#">Testing<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
-          <li class="list-group-item-heading"><button class="btn btn-link btn-xs" data-toggle="modal" data-target="#myModal">Display Spell/Proc Rules</button></li>          
+          <li class="list-group-item-heading"><button class="btn btn-link btn-xs" data-toggle="modal" data-target="#myModal">Display Spell and Ability Rules</button></li>          
         </ul>
       </li>
   </div>
@@ -256,7 +250,7 @@
             <div class="btn-group">
               <div class="input-group input-group-xs" style="width: 144px;">
                 <span class="input-group-addon input-xs active-input-group">Time Span(s)</span>
-                <input id="spellTimeRange" type="number" class="form-control input-xs" value="120" min="10" max="2000">
+                <input id="spellTimeRange" type="number" class="form-control input-xs" value="120" min="10" max="1000">
               </div>
             </div>
           </div>
@@ -282,16 +276,19 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-xlg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Spell/Proc Rules</h4>
+        <div>
+          <div class="row">
+            <div class="col-sm-6"><h4><span class='errorMsg'>Active Rules</h4></div>
+            <div><h4>Saved Rules (Test/Validation Data)</h4></div>
+          </div>
+        </div>
       </div>
       <div class="modal-body">
         <div>
-          <div class="row"><div class="col-sm-6">Currently Loaded Rules</div><div class="col-sm-6">Valid Test Data</div>
-          </div>
           <div class="row">
             <div class="col-sm-6 current-data"></div><div class="col-sm-6 test-data"></div>
           </div>

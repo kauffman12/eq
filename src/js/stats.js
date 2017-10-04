@@ -8,7 +8,7 @@ const STAT_SUB_TEMPLATE = Handlebars.compile($('#stat-sub-template').html());
 
 function addNumberStatDescription(data, title, value, force) {
   if (value || force) {
-    data.push({ title: title, value: utils.numberWithCommas(value) });
+    data.push({ title: title, value: utils.numberWithCommas(Math.round(value)) });
   }
 }
 
@@ -56,7 +56,10 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwaeChargesUsed'));
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
     addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
-    addDecimalStatDescription(data, "Claw Syllable", spellStats.get('clawChargesUsed'));
+    addDecimalStatDescription(data, "Fire Syllable", spellStats.get('syllfireChargesUsed'));
+    addDecimalStatDescription(data, "Magic Syllable", spellStats.get('syllmagicChargesUsed'));
+    addDecimalStatDescription(data, "Mastery Syllable", spellStats.get('syllmasterChargesUsed'));
+    addDecimalStatDescription(data, "Ice Syllable", spellStats.get('sylliceChargesUsed'));
     addDecimalStatDescription(data, "Vortex Effects", spellStats.get('vfxChargesUsed'));
     addDecimalStatDescription(data, "Chroma Haze", spellStats.get('chChargesUsed'));
     addDecimalStatDescription(data, "Gift of Chroma", spellStats.get('gchChargesUsed'));
@@ -66,7 +69,7 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "Nec Synergy", spellStats.get('nsynChargesUsed'));
     addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsynChargesUsed'));
     addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
-    addPercentStatDescription(data, "FlamesWeak Chance", spellStats.get('fpwrWeaknessRate'));
+    addDecimalStatDescription(data, "FlamesWeak Effect", spellStats.get('fweakChargesUsed'));
 
     addPercentStatDescription(data, "Crit Dmg Mult", spellStats.get('critDmgMult'), true);
     addPercentStatDescription(data, "Crit Rate", spellStats.get('critRate'), true);
@@ -76,15 +79,13 @@ export function getStatisticsSummary(spellStats) {
       addNumberStatDescription(data, "Spell Damage", spellStats.get('spellDmg'));
       addPercentStatDescription(data, "Effectiveness", spellStats.get('effectiveness'));
       addPercentStatDescription(data, "Before Crit Focus", spellStats.get('beforeCritFocus'));
-
-      let beforeCritAdd = (spellStats.get('beforeCritAdd') - spellStats.get('spellDmg')) > 0 ? (spellStats.get('beforeCritAdd') - spellStats.get('spellDmg')) : 0;
-      addNumberStatDescription(data, "Before Crit Add", beforeCritAdd);
+      addNumberStatDescription(data, "Before Crit Add", spellStats.get('beforeCritAdd'));
       addPercentStatDescription(data, "Before DoT Crit Focus", spellStats.get('beforeDoTCritFocus'));
       addPercentStatDescription(data, "After Crit Focus", spellStats.get('afterCritFocus'));
       addNumberStatDescription(data, "After Crit Add", spellStats.get('afterCritAdd'));
       addPercentStatDescription(data, "After Crit Focus NM", spellStats.get('afterCritFocusNoMod'));
       addNumberStatDescription(data, "After Crit Add NM", spellStats.get('afterCritAddNoMod'));
-      addPercentStatDescription(data, "Post Calc Focus", spellStats.get('postCalcMult'));
+      addPercentStatDescription(data, "Post Calc Focus", spellStats.get('postCalcFocus'));
 
       addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
       addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));
@@ -131,7 +132,7 @@ export function printStats(output, state, timerange) {
   let totalDetCastCount = getSpellCastInfo().get('detCastCount') || 0;
   
   // Spell Count
-  updateStatSection('#spellCountStats', avgDPS, '#Spells + TC/Proc', totalCastCount, totalCastCount, 'totalCastCount');
+  updateStatSection('#spellCountStats', avgDPS, 'Spells', totalCastCount, totalCastCount, 'totalCastCount');
 
   // DPS
   updateStatSection('#dpsStats', avgDPS, 'DPS ', utils.numberWithCommas(avgDPS.toFixed(2)), avgDPS, 'avgDPS');

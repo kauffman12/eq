@@ -48,9 +48,8 @@ export const SPELL_DATA = {
     focusable: false,
     skill: 98,
     spellDmgCap: 0,
-    discRefresh: 2160000,
     level: 254
-  },  
+  },
   CF: {
     id: 'CF',
     name: 'Claw of the Flameweaver Rk. III',
@@ -103,7 +102,6 @@ export const SPELL_DATA = {
   FA: {
     id: 'FA',
     name: 'Frostbound Alliance Rk. III',
-    baseDmg: 0,
     castTime: 2000,
     origCastTime: 3000,
     recastTime: 60000,
@@ -383,7 +381,6 @@ export const SPELL_DATA = {
     resist: 'COLD',
     timer: '44',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -399,7 +396,6 @@ export const SPELL_DATA = {
     resist: 'COLD',
     timer: '44',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -415,7 +411,6 @@ export const SPELL_DATA = {
     resist: 'COLD',
     timer: '44',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -431,7 +426,6 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     timer: '36',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -447,7 +441,6 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     timer: '36',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -463,7 +456,6 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     timer: '36',
     manaCost: 1750,
-    discRefresh: 20000,
     focusable: false,
     skill: 24,
     level: 254
@@ -479,7 +471,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: '37',
     manaCost: 1750,
-    discRefresh: 12000,
     focusable: false,
     skill: 24,
     level: 254
@@ -495,7 +486,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: '37',
     manaCost: 1750,
-    discRefresh: 12000,
     focusable: false,
     skill: 24,
     level: 254
@@ -511,7 +501,6 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     timer: '37',
     manaCost: 1750,
-    discRefresh: 12000,
     focusable: false,
     skill: 24,
     level: 254
