@@ -105,7 +105,7 @@ function checkLimits(id, spell, effect) {
     }
     
     if (!pass) {
-      console.debug(spell.id + " failed on " + check + " -> " + id);
+      //console.debug(spell.id + " failed on " + check + " -> " + id);
     }
 
     return { pass: pass, failure: check };
