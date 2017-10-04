@@ -178,6 +178,12 @@ export function getBeltProcValue() {
   });
 }
 
+export function getConjurersSynergyValue() {
+  return utils.useCache('.aa-conjurers-synergy', () => {
+    return utils.getNumberValue($('.aa-conjurers-synergy .dropdown-toggle').data('value'));
+  });
+}
+
 export function getCritDmgValue() {
   return utils.useCache('.innate-crit-dmg', () => {
     return utils.getNumberValue($('#innatCritDmg').val());
@@ -288,15 +294,21 @@ export function getDomForTimeline() {
   return $('#timeline').get(0);
 }
 
-export function getHastenedServantValue() {
-  return utils.useCache('.aa-hastened-servant', () => {
-    return 1000 * utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
+export function getEvokersSynergyValue() {
+  return utils.useCache('.aa-evokers-synergy', () => {
+    return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
   });
 }
 
 export function getFamiliarValue() {
   return utils.useCache('..spell-pet-focus', () => {
     return $('.spell-pet-focus .dropdown-toggle').data('value');
+  });
+}
+
+export function getHastenedServantValue() {
+  return utils.useCache('.aa-hastened-servant', () => {
+    return 1000 * utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
   });
 }
 
