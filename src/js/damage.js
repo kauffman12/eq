@@ -444,7 +444,8 @@ function getTwincastRate(state, spaValues) {
   let rate = spaValues.twincast + dmgU.getTwincastAA(spell) + dmgU.getTwinprocAA(spell);
   rate = (rate > 1.0) ? 1.0 : rate;
 
-  if (rate) {
+  // prevent from procs from setting the stat for everything
+  if (rate && dmgU.isCastDetSpellOrAbility(state.spell)) {
     stats.updateSpellStatistics(state, 'twincastRate', rate);
   }
 
@@ -463,7 +464,7 @@ export function execute(state, mod, dmgKey) {
   // twincast another spell
   applyPostSpellEffects(state);
 
-  // save rate so procs dont modify it
+  // get twincast rate
   let twincastRate = getTwincastRate(state, result.spaValues);
 
   // now twincast the spell
