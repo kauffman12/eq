@@ -567,9 +567,6 @@ export function updateSpellChart() {
 
   let hasForcedRejuv = TIMELINE_DATA.get('FR');
   let sp = 0;
-  let twincastHasBeenCast = false;
-  let tcItem = TIMELINE_DATA.get('TC');
-  let mbrnItem = TIMELINE_DATA.get('MBRN');
   let lockout = false;
   let preemptSpells = [];
   

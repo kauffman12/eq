@@ -47,7 +47,7 @@ let dList = [];
 let aInputRatesList = [];
 
 abilities.getAbilityList(true).forEach(ability => {
-  let aClass = (G.MODE !== ability.class) ? ability.class : '';
+  let aClass = (G.MODE !== ability.class || ability.otherCast) ? ability.class : '';
   let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
   let list = ability.debuff ? dList : aList;
   list.push({id: ability.id, name: name});
@@ -75,7 +75,7 @@ aInputRatesList.forEach(ability => {
 // Creates Add/Remove ADPS Buttons
 let adpsOptions = [];
 abilities.getAbilityList(false).forEach(ability => {
-  let aClass = (G.MODE !== ability.class) ? ability.class : '';
+  let aClass = (G.MODE !== ability.class || ability.otherCast) ? ability.class : '';
   let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
   adpsOptions.push({id: ability.id, name: name});
 });

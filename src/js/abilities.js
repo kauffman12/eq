@@ -32,6 +32,7 @@ export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
 export const SPA_FOCUSABLE = new Set([124, 212, 286, 302, 303, 399, 461, 484]);
+export const SPA_NO_MOD = new Set([483, 484]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -74,8 +75,8 @@ export function getProcEffectForAbility(ability) {
 }
 
 function abilitySorter(a, b) {
-  let aClass = (G.MODE !== a.class) ? a.class : '';
-  let bClass = (G.MODE !== b.class) ? b.class : '';
+  let aClass = (G.MODE !== a.class || a.otherCast) ? a.class : '';
+  let bClass = (G.MODE !== b.class || b.otherCast) ? b.class : '';
   let aName = (aClass || '') + a.name;
   let bName = (bClass || '') + b.name;
 
@@ -98,6 +99,7 @@ export function getAbilityList(repeating) {
             debuff: !!ability.debuff,
             id: key,
             name: ability.name,
+            otherCast: ability.otherCast,
             repeatEvery: ability.repeatEvery,
             tooltip: ability.tooltip
           }
@@ -133,6 +135,8 @@ export function setSPAValue(id, spa, value) {
 
 const COMBAT_SKILLS = new Set([]); // not needed yet
 const TARGET_AES = new Set(['AE']);
+const TARGET_LOS = new Set(['LOS']);
+const TARGET_SINGLE = new Set(['SINGLE']);
 const TICK_OFFSET = 3000;
 
 const ABILITIES = {
@@ -250,6 +254,8 @@ const ABILITIES = {
         proc: 'AM',
         limits: [
           { onSpellUse: true },
+          { currentHitPoints: true },
+          { exSpells: new Set([['AM']]) },
           { maxLevel: 105 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -534,7 +540,7 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'brd',
     duration: 120000,
-    level: 255,
+    level: 105,
     name: 'Fierce Eye III',
     effects: [
 /*
@@ -937,6 +943,60 @@ const ABILITIES = {
       }
     ]
   },
+  FIREBA: {
+    adpsDropdown: true,
+    class: 'mag',
+    charges: 8,
+    duration: 18000 + TICK_OFFSET,
+    level: 101,
+    mode: 'mag',
+    name: 'Firebound Alliance Rk. III',
+    otherCast: true,
+    effects: [
+      {
+        spa: 484,
+        slot: 1,
+        value: 36643,
+        limits: [
+          { targets: TARGET_LOS },
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { minLevel: 96 },
+          { maxLevel: 110 },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { minDmg: 2500 }
+        ]
+      }
+    ]
+  },
+  FROSTBA: {
+    adpsDropdown: true,
+    class: 'wiz',
+    charges: 8,
+    duration: 18000 + TICK_OFFSET,
+    level: 102,
+    mode: 'wiz',
+    name: 'Frostbound Alliance Rk. III',
+    otherCast: true,
+    effects: [
+      {
+        spa: 484,
+        slot: 1,
+        value: 48115,
+        limits: [
+          { targets: TARGET_SINGLE },
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { minLevel: 96 },
+          { maxLevel: 110 },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { minDmg: 2500 }
+        ]
+      }
+    ]
+  },
   FW: { // generated
     class: 'wiz',
     level: 254,
@@ -969,6 +1029,8 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { type: 'detrimental' },
+          { currentHitPoints: true },
+          { exSpells: new Set(['FW']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 }
@@ -1166,6 +1228,27 @@ const ABILITIES = {
       }
     ]
   },
+  INTENSE: {
+    adpsDropdown: true,
+    duration: 60000,
+    level: 254,
+    name: 'Intensity of the Resolute',
+    effects: [
+/*
+      {
+        spa: 273,
+        slot: 2,
+        value: 0.50
+      },
+
+*/
+      {
+        spa: 294,
+        slot: 5,
+        value: 0.50
+      }
+    ]
+  },
   ITC: {
     adpsDropdown: true,
     charges: 18,
@@ -1191,7 +1274,7 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'enc',
     duration: 120000,
-    level: 254,
+    level: 105,
     name: 'Illusions of Grandeur II',
     effects: [
 /*
@@ -1320,8 +1403,8 @@ const ABILITIES = {
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    mode: 'wiz',
     name: 'Conjurer\'s Synergy I',
+    otherCast: true,
     repeatEvery: 13000,
     tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
     effects: [
@@ -1714,8 +1797,8 @@ const ABILITIES = {
     class: 'wiz',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    mode: 'mag',
     name: 'Evoker\'s Synergy I',
+    otherCast: true,
     repeatEvery: 25000,
     tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
     effects: [
