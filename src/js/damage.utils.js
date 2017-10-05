@@ -189,7 +189,6 @@ export function buildSPAData(ids, spell) {
         let existing = spaMap.get(key);
 
         if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) ||       // negative effects override all
-          (abilities.SPA_NO_MOD.has(effect.spa) && effect.value > existing.value) ||  // 483 and 484 dont seem to care about level
           effect.value >= existing.value)) {
 
           if (existing) {
