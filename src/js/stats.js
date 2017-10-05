@@ -54,6 +54,8 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "AAura Charges", spellStats.get('aaChargesUsed'));
     addDecimalStatDescription(data, "AMelody Charges", spellStats.get('amChargesUsed'));
     addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwaeChargesUsed'));
+    addDecimalStatDescription(data, "Firebound Charges", spellStats.get('firebaChargesUsed'));
+    addDecimalStatDescription(data, "Frostbound Charges", spellStats.get('frostbaChargesUsed'));
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
     addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
     addDecimalStatDescription(data, "Fire Syllable", spellStats.get('syllfireChargesUsed'));

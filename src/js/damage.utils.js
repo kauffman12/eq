@@ -68,6 +68,7 @@ const LIMIT_RULES_FOR_FAILURE = {
   minManaCost: (spell, value) => spell.manaCost < value,
   nonRepeating: (spell) => spell.duration > 0,
   resists: (spell, value) => !value.has(spell.resist),
+  targets: (spell, value) => !value.has(spell.target),
   type: (spell, value) => !isSpellType(value, spell)
 }
 
@@ -109,6 +110,17 @@ function checkLimits(id, spell, effect) {
     }
 
     return { pass: pass, failure: check };
+  });
+}
+
+function blockAbility(spaMap, id) {
+  abilities.get(id).effects.forEach(effect => {
+    let key = String(effect.spa) + '-' + String(effect.slot);
+    let existing = spaMap.get(key);
+
+    if (existing && existing.id === id) {
+      spaMap.delete(key);
+    }
   });
 }
 
@@ -165,6 +177,7 @@ function isSpellType(type, spell) {
 export function buildSPAData(ids, spell) {
   let spaMap = new Map();
   let abilitySet = new Set();
+  let blocked = new Set();
   
   ids.forEach(id => {
     let ability = abilities.get(id);
@@ -174,14 +187,28 @@ export function buildSPAData(ids, spell) {
       if (!result || result.pass) {
         let key = String(effect.spa) + '-' + String(effect.slot);
         let existing = spaMap.get(key);
-        if (!existing || existing.level < ability.level || 
-          (existing.level === ability.level && (effect.value > existing.value && existing.value >= 0)) ||
-          (existing.level === ability.level && (effect.value < existing.value && effect.value < 0)))  {
-          spaMap.set(key, { value: effect.value, level: ability.level, id: id });
-          abilitySet.add(id);
+
+        if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) ||       // negative effects override all
+          (abilities.SPA_NO_MOD.has(effect.spa) && effect.value > existing.value) ||  // 483 and 484 dont seem to care about level
+          effect.value >= existing.value)) {
+
           if (existing) {
             abilitySet.delete(existing.id);
+
+            // block whatever was on there before when its SPA 294
+            // only cases that current matter are intensity > FE || IOG and FE == IOG
+            if (effect.spa === 294) {
+              blockAbility(spaMap, existing.id);
+              blocked.add(existing.id);
+            }
           }
+
+          spaMap.set(key, { value: effect.value, spa: effect.spa, id: id });
+          abilitySet.add(id);
+        } else if (existing && effect.spa === 294) {
+          blockAbility(spaMap, id);
+          blocked.add(id);
+          abilitySet.delete(id);
         }
       }
     });
