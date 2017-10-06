@@ -42,13 +42,34 @@ function applyPostSpellEffects(state, mod) {
   let spell = state.spell;
 
   // keep track of a counter based on main spell cast or main + the twincast that was missed
-  let cfickleCount = 1;
-  if (state.inTwincast) {
-    state.cfickleCount = mod;
-    cfickleCount = 0;
-  } else {
-    cfickleCount += state.cfickleCount || 0;
+  // for certain types of spell casts
+  let cfickleCount, magicCount;
+  switch(spell.id) {
+    case 'CF': case 'FC':
+      cfickleCount = 1;
+      if (state.inTwincast) {
+        state.cfickleCount = mod;
+        cfickleCount = 0;
+      } else {
+        cfickleCount += state.cfickleCount || 0;
+      }
+      break;
   }
+
+/*
+  switch(spell.resist) {
+    case 'MAGIC':
+      if (checkSingleEffectLimit(spell, 'ARCO')) {
+        magicCount = 1;
+        if (state.inTwincast) {
+          state.magicCount = mod;
+          magicCount = 0;
+        } else {
+          magicCount += state.magicCount || 0;
+        }
+      }
+  }
+*/
 
   switch(spell.id) {
     // Claw of the Flameweaver + Mage Chaotic Fire
@@ -200,7 +221,7 @@ function calcAvgDamage(state, mod, dmgKey) {
 
     // special case for manaburn. it's the only SPA 484 but 483 seems to get doubled with it
     // like it's counting as a 2nd hit? need to test with other kinds of after crit add
-    let afterCritNoModDmg = (dmgU.trunc(effDmg * afterCritFocusNoMod) * (afterCritAddNoMod ? 2 : 1))+ afterCritAddNoMod;
+    let afterCritNoModDmg = (dmgU.trunc(effDmg * afterCritFocusNoMod) * (afterCritAddNoMod ? 2 : 1)) + afterCritAddNoMod;
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
 
@@ -257,8 +278,8 @@ function calcAvgDamage(state, mod, dmgKey) {
 
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
         // Update graph
-        state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
-        state.updatedCritDValues.push({ time: state.timeEst, y: Math.round(critDmgMult * 100)});
+        state.updatedCritRValues.push({time: state.timeEst, y: Math.round(critRate * 100)});
+        state.updatedCritDValues.push({time: state.timeEst, y: Math.round(critDmgMult * 100)});
       }
     }
 

@@ -6,7 +6,6 @@ export const SPELL_DATA = {
     focusable: false,
     id: 'AFU1',
     level: 254,
-    lockoutTime: 1500,
     manaCost: 0,
     maxCritRate: 0.15,
     name: 'Arcane Fusion I',
@@ -24,7 +23,6 @@ export const SPELL_DATA = {
     focusable: false,
     id: 'AFU2',
     level: 254,
-    lockoutTime: 1500,
     manaCost: 0,
     maxCritRate: 0.15,
     name: 'Arcane Fusion II',
@@ -35,6 +33,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+/*
+  CRYO: {
+    baseDmg: 16050,
+    castTime: 0,
+    focusable: false,
+    id: 'CRYO',
+    level: 254,
+    manaCost: 0,
+    name: 'Cryomantic Stasis XXIV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'COLD',
+    skill: 5,
+    target: 'SINGLE',
+    timer: 'cryo'
+  },
+*/
   CF: {
     baseDmg: 21666,
     castTime: 1500,
