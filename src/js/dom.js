@@ -96,12 +96,7 @@ export function getConfiguredAbilities(state) {
         setSpellProc('FE', getForceOfElementsValue());
 
         // Setup Flames of Power
-        let power = getFlamesOfPowerValue();
-        if (power === 4) {
-          abilities.get('FPWR').charges = 2;
-        } else {
-          abilities.get('FPWR').charges = 1;
-        }
+        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 4) ? 2 : 1);
         break;
     }
 

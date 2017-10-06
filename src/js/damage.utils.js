@@ -298,7 +298,7 @@ export function getBaseCritDmg() {
 }
 
 export function getBaseCritRate() {
-  return (dom.getDoNValue() + dom.getFuryOfMagicValue() + dom.getCritRateValue()) / 100;
+  return parseFloat(((dom.getDoNValue() + dom.getFuryOfMagicValue()).toFixed(4)) + dom.getCritRateValue()) / 100;
 }
 
 export function getCompoundSpellList(id) {

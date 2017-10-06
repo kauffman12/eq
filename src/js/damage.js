@@ -41,20 +41,31 @@ function applyPostSpellEffects(state, mod) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
+  // keep track of a counter based on main spell cast or main + the twincast that was missed
+  let cfickleCount = 1;
+  if (state.inTwincast) {
+    state.cfickleCount = mod;
+    cfickleCount = 0;
+  } else {
+    cfickleCount += state.cfickleCount || 0;
+  }
+
   switch(spell.id) {
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
-      // generae proc effects
-      state.cfSpellProcGenerator.next(mod).value.forEach(id => {
-          if (id === 'REFRESH') {
-            timeline.resetTimers(state);
-          } else {
-            timeline.addSpellProcAbility(state, id, 1, true);
-          }
+      // generate proc effects
+      state.cfSpellProcGenerator.next(cfickleCount).value.forEach(id => {
+        if (id === 'REFRESH') {
+          timeline.resetTimers(state);
+        } else {
+          timeline.addSpellProcAbility(state, id, 1, true);
+        }
       });
       break;
     case 'FC':
-      state.fcSpellProcGenerator.next(mod).value.forEach(id => timeline.addSpellProcAbility(state, id, true));
+      if (G.MODE === 'mag' && !state.inTwincast) {
+        state.fcSpellProcGenerator.next(cfickleCount).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+      }
       break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
@@ -111,20 +122,22 @@ function applyPreSpellChecks(state, mod) {
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
-        let offset = G.MODE === 'mag' ? dom.getTwinprocValue() : 0.0;
+        let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
         state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE], offset);
       }
       break;
     case 'FC':
-      if (!state.fcSpellProcGenerator) {
-        // AA modifies the proc chance
-        let offset = 0;
-        switch(dom.getFlamesOfPowerValue()) {
-          case 1: offset = 0.27; break;
-          case 2: offset = 0.30; break;
-          case 3: case 4: offset = 0.34; break; 
+      if (G.MODE === 'mag') {
+        if (!state.fcSpellProcGenerator) {
+          // AA modifies the proc chance
+          let offset = 0;
+          switch(dom.getFlamesOfPowerValue()) {
+            case 1: offset = 0.27; break;
+            case 2: offset = 0.30; break;
+            case 3: case 4: offset = 0.34; break; 
+          }
+          state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }
-        state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
       }
       break;
     case 'SM':

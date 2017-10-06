@@ -114,6 +114,12 @@ export function hasSPA(ability, spaSet) {
   return ability ? ability.effects.find(effect => spaSet.has(effect.spa)) : false;
 }
 
+export function setCharges(id, value) {
+  if (ABILITIES[id]) {
+    ABILITIES[id].charges = value;
+  }
+}
+
 export function setProcValue(id, value) {
   if (ABILITIES[id]) {
     let found = ABILITIES[id].effects.find(effect => effect.proc !== undefined);
