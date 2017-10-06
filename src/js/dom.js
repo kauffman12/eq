@@ -239,18 +239,6 @@ export function getDestructiveAdeptValue() {
   });
 }
 
-export function getDestructiveFuryValue() {
-  return utils.useCache('.aa-destructive-fury', () => {
-    return utils.getNumberValue($('.aa-destructive-fury .dropdown-toggle').data('value'));
-  });
-}
-
-export function getDoNValue() {
-  return utils.useCache('.aa-don-value', () => {
-    return utils.getNumberValue($('.aa-don .dropdown-toggle').data('value'));
-  });
-}
-
 export function getEyeOfDecayValue() {
   return utils.useCache('.eye-of-decay', () => {
     return utils.getNumberValue($('.eye-of-decay .dropdown-toggle').data('value'));
@@ -287,12 +275,6 @@ export function getForceOfWillValue() {
   });
 }
 
-export function getFuryOfMagicValue() {
-  return utils.useCache('.aa-fury-of-magic', () => {
-    return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
-  });
-}
-
 export function getGCDValue() {
   return utils.useCache('.gcd-value', () => {
     return 1000 * utils.getNumberValue($('#gcd').val());
@@ -322,12 +304,6 @@ export function getDomForTimeline() {
 export function getEvokersSynergyValue() {
   return utils.useCache('.aa-evokers-synergy', () => {
     return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
-  });
-}
-
-export function getFamiliarValue() {
-  return utils.useCache('.spell-pet-focus', () => {
-    return $('.spell-pet-focus .dropdown-toggle').data('value');
   });
 }
 
@@ -454,4 +430,24 @@ export function getType3DmdAugValue(spell) {
 
 export function isUsingArcaneFusion() {
   return (getArcaneFusionValue() != 'NONE');
+}
+
+// Don't cache these since load rates is called before cache is cleared
+// Fix sometime
+export function getDestructiveFuryValue() {
+  return utils.getNumberValue($('.aa-destructive-fury .dropdown-toggle').data('value'));
+}
+
+export function getDoNValue() {
+  return utils.getNumberValue($('.aa-don .dropdown-toggle').data('value'));
+}
+
+export function getFuryOfMagicValue() {
+  return utils.useCache('.aa-fury-of-magic', () => {
+    return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
+  });
+}
+
+export function getFamiliarValue() {
+  return $('.spell-pet-focus .dropdown-toggle').data('value');
 }
