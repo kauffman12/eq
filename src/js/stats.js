@@ -106,6 +106,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
   addNumberStatDescription(data, "AMelody Proc", spellStats.get('amAddDmg'));
+  addNumberStatDescription(data, "Cryo Proc", spellStats.get('cryoAddDmg'));
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwaeAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));

@@ -274,6 +274,34 @@ const ABILITIES = {
       }
     ]
   },
+/*
+  ARCO: {
+    charges: 5,
+    class: 'wiz',
+    debuff: true,
+    duration: 30000 + TICK_OFFSET,
+    level: 254,
+    mode: 'wiz',
+    name: 'Arcomancy XXIV',
+    repeatEvery: -1,
+    effects: [
+      {
+        slot: 1,
+        spa: 297,
+        value: 2050,
+        limits: [
+          { onSpellUse: true },
+          { type: 'detrimental' },
+          { resists: new Set(['MAGIC']) },
+          { minLevel: 75 }, // effect is 75
+          { maxLevel: 105 },
+          { maxDuration: 0 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+*/
   ARIA: {
     class: 'brd',
     level: 101,
@@ -408,6 +436,32 @@ const ABILITIES = {
       }
     ]
   },
+/*
+  CRYO: {
+    charges: 0.25, // 25% of the time
+    class: 'wiz',
+    debuff: true,
+    level: 254,
+    mode: 'wiz',
+    name: 'Cryomancy XXIV',
+    refreshTime: 1,
+    repeatEvery: -1,
+    effects: [
+      {
+        proc: 'CRYO',
+        limits: [
+          { onSpellUse: true },
+          { type: 'detrimental' },
+          { resists: new Set(['COLD']) },
+          { minLevel: 70 },
+          { maxLevel: 105 },
+          { maxDuration: 0 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+*/
   DADEPT: {
     class: 'wiz',
     mode: 'wiz',

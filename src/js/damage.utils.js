@@ -19,6 +19,8 @@ export const FUSE_PROC_SPELL_CHANCE = FUSE_PROC_CHANCE * FUSE_PROC_INDIVIDUAL_SP
 export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
 
+export const ARCO_PROC_RATE = 100 / (100 * 0.30);
+
 // Claw/Chaotic effect proc rates per 100 casts
 export const CF_SPELL_PROC_RATES = {
   wiz: {
