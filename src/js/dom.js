@@ -47,39 +47,64 @@ export function getConfiguredAbilities(state) {
     let active = [];
     let spellProc = [];
 
-    // familiar
-    let familiar = getFamiliarValue();
-    if (familiar && abilities.get(familiar)) {
-      active.push(familiar);
-    }
+    // add if set and if specified has a value > 0
+    let addAbility = (id, value, spa) => {
+      if (id && id !== 'NONE') {
+        if (value === undefined || value > 0) {
+          let ability = abilities.get(id);
+          if (ability) {
+            active.push(id);
 
-    let setSpellProc = (id, value) => {
-      let ability = abilities.get(id);
-      if (value && ability) {
-        abilities.setProcValue(id, value);
-
-        // only configure manual abilities here
-        // dont return them
-        if (!ability.manuallyActivated && ability.class === G.MODE) {
-          spellProc.push(id);
+            if (value > 0) {
+              abilities.setSPAValue(id, spa, value);
+            }
+          }
         }
       }
     };
 
-    // Arcane Fusion, Force of Elements/Flames/Ice/Will
-    setSpellProc('AFU', getArcaneFusionValue());
-    setSpellProc('FE', getForceOfElementsValue());
-    setSpellProc('FF', getForceOfFlameValue());
-    setSpellProc('FI', getForceOfIceValue());
-    setSpellProc('FW', getForceOfWillValue());
+    let setSpellProc = (id, value) => {
+      if (id !== 'NONE') {
+        let ability = abilities.get(id);
+        if (value && ability) {
+          abilities.setProcValue(id, value);
 
-    // Setup Flames of Power
-    let power = getFlamesOfPowerValue();
-    if (power === 4) {
-      abilities.get('FPWR').charges = 2;
-    } else {
-      abilities.get('FPWR').charges = 1;
+          // only configure manual abilities here
+          // dont return them
+          if (!ability.manuallyActivated && ability.class === G.MODE) {
+            spellProc.push(id);
+          }
+        }
+      }
+    };
+
+    // class specific abilities
+    switch(G.MODE) {
+      case 'wiz':
+        // familiar
+        addAbility(getFamiliarValue());
+        addAbility(getRobeValue());
+        setSpellProc('AFU', getArcaneFusionValue());
+        setSpellProc('FF', getForceOfFlameValue());
+        setSpellProc('FI', getForceOfIceValue());
+        setSpellProc('FW', getForceOfWillValue());
+        addAbility('DADEPT', getDestructiveAdeptValue(), 124);
+        addAbility('SVENG', getSorcererVengeananceValue(), 286);
+        break;
+
+      case 'mag':
+        setSpellProc('FE', getForceOfElementsValue());
+
+        // Setup Flames of Power
+        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 4) ? 2 : 1);
+        break;
     }
+
+    addAbility(getBeltProcValue());
+    addAbility('EDECAY', getEyeOfDecayValue(), 413);
+    addAbility('TCAA', getTwincastAAValue(), 399);
+    addAbility('TP', getTwinprocAAValue(), 399);
+    getWornDamageFocusList().forEach(id => addAbility(id));
 
     return { active: active, spellProc: spellProc };
   });
@@ -301,7 +326,7 @@ export function getEvokersSynergyValue() {
 }
 
 export function getFamiliarValue() {
-  return utils.useCache('..spell-pet-focus', () => {
+  return utils.useCache('.spell-pet-focus', () => {
     return $('.spell-pet-focus .dropdown-toggle').data('value');
   });
 }
@@ -332,7 +357,7 @@ export function getRemorselessServantTTLValue() {
 
 export function getRobeValue() {
   return utils.useCache('.worn-chest-focus', () => {
-    return utils.getNumberValue($('.worn-chest-focus .dropdown-toggle').data('value'));
+    return $('.worn-chest-focus .dropdown-toggle').data('value');
   });
 }
 
@@ -409,7 +434,7 @@ export function getTwincastAAValue() {
   });
 }
 
-export function getTwinprocValue() {
+export function getTwinprocAAValue() {
   return utils.useCache('.aa-twinproc', () => {
     return utils.getNumberValue($('.aa-twinproc .dropdown-toggle').data('value'));
   });

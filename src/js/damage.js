@@ -41,20 +41,31 @@ function applyPostSpellEffects(state, mod) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
+  // keep track of a counter based on main spell cast or main + the twincast that was missed
+  let cfickleCount = 1;
+  if (state.inTwincast) {
+    state.cfickleCount = mod;
+    cfickleCount = 0;
+  } else {
+    cfickleCount += state.cfickleCount || 0;
+  }
+
   switch(spell.id) {
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
-      // generae proc effects
-      state.cfSpellProcGenerator.next(mod).value.forEach(id => {
-          if (id === 'REFRESH') {
-            timeline.resetTimers(state);
-          } else {
-            timeline.addSpellProcAbility(state, id, 1, true);
-          }
+      // generate proc effects
+      state.cfSpellProcGenerator.next(cfickleCount).value.forEach(id => {
+        if (id === 'REFRESH') {
+          timeline.resetTimers(state);
+        } else {
+          timeline.addSpellProcAbility(state, id, 1, true);
+        }
       });
       break;
     case 'FC':
-      state.fcSpellProcGenerator.next(mod).value.forEach(id => timeline.addSpellProcAbility(state, id, true));
+      if (G.MODE === 'mag' && !state.inTwincast) {
+        state.fcSpellProcGenerator.next(cfickleCount).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+      }
       break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
@@ -111,20 +122,22 @@ function applyPreSpellChecks(state, mod) {
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
-        let offset = G.MODE === 'mag' ? dom.getTwinprocValue() : 0.0;
+        let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
         state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE], offset);
       }
       break;
     case 'FC':
-      if (!state.fcSpellProcGenerator) {
-        // AA modifies the proc chance
-        let offset = 0;
-        switch(dom.getFlamesOfPowerValue()) {
-          case 1: offset = 0.27; break;
-          case 2: offset = 0.30; break;
-          case 3: case 4: offset = 0.34; break; 
+      if (G.MODE === 'mag') {
+        if (!state.fcSpellProcGenerator) {
+          // AA modifies the proc chance
+          let offset = 0;
+          switch(dom.getFlamesOfPowerValue()) {
+            case 1: offset = 0.27; break;
+            case 2: offset = 0.30; break;
+            case 3: case 4: offset = 0.34; break; 
+          }
+          state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }
-        state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
       }
       break;
     case 'SM':
@@ -159,7 +172,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     critRate = (critRate > 1.0) ? 1.0 : critRate;
 
     // Get Spell Damage
-    let spellDmg = getSpellDamage(state);
+    let spellDmg = calcSpellDamage(state);
     // Get Effectiveness
     let effectiveness = getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue();
     // Get Before Crit Focus
@@ -167,11 +180,11 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Before Crit Add
     let beforeCritAdd = dom.getType3DmdAugValue(state.spell) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
     // Get Before DoT Crit Focus
-    let beforeDoTCritFocus = getBeforeDoTCritFocus(state, spaValues, mod) + dom.getAddBeforeDoTCritFocusValue();
+    let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
     // Get After Crit Focus
     let afterCritFocus = dom.getAddAfterCritFocusValue();
     // Get After Crit Add
-    let afterCritAdd = getAfterCritAdd(state, spaValues) + dom.getAddAfterCritAddValue();
+    let afterCritAdd = spaValues.afterCritAdd + dom.getAddAfterCritAddValue();
     // Get AfterCrit Add (SPA 484) (not modifiable)
     let afterCritAddNoMod = spaValues.afterCritAddNoMod + dom.getAddAfterCritAddNoModValue();
     // Get AfterCrit Focus (not modifiable)
@@ -194,22 +207,6 @@ function calcAvgDamage(state, mod, dmgKey) {
     // add SPA 461 and after crit that's not modifiable (only based on effective damage)
     avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcFocus) + afterCritNoModDmg;
     avgCritDmg += dmgU.trunc(avgCritDmg * postCalcFocus) + afterCritNoModDmg;
-
-    // save stats of everything we just calculated
-    stats.updateSpellStatistics(state, 'critRate', critRate);
-    stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
-    stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
-    stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
-    stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
-    stats.updateSpellStatistics(state, 'beforeCritAdd', beforeCritAdd);
-    stats.updateSpellStatistics(state, 'beforeDoTCritFocus', beforeDoTCritFocus);
-    stats.updateSpellStatistics(state, 'afterCritFocus', afterCritFocus);
-    stats.updateSpellStatistics(state, 'afterCritAdd', afterCritAdd);
-    stats.updateSpellStatistics(state, 'afterCritFocusNoMod', afterCritFocusNoMod);
-    stats.updateSpellStatistics(state, 'afterCritAddNoMod', afterCritAddNoMod);
-    stats.updateSpellStatistics(state, 'postCalcFocus', postCalcFocus);
-    stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
-    stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
 
     // find average damage overall before additional twincasts
     avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
@@ -242,6 +239,22 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.addAggregateStatistics('critRate', critRate * mod);
       stats.addAggregateStatistics('spellCount', mod);
 
+      // update core stats in main spell cast
+      stats.updateSpellStatistics(state, 'critRate', critRate);
+      stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
+      stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
+      stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
+      stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
+      stats.updateSpellStatistics(state, 'beforeCritAdd', beforeCritAdd);
+      stats.updateSpellStatistics(state, 'beforeDoTCritFocus', beforeDoTCritFocus);
+      stats.updateSpellStatistics(state, 'afterCritFocus', afterCritFocus);
+      stats.updateSpellStatistics(state, 'afterCritAdd', afterCritAdd);
+      stats.updateSpellStatistics(state, 'afterCritFocusNoMod', afterCritFocusNoMod);
+      stats.updateSpellStatistics(state, 'afterCritAddNoMod', afterCritAddNoMod);
+      stats.updateSpellStatistics(state, 'postCalcFocus', postCalcFocus);
+      stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
+      stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
+
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
         // Update graph
         state.updatedCritRValues.push({ time: state.timeEst, y: Math.round(critRate * 100)});
@@ -249,6 +262,7 @@ function calcAvgDamage(state, mod, dmgKey) {
       }
     }
 
+    // add spell procs last
     if (!state.aeWave) {
       addSpellAndEqpProcs(state, mod);
     }
@@ -293,6 +307,27 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 
   state.inTwincast = inTwincast;
   state.spell = origSpell;
+}
+
+function calcSpellDamage(state) {
+  let spell = state.spell;
+
+  // dicho/fuse needs to use an alternative time since it's really 2 spell casts
+  // that get applied differently depending on what we're looking for
+  var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
+
+  var totalCastTime = spell.origCastTime +
+    ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
+
+  var multiplier = dmgU.getMultiplier(totalCastTime);
+  let spellDmg = Math.trunc(utils.asDecimal32Precision(dom.getSpellDamageValue() * multiplier));
+
+  // The ranged augs seem to get stuck at 2x their damage
+  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
+    spellDmg = spell.spellDmgCap;
+  }
+
+  return spellDmg;
 }
 
 function executeProc(id, state, mod, statId) {
@@ -356,20 +391,6 @@ export function* genDamageOverTime(state) {
   return 0;
 }
 
-function getAfterCritAdd(state, spaValues) {
-  let afterCritAdd = spaValues.afterCritAdd;
-
-  // AA SPA 286
-  if (G.MODE === 'wiz') {
-    afterCritAdd += dmgU.getSorcerersVengeanceAdd(state.spell);
-  }
-
-  // Worn SPA 286
-  afterCritAdd += dmgU.getBeltFocus(state.spell);
-
-  return afterCritAdd;
-}
-
 function getBeforeCritFocus(state, spaValues) {
   let spell = state.spell;
   let beforeCritFocus = spaValues.beforeCritFocus;
@@ -382,67 +403,20 @@ function getBeforeCritFocus(state, spaValues) {
   return beforeCritFocus;
 }
 
-function getBeforeDoTCritFocus(state, spaValues, mod) {
-  let spell = state.spell;
-  let value = spaValues.beforeDoTCritFocus; // Spell (SPA 124)
-
-  // Ex: Flames of Weakness is negative and cancels everything out
-  if (value >= 0) {
-    // Damage Focus Worn (SPA 124)
-    value += dmgU.getWornDamageFocus(state.spell); 
-
-    // Damage Focus AA (SPA 124)
-    // AA seems to focus everything even spells labeled non focus
-    if (G.MODE === 'wiz') {
-      value += dmgU.getDestructiveAdeptFocus(state.spell);
-    }
-  }
-
-  return value;
-}
-
 function getEffectiveness(state, spaValues) {
   let spell = state.spell;
+  let effectiveness = spaValues.effectiveness;
 
-  // Added the discRefresh checks solely for Firebound Orb since there's nothing
-  // obvious why 413 doesn't work with it
-
-  // Effectiveness Worn (SPA 413)
-  // Robe focus only applies to Skyblaze and Fuse
-  let robeFocus = (spell.id === 'ES' || spell.id === 'FU') ? dom.getRobeValue() : 0;
-  let eyeOfDecay = (spell.level <= 110 && spell.focusable) ? dom.getEyeOfDecayValue() : 0;
-  let effectiveness = (eyeOfDecay > robeFocus) ? eyeOfDecay : robeFocus;
-
-  // Effectiveness Spell (SPA 413) Augmenting Aura
-  effectiveness += spaValues.effectiveness;
-
-  if (spell.id != 'EF' && spell.id != 'SV' && spell.id != 'CF') {
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
+  if (! ['EF', 'SV', 'CF'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 
   return effectiveness;
 }
 
-function getSpellDamage(state) {
-  let spell = state.spell;
-
-  // Get Spell Damage
-  let spellDmg = dmgU.getSpellDamage(spell);
-
-  // The ranged augs seem to get stuck at 2x their damage
-  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
-    spellDmg = spell.spellDmgCap;
-  }
-
-  return spellDmg;
-}
-
 function getTwincastRate(state, spaValues) {
-  let spell = state.spell;
-
-  let rate = spaValues.twincast + dmgU.getTwincastAA(spell) + dmgU.getTwinprocAA(spell);
-  rate = (rate > 1.0) ? 1.0 : rate;
+  let rate = (spaValues.twincast > 1.0) ? 1.0 : spaValues.twincast;
 
   // prevent from procs from setting the stat for everything
   if (rate && dmgU.isCastDetSpellOrAbility(state.spell)) {
