@@ -151,6 +151,7 @@ const ABILITIES = {
       {
         spa: 413,
         slot: 1,
+        type: 'sp',
         value: 0.04,
         limits: [
           { maxLevel: 105 },
@@ -174,6 +175,7 @@ const ABILITIES = {
       {
         spa: 212,
         slot: 1,
+        type: 'sp',
         value: 0.60,
         limits: [
           { maxDuration: 0 },
@@ -196,6 +198,7 @@ const ABILITIES = {
       {
         spa: 302,
         slot: 1,
+        type: 'sp',
         value: 0.15,
         limits: [
           { maxDuration: 0 },
@@ -272,6 +275,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: 0.45,
         limits: [
           { maxLevel: 105 },
@@ -292,12 +296,14 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 1,
+        type: 'sp',
         value: 0.33
       }
 /*
       {
         spa: 273,
         slot: 5,
+        type: 'sp',
         value: 0.33
       }
 */
@@ -313,6 +319,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'sp',
         value: 2000,
         limits: [
           { type: 'detrimental' },
@@ -331,6 +338,7 @@ const ABILITIES = {
       {
         spa: 296,
         slot: 1,
+        type: 'sp',
         value: 0.055,
         limits: [
           { maxLevel: 105 },
@@ -348,6 +356,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'wn',
         value: 500,
         limits: [
           { resists: new Set(['FIRE']) },
@@ -371,6 +380,7 @@ const ABILITIES = {
       {
         spa: 302,
         slot: 1,
+        type: 'sp',
         value: 3.75,
         limits: [
           { type: 'detrimental' },
@@ -384,6 +394,7 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 10,
+        type: 'sp',
         value: 1.0
       }
     ]
@@ -396,6 +407,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'aa',
         value: 0, // value read from settings/UI choice
         limits: [
           { type: 'detrimental' },
@@ -426,6 +438,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 8,
+        type: 'sp',
         value: 3959,
         limits: [
           { maxLevel: 110 },
@@ -460,7 +473,25 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 11,
+        type: 'sp',
         value: 0.09
+      }
+    ]
+  },
+  EDECAY: {
+    level: 255,
+    name: 'Eyes of Life and Decay',
+    effects: [
+      {
+        spa: 413,
+        slot: 1,
+        type: 'wn',
+        value: 0.0, // value read from settings/UI choice
+        limits: [
+          { maxLevel: 105 },
+          { currentHitPoints: true }
+          // others not sure how to handle and prob dont need to
+        ]
       }
     ]
   },
@@ -476,6 +507,7 @@ const ABILITIES = {
       {
         spa: 461,
         slot: 1,
+        type: 'sp',
         value: 0.4,
         limits: [
          { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
@@ -497,6 +529,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: 0.95,
         limits: [
           { maxLevel: 105 },
@@ -519,6 +552,7 @@ const ABILITIES = {
       {
         spa: 212,
         slot: 1,
+        type: 'sp',
         value: 0.51,
         limits: [
           { maxDuration: 0 },
@@ -531,6 +565,7 @@ const ABILITIES = {
       {
         spa: 170,
         slot: 8,
+        type: 'sp',
         value: 0.80
       }
     ]
@@ -546,17 +581,20 @@ const ABILITIES = {
       {
         spa: 273,
         slot: 2,
+        type: 'sp',
         value: 0.12
       }
 */
       {
         spa: 294,
         slot: 5,
+        type: 'sp',
         value: 0.12
       },
       {
         spa: 170,
         slot: 6,
+        type: 'sp',
         value: 0.12
       }
     ]
@@ -568,6 +606,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.65,
         limits: [
           { maxLevel: 110 },
@@ -586,6 +625,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.66,
         limits: [
           { maxLevel: 110 },
@@ -604,6 +644,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.825,
         limits: [
           { maxLevel: 110 },
@@ -622,6 +663,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.84,
         limits: [
           { maxLevel: 110 },
@@ -640,6 +682,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.65,
         limits: [
           { maxLevel: 110 },
@@ -658,6 +701,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.66,
         limits: [
           { maxLevel: 110 },
@@ -676,6 +720,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.825,
         limits: [
           { maxLevel: 110 },
@@ -694,6 +739,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.84,
         limits: [
           { maxLevel: 110 },
@@ -712,6 +758,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.65,
         limits: [
           { maxLevel: 110 },
@@ -730,6 +777,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.66,
         limits: [
           { maxLevel: 110 },
@@ -748,6 +796,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.825,
         limits: [
           { maxLevel: 110 },
@@ -766,6 +815,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'wn',
         value: 0.84,
         limits: [
           { maxLevel: 110 },
@@ -787,6 +837,7 @@ const ABILITIES = {
       {
         spa: 389,
         slot: 1,
+        type: 'aa',
         limits: [
           { exSpells: new Set(['TC']) }
         ]
@@ -804,6 +855,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 2500,
         limits: [
           { type: 'detrimental' },
@@ -823,6 +875,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 2500,
         limits: [
           { type: 'detrimental' },
@@ -842,6 +895,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 1550,
         limits: [
           { type: 'detrimental' },
@@ -861,6 +915,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 2500,
         limits: [
           { type: 'detrimental' },
@@ -955,6 +1010,7 @@ const ABILITIES = {
       {
         spa: 484,
         slot: 1,
+        type: 'sp',
         value: 36643,
         limits: [
           { targets: TARGET_LOS },
@@ -982,6 +1038,7 @@ const ABILITIES = {
       {
         spa: 484,
         slot: 1,
+        type: 'sp',
         value: 48115,
         limits: [
           { targets: TARGET_SINGLE },
@@ -1047,11 +1104,13 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 8,
+        type: 'sp',
         value: 0.1
       },
       {
         spa: 170,
         slot: 9,
+        type: 'sp',
         value: 1.0
       }
     ]
@@ -1068,6 +1127,7 @@ const ABILITIES = {
       {
         spa: 302,
         slot: 1,
+        type: 'sp',
         value: 0.40,
         limits: [
           { type: 'detrimental' },
@@ -1081,6 +1141,7 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 10,
+        type: 'sp',
         value: 1.0
       }
     ]
@@ -1109,12 +1170,14 @@ const ABILITIES = {
       {
         spa: 170,
         slot: 10,
+        type: 'sp',
         value: 0.6
       }
 /*
       {
         spa: 375,
         slot: 8,
+        type: 'sp',
         value: 0.6
       }
 */
@@ -1131,6 +1194,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: 1.05,
         limits: [
           { minDmg: 100 },
@@ -1154,6 +1218,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: -0.25,
         limits: [
           { currentHitPoints: true },
@@ -1176,6 +1241,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: 1.1,
         limits: [
           { maxLevel: 105 },
@@ -1198,6 +1264,7 @@ const ABILITIES = {
       {
         spa: 170,
         slot: 6,
+        type: 'sp',
         value: 0.35
       }
     ]
@@ -1211,6 +1278,7 @@ const ABILITIES = {
       {
         spa: 124,
         slot: 1,
+        type: 'sp',
         value: 0.5,
         limits: [
           { maxDuration: 0 },
@@ -1223,6 +1291,7 @@ const ABILITIES = {
       {
         spa: 170, // moved rules up from testing
         slot: 5,
+        type: 'sp',
         value: 0.27,
       }
     ]
@@ -1237,6 +1306,7 @@ const ABILITIES = {
       {
         spa: 273,
         slot: 2,
+        type: 'sp',
         value: 0.50
       },
 
@@ -1244,6 +1314,7 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 5,
+        type: 'sp',
         value: 0.50
       }
     ]
@@ -1258,6 +1329,7 @@ const ABILITIES = {
       {
         spa: 399,
         slot: 1,
+        type: 'sp',
         value: 1.0,
         limits: [
           { currentHitPoints: true },
@@ -1280,22 +1352,26 @@ const ABILITIES = {
       {
         spa: 273,
         slot: 2,
+        type: 'sp',
         value: 0.12
       },
       {
         spa: 375,
         slot: 3,
+        type: 'sp',
         value: 1.15
       },
 */
       {
         spa: 294,
         slot: 5,
+        type: 'sp',
         value: 0.12
       },
       {
         spa: 170,
         slot: 6,
+        type: 'sp',
         value: 1.55
       }
     ]
@@ -1310,6 +1386,7 @@ const ABILITIES = {
       {
         spa: 483,
         slot: 1,
+        type: 'sp',
         value: 0.08,
         limits: [
           { maxLevel: 110 },
@@ -1328,6 +1405,7 @@ const ABILITIES = {
       {
         spa: 296,
         slot: 1,
+        type: 'sp',
         value: 0.055,
         limits: [
           { maxLevel: 105 },
@@ -1349,6 +1427,7 @@ const ABILITIES = {
       {
         spa: 484,
         slot: 1,
+        type: 'sp',
         value: 19200,
         limits: [
           { maxDuration: 0 }
@@ -1366,11 +1445,13 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 1,
+        type: 'sp',
         value: 1.75
       },
       {
         spa: 170,
         slot: 2,
+        type: 'sp',
         value: 0.50
       }
     ]
@@ -1410,6 +1491,7 @@ const ABILITIES = {
       {
         spa: 302,
         slot: 1,
+        type: 'sp',
         value: 0.50,
         limits: [
           { resists: new Set(['FIRE', 'CHROMATIC']) },
@@ -1429,6 +1511,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'sp',
         value: 1638,
         limits: [
           { minLevel: 96 },
@@ -1454,12 +1537,14 @@ const ABILITIES = {
       {
         spa: 170,
         slot: 1,
+        type: 'sp',
         value: 0.15
       }
 /*
       {
         spa: 375,
         slot: 2,
+        type: 'sp',
         value: 0.15
       }
 */
@@ -1475,6 +1560,7 @@ const ABILITIES = {
       {
         spa: 296,
         slot: 1,
+        type: 'sp',
         value: 0.065,
         limits: [
           { maxLevel: 105 },
@@ -1492,6 +1578,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'sp',
         value: 500,
         limits: [
           { currentHitPoints: true },
@@ -1514,6 +1601,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'aa',
         value: 0, // value read from settings/UI choice
         limits: [
           { type: 'detrimental' },
@@ -1535,6 +1623,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 3469,
         limits: [
           { minCastTime: 3000 }, 
@@ -1559,6 +1648,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 3469,
         limits: [
           { minCastTime: 3000 }, 
@@ -1583,6 +1673,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 3469,
         limits: [
           { minCastTime: 3000 }, 
@@ -1607,6 +1698,7 @@ const ABILITIES = {
       {
         spa: 303,
         slot: 1,
+        type: 'sp',
         value: 4232,
         limits: [
           { minCastTime: 3000 }, 
@@ -1629,6 +1721,7 @@ const ABILITIES = {
       {
         spa: 296,
         slot: 1,
+        type: 'sp',
         value: 0.185,
         limits: [
           { type: 'detrimental' },
@@ -1646,6 +1739,7 @@ const ABILITIES = {
       {
         spa: 399,
         slot: 1,
+        type: 'sp',
         value: 1.0,
         limits: [
           { currentHitPoints: true },
@@ -1666,6 +1760,7 @@ const ABILITIES = {
       {
         spa: 399,
         slot: 1,
+        type: 'sp',
         value: 0.11,
         limits: [
           { currentHitPoints: true },
@@ -1683,6 +1778,7 @@ const ABILITIES = {
       {
         spa: 399,
         slot: 1,
+        type: 'aa',
         value: 0, // value read from settings/UI choice
         limits: [
           { maxDuration: 0 },
@@ -1703,6 +1799,7 @@ const ABILITIES = {
       {
         spa: 286,
         slot: 1,
+        type: 'wn',
         value: 1000,
         limits: [
           { resists: new Set(['MAGIC']) },
@@ -1721,6 +1818,7 @@ const ABILITIES = {
       {
         spa: 399,
         slot: 1,
+        type: 'aa',
         value: 0, // value read from settings/UI choice
         limits: [
           { maxDuration: 0 },
@@ -1744,12 +1842,14 @@ const ABILITIES = {
       {
         spa: 294,
         slot: 9,
+        type: 'sp',
         value: 0.12
       }
 /*
       {
         spa: 273,
         slot: 10,
+        type: 'sp',
         value: 0.12
       }
 */
@@ -1766,6 +1866,7 @@ const ABILITIES = {
       {
         spa: 296,
         slot: 1,
+        type: 'sp',
         value: 0.75,
         limits: [
           { maxLevel: 110 },
@@ -1787,7 +1888,44 @@ const ABILITIES = {
       {
         spa: 170,
         slot: 3,
+        type: 'sp',
         value: 1.6
+      }
+    ]
+  },
+  WIZED5: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage 5',
+    effects: [
+      {
+        spa: 413,
+        slot: 1,
+        type: 'wn',
+        value: 0.05,
+        limits: [
+       //   { class: 'wiz' }, // messes up tester when in mage mode
+          { spells: new Set(['ES']) }
+        ]
+      }
+    ]
+  },
+  WIZED7: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage 7',
+    effects: [
+      {
+        spa: 413,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+         // { class: 'wiz' }, // messes up tester when in mage mode
+          { spells: new Set(['ES']) }
+        ]
       }
     ]
   },

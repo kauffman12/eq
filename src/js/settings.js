@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.92',
+  VERSION: 'Version 0.915',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -65,7 +65,7 @@ export const basicDmgFocusContext = [
       { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
       { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
       { value: 'FMAGIC55', desc: 'Cohort\'s Cap' },
-      { value: '', desc: 'No Cap Selected' }
+      { value: 'NONE', desc: 'No Cap Selected' }
     ]
   },
   {
@@ -77,7 +77,7 @@ export const basicDmgFocusContext = [
       { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
       { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
       { value: 'FCOLD55', desc: 'Cohort\'s Gloves' },
-      { value: '', desc: 'No Gloves Selected' }
+      { value: 'NONE', desc: 'No Gloves Selected' }
     ]
   },
   {
@@ -89,19 +89,19 @@ export const basicDmgFocusContext = [
       { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
       { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
-      { value: '0', desc: 'No Sleeves Selected' }
+      { value: 'NONE', desc: 'No Sleeves Selected' }
     ]
   },
   {
     id: 'worn-chest-focus',
-    value: '0.07',
+    value: 'WIZED7',
     desc: 'Velazul\'s Robe',
     data: [
-      { value: '0.07', desc: 'Velazul\'s Robe' },
-      { value: '0.05', desc: 'Selrach\'s Robe' },
-      { value: '0.07', desc: 'Deathseeker\'s Robe' },
-      { value: '0.05', desc: 'Cohort\'s Robe' },
-      { value: '0', desc: 'No Robe Selected' }
+      { value: 'WIZED7', desc: 'Velazul\'s Robe' },
+      { value: 'WIZED5', desc: 'Selrach\'s Robe' },
+      { value: 'WIZED7', desc: 'Deathseeker\'s Robe' },
+      { value: 'WIZED5', desc: 'Cohort\'s Robe' },
+      { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },
   {

@@ -51,13 +51,14 @@ export const SPELL_PROC_ABILITIES = [
 export const PREEMPT_SPELL_CASTS = ['TC', 'MBRN'];
 
 const LIMIT_RULES_FOR_FAILURE = {
+  activated: (spell) => true, // custom check for non spell casts like AA nukes or orb clicks
+  class: (spell, value) => value !== G.MODE, 
   currentHitPoints: (spell) => spell.baseDmg === undefined,
   exSkills: (spell, value) => value.has(spell.skill),
   exSpells: (spell, value) => value.has(spell.id),
   exTargets: (spell, value) => value.has(spell.target),
   exTwincastMarker: (spell) => spell.canTwincast === false,
   onSpellUse: (spell) => !spell.focusable || spell.inventory, // focusable spells NOT from inventory
-  activated: (spell) => true,
   maxCastTime: (spell, value) => spell.origCastTime > value,
   maxDuration: (spell, value) => spell.duration > value,
   maxLevel: (spell, value) => spell.level > value,
@@ -68,6 +69,7 @@ const LIMIT_RULES_FOR_FAILURE = {
   minManaCost: (spell, value) => spell.manaCost < value,
   nonRepeating: (spell) => spell.duration > 0,
   resists: (spell, value) => !value.has(spell.resist),
+  spells: (spell, value) => !value.has(spell.id),
   targets: (spell, value) => !value.has(spell.target),
   type: (spell, value) => !isSpellType(value, spell)
 }
@@ -113,9 +115,21 @@ function checkLimits(id, spell, effect) {
   });
 }
 
+function buildSPAKey(effect) {
+  return String(effect.spa) + '-' + String(effect.type) + '-' + String(effect.slot);
+}
+
+function parseSPAKey(key) {
+  return {
+    spa: key.substr(0,3)
+    //type: key.substr(4,2),
+    //slot: key.substr(7)
+  };
+}
+
 function blockAbility(spaMap, id) {
   abilities.get(id).effects.forEach(effect => {
-    let key = String(effect.spa) + '-' + String(effect.slot);
+    let key = buildSPAKey(effect);
     let existing = spaMap.get(key);
 
     if (existing && existing.id === id) {
@@ -153,18 +167,6 @@ function getChargeCount(state, id, mod) {
   return mod;
 }
 
-function getMultiplier(castTime) {
-  var multiplier = 0.25;
-
-  if(castTime >= 2500 && castTime <= 7000) {
-    multiplier = .000167 * (castTime - 1000);
-  } else if(castTime > 7000) {
-    multiplier = 1 * castTime / 7000;
-  }
-
-  return multiplier;
-}
-
 function isSpellType(type, spell) {
   switch (type) {
     case 'detrimental':
@@ -185,7 +187,7 @@ export function buildSPAData(ids, spell) {
     ability.effects.forEach(effect => {
       let result = spell ? checkLimits(id, spell, effect) : false;
       if (!result || result.pass) {
-        let key = String(effect.spa) + '-' + String(effect.slot);
+        let key = buildSPAKey(effect);
         let existing = spaMap.get(key);
 
         if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) ||       // negative effects override all
@@ -205,9 +207,9 @@ export function buildSPAData(ids, spell) {
           spaMap.set(key, { value: effect.value, spa: effect.spa, id: id });
           abilitySet.add(id);
         } else if (existing && effect.spa === 294) {
+          abilitySet.delete(id);
           blockAbility(spaMap, id);
           blocked.add(id);
-          abilitySet.delete(id);
         }
       }
     });
@@ -215,34 +217,21 @@ export function buildSPAData(ids, spell) {
   
   return {abilitySet: abilitySet, spaMap: spaMap};
 }
-export function canTwinproc(spell) {
-  return spell.focusable && !spell.manaCost && spell.origCastTime === 0 && spell.level > 254 && spell.canTwincast !== false;
-}
 
 export function computeSPAs(state, mod) {
   let spell = state.spell;
 
-  let spaValues = {
-    addCritRate: 0,
-    addCritDmg: 0,
-    afterCritAdd: 0,
-    afterCritAddNoMod: 0,
-    afterCritFocusNoMod: 0,
-    beforeCritAdd: 0,
-    beforeCritFocus: 0,
-    beforeDoTCritFocus: 0,
-    postCalcFocus: 0,
-    effectiveness: 0,
-    twincast: 0
-  };
+  let spaValues = {};
+  abilities.SPA_KEY_MAP.forEach((v, k) => { spaValues[v] = 0; });
 
   let charged = new Map();
   let result = buildSPAData(state.activeAbilities, spell);
 
   result.spaMap.forEach((v, k) => {
-    let spa = Number.parseInt(k.substring(0, 3));
-    let key = abilities.SPA_KEY_MAP.get(spa);
+    let parsed = parseSPAKey(k);
+    let spa = Number.parseInt(parsed.spa);
 
+    let key = abilities.SPA_KEY_MAP.get(spa);
     if (key) {
       let partUsed = 1; // default
       let update = v.value;
@@ -267,11 +256,23 @@ export function computeSPAs(state, mod) {
         }
       }
 
-      spaValues[key] = spaValues[key] + update * partUsed;
+      spaValues[key] += update * partUsed;
     }
   });
 
   return {abilitySet: result.abilitySet, spaValues: spaValues};
+}
+
+export function getMultiplier(castTime) {
+  var multiplier = 0.25;
+
+  if(castTime >= 2500 && castTime <= 7000) {
+    multiplier = .000167 * (castTime - 1000);
+  } else if(castTime > 7000) {
+    multiplier = 1 * castTime / 7000;
+  }
+
+  return multiplier;
 }
 
 export function getProcEffect(spell, id) {
@@ -322,22 +323,6 @@ export function getCompoundSpellList(id) {
   });
 }
 
-export function getBeltFocus(spell) {
-  let result = 0;
-
-  let belt = dom.getBeltProcValue();
-  if (belt !== 'NONE') {
-    let ability = abilities.get(belt);
-
-    if (ability && !abilities.getProcEffectForAbility(ability)) {
-      let effect = checkSingleEffectLimit(spell, belt);
-      result = effect ? effect.value : 0;
-    }
-  }
-
-  return result;
-}
-
 export function getEqpProcs(spell) {
   // find eqp procs
   let procList = utils.useCache('get-eqp-procs', () => {
@@ -376,62 +361,6 @@ export function getSpellProcs(abilities, spell) {
 
 export function getProcRate(spell, proc) {
   return (proc.base1) ? proc.base1 / 100 * getNormalizer(spell) : 1.0;
-}
-
-export function getSpellDamage(spell) {
-  // dicho/fuse needs to use an alternative time since it's really 2 spell casts
-  // that get applied differently depending on what we're looking for
-  var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
-
-  var totalCastTime = spell.origCastTime +
-    ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
-
-  var multiplier = getMultiplier(totalCastTime);
-  return Math.trunc(utils.asDecimal32Precision(dom.getSpellDamageValue() * multiplier));
-}
-
-export function getTwincastAA(spell) {
-  // check if it's even set
-  let tcaa = dom.getTwincastAAValue();
-  return checkSingleEffectLimit(spell, 'TCAA') ? tcaa : 0;
-}
-
-export function getDestructiveAdeptFocus(spell) {
-  // check if it's even set
-  let dadept = dom.getDestructiveAdeptValue();
-  return checkSingleEffectLimit(spell, 'DADEPT') ? dadept : 0;
-}
-
-export function getSorcerersVengeanceAdd(spell) {
-  // check if it's even set
-  let sveng = dom.getSorcererVengeananceValue();
-  return checkSingleEffectLimit(spell, 'SVENG') ? sveng : 0;
-}
-
-export function getTwinprocAA(spell) {
-  // check if it's even set
-  let tp = dom.getTwinprocValue();
-  return checkSingleEffectLimit(spell, 'TP') ? tp : 0;
-}
-
-export function getWornDamageFocus(spell) {
-  let wornFocus = 0;
-
-  dom.getWornDamageFocusList().find(id => {
-    let ability = abilities.get(id);
-
-    if (ability) {
-      ability.effects.forEach(effect => {
-        if (checkLimits(id, spell, effect).pass) {
-          wornFocus = effect.value;
-        }
-      });
-    }
-
-    return wornFocus > 0;
-  });
-
-  return wornFocus;
 }
 
 export function getNormalizer(spell) {
