@@ -1,3 +1,11 @@
+.class-badge {
+  font-size: 10px;
+  margin-right: 4px;
+  margin-left: -4px;
+  background-color: #444;
+  width: 35px;
+}
+
 .modal-xlg {
   width: 1100px !important;
 }
@@ -156,7 +164,7 @@ li.disabled {
 }
 
 .popover-title {
-  background-color: #D9E8FA;;
+  background-color: #D9E8FA;
   width: 260px;
   text-align: center;
 }
@@ -277,9 +285,13 @@ li.disabled {
 
 .settings-input {
   float: right;
-  width: 56px;
+  width: 70px;
   height: 16px;
   margin-top: 1px;
+}
+
+.synergy-input {
+  width: 46px;
 }
 
 #encSynergyRate, #magSynergyRate, #necSynergyRate {
@@ -293,7 +305,7 @@ li.disabled {
   margin-top: 1px;
 }
 
-input[type="checkbox"] {
+li.list-group-item-heading input[type="checkbox"] {
   margin: 1px;
 }
 
