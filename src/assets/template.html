@@ -29,17 +29,22 @@
       </ul>
     </div>
   </script>
-  <script id="spell-adps-button-template" type="text/x-handlebars-template">
-    <div class="btn-group btn-group-xs {{class}}">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-value="NONE" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="desc">{{title}}</span> <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        {{#each data}}
-          <li class="{{../disabled}}"><a data-value="{{id}}" href="#">{{name}}</a></li>
-        {{/each}}
-      </ul>
-    </div>
+  <script id="spell-adps-dropdown-template" type="text/x-handlebars-template">
+    <select id="adps-dropdown" multiple="multiple">
+      {{#each data}}
+        {{#if group}}
+          <optgroup label="{{group}}">
+            {{#each this.adps}}
+              <option value="{{id}}">{{name}}</option>
+            {{/each}}
+          </optgroup>
+        {{else}}
+         {{#each this.adps}}
+            <option value="{{id}}">{{name}}</option>
+          {{/each}}
+        {{/if}}
+      {{/each}}
+    </select>
   </script>
   <script id="spell-timeline-item-template" type="text/x-handlebars-template">
     <a href="#" data-toggle="popover" data-content="<div id='spellPopover{{spellNumber}}'></div>"data-value="{{spellNumber}}" data-trigger="hover" data-placement="bottom" data-container="body" title="{{title}}">{{id}}</a>
@@ -57,14 +62,14 @@
   <script id="abilities-input-template" type="text/x-handlebars-template">
     {{#each data}}
       <li class="list-group-item-heading">
-        <span class="stats">{{name}}
+        <span class="stats"><span class="badge class-badge">{{aClass}}</span> {{name}}
         <input id="{{id}}" class="form-control input-xs settings-checkbox-input repeating-ability" {{isChecked}} data-toggle="toggle" type="checkbox"></input>
         </span>
       </li>
     {{/each}}
   </script>
   <script id="additional-modifiers-synergy-template" type="text/handlebars-template">
-    <input id="{{inputId}}" type="number" class="form-control input-xs settings-input" value="{{defaultTime}}" min="{{defaultTime}}" max="120" step="1">
+    <input id="{{inputId}}" type="number" class="form-control input-xs settings-input synergy-input" value="{{defaultTime}}" min="{{defaultTime}}" max="120" step="1">
     <span style="cursor: pointer; color: #446e9b; padding: 2px 4px 0px 0px; float: right;" class="glyphicon glyphicon-info-sign" aria-hidden="true" title="{{tooltip}}"></span>
   </script>
   <script id="stat-change-template" type="text/x-handlebars-template">
@@ -139,7 +144,7 @@
             </span>
           </li>
           <li class="list-group-item-heading mag-only">
-            <input id="remorselessDPS" type="number" class="form-control input-xs settings-input" style="width: 66px;" value="10500" min="1" max="99999">
+            <input id="remorselessDPS" type="number" class="form-control input-xs settings-input" value="10500" min="1" max="99999">
             <span class="stats">Remorseless Servant DPS<span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The Damage Per Second (DPS) to assign to each Remorseless Servant pet."></span>
             </span>
@@ -161,14 +166,29 @@
       <li>
         <ul id="abilitiesSection" class="nav nav-pills nav-stacked">
           <li class="active custom-collapse">
-            <a href="#">Abilities Active<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+            <a href="#">Activated Abilities<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
         </ul>
       </li>
       <li>
         <ul id="debuffsSection" class="nav nav-pills nav-stacked">
           <li class="active custom-collapse">
-            <a href="#">Debuffs/Weakness<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+            <a href="#">Debuff/Weakness<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul id="aurasSection" class="nav nav-pills nav-stacked">
+          <li class="active custom-collapse">
+            <a href="#">Group Auras<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+      <li>
+        <ul id="synergySection" class="nav nav-pills nav-stacked">
+          <li class="active custom-collapse">
+            <a href="#">Group Synergy<span class="glyphicon glyphicon-chevron-down collapse-icon" aria-hidden="true"></span></a>
           </li>
         </ul>
       </li>

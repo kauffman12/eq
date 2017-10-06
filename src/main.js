@@ -1,6 +1,7 @@
 // Import CSS
 import './css/generated/bootstrap.css';
 import './css/generated/vis-timeline-graph2d.css';
+import 'bootstrap-multiselect/dist/css/bootstrap-multiselect.css';
 import './css/main.css';
 
 // Library References
@@ -41,16 +42,28 @@ let rateTemplate = Handlebars.compile($('#additional-modifiers-synergy-template'
 let sectionTemplate = Handlebars.compile($("#abilities-input-template").html());
 
 let abilitiesSection = $('#abilitiesSection');
+let aurasSection = $('#aurasSection');
 let debuffsSection = $('#debuffsSection');
+let synergySection = $('#synergySection');
 let aList = [];
 let dList = [];
+let sList = [];
+let gList = [];
 let aInputRatesList = [];
 
 abilities.getAbilityList(true).forEach(ability => {
   let aClass = (G.MODE !== ability.class || ability.otherCast) ? ability.class : '';
-  let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
-  let list = ability.debuff ? dList : aList;
-  list.push({id: ability.id, name: name});
+  let item = {id: ability.id, aClass: utils.toUpper(aClass || ''), name: ability.name};
+
+  if (ability.debuff) {
+    dList.push(item);
+  } else if (ability.repeatEvery > -1) {
+    sList.push(item);
+  } else if (ability.refreshTime > 0 && !ability.manuallyActivated) {
+    gList.push(item);
+  } else {
+    aList.push(item);
+  }
 
   if (ability.repeatEvery > -1) {
     aInputRatesList.push(ability);
@@ -59,8 +72,12 @@ abilities.getAbilityList(true).forEach(ability => {
 
 abilitiesSection.append(sectionTemplate({ data: aList }));
 abilitiesSection.find('input').click((e) => { timeline.callUpdateSpellChart() });
+aurasSection.append(sectionTemplate({ data: gList }));
+aurasSection.find('input').click((e) => { timeline.callUpdateSpellChart() });
 debuffsSection.append(sectionTemplate({ data: dList }));
 debuffsSection.find('input').click((e) => { timeline.callUpdateSpellChart() });
+synergySection.append(sectionTemplate({ data: sList }));
+synergySection.find('input').click((e) => { timeline.callUpdateSpellChart() });
 
 aInputRatesList.forEach(ability => {
   $('#' + ability.id).after(rateTemplate({
@@ -72,40 +89,31 @@ aInputRatesList.forEach(ability => {
   $('#' + ability.id + 'Rate').change(() => { timeline.callUpdateSpellChart() });  
 });
 
-// Creates Add/Remove ADPS Buttons
 let adpsOptions = [];
+let classMap = new Map();
 abilities.getAbilityList(false).forEach(ability => {
-  let aClass = (G.MODE !== ability.class || ability.otherCast) ? ability.class : '';
-  let name = (aClass ? utils.toUpper(aClass) + ': ' : '') + ability.name;
-  adpsOptions.push({id: ability.id, name: name});
+  let aClass = (G.MODE !== ability.class) ? utils.CLASS_TO_NAME[ability.class] || '' : '';
+  if (!classMap.has(aClass)) {
+    let list = [];
+    classMap.set(aClass, list);
+    adpsOptions.push({group: aClass, adps: list});
+  }
+
+  classMap.get(aClass).push({id: ability.id, name: ability.name});
 });
 
-let adpsButtonTemplate = Handlebars.compile($("#spell-adps-button-template").html());
-$('#spellButtons').append(adpsButtonTemplate({ class: 'adps', title: 'Add ADPS', disabled: "", data: adpsOptions }));
-$('#spellButtons').append(adpsButtonTemplate({ class: 'remove-adps', title: 'Remove ADPS', disabled: "disabled", data: adpsOptions }));
-
-// Listen for Add ADPS click events to add item to timeline
-$('#spellButtons div.adps li > a').click(e => {
-  if ($(e.currentTarget).hasClass('disabled')) {
-    return;
+let adpsButtonTemplate = Handlebars.compile($('#spell-adps-dropdown-template').html());
+$('#spellButtons').append(adpsButtonTemplate({ title: 'Add ADPS', data: adpsOptions }));
+$('#adps-dropdown').multiselect({
+  buttonText: () => 'Select ADPS',
+  buttonClass: 'btn btn-primary btn-xs',
+  onChange: (opt, checked, sel) => {
+    if (checked) {
+      timeline.createAdpsItem($(opt).val());
+    } else {
+      timeline.removeAdpsItem($(opt).val());
+    }
   }
-  
-  let id = $(e.currentTarget).data('value');
-  timeline.createAdpsItem(id);
-  $(e.currentTarget).parent().addClass('disabled');
-  $('#spellButtons div.remove-adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');      
-});
-
-// Listen for Remove ADPS click events to remove item from timeline
-$('#spellButtons div.remove-adps li > a').click(e => {
-  if ($(e.currentTarget).hasClass('disabled')) {
-    return;
-  }
-  
-  let id = $(e.currentTarget).data('value');
-  timeline.removeAdpsItem(id);
-  $(e.currentTarget).parent().addClass('disabled');
-  $('#spellButtons div.adps li > a[data-value="' + id + '"]').parent().removeClass('disabled');
 });
 
 // Creates the 6 Spell selection buttons
@@ -191,7 +199,9 @@ $('#myModal').on('shown.bs.modal', () => {
 })
 
 // Set default collapse state
+utils.collapseMenu($('#synergySection .custom-collapse'));
 utils.collapseMenu($('#debuffsSection .custom-collapse'));
+utils.collapseMenu($('#aurasSection .custom-collapse'));
 utils.collapseMenu($('#abilitiesSection .custom-collapse'));
 utils.collapseMenu($('#basicDmgFocusSection'));
 utils.collapseMenu($('#spellFocusAASection'));

@@ -14,7 +14,7 @@ module.exports = (env, args) => {
     context: path.resolve(__dirname, 'src'),
     entry: {
       app: ['babel-polyfill', './main.js'],
-      vendor: ['jquery', 'bootstrap', 'handlebars', 'vis']
+      vendor: ['jquery', 'bootstrap', 'bootstrap-multiselect', 'handlebars', 'vis']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -52,7 +52,7 @@ module.exports = (env, args) => {
               { loader: 'css-loader', options: { minimize: minify } }
             ]
           }),
-          include: [/generated/]
+          include: [/generated/, /node_modules/]
         },
         {
           test: /\.(svg|ttf|eot|woff|woff2)$/,
@@ -66,6 +66,8 @@ module.exports = (env, args) => {
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
+        jquery: 'jquery',
+        'window.jQuery': 'jquery',
         Handlebars: 'handlebars',
         vis: 'vis'
       }),

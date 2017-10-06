@@ -6,6 +6,16 @@ import {SPELL_DATA as MAGE_SPELLS} from './spells/spelldata.mage.js';
 
 let QUERY_CACHE = {};
 
+export const CLASS_TO_NAME = {
+  brd: 'Bard',
+  dru: 'Druid',
+  enc: 'Enchanter',
+  rng: 'Ranger',
+  nec: 'Necromancer',
+  mag: 'Magician',
+  wiz: 'Wizard'
+};
+
 export function appendHtml(context, html, count) {
   for (let i=0; i<count; i++) {
     context.append(html);

@@ -97,8 +97,10 @@ export function getAbilityList(repeating) {
             class: ability.class,
             debuff: !!ability.debuff,
             id: key,
+            manuallyActivated: ability.manuallyActivated,
             name: ability.name,
             otherCast: ability.otherCast,
+            refreshTime: ability.refreshTime,
             repeatEvery: ability.repeatEvery,
             tooltip: ability.tooltip
           }
@@ -276,6 +278,7 @@ const ABILITIES = {
     class: 'brd',
     level: 101,
     name: 'Aria of Maetanrus Rk. III',
+    refreshTime: 12000,
     repeatEvery: -1,
     effects: [
       {
@@ -1406,6 +1409,7 @@ const ABILITIES = {
     debuff: true,
     level: 101,
     name: 'Malosenete Rk. III',
+    otherCast: true,
     repeatEvery: -1,
     effects: [
       {
@@ -1467,7 +1471,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
     level: 105,
-    name: 'Mana Recip.. Aura III',
+    name: 'Mana Reciprocation Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1512,6 +1516,7 @@ const ABILITIES = {
     class: 'brd',
     level: 103,
     name: 'Nilsara\'s Aria Rk. III',
+    refreshTime: 12000,
     repeatEvery: -1,
     effects: [
       {
@@ -1761,6 +1766,7 @@ const ABILITIES = {
     class: 'enc',
     level: 84,
     name: 'Twincast Aura Rk. III',
+    refreshTime: 12000,
     repeatEvery: -1,
     effects: [
       {
