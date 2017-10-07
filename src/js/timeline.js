@@ -137,20 +137,24 @@ function initAbility(state, id, ability) {
       // get rate from UI if there is an override or use default refresh time
       let rate = dom.getAbilityRate(id) || ability.refreshTime;
 
-      if (!lastProcMap[id] || lastProcMap[id] + rate < state.workingTime) {
-        if (!lastProcMap[id]) {
-          lastProcMap[id] = CURRENT_TIME;
-          state[keys.expireTime] = CURRENT_TIME + ability.duration;
-        } else {
-          lastProcMap[id] += rate;
-          state[keys.expireTime] = lastProcMap[id] + ability.duration;
+      if (rate) {
+        if (!lastProcMap[id] || lastProcMap[id] + rate < state.workingTime) {
+          if (!lastProcMap[id]) {
+            lastProcMap[id] = CURRENT_TIME;
+            state[keys.expireTime] = CURRENT_TIME + ability.duration;
+          } else {
+            lastProcMap[id] += rate;
+            state[keys.expireTime] = lastProcMap[id] + ability.duration;
+          }
+
+          state[keys.counter] = ability.charges;
         }
 
-        state[keys.counter] = ability.charges;
+        utils.checkSimpleTimer(state, id);
+        active = utils.isAbilityActive(state, id);
+      } else {
+        active = false; // Ex like Arcomancy
       }
-
-      utils.checkSimpleTimer(state, id);
-      active = utils.isAbilityActive(state, id);
     } 
 
     // abilities that only get used once
@@ -192,6 +196,7 @@ function updateActiveAbilities(state) {
   state.activeAbilities = new Set(preConfigured.active);
   state.spellProcAbilities = new Set(preConfigured.spellProc);
   state.manualAbilities = new Set();
+  state.enabledButInActive = new Set();
 
   // get abilities the user has enabled to repeat from the
   // activated abilities options
@@ -208,6 +213,8 @@ function updateActiveAbilities(state) {
           state.spellProcAbilities.add(id);
         }
       }
+    } else {
+      state.enabledButInActive.add(id);
     }
   });
  

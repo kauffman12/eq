@@ -41,41 +41,50 @@ function applyPostSpellEffects(state, mod) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
-  // keep track of a counter based on main spell cast or main + the twincast that was missed
-  // for certain types of spell casts
-  let cfickleCount, magicCount;
+  // keep track of a counter based on main spell cast + twincast
+  // average DPS sometimes goes down when it shouldnt because some gains
+  // are lost during a small twincast. Check mod > 50% ? worth testing anyway
+  // Same as with Arcomancy. I think this matters less for damage procs.
+  // MSYN and others dont have as big an issue because they always start on main spell cast
+  // VFX procs another one when it twincasts, etc
+  let cfickleSpells;
   switch(spell.id) {
     case 'CF': case 'FC':
-      cfickleCount = 1;
-      if (state.inTwincast) {
-        state.cfickleCount = mod;
-        cfickleCount = 0;
-      } else {
-        cfickleCount += state.cfickleCount || 0;
+      cfickleSpells = 1;
+      if (mod < 0.50) {
+        state.cfickleSpells = mod;
+        cfickleSpells = 0;
+      } else { // this one is deciding what to increment by unlike ARCO
+        cfickleSpells += state.cfickleSpells || 0;
+        state.cfickleSpells = 0;
       }
       break;
   }
 
-/*
   switch(spell.resist) {
     case 'MAGIC':
-      if (checkSingleEffectLimit(spell, 'ARCO')) {
-        magicCount = 1;
-        if (state.inTwincast) {
-          state.magicCount = mod;
-          magicCount = 0;
-        } else {
-          magicCount += state.magicCount || 0;
+      if (dmgU.isCastDetSpell(spell)) {
+        state.magicSpells = mod + (state.magicSpells || 0);
+
+        // keep track of a counter based on main spell cast + twincast
+        // average DPS sometimes goes down when it shouldnt because some gains
+        // are lost during a small twincast. Check mod > 50% ? worth testing anyway
+        // Same as with Fickle. I think this matters less for damage procs.
+        // MSYN and others dont have as big an issue because they always start on main spell cast
+        // VFX procs another one when it twincasts, etc
+        if (mod >= 0.50 && G.MODE === 'wiz' && state.enabledButInActive.has('ARCO') && state.magicSpells > dmgU.ARCO_PROC_RATE) {
+          timeline.addSpellProcAbility(state, 'ARCO', 1, true);
+          state.magicSpells = 0;
         }
       }
+      break;
   }
-*/
 
   switch(spell.id) {
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
       // generate proc effects
-      state.cfSpellProcGenerator.next(cfickleCount).value.forEach(id => {
+      state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
         if (id === 'REFRESH') {
           timeline.resetTimers(state);
         } else {
@@ -85,7 +94,7 @@ function applyPostSpellEffects(state, mod) {
       break;
     case 'FC':
       if (G.MODE === 'mag' && !state.inTwincast) {
-        state.fcSpellProcGenerator.next(cfickleCount).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+        state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
     case 'SV':

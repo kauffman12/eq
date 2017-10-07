@@ -46,7 +46,7 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'MSYN', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK'
+  'ARCO', 'MSYN', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
@@ -121,6 +121,19 @@ function buildSPAKey(effect) {
   return String(effect.spa) + '-' + String(effect.type) + '-' + String(effect.slot);
 }
 
+function checkSingleEffectLimit(spell, id) {
+  let result;
+
+  abilities.get(id).effects.find(effect => {
+    if (checkLimits(id, spell, effect).pass) {
+      result = effect;
+      return true;
+    }
+  });
+
+  return result;
+}
+
 function parseSPAKey(key) {
   return {
     spa: key.substr(0,3)
@@ -138,19 +151,6 @@ function blockAbility(spaMap, id) {
       spaMap.delete(key);
     }
   });
-}
-
-function checkSingleEffectLimit(spell, id) {
-  let result;
-
-  abilities.get(id).effects.find(effect => {
-    if (checkLimits(id, spell, effect).pass) {
-      result = effect;
-      return true;
-    }
-  });
-
-  return result;
 }
 
 function getChargeCount(state, id, mod) {
