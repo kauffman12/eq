@@ -741,10 +741,7 @@ export function visTimelineListener(e, item) {
   let ability = abilities.get(item.items[0]);
   if (ability) {
     if (e === 'remove') {
-      $('#spellButtons div.adps li > a[data-value=' + item.items[0] + ']')
-        .parent().removeClass('disabled');
-      $('#spellButtons div.remove-adps li > a[data-value=' + item.items[0] + ']')
-        .parent().addClass('disabled');
+      $('#adps-dropdown').multiselect('deselect', item.items[0], false);
     } else if (e === 'update') {
       let lineItem = TIMELINE_DATA.get(item.items[0]);
       let time = new Date(lineItem.end - lineItem.start);
