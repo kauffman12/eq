@@ -21,6 +21,11 @@ import {globals as G} from './settings.js';
 // Notes
 // tick durations rounded up 1/2 tick since it seems random what you really get
 //   Ex: twincast is 3 ticks and gets 18 to 24 seconds so I go with 21
+// 
+// repeatEvery -1 means repeat always
+//              0 means dont repeat
+//             +N repeat every N 
+//             -999 repeat when activated by some means like proc/cast
 
 export const SPA_AFTER_CRIT_ADD = new Set([286]);
 export const SPA_AFTER_CRIT_ADD_NO_MOD = new Set([484]);
@@ -283,7 +288,7 @@ const ABILITIES = {
     level: 254,
     mode: 'wiz',
     name: 'Arcomancy XXIV',
-    repeatEvery: -1,
+    repeatEvery: -999,
     type: 'sp',
     effects: [
       {
@@ -433,14 +438,13 @@ const ABILITIES = {
     ]
   },
   CRYO: {
-    charges: 0.25, // 25% of the time
+    charges: 1,
     class: 'wiz',
     debuff: true,
     level: 254,
     mode: 'wiz',
     name: 'Cryomancy XXIV',
-    refreshTime: 1,
-    repeatEvery: -1,
+    repeatEvery: -999,
     effects: [
       {
         proc: 'CRYO',
@@ -1608,6 +1612,16 @@ const ABILITIES = {
       }
 */
     ]
+  },
+  PYRO: {
+    class: 'wiz',
+    debuff: true,
+    duration: 36000, // dot does 5 ticks of damage plus 1 at the end
+    level: 254,
+    mode: 'wiz',
+    name: 'Pyromancy XXIV',
+    repeatEvery: -999,
+    effects: [] // handled by DOT generator and constants in dmgU
   },
   SEEDLINGS: {
     class: 'dru',

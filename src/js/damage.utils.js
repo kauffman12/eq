@@ -20,6 +20,9 @@ export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
 
 export const ARCO_PROC_RATE = 100 / (100 * 0.30);
+export const CRYO_PROC_RATE = 100 / (100 * 0.25);
+export const PYRO_PROC_RATE = 100 / (100 * 0.21);
+export const PYRO_DPS = 16800 / 6;
 
 // Claw/Chaotic effect proc rates per 100 casts
 export const CF_SPELL_PROC_RATES = {
@@ -46,7 +49,7 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'MSYN', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK'
+  'ARCO', 'CRYO', 'MSYN', 'PYRO', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
@@ -275,6 +278,14 @@ export function getMultiplier(castTime) {
   }
 
   return multiplier;
+}
+
+export function getPyroDPS(state) {
+  return utils.isAbilityActive(state, 'PYRO') ? PYRO_DPS : 0;
+}
+
+export function getRSDPS(state) {
+  return dom.getRemorselessServantDPSValue() * (state[utils.getCounterKeys('RS').counter] || 0);
 }
 
 export function getProcEffect(spell, id) {
