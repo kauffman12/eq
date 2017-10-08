@@ -28,54 +28,85 @@ function addSpellAndEqpProcs(state, mod) {
   dmgU.getSpellProcs(state.spellProcAbilities, state.spell)
     .forEach(item => {
       // remove if execute failed to do anything
-      if (!executeProc(item.proc, state, mod, item.id)) {
+      if (!executeProc(state, item.proc, mod, item.id)) {
         state.spellProcAbilities.delete(item.id);
       }
     });
 
   // add eqp and aug procs
-  dmgU.getEqpProcs(state.spell).forEach(id => { executeProc(id, state, mod, 'EQP') });
+  dmgU.getEqpProcs(state.spell).forEach(id => { executeProc(state, id, mod, 'EQP') });
 }
 
 function applyPostSpellEffects(state, mod) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
-  // keep track of a counter based on main spell cast or main + the twincast that was missed
-  // for certain types of spell casts
-  let cfickleCount, magicCount;
+  // keep track of a counter based on main spell cast + twincast
+  // average DPS sometimes goes down when it shouldnt because some gains
+  // are lost during a small twincast. Check mod > 50% ? worth testing anyway
+  // Same as with Arcomancy. I think this matters less for damage procs.
+  // MSYN and others dont have as big an issue because they always start on main spell cast
+  // VFX procs another one when it twincasts, etc
+  let cfickleSpells;
   switch(spell.id) {
     case 'CF': case 'FC':
-      cfickleCount = 1;
-      if (state.inTwincast) {
-        state.cfickleCount = mod;
-        cfickleCount = 0;
-      } else {
-        cfickleCount += state.cfickleCount || 0;
+      cfickleSpells = 1;
+      if (mod < 0.50) {
+        state.cfickleSpells = mod;
+        cfickleSpells = 0;
+      } else { // this one is deciding what to increment by unlike ARCO
+        cfickleSpells += (state.cfickleSpells || 0);
+        state.cfickleSpells = 0;
       }
       break;
   }
 
-/*
   switch(spell.resist) {
-    case 'MAGIC':
-      if (checkSingleEffectLimit(spell, 'ARCO')) {
-        magicCount = 1;
-        if (state.inTwincast) {
-          state.magicCount = mod;
-          magicCount = 0;
-        } else {
-          magicCount += state.magicCount || 0;
+    case 'COLD':
+      if (dmgU.isCastDetSpell(spell)) {
+        state.coldSpells = mod + (state.coldSpells || 0);
+
+        if (G.MODE === 'wiz' && state.enabledButInActive.has('CRYO') && state.coldSpells >= dmgU.CRYO_PROC_RATE) {
+          timeline.addSpellProcAbility(state, 'CRYO', 1, true);
+          executeProc(state, 'CRYO', mod, 'CRYO'); // proc on the cast not after
+          state.coldSpells = state.coldSpells - dmgU.CRYO_PROC_RATE;
         }
       }
+      break;
+    case 'FIRE':
+      if (dmgU.isCastDetSpell(spell)) {
+        state.fireSpells = mod + (state.fireSpells || 0);
+
+        if (G.MODE === 'wiz' && state.enabledButInActive.has('PYRO') && state.fireSpells >= dmgU.PYRO_PROC_RATE) {
+          timeline.addSpellProcAbility(state, 'PYRO', 1, true);
+          state.dotGenerator = genDamageOverTime(state, dmgU.getPyroDPS, 6000, 'totalDotDmg');
+          state.fireSpells = state.fireSpells - dmgU.PYRO_PROC_RATE;
+        }
+      }      
+      break;
+    case 'MAGIC':
+      if (dmgU.isCastDetSpell(spell)) {
+        state.magicSpells = mod + (state.magicSpells || 0);
+
+        // keep track of a counter based on main spell cast + twincast
+        // average DPS sometimes goes down when it shouldnt because some gains
+        // are lost during a small twincast. Check mod > 50% ? worth testing anyway
+        // Same as with Fickle. I think this matters less for damage procs.
+        // MSYN and others dont have as big an issue because they always start on main spell cast
+        // VFX procs another one when it twincasts, etc
+        if (mod >= 0.50 && G.MODE === 'wiz' && state.enabledButInActive.has('ARCO') && state.magicSpells >= dmgU.ARCO_PROC_RATE) {
+          timeline.addSpellProcAbility(state, 'ARCO', 1, true);
+          state.magicSpells = 0;
+        }
+      }
+      break;
   }
-*/
 
   switch(spell.id) {
     // Claw of the Flameweaver + Mage Chaotic Fire
     case 'CF':
       // generate proc effects
-      state.cfSpellProcGenerator.next(cfickleCount).value.forEach(id => {
+      state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
         if (id === 'REFRESH') {
           timeline.resetTimers(state);
         } else {
@@ -85,7 +116,7 @@ function applyPostSpellEffects(state, mod) {
       break;
     case 'FC':
       if (G.MODE === 'mag' && !state.inTwincast) {
-        state.fcSpellProcGenerator.next(cfickleCount).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+        state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
     case 'SV':
@@ -100,7 +131,7 @@ function applyPostSpellEffects(state, mod) {
         state[keys.timers] = [];
       }
 
-      state[keys.counter] = 1 + state[keys.counter] || 0;
+      state[keys.counter] = 1 + (state[keys.counter] || 0);
       state[keys.timers].push(
         utils.createTimer(state.workingTime + dom.getRemorselessServantTTLValue(), (value) => { return value - 1; })
       );
@@ -108,9 +139,7 @@ function applyPostSpellEffects(state, mod) {
       stats.updateSpellStatistics(state, 'rsDPS', dom.getRemorselessServantDPSValue() * state[keys.counter]);
       stats.updateSpellStatistics(state, keys.counter, state[keys.counter]);
       
-      if (!state.dotGenerator) {
-        state.dotGenerator = genDamageOverTime(state);
-      }
+      state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
     case 'FA':
       state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
@@ -341,7 +370,7 @@ function calcSpellDamage(state) {
     ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
 
   var multiplier = dmgU.getMultiplier(totalCastTime);
-  let spellDmg = Math.trunc(utils.asDecimal32Precision(dom.getSpellDamageValue() * multiplier));
+  let spellDmg = dmgU.trunc(dom.getSpellDamageValue() * multiplier);
 
   // The ranged augs seem to get stuck at 2x their damage
   if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
@@ -351,7 +380,7 @@ function calcSpellDamage(state) {
   return spellDmg;
 }
 
-function executeProc(id, state, mod, statId) {
+function executeProc(state, id, mod, statId) {
   let value = 0;
   let key = statId ? statId : id;
   let keys = utils.getCounterKeys(key);
@@ -398,15 +427,33 @@ function* genSpellProc(rateInfo, offset) {
   }
 }
 
-export function* genDamageOverTime(state) {
-  let dps = dom.getRemorselessServantDPSValue();
-  let keys = utils.getCounterKeys('RS');
+function* genDamageOverTime(state, fDps, interval, statLabel) {
   let current = state.workingTime;
+  let total = 0;
+  let reportTime = 0;
+  let end = false;
   
-  while (dps > 0) {
-    let result = (state[keys.counter] || 0) * dps * ((state.workingTime - current) / 1000);
+  while (true) {
+    let time = state.workingTime - current;
     current = state.workingTime;
-    yield result;
+
+    // accumulate results until interval (typically 1 tick) is reached
+    total += (fDps(state) * (time / 1000));
+
+    let value = 0;
+    reportTime += time;
+
+    if ((reportTime >= interval) || end) { // report if almost out of time
+      value = total;
+      total = 0;
+      reportTime -= interval;
+
+      if (statLabel) {
+        stats.addAggregateStatistics(statLabel, value);
+      }
+    }
+  
+    end = yield dmgU.trunc(value);
   }
 
   return 0;

@@ -8,6 +8,7 @@ import {globals as G} from './settings.js';
 // 286 - increase spell damage                   (after crit addition)
 // 294 - increase nuke crit chance
 // 296 - increase spell damage                   (before crit multiplyer)
+// 297 - increase spell damage                   (before crit addition)
 // 302 - increase spell damage                   (before crit multiplyer)
 // 303 - increase spell damage                   (before crit addition)
 // 375 - increase dot crit damage
@@ -20,18 +21,23 @@ import {globals as G} from './settings.js';
 // Notes
 // tick durations rounded up 1/2 tick since it seems random what you really get
 //   Ex: twincast is 3 ticks and gets 18 to 24 seconds so I go with 21
+// 
+// repeatEvery -1 means repeat always
+//              0 means dont repeat
+//             +N repeat every N 
+//             -999 repeat when activated by some means like proc/cast
 
 export const SPA_AFTER_CRIT_ADD = new Set([286]);
 export const SPA_AFTER_CRIT_ADD_NO_MOD = new Set([484]);
 export const SPA_AFTER_CRIT_FOCUS_NO_MOD = new Set([483]);
-export const SPA_BEFORE_CRIT_ADD = new Set([303]);
+export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
 export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
 export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
 export const SPA_POST_CALC_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 212, 286, 302, 303, 399, 461, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 484]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -274,7 +280,6 @@ const ABILITIES = {
       }
     ]
   },
-/*
   ARCO: {
     charges: 5,
     class: 'wiz',
@@ -283,25 +288,21 @@ const ABILITIES = {
     level: 254,
     mode: 'wiz',
     name: 'Arcomancy XXIV',
-    repeatEvery: -1,
+    repeatEvery: -999,
+    type: 'sp',
     effects: [
       {
         slot: 1,
         spa: 297,
         value: 2050,
         limits: [
-          { onSpellUse: true },
-          { type: 'detrimental' },
-          { resists: new Set(['MAGIC']) },
-          { minLevel: 75 }, // effect is 75
           { maxLevel: 105 },
-          { maxDuration: 0 },
+          { minLevel: 75 },
           { minManaCost: 10 }
         ]
       }
     ]
   },
-*/
   ARIA: {
     class: 'brd',
     level: 101,
@@ -436,16 +437,14 @@ const ABILITIES = {
       }
     ]
   },
-/*
   CRYO: {
-    charges: 0.25, // 25% of the time
+    charges: 1,
     class: 'wiz',
     debuff: true,
     level: 254,
     mode: 'wiz',
     name: 'Cryomancy XXIV',
-    refreshTime: 1,
-    repeatEvery: -1,
+    repeatEvery: -999,
     effects: [
       {
         proc: 'CRYO',
@@ -461,7 +460,6 @@ const ABILITIES = {
       }
     ]
   },
-*/
   DADEPT: {
     class: 'wiz',
     mode: 'wiz',
@@ -1614,6 +1612,16 @@ const ABILITIES = {
       }
 */
     ]
+  },
+  PYRO: {
+    class: 'wiz',
+    debuff: true,
+    duration: 36000, // dot does 5 ticks of damage plus 1 at the end
+    level: 254,
+    mode: 'wiz',
+    name: 'Pyromancy XXIV',
+    repeatEvery: -999,
+    effects: [] // handled by DOT generator and constants in dmgU
   },
   SEEDLINGS: {
     class: 'dru',

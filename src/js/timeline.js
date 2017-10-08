@@ -27,6 +27,7 @@ const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(
 
 let BASE_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
 let UPDATING_CHART = -1; // used to throttle calls to update the chart data
+let TIME_INCREMENT = 200;
 
 // helper for creating a timeline
 function createTimeline(id, time, dom, data, template) {
@@ -49,7 +50,10 @@ function castSpell(state, spell) {
   let neededTime = state.workingTime + spell.castTime;
   if (neededTime > state.endTime) return false; // Time EXCEEDED
 
-  state.workingTime = neededTime;
+  // advance dot damage until we hit end of cast time
+  for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
+    getDoTDamage(state);
+  }
 
   // if twincast spell is no longer active
   utils.checkSimpleTimer(state, 'TC');
@@ -57,10 +61,6 @@ function castSpell(state, spell) {
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
   updateActiveAbilities(state)
-
-  // check if RS pets have completed
-  let rsKeys = utils.getCounterKeys('RS');
-  utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
 
   // initialize stats
   stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
@@ -94,9 +94,6 @@ function castSpell(state, spell) {
   // only compute for spells that do damage
   let avgDmg = damage.execute(state);
 
-  // dmg including other dots or abilities that have been accumulating (just RS right now)
-  let dotDmg = state.dotGenerator ? Math.trunc(state.dotGenerator.next().value) : 0;
-
   let plotDmg = 0;
   // update stats
   if (avgDmg > 0) {
@@ -107,19 +104,23 @@ function castSpell(state, spell) {
     plotDmg += avgDmg;
   }
 
-  // update stats
-  if (dotDmg > 0) { // pet damage is all we currently have
-    stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
-    plotDmg += dotDmg;
-  }
-
   // upgrade graph
   updateDmgGraph(state, plotDmg);
   return true;
 }
 
+function getDoTDamage(state, end) {
+  if (state.dotGenerator) {
+    let dmg = state.dotGenerator.next(!!end).value;
+
+    if (dmg > 0) {
+      updateDmgGraph(state, dmg);
+    }
+  }
+}
+
 function initAbility(state, id, ability) {
-  let active = true;
+  let active = false;
 
   if (ability.charges) {
     let keys = utils.getCounterKeys(id);
@@ -129,6 +130,8 @@ function initAbility(state, id, ability) {
       if (state[keys.counter] === undefined) {
         state[keys.counter] = ability.charges;
       }
+
+      active = utils.isAbilityActive(state, id);
     }
  
     // abilties that get repeated periodically
@@ -137,49 +140,65 @@ function initAbility(state, id, ability) {
       // get rate from UI if there is an override or use default refresh time
       let rate = dom.getAbilityRate(id) || ability.refreshTime;
 
-      if (!lastProcMap[id] || lastProcMap[id] + rate < state.workingTime) {
-        if (!lastProcMap[id]) {
-          lastProcMap[id] = CURRENT_TIME;
-          state[keys.expireTime] = CURRENT_TIME + ability.duration;
-        } else {
-          lastProcMap[id] += rate;
-          state[keys.expireTime] = lastProcMap[id] + ability.duration;
+      if (rate) {
+        if (!lastProcMap[id] || lastProcMap[id] + rate < state.workingTime) {
+          if (!lastProcMap[id]) {
+            lastProcMap[id] = CURRENT_TIME;
+            state[keys.expireTime] = CURRENT_TIME + ability.duration;
+          } else {
+            lastProcMap[id] += rate;
+            state[keys.expireTime] = lastProcMap[id] + ability.duration;
+          }
+
+          state[keys.counter] = ability.charges;
         }
 
-        state[keys.counter] = ability.charges;
+        utils.checkSimpleTimer(state, id);
+        active = utils.isAbilityActive(state, id);
+      } else {
+        active = false; // Ex like Arcomancy
       }
-
-      utils.checkSimpleTimer(state, id);
-      active = utils.isAbilityActive(state, id);
     } 
 
     // abilities that only get used once
     else if (!ability.repeatEvery) {
-      // initialize for first use
-      if (state[keys.counter] === undefined) {
-        state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+      let item = TIMELINE_DATA.get(id);
+      let time = getTime(item);
 
-      } else {
-        let item = TIMELINE_DATA.get(id);
-        let time = getTime(item);
+      if (withinTimeFrame(state.workingTime, getTime(item))) {
+        active = true;
 
-        if (state[keys.counter] === 0) {
-          // this is the last one
-          item.end = state.workingTime;
-          item.content = utils.createLabel(ability, new Date(state.workingTime - time.start));
-          item.title = item.content;
-          silentUpdateTimeline(item);
-          state[keys.counter] = -1;
-          active = false;
-        } else if (state[keys.counter] > 0) {
-          if ( (time.end - time.start) != ability.duration) {
-            item.end = time.start + ability.duration;
-            item.content = utils.createLabel(ability, new Date(ability.duration));
+        // initialize for first use
+        if (state[keys.counter] === undefined) {
+          state[keys.counter] = dom.getAbilityCharges(id) || ability.charges;
+        } else {
+          if (state[keys.counter] === 0) {
+            // this is the last one
+            item.end = state.workingTime;
+            item.content = utils.createLabel(ability, new Date(state.workingTime - time.start));
             item.title = item.content;
             silentUpdateTimeline(item);
+            state[keys.counter] = -1;
+            active = false;
+          } else if (state[keys.counter] > 0) {
+            if ( (time.end - time.start) != ability.duration) {
+              item.end = time.start + ability.duration;
+              item.content = utils.createLabel(ability, new Date(ability.duration));
+              item.title = item.content;
+              silentUpdateTimeline(item);
+            }
           }
         }
       }
+    }
+  } else {
+    let item = TIMELINE_DATA.get(id);
+
+    if (item) {
+      let time = getTime(item);
+      active = withinTimeFrame(state.workingTime, getTime(item));
+    } else {
+      active = (ability.repeatEvery >= -1);
     }
   }
 
@@ -192,6 +211,7 @@ function updateActiveAbilities(state) {
   state.activeAbilities = new Set(preConfigured.active);
   state.spellProcAbilities = new Set(preConfigured.spellProc);
   state.manualAbilities = new Set();
+  state.enabledButInActive = new Set();
 
   // get abilities the user has enabled to repeat from the
   // activated abilities options
@@ -208,23 +228,23 @@ function updateActiveAbilities(state) {
           state.spellProcAbilities.add(id);
         }
       }
+    } else {
+      state.enabledButInActive.add(id);
     }
   });
  
   // add any on the timeline
   TIMELINE_DATA.forEach(item => {
-    if (withinTimeFrame(state.workingTime, getTime(item))) {
-      let ability = abilities.get(item.id);
+    let ability = abilities.get(item.id);
 
-      // make sure ability is active if it has charges
-      if (initAbility(state, item.id, ability)) {
-        // all of these included here
-        state.activeAbilities.add(item.id);
+    // make sure ability is active if it has charges
+    if (initAbility(state, item.id, ability)) {
+      // all of these included here
+      state.activeAbilities.add(item.id);
 
-        // some of these also proc spells
-        if (abilities.getProcEffectForAbility(ability)) {
-          state.spellProcAbilities.add(item.id);
-        }
+      // some of these also proc spells
+      if (abilities.getProcEffectForAbility(ability)) {
+        state.spellProcAbilities.add(item.id);
       }
     }
   });
@@ -232,6 +252,10 @@ function updateActiveAbilities(state) {
   // add spell procs that may result from spells being cast
   dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isAbilityActive(state, id))
     .forEach(id => addSpellProcAbility(state, id));
+
+  // Misc checks, check if RS pets have completed
+  let rsKeys = utils.getCounterKeys('RS');
+  utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
 }
 
 // RS has type 3 aug and AAs that reduce the recast so account for that here
@@ -365,7 +389,7 @@ function updateCritGraphValue(data, time, value) {
   }
 }
 
-function updateDmgGraph(state, dmg, labelFreq) {
+function updateDmgGraph(state, dmg) {
   if (dmg >= 0) {
 
     // in case were plotting multiple damage at some point
@@ -381,12 +405,7 @@ function updateDmgGraph(state, dmg, labelFreq) {
       DMG_DATA.update(pointData);
     } else {
       pointData = {id: state.workingTime, x: state.workingTime, y: dmg, yOffset: 0};
-
-      // add label if meets requirements
-      if (!labelFreq || (state.workingTime % labelFreq === 0)) {
-        pointData.label = {content: pointData.y, yOffset: 15};
-      }
-
+      pointData.label = {content: pointData.y, yOffset: 15};
       DMG_DATA.add(pointData);
     }
   }
@@ -680,23 +699,17 @@ export function updateSpellChart() {
       // Ex FD can update crit dmg in the chart itself
       executeManualAbilities(state);
 
-      // add dot/RS damage
-      if (state.workingTime % 1000 === 0) {
-        // check if RS pets have completed
-        let rsKeys = utils.getCounterKeys('RS');
-        utils.checkTimerList(state, rsKeys.counter, rsKeys.timers);
-
-        let dotDmg = state.dotGenerator ? state.dotGenerator.next().value : 0;
-        if (dotDmg > 0) {
-          stats.addAggregateStatistics('totalAvgPetDmg', dotDmg);
-          updateDmgGraph(state, dotDmg, 10000);
-        }
-      }
+      // add dot damage
+      getDoTDamage(state);
     }
 
     // do nothing if additional casts available otherwise increment time
-    state.workingTime += 200;
+    state.workingTime += TIME_INCREMENT;
   }
+
+  // add left over dot damage
+  state.workingTime = state.endTime;
+  getDoTDamage(state, true);
 
   // update charts
   state.updatedCritRValues.forEach(rV => {

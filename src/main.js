@@ -52,8 +52,7 @@ let gList = [];
 let aInputRatesList = [];
 
 abilities.getAbilityList(true).forEach(ability => {
-  let aClass = (G.MODE !== ability.class || ability.otherCast) ? ability.class : '';
-  let item = {id: ability.id, aClass: utils.toUpper(aClass || ''), name: ability.name};
+  let item = {id: ability.id, aClass: utils.toUpper(ability.class || ''), name: ability.name};
 
   if (ability.debuff) {
     dList.push(item);

@@ -33,7 +33,6 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
-/*
   CRYO: {
     baseDmg: 16050,
     castTime: 0,
@@ -49,7 +48,6 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'cryo'
   },
-*/
   CF: {
     baseDmg: 21666,
     castTime: 1500,

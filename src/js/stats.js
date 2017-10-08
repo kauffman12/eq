@@ -53,6 +53,7 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
     addDecimalStatDescription(data, "AAura Charges", spellStats.get('aaChargesUsed'));
     addDecimalStatDescription(data, "AMelody Charges", spellStats.get('amChargesUsed'));
+    addDecimalStatDescription(data, "Arcomancy Charges", spellStats.get('arcoChargesUsed'));
     addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwaeChargesUsed'));
     addDecimalStatDescription(data, "Firebound Charges", spellStats.get('firebaChargesUsed'));
     addDecimalStatDescription(data, "Frostbound Charges", spellStats.get('frostbaChargesUsed'));
@@ -125,7 +126,8 @@ export function getStatisticsSummary(spellStats) {
 export function printStats(output, state, timerange) {
   let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
   let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
-  let avgDPS = (totalAvgDmg + totalAvgPetDmg) / (timerange / 1000);
+  let totalDotDmg = getSpellCastInfo().get('totalDotDmg') || 0;
+  let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / (timerange / 1000);
 
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
@@ -150,11 +152,17 @@ export function printStats(output, state, timerange) {
   // Total Damage from Spell Casts
   updateStatSection('#castDamageStats', avgDPS, 'Cast Damage ', utils.numberWithCommas(Math.trunc(totalAvgDmg)), totalAvgDmg, 'totalAvgCastDmg');
 
+
   // Total Pet Damage
+  (totalAvgPetDmg > 0) ? $('#petDamageStats').show() : $('#petDamageStats').hide();
   updateStatSection('#petDamageStats', avgDPS, 'Pet Damage ', utils.numberWithCommas(Math.trunc(totalAvgPetDmg)), totalAvgPetDmg, 'totalAvgPetDmg');
 
+  // Total Pet Damage
+  (totalDotDmg > 0) ? $('#dotDamageStats').show() : $('#dotDamageStats').hide();
+  updateStatSection('#dotDamageStats', avgDPS, 'DoT Damage ', utils.numberWithCommas(Math.trunc(totalDotDmg)), totalDotDmg, 'totalDotDmg');
+
   // Total Damage
-  let finalTotal = Math.trunc(totalAvgDmg + totalAvgPetDmg);
+  let finalTotal = Math.trunc(totalAvgDmg + totalAvgPetDmg + totalDotDmg);
   updateStatSection('#totalDamageStats', avgDPS, 'Total Damage ', utils.numberWithCommas(finalTotal), finalTotal, 'totalAvgDmg');
 
   // Avg Crit Rate
