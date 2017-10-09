@@ -148,11 +148,13 @@ export const basicDmgFocusContext = [
     data: [
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
+      { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
+      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
       { value: 'FSVII', desc: 'Living Golem Heart' },
-      { value: 'NONE', desc: 'No Additional Aug1 Selected' }
+      { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
   {
@@ -162,8 +164,10 @@ export const basicDmgFocusContext = [
     data: [
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
+      { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
+      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
       { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
@@ -175,6 +179,7 @@ export const basicDmgFocusContext = [
     desc: 'No Range Aug Selected',
     data: [
       { value: 'FSVI', desc: 'Sodkee\'s Sympathetic Stone' },
+      { value: 'FZVI', desc: 'Nra`Vruu\'s Sympathetic Stone' },
       { value: 'ASVI', desc: 'SaNril\'s Sympathetic Stone' },
       { value: 'NONE', desc: 'No Range Aug Selected' }
     ]

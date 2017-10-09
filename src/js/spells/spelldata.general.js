@@ -72,6 +72,24 @@ export const SPELL_DATA = {
     timer: 'BFVI',
     type3Dmg: 0
   },
+  BOVI: {
+    base1: 100,
+    baseDmg: 510,
+    castTime: 0,
+    focusable: true,
+    id: 'BOVI',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Ice VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'COLD',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'BOVI',
+    type3Dmg: 0
+  },
   BOIX: {
     base1: 100,
     baseDmg: 1050,
@@ -254,6 +272,25 @@ export const SPELL_DATA = {
     timer: 'FSVII',
     type3Dmg: 0
   },
+  FZVI: {
+    base1: 100,
+    baseDmg: 225,
+    castTime: 0,
+    focusable: true,
+    id: 'FZVI',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Freezing Strike VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'COLD',
+    skill: 52,
+    spellDmgCap: 225,
+    target: 'SINGLE',
+    timer: 'FZVI',
+    type3Dmg: 0
+  },
   FW: {
     baseDmg: 3365,
     castTime: 0,
@@ -377,6 +414,24 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'OS',
+    type3Dmg: 0
+  },
+  SODIX: {
+    base1: 100,
+    baseDmg: 900,
+    castTime: 0,
+    focusable: true,
+    id: 'SODIX',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Strike of Disease IV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'DISEASE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'SODIX',
     type3Dmg: 0
   },
   SOFV: {
