@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.95',
+  VERSION: 'Version 0.951',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -22,7 +22,7 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CF', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FC',
+  'CF', 'CO', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FC',
   'FA', 'MB', 'SV', 'WE', 'WF'
 ];
 

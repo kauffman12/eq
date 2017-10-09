@@ -15,6 +15,7 @@ const MAGE_FOCUS_AA_KEYS = {
 // What to query on to find a spell focus value by ID
 const WIZ_FOCUS_AA_KEYS = {
   'CF': '.aa-focus-claws .dropdown-toggle',
+  'CO': '.aa-focus-claws .dropdown-toggle',
   'CS': '.aa-focus-cloudburst .dropdown-toggle',
   'CS2': '.aa-focus-chaos .dropdown-toggle',
   'EF': '.aa-focus-ethereal-flash .dropdown-toggle',

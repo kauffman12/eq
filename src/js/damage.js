@@ -49,7 +49,7 @@ function applyPostSpellEffects(state, mod) {
   // VFX procs another one when it twincasts, etc
   let cfickleSpells;
   switch(spell.id) {
-    case 'CF': case 'FC':
+    case 'CF': case 'FC': case 'CO':
       cfickleSpells = 1;
       if (mod < 0.50) {
         state.cfickleSpells = mod;
@@ -103,8 +103,8 @@ function applyPostSpellEffects(state, mod) {
   }
 
   switch(spell.id) {
-    // Claw of the Flameweaver + Mage Chaotic Fire
-    case 'CF':
+    // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
+    case 'CF': case 'CO':
       // generate proc effects
       state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
         if (id === 'REFRESH') {
@@ -168,12 +168,12 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CF':
+    case 'CF': case 'CO':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
         let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
-        state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE], offset);
+        state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
       }
       break;
     case 'FC':
@@ -463,8 +463,8 @@ function getBeforeCritFocus(state, spaValues) {
   let spell = state.spell;
   let beforeCritFocus = spaValues.beforeCritFocus;
 
-  // Before Crit Focus AA (SPA 302) only for Focus: Ethereal Flash and Shocking Vortex
-  if (['EF', 'SV', 'CF'].find(id => id === spell.id)) {
+  // Before Crit Focus AA (SPA 302) only for some spells
+  if (['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -476,7 +476,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SV', 'CF'].find(id => id === spell.id)) {
+  if (! ['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 

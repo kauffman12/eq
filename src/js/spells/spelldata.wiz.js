@@ -82,6 +82,23 @@ export const SPELL_DATA = {
     timer: 'chaosinc',
     type3DmgAug: 673
   },
+  CO: {
+    baseDmg: 19485,
+    castTime: 1500,
+    focusable: true,
+    id: 'CO',
+    level: 105,
+    lockoutTime: 1500,
+    manaCost: 1508,
+    name: 'Claw of the Oceanlord Rk. III',
+    origCastTime: 3000,
+    recastTime: 6000,
+    resist: 'COLD',
+    skill: 24,
+    target: 'SINGLE',
+    timer: '11',
+    type3DmgAug: 1392
+  },
   CS: {
     baseDmg: 17947,
     castTime: 0,
