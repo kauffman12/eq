@@ -27,18 +27,30 @@ export const PYRO_DPS = 16800 / 6;
 // Claw/Chaotic effect proc rates per 100 casts
 export const CF_SPELL_PROC_RATES = {
   wiz: {
-    SYLLMAGIC: 100 / (100 * 0.05),
-    SYLLICE: 100 / (100 * 0.05),
-    SYLLFIRE: 100 / (100 * 0.35),
-    SYLLMASTER: 100 / (100 * 0.12),
-    TC: 100 / (100 * 0.10),
-    REFRESH: 100 / (100 * 0.06)
+    CO: {
+      SYLLMAGIC: 100 / (100 * 0.05),
+      SYLLICE: 100 / (100 * 0.35),
+      SYLLFIRE: 100 / (100 * 0.05),
+      SYLLMASTER: 100 / (100 * 0.12),
+      TC: 100 / (100 * 0.10),
+      REFRESH: 100 / (100 * 0.06)
+    },
+    CF: {
+      SYLLMAGIC: 100 / (100 * 0.05),
+      SYLLICE: 100 / (100 * 0.05),
+      SYLLFIRE: 100 / (100 * 0.35),
+      SYLLMASTER: 100 / (100 * 0.12),
+      TC: 100 / (100 * 0.10),
+      REFRESH: 100 / (100 * 0.06)
+    }
   },
   mag: {
-    FPWR: 100 / (100 * 0.28),
-    FWEAK: 100 / (100 * 0.01),
-    TC: 100 / (100 * 0.10),
-    REFRESH: 100 / (100 * 0.06)
+    CF: {
+      FPWR: 100 / (100 * 0.28),
+      FWEAK: 100 / (100 * 0.01),
+      TC: 100 / (100 * 0.10),
+      REFRESH: 100 / (100 * 0.06)
+    }
   }
 };
 
