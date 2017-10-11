@@ -552,6 +552,18 @@ export function loadRates() {
   }
 }
 
+export function quiet() {
+  TIMELINE_DATA.off('add', visTimelineListener);
+  TIMELINE_DATA.off('remove', visTimelineListener);
+}
+
+export function resume() {
+  TIMELINE_DATA.on('add', visTimelineListener);
+  TIMELINE_DATA.on('remove', visTimelineListener);
+  setTimeout(loadRates, 5);
+  callUpdateSpellChart();
+}
+
 export function removeAdpsItem(id) {
   TIMELINE_DATA.remove(id);
 }

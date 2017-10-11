@@ -883,7 +883,11 @@ export const chartOptions = {
     showMinorLabels: true,
     align: 'left',
     zoomable: true,
-    editable: false,
+    editable: {
+      add: false,
+      updateTime: true,
+      remove:true
+    },
     clickToUse: false
   },
   graphcritr: {
