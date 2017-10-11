@@ -112,7 +112,9 @@ $('#adps-dropdown').multiselect({
     } else {
       timeline.removeAdpsItem($(opt).val());
     }
-  }
+  },
+  onDropdownHide: () => timeline.resume(),
+  onDropdownShow: () => timeline.quiet()
 });
 
 // Creates the 6 Spell selection buttons

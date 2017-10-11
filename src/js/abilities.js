@@ -608,7 +608,7 @@ const ABILITIES = {
     duration: 410000,
     level: 254,
     mode: 'wiz',
-    name: 'Frenzied Devastation XIX',
+    name: 'Frenzied Devastation XXIX',
     effects: [
       {
         spa: 212,
@@ -941,6 +941,26 @@ const ABILITIES = {
         limits: [
           { type: 'detrimental' },
           { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  FURYGODS: {
+    adpsDropdown: true,
+    class: 'wiz',
+    duration: 240000,
+    level: 254,
+    mode: 'wiz',
+    name: 'Fury of the Gods XLVIII',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 3600,
+        limits: [
+          { type: 'detrimental' },
+          { maxDuration: 0 }
         ]
       }
     ]

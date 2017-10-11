@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.951',
+  VERSION: 'Version 0.953',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -883,7 +883,11 @@ export const chartOptions = {
     showMinorLabels: true,
     align: 'left',
     zoomable: true,
-    editable: true,
+    editable: {
+      add: false,
+      updateTime: true,
+      remove:true
+    },
     clickToUse: false
   },
   graphcritr: {
