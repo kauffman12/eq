@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.953',
+  VERSION: 'Version 0.955',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
