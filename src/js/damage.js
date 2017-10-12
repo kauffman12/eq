@@ -68,7 +68,10 @@ function applyPostSpellEffects(state, mod) {
 
         if (G.MODE === 'wiz' && state.enabledButInActive.has('CRYO') && state.coldSpells >= dmgU.CRYO_PROC_RATE) {
           timeline.addSpellProcAbility(state, 'CRYO', 1, true);
-          executeProc(state, 'CRYO', mod, 'CRYO'); // proc on the cast not after
+          if (!executeProc(state, 'CRYO', mod, 'CRYO')) {
+            state.spellProcAbilities.delete('CRYO');
+          }
+
           state.coldSpells = state.coldSpells - dmgU.CRYO_PROC_RATE;
         }
       }
@@ -388,9 +391,15 @@ function executeProc(state, id, mod, statId) {
   let partUsed = 1;
 
   // update counters if it uses them
-  if (utils.isAbilityActive(state, key)) {
-    let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
-    partUsed = dmgU.processCounter(state, key, mod * chargesPer);
+  let ability = abilities.get(statId);
+  if (ability && ability.charges) {
+    if (utils.isAbilityActive(state, key)) {
+      let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
+      partUsed = dmgU.processCounter(state, key, mod * chargesPer);
+    } else {
+      // inactive
+      partUsed = 0;
+    }
   }
 
   if (partUsed > 0) { // if charges were consumed for abilities that need them
@@ -499,12 +508,12 @@ export function execute(state, mod, dmgKey) {
   mod = (mod === undefined) ? 1 : mod;
 
   // add any pre spell cast checks
-  applyPreSpellChecks(state);
+  applyPreSpellChecks(state, mod);
   // avg damage for one spell cast
   let result = calcAvgDamage(state, mod, dmgKey);
   // add any post spell procs/mods before we're ready to
   // twincast another spell
-  applyPostSpellEffects(state);
+  applyPostSpellEffects(state, mod);
 
   // get twincast rate
   let twincastRate = getTwincastRate(state, result.spaValues);
@@ -514,10 +523,11 @@ export function execute(state, mod, dmgKey) {
     state.inTwincast = true;
 
     // add any pre spell cast checks required
-    applyPreSpellChecks(state);
-    calcAvgDamage(state, mod * twincastRate, dmgKey);
+    let tcMod = mod * twincastRate;
+    applyPreSpellChecks(state, tcMod);
+    calcAvgDamage(state, tcMod, dmgKey);
     // handle post checks
-    applyPostSpellEffects(state, twincastRate);
+    applyPostSpellEffects(state, tcMod);
 
     state.inTwincast = false;
   }

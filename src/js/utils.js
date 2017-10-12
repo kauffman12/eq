@@ -26,23 +26,6 @@ export function asDecimal32Precision(value) {
   return Number(value.toFixed(7));
 }
 
-export function checkSimpleTimer(state, key) {
-  let expired = false;
-  
-  let keys = getCounterKeys(key);
-  if ((state[keys.expireTime] !== -1 && state.workingTime > state[keys.expireTime]) || state[keys.counter] === 0) {
-    state[keys.expireTime] = -1;
-    expired = true;
-
-    // cleanup counters if any
-    if (state[keys.counter]) {
-      state[keys.counter] = 0;
-    }
-  }
-  
-  return expired;
-}
-
 export function checkTimerList(state, counterKey, timerKey) {
   let timers = state[timerKey];
 
@@ -188,7 +171,31 @@ export function getUrlParameter(sParam) {
 
 export function isAbilityActive(state, key) {
   let keys = getCounterKeys(key);
-  return state[keys.expireTime] >= state.workingTime || state[keys.counter] > 0;
+  let activeTimer;
+
+  if (state[keys.expireTime] !== undefined &&state[keys.expireTime] !== -1) {
+    if (state[keys.expireTime] < state.workingTime) {
+      state[keys.expireTime] = -1;
+
+      // clear counters if expired
+      if (state[keys.counter] !== undefined) {
+        state[keys.counter] = 0;
+      }    
+      return false;
+    } else {
+      activeTimer = true;
+    }
+  }
+
+  if (state[keys.counter] !== undefined) {
+    if (state[keys.counter] <= 0) {
+      return false;
+    } else if(activeTimer || activeTimer === undefined) {
+      return true;
+    }
+  }
+
+  return !!activeTimer;
 }
 
 export function numberWithCommas(x) {

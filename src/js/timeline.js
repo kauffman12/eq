@@ -56,7 +56,7 @@ function castSpell(state, spell) {
   }
 
   // if twincast spell is no longer active
-  utils.checkSimpleTimer(state, 'TC');
+  utils.isAbilityActive(state, 'TC');
 
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
@@ -153,7 +153,6 @@ function initAbility(state, id, ability) {
           state[keys.counter] = ability.charges;
         }
 
-        utils.checkSimpleTimer(state, id);
         active = utils.isAbilityActive(state, id);
       } else {
         active = false; // Ex like Arcomancy
@@ -206,7 +205,7 @@ function initAbility(state, id, ability) {
 }
 
 // Get list of active abilities by ID
-function updateActiveAbilities(state) {
+function updateActiveAbilities(state, duringGCD) {
   let preConfigured = dom.getConfiguredAbilities();
   state.activeAbilities = new Set(preConfigured.active);
   state.spellProcAbilities = new Set(preConfigured.spellProc);
@@ -217,19 +216,22 @@ function updateActiveAbilities(state) {
   // activated abilities options
   dom.getActiveRepeatingAbilities().forEach(id => {
     let ability = abilities.get(id);
-
-    if (initAbility(state, id, ability)) {
-      if (ability.manuallyActivated) {
-        state.manualAbilities.add(id);
-      } else {
-        if (!abilities.getProcEffectForAbility(ability)) {
-          state.activeAbilities.add(id);
+ 
+    // dont process everything during GCD time
+    if (!duringGCD || ability.manuallyActivated) {
+      if (initAbility(state, id, ability)) {
+        if (ability.manuallyActivated) {
+          state.manualAbilities.add(id);
         } else {
-          state.spellProcAbilities.add(id);
+          if (!abilities.getProcEffectForAbility(ability)) {
+            state.activeAbilities.add(id);
+          } else {
+            state.spellProcAbilities.add(id);
+          }
         }
+      } else {
+        state.enabledButInActive.add(id);
       }
-    } else {
-      state.enabledButInActive.add(id);
     }
   });
  
@@ -249,9 +251,12 @@ function updateActiveAbilities(state) {
     }
   });
 
-  // add spell procs that may result from spells being cast
-  dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isAbilityActive(state, id))
-    .forEach(id => addSpellProcAbility(state, id));
+  // not casting spells
+  if (!duringGCD) {
+    // add spell procs that may result from spells being cast
+    dmgU.SPELL_PROC_ABILITIES.filter(id => utils.isAbilityActive(state, id))
+      .forEach(id => addSpellProcAbility(state, id));
+  }
 
   // Misc checks, check if RS pets have completed
   let rsKeys = utils.getCounterKeys('RS');
@@ -270,7 +275,7 @@ function getModifiedSpellRecastTime(spell) {
 function executeManualAbilities(state) {
   let idSet = state.manualAbilities;
 
-  if (idSet.size > 0) {
+  if (idSet && idSet.size > 0) {
     let spell;
     let ability;
     let abilityId;
@@ -438,10 +443,12 @@ export function addSpellProcAbility(state, id, mod, initialize) {
       state[keys.counter] = mod * (dom.getAbilityCharges(id) || ability.charges);
     }
 
-    state[keys.expireTime] = state.workingTime + ability.duration;    
+    if (ability.duration) {
+      state[keys.expireTime] = state.workingTime + ability.duration;
+    }
   }
 
-  if (!utils.checkSimpleTimer(state, id)) {
+  if (utils.isAbilityActive(state, id)) {
     if (!abilities.getProcEffectForAbility(ability)) {
       state.activeAbilities.add(id);
     } else {
@@ -666,14 +673,14 @@ export function updateSpellChart() {
     }
 
     // Display/Cast alliance damage when timer expires
-    if (utils.checkSimpleTimer(state, 'FA')) {
+    if (utils.isAbilityActive(state, 'FA')) {
       castSpell(state, utils.getSpellData('FAF'));
       continue;
     }
 
     // abilities that can be enabled and repeat every so often like Enc Synergy
     // cancel or reset counters based on timer, only need to check once per workingTime
-    updateActiveAbilities(state);
+    updateActiveAbilities(state, true);
 
     // Don't do any spell cast if we're during the GCD lockout phase
     if (state.gcdWaitTime <= state.workingTime) {
