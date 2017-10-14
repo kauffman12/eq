@@ -673,7 +673,7 @@ export function updateSpellChart() {
     }
 
     // Display/Cast alliance damage when timer expires
-    if (utils.isAbilityActive(state, 'FA')) {
+    if (utils.isAbilityExpired(state, 'FA')) {
       castSpell(state, utils.getSpellData('FAF'));
       continue;
     }
