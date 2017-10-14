@@ -255,6 +255,7 @@ export const SPELL_DATA = {
     type3DmgAug: 1040
   },
   FF4: {
+    aa: true,
     baseDmg: 14010,
     castTime: 500,
     focusable: false,
@@ -271,6 +272,7 @@ export const SPELL_DATA = {
     timer: '36'
   },
   FF5: {
+    aa: true,
     baseDmg: 15000,
     castTime: 500,
     focusable: false,
@@ -287,6 +289,7 @@ export const SPELL_DATA = {
     timer: '36'
   },
   FF6: {
+    aa: true,
     baseDmg: 15985,
     castTime: 500,
     focusable: false,
@@ -303,6 +306,7 @@ export const SPELL_DATA = {
     timer: '36'
   },
   FI4: {
+    aa: true,
     baseDmg: 14010,
     castTime: 500,
     focusable: false,
@@ -319,6 +323,7 @@ export const SPELL_DATA = {
     timer: '44'
   },
   FI5: {
+    aa: true,
     baseDmg: 15000,
     castTime: 500,
     focusable: false,
@@ -335,6 +340,7 @@ export const SPELL_DATA = {
     timer: '44'
   },
   FI6: {
+    aa: true,
     baseDmg: 15985,
     castTime: 500,
     focusable: false,
@@ -365,6 +371,7 @@ export const SPELL_DATA = {
     timer: '12'
   },
   FW24: {
+    aa: true,
     baseDmg: 14010,
     castTime: 500,
     focusable: false,
@@ -381,6 +388,7 @@ export const SPELL_DATA = {
     timer: '37'
   },
   FW25: {
+    aa: true,
     baseDmg: 15000,
     castTime: 500,
     focusable: false,
@@ -397,6 +405,7 @@ export const SPELL_DATA = {
     timer: '37'
   },
   FW26: {
+    aa: true,
     baseDmg: 15985,
     castTime: 500,
     focusable: false,

@@ -398,7 +398,7 @@ export function isCastDetSpell(spell) {
 }
 
 export function isCastDetSpellOrAbility(spell) {
-  return isCastDetSpell(spell) || (spell.baseDmg > 0 && spell.inventory);
+  return (isCastDetSpell(spell) || spell.aa || spell.inventory);
 }
 
 export function processCounter(state, id, mod) {
