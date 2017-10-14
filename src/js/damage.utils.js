@@ -394,11 +394,11 @@ export function getNormalizer(spell) {
 }
 
 export function isCastDetSpell(spell) {
-  return !![5, 14, 24, 98].find(x => x === spell.skill);
+  return spell.manaCost > 0 && !![5, 14, 24, 98].find(x => x === spell.skill);
 }
 
 export function isCastDetSpellOrAbility(spell) {
-  return isCastDetSpell(spell) || spell.inventory;
+  return (isCastDetSpell(spell) || spell.aa || spell.inventory);
 }
 
 export function processCounter(state, id, mod) {

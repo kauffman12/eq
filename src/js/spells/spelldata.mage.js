@@ -119,6 +119,7 @@ export const SPELL_DATA = {
     type3DmgAug: 1211
   },
   FE13: {
+    aa: true,
     baseDmg: 17530,
     castTime: 500,
     focusable: false,
@@ -135,6 +136,7 @@ export const SPELL_DATA = {
     timer: '73'
   },
   FE14: {
+    aa: true,
     baseDmg: 18800,
     castTime: 500,
     focusable: false,
@@ -151,6 +153,7 @@ export const SPELL_DATA = {
     timer: '73'
   },
   FE15: {
+    aa: true,
     baseDmg: 20105,
     castTime: 500,
     focusable: false,
