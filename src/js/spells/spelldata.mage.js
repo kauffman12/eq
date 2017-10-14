@@ -132,7 +132,7 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     skill: 24,
     target: 'SINGLE',
-    timer: 'FE13'
+    timer: '73'
   },
   FE14: {
     baseDmg: 18800,
@@ -148,7 +148,7 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     skill: 24,
     target: 'SINGLE',
-    timer: 'FE14'
+    timer: '73'
   },
   FE15: {
     baseDmg: 20105,
@@ -164,7 +164,7 @@ export const SPELL_DATA = {
     resist: 'MAGIC',
     skill: 24,
     target: 'SINGLE',
-    timer: 'FE15'
+    timer: '73'
   },
   RC: {
     baseDmg: 16708,

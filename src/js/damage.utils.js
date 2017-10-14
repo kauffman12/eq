@@ -102,11 +102,11 @@ function checkLimits(id, spell, effect) {
     if (!spell.id || !spell.level) {
       check = 'not a spell';
       pass = false;
-    } else if (!spell.focusable && abilities.SPA_FOCUSABLE.has(effect.spa)) {
-      check = 'not focusable';
-      pass = false;
     } else if (!spell.baseDmg && !abilities.SPA_NO_DMG.has(effect.spa)) {
       check = 'no damage';
+      pass = false;
+    } else if (!spell.focusable && abilities.SPA_FOCUSABLE.has(effect.spa)) {
+      check = 'not focusable';
       pass = false;
     } else if (effect.limits) {
       effect.limits.find(limit => {
@@ -116,7 +116,7 @@ function checkLimits(id, spell, effect) {
           return true;
         } else {
           // check charged ability rules
-          if (ability.charges && abilities.SPA_FOCUSABLE.has(effect.spa) && !isCastDetSpell(spell)) {
+          if (ability.charges && effect.slot === 1 && (!spell.focusable || !isCastDetSpell(spell))) {
             pass = false; check = 'use charges';
             return true;
           }
@@ -151,9 +151,9 @@ function checkSingleEffectLimit(spell, id) {
 
 function parseSPAKey(key) {
   return {
-    spa: key.substr(0,3)
+    spa: Number.parseInt(key.substr(0,3)),
+    slot: Number.parseInt(key.substr(7))
     //type: key.substr(4,2),
-    //slot: key.substr(7)
   };
 }
 
@@ -246,7 +246,8 @@ export function computeSPAs(state, mod) {
 
   result.spaMap.forEach((v, k) => {
     let parsed = parseSPAKey(k);
-    let spa = Number.parseInt(parsed.spa);
+    let spa = parsed.spa;
+    let slot = parsed.slot;
 
     let key = abilities.SPA_KEY_MAP.get(spa);
     if (key) {
@@ -255,7 +256,7 @@ export function computeSPAs(state, mod) {
 
       // ability set should only contain what needs to be charged
       // dont charge for non spell casts like arcane fusion or AAs
-      if (result.abilitySet.has(v.id) && abilities.get(v.id).charges && abilities.SPA_FOCUSABLE.has(spa)) {
+      if (result.abilitySet.has(v.id) && abilities.get(v.id).charges && slot === 1 && spell.focusable && isCastDetSpell(spell)) {
         // if charge based then only use part
         partUsed = mod;
 
@@ -393,11 +394,11 @@ export function getNormalizer(spell) {
 }
 
 export function isCastDetSpell(spell) {
-  return spell.baseDmg > 0 &&  spell.manaCost > 0 && [5, 14, 24, 98].find(x => x === spell.skill);
+  return !![5, 14, 24, 98].find(x => x === spell.skill);
 }
 
 export function isCastDetSpellOrAbility(spell) {
-  return isCastDetSpell(spell) || (spell.baseDmg > 0 && spell.inventory);
+  return isCastDetSpell(spell) || spell.inventory;
 }
 
 export function processCounter(state, id, mod) {
@@ -436,6 +437,10 @@ export function displaySpellInfo(target) {
   $(target).css('overflow-y', 'auto');
   let test = $(target).find('.test-data');  
   let current = $(target).find('.current-data'); 
+
+  if (test.find('pre').length > 0) {
+    return; // content already loaded
+  }
 
   let count = 1;
   let lines = [];
@@ -494,7 +499,6 @@ export function displaySpellInfo(target) {
     }
   }
 
-  $('.modal-header .errorMsg').html('');
   if (error === -1) {
     $('.modal-header .errorMsg').append(' -- All Results Match Test Data');
   } else {

@@ -16,6 +16,35 @@ export const CLASS_TO_NAME = {
   wiz: 'Wizard'
 };
 
+function getActiveState(state, key) {
+  let keys = getCounterKeys(key);
+  let activeTimer;
+
+  if (state[keys.expireTime] !== undefined &&state[keys.expireTime] !== -1) {
+    if (state[keys.expireTime] < state.workingTime) {
+      state[keys.expireTime] = -1;
+
+      // clear counters if expired
+      if (state[keys.counter] !== undefined) {
+        state[keys.counter] = 0;
+      }    
+      return 'expired';
+    } else {
+      activeTimer = true;
+    }
+  }
+
+  if (state[keys.counter] !== undefined) {
+    if (state[keys.counter] <= 0) {
+      return false;
+    } else if(activeTimer || activeTimer === undefined) {
+      return true;
+    }
+  }
+
+  return !!activeTimer;
+}
+
 export function appendHtml(context, html, count) {
   for (let i=0; i<count; i++) {
     context.append(html);
@@ -170,32 +199,17 @@ export function getUrlParameter(sParam) {
 }
 
 export function isAbilityActive(state, key) {
-  let keys = getCounterKeys(key);
-  let activeTimer;
+  let activeState = getActiveState(state, key);
 
-  if (state[keys.expireTime] !== undefined &&state[keys.expireTime] !== -1) {
-    if (state[keys.expireTime] < state.workingTime) {
-      state[keys.expireTime] = -1;
-
-      // clear counters if expired
-      if (state[keys.counter] !== undefined) {
-        state[keys.counter] = 0;
-      }    
-      return false;
-    } else {
-      activeTimer = true;
-    }
+  if (activeState === 'expired') {
+    return false;
   }
 
-  if (state[keys.counter] !== undefined) {
-    if (state[keys.counter] <= 0) {
-      return false;
-    } else if(activeTimer || activeTimer === undefined) {
-      return true;
-    }
-  }
+  return activeState;
+}
 
-  return !!activeTimer;
+export function isAbilityExpired(state, key) {
+  return (getActiveState(state, key) === 'expired');
 }
 
 export function numberWithCommas(x) {
