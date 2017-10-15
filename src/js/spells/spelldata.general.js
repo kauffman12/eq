@@ -567,7 +567,7 @@ SPELL_DATA.DS = Object.assign({}, SPELL_DATA.FOMXV, {
   castTime: 100,
   id: 'DS',
   inventory: true,
-  manaCost: 10, // twincast requires mana..
+  manaCost: 10,
   name: 'Dark Shield of the Scholar',
   origCastTime: 100,
   skill: 52,

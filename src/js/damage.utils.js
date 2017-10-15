@@ -92,7 +92,9 @@ const LIMIT_RULES_FOR_FAILURE = {
 }
 
 function checkLimits(id, spell, effect) {
-  let key = 'checkLimit-' + id + '-' + spell.id + '-' + effect.spa || '' + '-' + effect.slot || '' + '-' + effect.proc || '';
+  let key = 'checkLimit-' + id + '-' + spell.id + '-' + (effect.spa || '')
+    + '-' + (effect.slot || '') + '-' + (effect.proc || '');
+
   return utils.useCache(key, () => {
     let pass = true;
     let check;
@@ -115,9 +117,9 @@ function checkLimits(id, spell, effect) {
           pass = false; check = key;
           return true;
         } else {
-          // check charged ability rules
-          if (ability.charges && effect.slot === 1 && (!spell.focusable || !isCastDetSpell(spell))) {
-            pass = false; check = 'use charges';
+          // special case for dark shield of shield and ITC
+          if (ability.charges && !effect.proc && (spell.skill === 52 && spell.inventory)) {
+            pass = false; check = 'hit type';
             return true;
           }
         }
@@ -163,7 +165,6 @@ function getChargeCount(state, id, mod) {
   }
 
   // sometimes charged elsewhere or not needed atall
-  // Dark Shield of Scholar doesn't use charges of ITC but can Twincast with spell
   if (id === 'DR' || state.aeWave || (id === 'ITC' && state.inTwincast)) {
     return 0;
   }
@@ -183,6 +184,7 @@ function isSpellType(type, spell) {
 export function buildSPAData(ids, spell) {
   let spaMap = new Map();
   let abilitySet = new Set();
+  let dontChargeSet = new Set();
   let blocked = new Set();
   
   ids.forEach(id => {
@@ -215,11 +217,16 @@ export function buildSPAData(ids, spell) {
           blockAbility(spaMap, id);
           blocked.add(id);
         }
+      } else {
+        // dont charge for abilities when any SPA fails unless hit type allows for any (Mana Charge)
+        if (ability.charges && ability.hitType !== 'any' && result && result.failure) {
+          dontChargeSet.add(id);
+        }
       }
     });
   });
   
-  return {abilitySet: abilitySet, spaMap: spaMap};
+  return {abilitySet: abilitySet, dontChargeSet: dontChargeSet, spaMap: spaMap};
 }
 
 export function checkSingleEffectLimit(spell, id) {
@@ -254,9 +261,7 @@ export function computeSPAs(state, mod) {
       let partUsed = 1; // default
       let update = v.value;
 
-      // ability set should only contain what needs to be charged
-      // dont charge for non spell casts like arcane fusion or AAs
-      if (result.abilitySet.has(v.id) && abilities.get(v.id).charges && slot === 1 && spell.focusable && isCastDetSpell(spell)) {
+      if (result.abilitySet.has(v.id) && abilities.get(v.id).charges && !result.dontChargeSet.has(v.id)) {
         // if charge based then only use part
         partUsed = mod;
 

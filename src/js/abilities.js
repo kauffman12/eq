@@ -37,7 +37,7 @@ export const SPA_POST_CALC_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 286, 296, 297, 302, 303, 399, 461, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 484]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -271,7 +271,7 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { currentHitPoints: true },
-          { exSpells: new Set([['AM']]) },
+          { exSpells: new Set(['AM']) },
           { maxLevel: 105 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -1521,6 +1521,7 @@ const ABILITIES = {
     adpsDropdown: true,
     charges: 3,
     duration: 24000 + TICK_OFFSET,
+    hitType: 'any',
     level: 255,
     name: 'Mana Charge',
     effects: [
