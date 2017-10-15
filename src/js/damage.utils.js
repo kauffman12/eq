@@ -136,19 +136,6 @@ function buildSPAKey(effect) {
   return String(effect.spa) + '-' + String(effect.type) + '-' + String(effect.slot);
 }
 
-function checkSingleEffectLimit(spell, id) {
-  let result;
-
-  abilities.get(id).effects.find(effect => {
-    if (checkLimits(id, spell, effect).pass) {
-      result = effect;
-      return true;
-    }
-  });
-
-  return result;
-}
-
 function parseSPAKey(key) {
   return {
     spa: Number.parseInt(key.substr(0,3)),
@@ -233,6 +220,19 @@ export function buildSPAData(ids, spell) {
   });
   
   return {abilitySet: abilitySet, spaMap: spaMap};
+}
+
+export function checkSingleEffectLimit(spell, id) {
+  let result;
+
+  abilities.get(id).effects.find(effect => {
+    if (checkLimits(id, spell, effect).pass) {
+      result = effect;
+      return true;
+    }
+  });
+
+  return result;
 }
 
 export function computeSPAs(state, mod) {

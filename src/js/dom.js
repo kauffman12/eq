@@ -176,6 +176,12 @@ export function getAddEffectivenessValue() {
   });
 }
 
+export function getAddTwincastValue() {
+  return utils.useCache('.add-twincast', () => {
+    return utils.getNumberValue($('#addTwincast').val() / 100);
+  });
+}
+
 export function getAllianceFulminationValue() {
   return utils.useCache('.allianceFulmination', () => {
     return 1000 * utils.getNumberValue($('#allianceFulmination').val());

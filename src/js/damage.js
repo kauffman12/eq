@@ -37,7 +37,7 @@ function addSpellAndEqpProcs(state, mod) {
   dmgU.getEqpProcs(state.spell).forEach(id => { executeProc(state, id, mod, 'EQP') });
 }
 
-function applyPostSpellEffects(state, mod) {
+function applyPostSpellEffects(state, mod, dmgKey) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
@@ -161,7 +161,7 @@ function applyPostSpellEffects(state, mod) {
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('FU'), 'fuseProcDmg');
       break;
     case 'WF': case 'WE':
-      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id));
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
       break;
   }
 }
@@ -355,7 +355,7 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 
     // procs are their own un-twincasted spell but if they were triggered
     // from a twincast of the parent then record the damage there
-    execute(state, item.chance * mod, inTwincast ? 'tcAvgDmg' : dmgKey);
+    execute(state, item.chance * mod, dmgKey);
   });
 
   state.inTwincast = inTwincast;
@@ -493,7 +493,13 @@ function getEffectiveness(state, spaValues) {
 }
 
 function getTwincastRate(state, spaValues) {
-  let rate = (spaValues.twincast > 1.0) ? 1.0 : spaValues.twincast;
+  let rate = spaValues.twincast;
+
+  if (dom.getAddTwincastValue() >= 0) {
+    rate += (dmgU.checkSingleEffectLimit(state.spell, 'TC') ? dom.getAddTwincastValue() : 0);
+  }
+
+  rate = (rate > 1.0) ? 1.0 : rate;
 
   // prevent from procs from setting the stat for everything
   if (rate && dmgU.isCastDetSpellOrAbility(state.spell)) {
@@ -513,7 +519,7 @@ export function execute(state, mod, dmgKey) {
   let result = calcAvgDamage(state, mod, dmgKey);
   // add any post spell procs/mods before we're ready to
   // twincast another spell
-  applyPostSpellEffects(state, mod);
+  applyPostSpellEffects(state, mod, dmgKey);
 
   // get twincast rate
   let twincastRate = getTwincastRate(state, result.spaValues);
@@ -527,7 +533,7 @@ export function execute(state, mod, dmgKey) {
     applyPreSpellChecks(state, tcMod);
     calcAvgDamage(state, tcMod, dmgKey);
     // handle post checks
-    applyPostSpellEffects(state, tcMod);
+    applyPostSpellEffects(state, tcMod, dmgKey);
 
     state.inTwincast = false;
   }
