@@ -1517,6 +1517,22 @@ const ABILITIES = {
       }
     ]
   },
+  M1: {
+    adpsDropdown: true,
+    class: 'mag',
+    duration: 90000,
+    level: 254,
+    mode: 'mag',
+    name: 'First Spire of Elements IV',
+    effects: [
+      {
+        spa: 294,
+        slot: 2,
+        type: 'sp',
+        value: 0.24
+      }
+    ]
+  },
   MC: {
     adpsDropdown: true,
     charges: 3,
