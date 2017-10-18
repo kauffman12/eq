@@ -154,11 +154,11 @@ const TICK_OFFSET = 3000;
 
 const ABILITIES = {
   AA: {
-    charges: 22, // game displays double
+    charges: 24, // game only uses half of spell data?
     class: 'enc',
     duration: 50000,
-    level: 103,
-    name: 'Augmenting Aura Rk. III',
+    level: 108,
+    name: 'New Augmenting Aura Rk. III',
     refreshTime: 30000,
     repeatEvery: -1,
     effects: [
@@ -168,7 +168,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.04,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { minManaCost: 10 },
           { exTargets: TARGET_AES },
@@ -261,8 +261,8 @@ const ABILITIES = {
     charges: 4,
     class: 'brd',
     duration: 24000 + TICK_OFFSET, // about 4 ticks
-    level: 105,
-    name: 'Arcane Melody III',
+    level: 110,
+    name: 'New Arcane Melody III',
     refreshTime: 12000, // varies depending on bard melody set
     repeatEvery: -1,
     effects: [
@@ -272,7 +272,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { currentHitPoints: true },
           { exSpells: new Set(['AM']) },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 }
@@ -296,7 +296,7 @@ const ABILITIES = {
         spa: 297,
         value: 2050,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minLevel: 75 },
           { minManaCost: 10 }
         ]
@@ -305,8 +305,8 @@ const ABILITIES = {
   },
   ARIA: {
     class: 'brd',
-    level: 101,
-    name: 'Aria of Maetanrus Rk. III',
+    level: 106,
+    name: 'New Aria of Maetanrus Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -316,7 +316,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.45,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS }
@@ -369,17 +369,17 @@ const ABILITIES = {
   BLIZZARD: {
     class: 'dru',
     debuff: true,
-    level: 102,
-    name: 'Blizzard Breath Rk. III',
+    level: 107,
+    name: 'New Blizzard Breath Rk. III',
     repeatEvery: -1,
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.055,
+        value: 0.06,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
@@ -453,7 +453,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { resists: new Set(['COLD']) },
           { minLevel: 70 },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { maxDuration: 0 },
           { minManaCost: 10 }
         ]
@@ -549,7 +549,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.0, // value read from settings/UI choice
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { currentHitPoints: true }
           // others not sure how to handle and prob dont need to
         ]
@@ -593,7 +593,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.95,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exTargets: TARGET_AES }
@@ -1156,8 +1156,8 @@ const ABILITIES = {
     charges: 6,
     class: 'dru',
     duration: 18000 + TICK_OFFSET,
-    level: 103,
-    name: 'Frostweave Aura III',
+    level: 108,
+    name: 'New Frostweave Aura III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1169,7 +1169,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { exSpells: new Set(['FW']) },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -1283,7 +1283,7 @@ const ABILITIES = {
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
-          { maxLevel: 105 } // need to really verify
+          { maxLevel: 110 } // need to really verify
         ]
       }
     ]
@@ -1306,7 +1306,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 } // need to really verify
+          { maxLevel: 110 } // need to really verify
         ]
       }
     ]
@@ -1325,7 +1325,7 @@ const ABILITIES = {
         type: 'sp',
         value: 1.1,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { resists: new Set(['FIRE']) },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -1354,7 +1354,7 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'Improved Familiar XXVIII',
+    name: 'New Improved Familiar XXVIII',
     effects: [
       {
         spa: 124,
@@ -1365,7 +1365,7 @@ const ABILITIES = {
           { maxDuration: 0 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
-          { maxLevel: 105 }, // from testing
+          { maxLevel: 110 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
       },
@@ -1479,8 +1479,8 @@ const ABILITIES = {
   MALO: {
     class: 'mag',
     debuff: true,
-    level: 101,
-    name: 'Malosenete Rk. III',
+    level: 106,
+    name: 'New Malosenete Rk. III',
     otherCast: true,
     repeatEvery: -1,
     effects: [
@@ -1488,9 +1488,9 @@ const ABILITIES = {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.055,
+        value: 0.06,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { resists: new Set(['MAGIC']) },
           { exSkills: COMBAT_SKILLS }
@@ -1559,8 +1559,8 @@ const ABILITIES = {
     charges: 6,
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
-    level: 105,
-    name: 'Mana Reciprocation Aura Rk. III',
+    level: 110,
+    name: 'New Mana Reciprocation Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1571,7 +1571,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exSpells: new Set(['MR']) },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 }
         ]
       }
@@ -1603,8 +1603,8 @@ const ABILITIES = {
   },
   NILSARA: {
     class: 'brd',
-    level: 103,
-    name: 'Nilsara\'s Aria Rk. III',
+    level: 108,
+    name: 'New Nilsara\'s Aria Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -1612,10 +1612,10 @@ const ABILITIES = {
         spa: 286,
         slot: 1,
         type: 'sp',
-        value: 1638,
+        value: 1987,
         limits: [
-          { minLevel: 96 },
-          { maxLevel: 105 },
+          { minLevel: 101 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { maxDuration: 0 },
@@ -1663,17 +1663,17 @@ const ABILITIES = {
   SEEDLINGS: {
     class: 'dru',
     debuff: true,
-    level: 98,
-    name: 'Skin to Seedlings Rk. III',
+    level: 108,
+    name: 'New Skin to Seedlings Rk. III',
     repeatEvery: -1,
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.065,
+        value: 0.07,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { resists: new Set(['FIRE']) },
           { exSkills: COMBAT_SKILLS }
@@ -1728,19 +1728,19 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Ice III',
+    name: 'New Syllable of Ice III',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['COLD']) }
         ]
@@ -1753,19 +1753,19 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Fire III',
+    name: 'New Syllable of Fire III',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['FIRE']) }
         ]
@@ -1778,19 +1778,19 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Magic III',
+    name: 'New Syllable of Magic III',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1803,19 +1803,19 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Mastery III',
+    name: 'New Syllable of Mastery III',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4232,
+        value: 5132,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 }
         ]
       }

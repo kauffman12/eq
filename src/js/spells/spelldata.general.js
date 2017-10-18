@@ -19,14 +19,14 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   AM: {
-    baseDmg: 1206,
+    baseDmg: 1463,
     castTime: 0,
     focusable: true,
     id: 'AM',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'Arcane Melody Effect III',
+    name: 'New Arcane Melody Effect III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',
@@ -292,14 +292,14 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   FW: {
-    baseDmg: 3365,
+    baseDmg: 4081,
     castTime: 0,
     focusable: true,
     id: 'FW',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'Frostweave Strike III',
+    name: 'New Frostweave Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'COLD',
@@ -327,7 +327,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MR: {
-    baseDmg: 4137,
+    baseDmg: 5018,
     castTime: 0,
     focusable: true,
     id: 'MR',
@@ -335,7 +335,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Reciprocation Strike III',
+    name: 'New Mana Reciprocation Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -345,7 +345,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRR: {
-    baseDmg: 4551,
+    baseDmg: 9203,
     castTime: 0,
     focusable: true,
     id: 'MRR',
@@ -353,7 +353,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Reciprocation Strike III',
+    name: 'New Mana Re-Reciprocation Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -363,7 +363,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRRR: {
-    baseDmg: 5006,
+    baseDmg: 9663,
     castTime: 0,
     focusable: true,
     id: 'MRRR',
@@ -371,7 +371,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Re-Reciprocation Strike III',
+    name: 'New Mana Re-Re-Reciprocation Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -381,7 +381,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRRRR: {
-    baseDmg: 5507,
+    baseDmg: 10146,
     castTime: 0,
     focusable: true,
     id: 'MRRRR',
@@ -389,7 +389,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Re-Re-Reciprocation Strike III',
+    name: 'New Mana Re-Re-Re-Reciprocation Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',

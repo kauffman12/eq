@@ -9,7 +9,8 @@ const MAGE_FOCUS_AA_KEYS = {
   'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
   'RC': '.aa-focus-rain-cutlasses .dropdown-toggle',
   'SM': '.aa-focus-storm-many .dropdown-toggle',
-  'SS': '.aa-focus-spear-molten .dropdown-toggle'
+  'SS': '.aa-focus-spear-molten .dropdown-toggle',
+  'NSS': '.aa-focus-spear-molten .dropdown-toggle'
 };
 
 // What to query on to find a spell focus value by ID
