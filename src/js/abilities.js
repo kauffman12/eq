@@ -1923,6 +1923,43 @@ const ABILITIES = {
       }
     ]
   },
+  THREADS2: {
+    level: 255,
+    name: 'Threads of Potential',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        type: 'wn',
+        value: 1500,
+        limits: [
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { minManaCost: 100 },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
+  THREADS3: {
+    level: 255,
+    name: 'Threads of Potential',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        type: 'wn',
+        value: 1500,
+        limits: [
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
   TP: {
     name: 'Twinproc AA',
     effects: [
