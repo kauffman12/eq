@@ -4,28 +4,28 @@ import * as utils from './utils.js';
 
 // What to query on to find a spell focus value by ID
 const MAGE_FOCUS_AA_KEYS = {
-  'BS': '.aa-focus-bolt-molten .dropdown-toggle',
+  'TEMPBS': '.aa-focus-bolt-molten .dropdown-toggle',
   'CR': '.aa-focus-coronal-rain .dropdown-toggle',
   'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
   'RC': '.aa-focus-rain-cutlasses .dropdown-toggle',
   'SM': '.aa-focus-storm-many .dropdown-toggle',
   'SS': '.aa-focus-spear-molten .dropdown-toggle',
-  'NSS': '.aa-focus-spear-molten .dropdown-toggle'
+  'NSSTEMP': '.aa-focus-spear-molten .dropdown-toggle'
 };
 
 // What to query on to find a spell focus value by ID
 const WIZ_FOCUS_AA_KEYS = {
   'CF': '.aa-focus-claws .dropdown-toggle',
-  'CO': '.aa-focus-claws .dropdown-toggle',
+  'COTEMP': '.aa-focus-claws .dropdown-toggle',
   'CS': '.aa-focus-cloudburst .dropdown-toggle',
   'CS2': '.aa-focus-chaos .dropdown-toggle',
   'EF': '.aa-focus-ethereal-flash .dropdown-toggle',
-  'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
+  'ESTEMP': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
   'FU': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
   'ER': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
   'FC': '.aa-focus-flashchar .dropdown-toggle',
   'MB': '.aa-focus-rains .dropdown-toggle',
-  'PW': '.aa-focus-purewild .dropdown-toggle',
+  'PFTEMP': '.aa-focus-purewild .dropdown-toggle',
   'RC2': '.aa-focus-rimeblastcascade .dropdown-toggle',
   'SV': '.aa-focus-vortexes .dropdown-toggle',
   'TS': '.aa-focus-thricewoven .dropdown-toggle'
@@ -406,9 +406,9 @@ export function getStaffProcValue() {
   });
 }
 
-export function getStormOfManyCountValue() {
-  return utils.useCache('.storm-of-many-count', () => {
-    return utils.getNumberValue($('#stormOfManyCount').val());
+export function getVolleyOfManyCountValue() {
+  return utils.useCache('.volley-of-many-count', () => {
+    return utils.getNumberValue($('#volleyOfManyCount').val());
   });
 }
 

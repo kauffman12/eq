@@ -24,42 +24,42 @@ export const SPELL_DATA = {
     level: 106,
     lockoutTime: 1500,
     manaCost: 2251,
-    name: 'New Bolt of Molten Shieldstone Rk. III',
+    name: 'Bolt of Skyfire Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
-    timer: 'nboltmoltenshield',
-    type3DmgAug: 1234
+    timer: 'boltofsky',
+    type3DmgAug: 0
   },
-  CF: {
+  CI: {
     baseDmg: 26069,
     castTime: 1200,
     focusable: true,
-    id: 'CF',
+    id: 'CI',
     level: 110,
     lockoutTime: 1500,
     manaCost: 3152,
-    name: 'New Chaotic Fire Rk. III',
+    name: 'Chaotic Inferno Rk. III',
     origCastTime: 1500,
     recastTime: 5250,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: '4',
-    type3DmgAug: 1392
+    type3DmgAug: 0
   },
-  CR: {
+  RM: {
     baseDmg: 20765,
     castTime: 2000,
     focusable: true,
-    id: 'CR',
+    id: 'RM',
     level: 108,
     lockoutTime: 1500,
     manaCost: 2371,
     maxCritRate: 0.40,
-    name: 'New Coronal Rain Rk. III',
+    name: 'Rain of Molten Rhyolite Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'FIRE',
@@ -169,23 +169,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '73'
   },
-  RC: {
+  RK: {
     baseDmg: 20263,
     castTime: 2000,
     focusable: true,
-    id: 'RC',
+    id: 'RK',
     level: 109,
     lockoutTime: 1500,
     manaCost: 2281,
     maxCritRate: 0.40,
-    name: 'New Rain of Cutlasses Rk. III',
+    name: 'Rain of Knives Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'MAGIC',
     skill: 24,
     target: 'AE',
     timer: '7',
-    type3DmgAug: 1193
+    type3DmgAug: 0
   },
   RS: {
     baseDmg: 2,
@@ -196,15 +196,15 @@ export const SPELL_DATA = {
     level: 110,
     lockoutTime: 1500,
     manaCost: 4840,
-    name: 'New Remorseless Servant Rk. III',
+    name: 'Reckless Servant Rk. III',
     origCastTime: 1000,
     recastTime: 19000,
     resist: 'NONE',
     skill: 14,
     spellDmgCap: 0,
     target: 'SINGLE',
-    timer: 'remroselessservant',
-    type3Aug: 1000
+    timer: 'recklessserv',
+    type3Aug: 0
   },
   SFB: {
     baseDmg: 0,
@@ -223,7 +223,7 @@ export const SPELL_DATA = {
     target: 'SELF',
     timer: 'summonfirebound'
   },
-  SM: {
+  VM: {
     baseDmg: 4974,
     baseDmg1: 4974,
     baseDmg2: 4974,
@@ -242,18 +242,35 @@ export const SPELL_DATA = {
     baseDmg15: 46650,
     castTime: 600,
     focusable: true,
-    id: 'SM',
+    id: 'VM',
     level: 107,
     lockoutTime: 1500,
     manaCost: 2234,
-    name: 'New Storm of Many Rk. III',
+    name: 'Volley of Many Rk. III',
     origCastTime: 750,
     recastTime: 9000,
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
     timer: '6',
-    type3DmgAug: 230
+    type3DmgAug: 0
+  },
+  SA: {
+    baseDmg: 36056,
+    castTime: 1800,
+    focusable: true,
+    id: 'SA',
+    level: 110,
+    lockoutTime: 1500,
+    manaCost: 5886,
+    name: 'Spear of Molten Arcronite Rk. III',
+    origCastTime: 3500,
+    recastTime: 9000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'LOS',
+    timer: 'spearmolten',
+    type3DmgAug: 0
   },
   SS: {
     baseDmg: 29731,
@@ -270,23 +287,6 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'LOS',
     timer: 'spearmoltenshield',
-    type3DmgAug: 2124
-  },
-  NSS: {
-    baseDmg: 36056,
-    castTime: 1800,
-    focusable: true,
-    id: 'NSS',
-    level: 110,
-    lockoutTime: 1500,
-    manaCost: 5886,
-    name: 'New Spear of Molten Shieldstone Rk. III',
-    origCastTime: 3500,
-    recastTime: 9000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'nspearmoltenshield',
     type3DmgAug: 2124
   }
 }

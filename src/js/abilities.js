@@ -153,26 +153,25 @@ const TARGET_SINGLE = new Set(['SINGLE']);
 const TICK_OFFSET = 3000;
 
 const ABILITIES = {
-  AA: {
-    charges: 24, // game only uses half of spell data?
-    class: 'enc',
-    duration: 50000,
-    level: 108,
-    name: 'New Augmenting Aura Rk. III',
-    refreshTime: 30000,
+  AB: {
+    charges: 4,
+    class: 'brd',
+    duration: 24000 + TICK_OFFSET, // about 4 ticks
+    level: 110,
+    name: 'Arcane Ballad Rk. III',
+    refreshTime: 12000, // varies depending on bard melody set
     repeatEvery: -1,
     effects: [
       {
-        spa: 413,
-        slot: 1,
-        type: 'sp',
-        value: 0.04,
+        proc: 'AB',
         limits: [
+          { onSpellUse: true },
+          { currentHitPoints: true },
+          { exSpells: new Set(['AM']) },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { minManaCost: 10 },
-          { exTargets: TARGET_AES },
-          { exSkills: COMBAT_SKILLS }
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 }
         ]
       }
     ]
@@ -257,29 +256,6 @@ const ABILITIES = {
       }
     ]
   },
-  AM: {
-    charges: 4,
-    class: 'brd',
-    duration: 24000 + TICK_OFFSET, // about 4 ticks
-    level: 110,
-    name: 'New Arcane Melody III',
-    refreshTime: 12000, // varies depending on bard melody set
-    repeatEvery: -1,
-    effects: [
-      {
-        proc: 'AM',
-        limits: [
-          { onSpellUse: true },
-          { currentHitPoints: true },
-          { exSpells: new Set(['AM']) },
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },
   ARCO: {
     charges: 5,
     class: 'wiz',
@@ -287,14 +263,14 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 254,
     mode: 'wiz',
-    name: 'Arcomancy XXIV',
+    name: 'Arcomancy XXVII (Not In Beta Yet)',
     repeatEvery: -999,
     type: 'sp',
     effects: [
       {
         slot: 1,
         spa: 297,
-        value: 2050,
+        value: 2200,
         limits: [
           { maxLevel: 110 },
           { minLevel: 75 },
@@ -306,7 +282,7 @@ const ABILITIES = {
   ARIA: {
     class: 'brd',
     level: 106,
-    name: 'New Aria of Maetanrus Rk. III',
+    name: 'Aria of Begalru Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -366,23 +342,26 @@ const ABILITIES = {
       }
     ]
   },
-  BLIZZARD: {
-    class: 'dru',
-    debuff: true,
-    level: 107,
-    name: 'New Blizzard Breath Rk. III',
+  BA: {
+    charges: 24, // game only uses half of spell data?
+    class: 'enc',
+    duration: 50000,
+    level: 108,
+    name: 'Bolstering Aura Rk. III',
+    refreshTime: 30000,
     repeatEvery: -1,
     effects: [
       {
-        spa: 296,
+        spa: 413,
         slot: 1,
         type: 'sp',
-        value: 0.06,
+        value: 0.04,
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { minManaCost: 10 },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS }
         ]
       }
     ]
@@ -443,7 +422,7 @@ const ABILITIES = {
     debuff: true,
     level: 254,
     mode: 'wiz',
-    name: 'Cryomancy XXIV',
+    name: 'Cryomancy XXVII (Not In Beta Yet)',
     repeatEvery: -999,
     effects: [
       {
@@ -585,7 +564,7 @@ const ABILITIES = {
     duration: 144000,
     level: 254,
     mode: 'mag',
-    name: 'Elemental Union XIII',
+    name: 'Elemental Union XIV (Not In Beta Yet)',
     effects: [
       {
         spa: 124,
@@ -698,6 +677,25 @@ const ABILITIES = {
       }
     ]
   },
+  FCOLD60: {
+    level: 255,
+    name: 'Cold Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
   FCOLD65: {
     level: 255,
     name: 'Cold Damage 65-100 L110',
@@ -728,6 +726,25 @@ const ABILITIES = {
         value: 0.84,
         limits: [
           { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  FCOLD70: {
+    level: 255,
+    name: 'Cold Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
@@ -774,6 +791,25 @@ const ABILITIES = {
       }
     ]
   },
+  FFIRE60: {
+    level: 255,
+    name: 'Fire Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
   FFIRE65: {
     level: 255,
     name: 'Fire Damage 65-100 L110',
@@ -804,6 +840,25 @@ const ABILITIES = {
         value: 0.84,
         limits: [
           { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  FFIRE70: {
+    level: 255,
+    name: 'Fire Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
@@ -850,6 +905,25 @@ const ABILITIES = {
       }
     ]
   },
+  FMAGIC60: {
+    level: 255,
+    name: 'Magic Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
   FMAGIC65: {
     level: 255,
     name: 'Magic Damage 65-100 L110',
@@ -888,6 +962,25 @@ const ABILITIES = {
       }
     ]
   },
+  FMAGIC70: {
+    level: 255,
+    name: 'Magic Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
   FR: {
     adpsDropdown: true,
     duration: 20000,
@@ -901,6 +994,50 @@ const ABILITIES = {
         type: 'aa',
         limits: [
           { exSpells: new Set(['TC']) }
+        ]
+      }
+    ]
+  },
+  FRA: {
+    charges: 6,
+    class: 'dru',
+    duration: 18000 + TICK_OFFSET,
+    level: 108,
+    name: 'Frostreave Aura Rk. III',
+    refreshTime: 18000,
+    repeatEvery: -1,
+    effects: [
+      {
+        proc: 'FW',
+        limits: [
+          { onSpellUse: true },
+          { type: 'detrimental' },
+          { currentHitPoints: true },
+          { exSpells: new Set(['FW']) },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 115 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+  FRB: {
+    class: 'dru',
+    debuff: true,
+    level: 107,
+    name: 'Frostreave Breath Rk. III',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.06,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
         ]
       }
     ]
@@ -1152,29 +1289,6 @@ const ABILITIES = {
       }
     ]
   },
-  FWAE: {
-    charges: 6,
-    class: 'dru',
-    duration: 18000 + TICK_OFFSET,
-    level: 108,
-    name: 'New Frostweave Aura III',
-    refreshTime: 18000,
-    repeatEvery: -1,
-    effects: [
-      {
-        proc: 'FW',
-        limits: [
-          { onSpellUse: true },
-          { type: 'detrimental' },
-          { currentHitPoints: true },
-          { exSpells: new Set(['FW']) },
-          { exSkills: COMBAT_SKILLS },
-          { maxLevel: 115 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },
   GBW: {
     adpsDropdown: true,
     class: 'dru',
@@ -1317,7 +1431,7 @@ const ABILITIES = {
     duration: 276000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Flames XII',
+    name: 'Heart of Flames XIII (Not In Beta Yet)',
     effects: [
       {
         spa: 124,
@@ -1354,13 +1468,42 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'New Improved Familiar XXVIII',
+    name: 'Improved Familiar XXVIII',
     effects: [
       {
+        decay: 0.05, // per level
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 0.5,
+        value: 0.50,
+        limits: [
+          { maxDuration: 0 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { maxLevel: 105 }, // from testing
+          { exSkills: COMBAT_SKILLS }, // from testing
+        ]
+      },
+      {
+        spa: 170, // moved rules up from testing
+        slot: 5,
+        type: 'sp',
+        value: 0.27,
+      }
+    ]
+  },
+  IMPF2: {
+    class: 'wiz',
+    level: 254,
+    mode: 'wiz',
+    name: 'Improved Familiar XXX (Not In Beta Yet)',
+    effects: [
+      {
+        decay: 0.05,
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: 0.50, // 0.5 wheh max level updated
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
@@ -1480,7 +1623,7 @@ const ABILITIES = {
     class: 'mag',
     debuff: true,
     level: 106,
-    name: 'New Malosenete Rk. III',
+    name: 'Malosinata Rk. III',
     otherCast: true,
     repeatEvery: -1,
     effects: [
@@ -1560,7 +1703,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
     level: 110,
-    name: 'New Mana Reciprocation Aura Rk. III',
+    name: 'Mana Repetition Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1601,30 +1744,6 @@ const ABILITIES = {
       }
     ]
   },
-  NILSARA: {
-    class: 'brd',
-    level: 108,
-    name: 'New Nilsara\'s Aria Rk. III',
-    refreshTime: 12000,
-    repeatEvery: -1,
-    effects: [
-      {
-        spa: 286,
-        slot: 1,
-        type: 'sp',
-        value: 1987,
-        limits: [
-          { minLevel: 101 },
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exTargets: TARGET_AES },
-          { maxDuration: 0 },
-          { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
-        ]
-      }
-    ]
-  },
   NSYN: {
     charges: 1,
     class: 'nec',
@@ -1656,27 +1775,30 @@ const ABILITIES = {
     duration: 36000, // dot does 5 ticks of damage plus 1 at the end
     level: 254,
     mode: 'wiz',
-    name: 'Pyromancy XXIV',
+    name: 'Pyromancy XXVII (Not In Beta Yet)',
     repeatEvery: -999,
     effects: [] // handled by DOT generator and constants in dmgU
   },
-  SEEDLINGS: {
-    class: 'dru',
-    debuff: true,
+  QUNARD: {
+    class: 'brd',
     level: 108,
-    name: 'New Skin to Seedlings Rk. III',
+    name: 'Qunard\'s Aria Rk. III',
+    refreshTime: 12000,
     repeatEvery: -1,
     effects: [
       {
-        spa: 296,
+        spa: 286,
         slot: 1,
         type: 'sp',
-        value: 0.07,
+        value: 1987,
         limits: [
+          { minLevel: 101 },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { resists: new Set(['FIRE']) },
-          { exSkills: COMBAT_SKILLS }
+          { exTargets: TARGET_AES },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
         ]
       }
     ]
@@ -1699,6 +1821,27 @@ const ABILITIES = {
           { minLevel: 254 },
           { maxDuration: 0 },
           { maxCastTime: 0 }
+        ]
+      }
+    ]
+  },
+  SUMAC: {
+    class: 'dru',
+    debuff: true,
+    level: 108,
+    name: 'Skin to Sumac Rk. III',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.07,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { resists: new Set(['FIRE']) },
+          { exSkills: COMBAT_SKILLS }
         ]
       }
     ]
@@ -1903,7 +2046,7 @@ const ABILITIES = {
       }
     ]
   },
-  THREADS: {
+  THREADSM: {
     level: 255,
     name: 'Threads of Mana',
     effects: [
@@ -1923,7 +2066,7 @@ const ABILITIES = {
       }
     ]
   },
-  NTHREADS: {
+  THREADSP: {
     level: 255,
     name: 'Threads of Potential',
     effects: [
@@ -1932,6 +2075,25 @@ const ABILITIES = {
         slot: 1,
         type: 'sp',
         value: 1500,
+        limits: [
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { type: 'detrimental' },
+          { minManaCost: 100 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
+  THREADSP3500: {
+    level: 255,
+    name: 'Threads of Potential 3500',
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        type: 'sp',
+        value: 3500,
         limits: [
           { currentHitPoints: true },
           { nonRepeating: true },
@@ -2053,8 +2215,8 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-         // { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['ES']) }
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['TEMPES']) }
         ]
       }
     ]

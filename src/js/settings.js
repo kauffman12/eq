@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.961B2',
+  VERSION: 'Version 0.961B3',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -22,13 +22,13 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CF', 'CO', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FC',
-  'FA', 'MB', 'SV', 'WE', 'WF'
+  'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ES', 'EV', 'FB',
+  'FA', 'ME', 'SV', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'CF', 'CR', 'FC', 'FA', 'RC', 'RS', 'NSS', 'SS', 'SM'
+  'BS', 'CI', 'FC', 'FA', 'RK', 'RM', 'RS', 'SA', 'SS', 'VM'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -58,48 +58,60 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-head-focus',
-    value: 'FMAGIC67',
-    desc: 'Velazul\'s Cap',
+    value: 'FMAGIC70',
+    desc: 'Scaleborn Cap',
     data: [
+      { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
-      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
       { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
+      { value: 'FMAGIC60', desc: 'Scaled Cap' },
+      { value: 'FMAGIC57', desc: 'Scale Touched Cap' },
+      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
       { value: 'FMAGIC55', desc: 'Cohort\'s Cap' },
       { value: 'NONE', desc: 'No Cap Selected' }
     ]
   },
   {
     id: 'worn-hands-focus',
-    value: 'FCOLD67',
-    desc: 'Velazul\'s Gloves',
+    value: 'FCOLD70',
+    desc: 'Scaleborn Gloves',
     data: [
+      { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
-      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
       { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
+      { value: 'FCOLD60', desc: 'Scaled Gloves' },
+      { value: 'FCOLD57', desc: 'Scale Touched Gloves' },
+      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
       { value: 'FCOLD55', desc: 'Cohort\'s Gloves' },
       { value: 'NONE', desc: 'No Gloves Selected' }
     ]
   },
   {
     id: 'worn-arms-focus',
-    value: 'FFIRE67',
-    desc: 'Velazul\'s Sleeves',
+    value: 'FFIRE70',
+    desc: 'Scaleborn Sleeves',
     data: [
+      { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
-      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
+      { value: 'FFIRE60', desc: 'Scale Sleeves' },
+      { value: 'FFIRE57', desc: 'Scale Touched Sleeves' },
+      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
       { value: 'NONE', desc: 'No Sleeves Selected' }
     ]
   },
   {
     id: 'worn-chest-focus',
-    value: 'WIZED7',
-    desc: 'Velazul\'s Robe',
+    value: 'NONE',
+    desc: 'Scaleborn Robe',
     data: [
+      { value: 'NONE', desc: 'Scaleborn Robe' },
       { value: 'WIZED7', desc: 'Velazul\'s Robe' },
-      { value: 'WIZED5', desc: 'Selrach\'s Robe' },
       { value: 'WIZED7', desc: 'Deathseeker\'s Robe' },
+      { value: 'NONE', desc: 'Scaled Robe' },
+      { value: 'NONE', desc: 'Scale Touched Robe' },
+      { value: 'WIZED5', desc: 'Selrach\'s Robe' },
       { value: 'WIZED5', desc: 'Cohort\'s Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
@@ -109,10 +121,14 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
+      { value: 'HOMVII', desc: 'Raid 2H Hammer of Magic VII' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
+      { value: 'BOFVII', desc: 'Raid 1H Burst of Flames VII' },
+      { value: 'BFIV', desc: 'Group 2H Blaze of Fire IV' },
+      { value: 'SOCV', desc: 'Group 1H Spike of Corruption V' },
       { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
-      { value: 'WOC4', desc: 'Advisor\'s Guide' },
-      { value: 'HOM3', desc: 'Bronzewood Mindstaff' },
+      { value: 'WOCIV', desc: 'Advisor\'s Guide' },
+      { value: 'HOMIII', desc: 'Bronzewood Mindstaff' },
       { value: 'FOMXV', desc: 'High Bokon Mangling Staff' },
       { value: 'SOFXIV', desc: 'Staff of Undead Legions' },
       { value: 'SOFXIII', desc: 'Fleshburner of Boromas' },
@@ -136,8 +152,9 @@ export const basicDmgFocusContext = [
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
       { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
-      { value: 'NTHREADS', desc: 'Threads of Potential' },
-      { value: 'THREADS', desc: 'Parogressio' },
+      { value: 'THREADSP', desc: 'Threads of Potential' },
+      { value: 'THREADSP3500', desc: 'Threads of Potential 3500' },
+      { value: 'THREADSM', desc: 'Parogressio' },
       { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
@@ -206,6 +223,7 @@ export const wizSpellFocusAAContext = [
       { value: '0', desc: 'Evoker\'s Synergy (0/10)' }
     ]
   },
+/*
   {
     id: 'aa-focus-chaos',
     value: '0.16',
@@ -366,6 +384,7 @@ export const wizSpellFocusAAContext = [
       { value: '0', desc: 'Rimeblast Cascade (0/8)' }
     ]
   },
+*/
   {
     id: 'aa-focus-vortexes',
     value: '0.16',
@@ -403,6 +422,7 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Conjurer\'s Synergy (0/10)' }
     ]
   },
+/*
   {
     id: 'aa-focus-bolt-molten',
     value: '0.16',
@@ -435,6 +455,7 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Coronal Rain (0/8)' }
     ]
   },
+*/
   {
     id: 'aa-focus-fickle-conflag',
     value: '0.16',
@@ -463,6 +484,7 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Flames of Power (0/4)' }
     ]
   },
+/*
   {
     id: 'aa-hastened-servant',
     value: '6',
@@ -490,6 +512,7 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Rain of Cutlasses (0/8)' }
     ]
   },
+*/
   {
     id: 'aa-focus-spear-molten',
     value: '0.16',
@@ -505,7 +528,8 @@ export const magSpellFocusAAContext = [
       { value: '0.02', desc: 'Spear of Molten Shieldstone (1/8)' },
       { value: '0', desc: 'Spear of Molten Shieldstone (0/8)' }
     ]
-  },
+  }
+/*
   {
     id: 'aa-focus-storm-many',
     value: '0.40',
@@ -522,6 +546,7 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Storm of Many (0/8)' }
     ]
   }
+*/
 ];
 
 export const wizDPSAAContext = [
@@ -552,45 +577,45 @@ export const wizDPSAAContext = [
   {
     id: 'aa-destructive-fury',
     value: '325',
-    desc: 'Destructive Fury (36/38)',
+    desc: 'Destructive Fury (36/36)',
     data: [
-      { value: '325', desc: 'Destructive Fury (36/38)' },
-      { value: '320', desc: 'Destructive Fury (35/38)' },
-      { value: '315', desc: 'Destructive Fury (34/38)' },
-      { value: '310', desc: 'Destructive Fury (33/38)' },
-      { value: '300', desc: 'Destructive Fury (32/38)' },
-      { value: '290', desc: 'Destructive Fury (31/38)' },
-      { value: '280', desc: 'Destructive Fury (30/38)' },
-      { value: '278', desc: 'Destructive Fury (29/38)' },
-      { value: '276', desc: 'Destructive Fury (28/38)' },
-      { value: '274', desc: 'Destructive Fury (27/38)' },
-      { value: '264', desc: 'Destructive Fury (26/38)' },
-      { value: '254', desc: 'Destructive Fury (25/38)' },
-      { value: '249', desc: 'Destructive Fury (24/38)' },
-      { value: '242', desc: 'Destructive Fury (23/38)' },
-      { value: '235', desc: 'Destructive Fury (22/38)' },
-      { value: '228', desc: 'Destructive Fury (21/38)' },
-      { value: '221', desc: 'Destructive Fury (20/38)' },
-      { value: '214', desc: 'Destructive Fury (19/38)' },
-      { value: '207', desc: 'Destructive Fury (18/38)' },
-      { value: '200', desc: 'Destructive Fury (17/38)' },
-      { value: '193', desc: 'Destructive Fury (16/38)' },
-      { value: '186', desc: 'Destructive Fury (15/38)' },
-      { value: '179', desc: 'Destructive Fury (14/38)' },
-      { value: '172', desc: 'Destructive Fury (13/38)' },
-      { value: '165', desc: 'Destructive Fury (12/38)' },
-      { value: '160', desc: 'Destructive Fury (11/38)' },
-      { value: '155', desc: 'Destructive Fury (10/38)' },
-      { value: '150', desc: 'Destructive Fury (9/38)' },
-      { value: '141', desc: 'Destructive Fury (8/38)' },
-      { value: '133', desc: 'Destructive Fury (7/38)' },
-      { value: '125', desc: 'Destructive Fury (6/38)' },
-      { value: '115', desc: 'Destructive Fury (5/38)' },
-      { value: '107', desc: 'Destructive Fury (4/38)' },
-      { value: '100', desc: 'Destructive Fury (3/38)' },
-      { value: '60', desc: 'Destructive Fury (2/38)' },
-      { value: '30', desc: 'Destructive Fury (1/38)' },
-      { value: '0', desc: 'Destructive Fury (0/38)' }
+      { value: '325', desc: 'Destructive Fury (36/36)' },
+      { value: '320', desc: 'Destructive Fury (35/36)' },
+      { value: '315', desc: 'Destructive Fury (34/36)' },
+      { value: '310', desc: 'Destructive Fury (33/36)' },
+      { value: '300', desc: 'Destructive Fury (32/36)' },
+      { value: '290', desc: 'Destructive Fury (31/36)' },
+      { value: '280', desc: 'Destructive Fury (30/36)' },
+      { value: '278', desc: 'Destructive Fury (29/36)' },
+      { value: '276', desc: 'Destructive Fury (28/36)' },
+      { value: '274', desc: 'Destructive Fury (27/36)' },
+      { value: '264', desc: 'Destructive Fury (26/36)' },
+      { value: '254', desc: 'Destructive Fury (25/36)' },
+      { value: '249', desc: 'Destructive Fury (24/36)' },
+      { value: '242', desc: 'Destructive Fury (23/36)' },
+      { value: '235', desc: 'Destructive Fury (22/36)' },
+      { value: '228', desc: 'Destructive Fury (21/36)' },
+      { value: '221', desc: 'Destructive Fury (20/36)' },
+      { value: '214', desc: 'Destructive Fury (19/36)' },
+      { value: '207', desc: 'Destructive Fury (18/36)' },
+      { value: '200', desc: 'Destructive Fury (17/36)' },
+      { value: '193', desc: 'Destructive Fury (16/36)' },
+      { value: '186', desc: 'Destructive Fury (15/36)' },
+      { value: '179', desc: 'Destructive Fury (14/36)' },
+      { value: '172', desc: 'Destructive Fury (13/36)' },
+      { value: '165', desc: 'Destructive Fury (12/36)' },
+      { value: '160', desc: 'Destructive Fury (11/36)' },
+      { value: '155', desc: 'Destructive Fury (10/36)' },
+      { value: '150', desc: 'Destructive Fury (9/36)' },
+      { value: '141', desc: 'Destructive Fury (8/36)' },
+      { value: '133', desc: 'Destructive Fury (7/36)' },
+      { value: '125', desc: 'Destructive Fury (6/36)' },
+      { value: '115', desc: 'Destructive Fury (5/36)' },
+      { value: '107', desc: 'Destructive Fury (4/36)' },
+      { value: '100', desc: 'Destructive Fury (3/36)' },
+      { value: '60', desc: 'Destructive Fury (2/36)' },
+      { value: '30', desc: 'Destructive Fury (1/36)' },
+      { value: '0', desc: 'Destructive Fury (0/36)' }
     ]
   },
   {
@@ -678,9 +703,10 @@ export const wizDPSAAContext = [
   },
   {
     id: 'spell-pet-focus',
-    value: 'IMPF',
-    desc: 'Improved Familiar (28)',
+    value: 'IMPF2',
+    desc: 'Improved Familiar (30) (Not In Beta Yet)',
     data: [
+      { value: 'IMPF2', desc: 'Improved Familiar (30) (Not In Beta Yet)' },
       { value: 'IMPF', desc: 'Improved Familiar (28)' },
       { value: '', desc: 'No Familiar Selected' }
     ]

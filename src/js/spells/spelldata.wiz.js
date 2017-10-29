@@ -34,13 +34,13 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   CRYO: {
-    baseDmg: 16050,
+    baseDmg: 21050,
     castTime: 0,
     focusable: false,
     id: 'CRYO',
     level: 254,
     manaCost: 0,
-    name: 'Cryomantic Stasis XXIV',
+    name: 'Cryomantic Stasis XXVII (Not In Beta Yet)',
     origCastTime: 0,
     recastTime: 0,
     resist: 'COLD',
@@ -48,22 +48,22 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'cryo'
   },
-  CF: {
+  CQ: {
     baseDmg: 26276,
     castTime: 1500,
     focusable: true,
-    id: 'CF',
+    id: 'CQ',
     level: 108,
     lockoutTime: 1500,
     manaCost: 2014,
-    name: 'New Claw of the Flameweaver Rk. III',
+    name: 'Claw of Qunard Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: '11',
-    type3DmgAug: 1392
+    type3DmgAug: 0
   },
   CI: {
     baseDmg: 7237,
@@ -90,49 +90,49 @@ export const SPELL_DATA = {
     level: 110,
     lockoutTime: 1500,
     manaCost: 1812,
-    name: 'New Claw of the Oceanlord Rk. III',
+    name: 'Claw of Travenro Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'COLD',
     skill: 24,
     target: 'SINGLE',
     timer: '11',
-    type3DmgAug: 1392
+    type3DmgAug: 0
   },
-  CS: {
+  CB: {
+    baseDmg: 10577,
+    canTwincast: false,
+    castTime: 0,
+    focusable: true,
+    id: 'CB',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 100,
+    name: 'Chaos Burn III',
+    origCastTime: 0,
+    recastTime: 4750,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'chaosburn',
+    type3DmgAug: 0
+  },
+  CT: {
     baseDmg: 21765,
     castTime: 0,
     focusable: true,
-    id: 'CS',
+    id: 'CT',
     level: 107,
     lockoutTime: 1500,
     manaCost: 3699,
-    name: 'New Cloudburst Stormstrike Rk. III',
+    name: 'Cloudburst Thunderbolt Rk. III',
     origCastTime: 0,
     recastTime: 3000,
     resist: 'MAGIC',
     skill: 24,
     target: 'SINGLE',
     timer: '2',
-    type3DmgAug: 1282
-  },
-  CS2: {
-    baseDmg: 8469,
-    canTwincast: false,
-    castTime: 0,
-    focusable: true,
-    id: 'CS2',
-    level: 101,
-    lockoutTime: 1500,
-    manaCost: 100,
-    name: 'Chaos Scintillation III',
-    origCastTime: 0,
-    recastTime: 4750,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'SINGLE',
-    timer: 'chaos2',
-    type3DmgAug: 793
+    type3DmgAug: 0
   },
   DF: {
     baseDmg: 127710,
@@ -152,39 +152,22 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'dicho'
   },
-  EF: {
-    baseDmg: 34201,
-    castTime: 1900,
-    focusable: true,
-    id: 'EF',
-    level: 107,
-    lockoutTime: 1500,
-    manaCost: 5983,
-    name: 'New Ethereal Flash Rk. III',
-    origCastTime: 3750,
-    recastTime: 5500,
-    resist: 'MAGIC',
-    skill: 24,
-    target: 'SINGLE',
-    timer: 'neflash',
-    type3DmgAug: 2381
-  },
-  ER: {
+  EI: {
     baseDmg: 36353,
     castTime: 1900,
     focusable: true,
-    id: 'ER',
+    id: 'EI',
     level: 109,
     lockoutTime: 1500,
     manaCost: 5573,
-    name: 'New Ethereal Rimeblast Rk. III',
+    name: 'Ethereal Icefloe Rk. III',
     origCastTime: 3750,
     recastTime: 5250,
     resist: 'COLD',
     skill: 24,
     target: 'SINGLE',
-    timer: 'nerimeblast',
-    type3DmgAug: 2381
+    timer: 'eiceflow',
+    type3DmgAug: 0
   },
   ES: {
     baseDmg: 40421,
@@ -194,14 +177,31 @@ export const SPELL_DATA = {
     level: 110,
     lockoutTime: 1500,
     manaCost: 6196,
-    name: 'New Ethereal Skyblaze Rk. III',
+    name: 'Ethereal Skyfire Rk. III',
     origCastTime: 3750,
     recastTime: 5500,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: 'neskyblaze',
-    type3DmgAug: 2381
+    type3DmgAug: 0
+  },
+  EV: {
+    baseDmg: 34201,
+    castTime: 1900,
+    focusable: true,
+    id: 'EV',
+    level: 107,
+    lockoutTime: 1500,
+    manaCost: 5983,
+    name: 'Ethereal Volley Rk. III',
+    origCastTime: 3750,
+    recastTime: 5500,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'evolley',
+    type3DmgAug: 0
   },
   FA: {
     castTime: 2000,
@@ -237,22 +237,22 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'ff'
   },
-  FC: {
+  FB: {
     baseDmg: 18547,
     castTime: 0,
     focusable: true,
-    id: 'FC',
+    id: 'FB',
     level: 104,
     lockoutTime: 1500,
     manaCost: 2964,
-    name: 'New Flashchar Rk. III',
+    name: 'Flashburn Rk. III',
     origCastTime: 0,
     recastTime: 8250,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: '2',
-    type3DmgAug: 1040
+    type3DmgAug: 0
   },
   FF4: {
     aa: true,
@@ -356,14 +356,14 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '44'
   },
-  FU: {
+  EB: {
     castTime: 1500,
     focusable: true,
-    id: 'FU',
+    id: 'EB',
     level: 110,
     lockoutTime: 1500,
     manaCost: 567,
-    name: 'New Ethereal Fuse Rk. III',
+    name: 'Ethereal Braid',
     origCastTime: 3000,
     recastTime: 36000,
     skill: 24,
@@ -438,23 +438,23 @@ export const SPELL_DATA = {
     timer: 'hoarcascade',
     type3DmgAug: 1345
   },
-  MB: {
+  ME: {
     baseDmg: 16294,
     castTime: 1500,
     focusable: true,
-    id: 'MB',
-    level: 104,
+    id: 'ME',
+    level: 109,
     lockoutTime: 1500,
     manaCost: 2019,
     maxCritRate: 0.40,
-    name: 'New Magmatic Burst Rk. III',
+    name: 'Magmatic Explosion Rk. III',
     origCastTime: 3000,
     recastTime: 12000,
     resist: 'FIRE',
     skill: 24,
     target: 'AE',
     timer: '6',
-    type3DmgAug: 902
+    type3DmgAug: 0
   },
   MBRN: {
     baseDmg: 2400000,
@@ -492,7 +492,7 @@ export const SPELL_DATA = {
     type3DmgAug: 794
   },
   PF: {
-    baseDmg: 13049,
+    baseDmg: 15826,
     canTwincast: false,
     castTime: 750,
     focusable: true,
@@ -500,32 +500,32 @@ export const SPELL_DATA = {
     level: 105,
     lockoutTime: 1500,
     manaCost: 50,
-    name: 'Pure Wildflash III',
+    name: 'Pure Wildflash Caza',
     origCastTime: 750,
     recastTime: 4000,
     resist: 'MAGIC',
     skill: 24,
     target: 'SINGLE',
     timer: 'pwildflash',
-    type3DmgAug: 932
+    type3DmgAug: 0
   },
-  RC2: {
-    baseDmg: 21062,
+  IC: {
+    baseDmg: 25542 ,
     canTwincast: false,
     castTime: 0,
     focusable: true,
-    id: 'RC2',
-    level: 101,
+    id: 'IC',
+    level: 106,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Rimeblast Cascade Rk. III',
+    name: 'Icefloe Cascade III',
     origCastTime: 0,
     recastTime: 9000,
     resist: 'COLD',
     skill: 24,
     target: 'SINGLE',
-    timer: 'rimecascade2',
-    type3DmgAug: 1504
+    timer: 'iceflowcas',
+    type3DmgAug: 0
   },
   SV: {
     baseDmg: 14388,
@@ -564,10 +564,10 @@ export const SPELL_DATA = {
     castTime: 600,
     focusable: true,
     id: 'WF',
-    level: 101,
+    level: 106,
     lockoutTime: 1500,
     manaCost: 669,
-    name: 'Wildflash Barrage Rk. III',
+    name: 'Wildflash Strike Rk. III',
     origCastTime: 750,
     recastTime: 4000,
     resist: 'MAGIC',

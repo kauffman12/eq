@@ -52,9 +52,9 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "ITC Charges", spellStats.get('itcChargesUsed'));
     addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
     addDecimalStatDescription(data, "AAura Charges", spellStats.get('aaChargesUsed'));
-    addDecimalStatDescription(data, "AMelody Charges", spellStats.get('amChargesUsed'));
+    addDecimalStatDescription(data, "ABallod Charges", spellStats.get('abChargesUsed'));
     addDecimalStatDescription(data, "Arcomancy Charges", spellStats.get('arcoChargesUsed'));
-    addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwaeChargesUsed'));
+    addDecimalStatDescription(data, "FReave Charges", spellStats.get('fraChargesUsed'));
     addDecimalStatDescription(data, "Firebound Charges", spellStats.get('firebaChargesUsed'));
     addDecimalStatDescription(data, "Frostbound Charges", spellStats.get('frostbaChargesUsed'));
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
@@ -106,10 +106,10 @@ export function getStatisticsSummary(spellStats) {
 
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
-  addNumberStatDescription(data, "AMelody Proc", spellStats.get('amAddDmg'));
+  addNumberStatDescription(data, "ABallad Proc", spellStats.get('abAddDmg'));
   addNumberStatDescription(data, "Cryo Proc", spellStats.get('cryoAddDmg'));
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
-  addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwaeAddDmg'));
+  addNumberStatDescription(data, "FReave Proc", spellStats.get('fraAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
   addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
 

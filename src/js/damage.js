@@ -49,7 +49,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   // VFX procs another one when it twincasts, etc
   let cfickleSpells;
   switch(spell.id) {
-    case 'CF': case 'FC': case 'CO':
+    case 'CI': case 'FC': case 'CO': case 'CQ':
       cfickleSpells = 1;
       if (mod < 0.50) {
         state.cfickleSpells = mod;
@@ -107,7 +107,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
   switch(spell.id) {
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
-    case 'CF': case 'CO':
+    case 'CI': case 'CO': case 'CQ':
       // generate proc effects
       state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
         if (id === 'REFRESH') {
@@ -127,7 +127,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       timeline.addSpellProcAbility(state, 'WSYN', dom.getEvokersSynergyValue(), true);
       break;
     case 'RS':
-      timeline.addSpellProcAbility(state, 'MSYN', dom.getConjurersSynergyValue(), true);
+      // TEMP timeline.addSpellProcAbility(state, 'MSYN', dom.getConjurersSynergyValue(), true);
 
       let keys = utils.getCounterKeys('RS');
       if (state[keys.timers] === undefined) {
@@ -150,7 +150,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
-    case 'FU':
+    case 'EB':
       // Fuse is really just a Skyblaze
       let origSpell = spell;
       state.spell = utils.getSpellData('ES');
@@ -158,7 +158,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       state.spell = origSpell;
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
-      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('FU'), 'fuseProcDmg');
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
       break;
     case 'WF': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
@@ -171,12 +171,12 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CF': case 'CO':
+    case 'CQ': case 'CI': case 'CO':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
         let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
-        state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
+        state.cfSpellProcGenerator = genSpellProc(dmgU.CLAW_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
       }
       break;
     case 'FC':
@@ -193,8 +193,8 @@ function applyPreSpellChecks(state, mod) {
         }
       }
       break;
-    case 'SM':
-      let baseDmg = state.spell['baseDmg' + dom.getStormOfManyCountValue()];
+    case 'VM':
+      let baseDmg = state.spell['baseDmg' + dom.getVolleyOfManyCountValue()];
       state.spell.baseDmg = baseDmg || state.spell.baseDmg;
       break;
     }

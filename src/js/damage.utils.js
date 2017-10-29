@@ -22,10 +22,10 @@ export const MAGE_INNATE_CRIT_DMG = 100;
 export const ARCO_PROC_RATE = 100 / (100 * 0.30);
 export const CRYO_PROC_RATE = 100 / (100 * 0.25);
 export const PYRO_PROC_RATE = 100 / (100 * 0.21);
-export const PYRO_DPS = 16800 / 6;
+export const PYRO_DPS = 22200 / 6; // TEMP
 
 // Claw/Chaotic effect proc rates per 100 casts
-export const CF_SPELL_PROC_RATES = {
+export const CLAW_SPELL_PROC_RATES = {
   wiz: {
     CO: {
       SYLLMAGIC: 100 / (100 * 0.05),
@@ -35,7 +35,7 @@ export const CF_SPELL_PROC_RATES = {
       TC: 100 / (100 * 0.10),
       REFRESH: 100 / (100 * 0.06)
     },
-    CF: {
+    CQ: {
       SYLLMAGIC: 100 / (100 * 0.05),
       SYLLICE: 100 / (100 * 0.05),
       SYLLFIRE: 100 / (100 * 0.35),
@@ -45,7 +45,7 @@ export const CF_SPELL_PROC_RATES = {
     }
   },
   mag: {
-    CF: {
+    CI: {
       FPWR: 100 / (100 * 0.28),
       FWEAK: 100 / (100 * 0.01),
       TC: 100 / (100 * 0.10),
@@ -68,27 +68,27 @@ export const SPELL_PROC_ABILITIES = [
 export const PREEMPT_SPELL_CASTS = ['TC', 'MBRN'];
 
 const LIMIT_RULES_FOR_FAILURE = {
-  activated: (spell) => true, // custom check for non spell casts like AA nukes or orb clicks
-  class: (spell, value) => value !== G.MODE, 
-  currentHitPoints: (spell) => spell.baseDmg === undefined,
-  exSkills: (spell, value) => value.has(spell.skill),
-  exSpells: (spell, value) => value.has(spell.id),
-  exTargets: (spell, value) => value.has(spell.target),
-  exTwincastMarker: (spell) => spell.canTwincast === false,
-  onSpellUse: (spell) => !spell.focusable || spell.inventory, // focusable spells NOT from inventory
-  maxCastTime: (spell, value) => spell.origCastTime > value,
-  maxDuration: (spell, value) => spell.duration > value,
-  maxLevel: (spell, value) => spell.level > value,
-  maxManaCost: (spell, value) => spell.manaCost > value,
-  minCastTime: (spell, value) => spell.origCastTime < value,
-  minDmg: (spell, value) => spell.baseDmg < value,
-  minLevel: (spell, value) => spell.level < value,
-  minManaCost: (spell, value) => spell.manaCost < value,
-  nonRepeating: (spell) => spell.duration > 0,
-  resists: (spell, value) => !value.has(spell.resist),
-  spells: (spell, value) => !value.has(spell.id),
-  targets: (spell, value) => !value.has(spell.target),
-  type: (spell, value) => !isSpellType(value, spell)
+  activated: (effect, spell) => true, // custom check for non spell casts like AA nukes or orb clicks
+  class: (effect, spell, value) => value !== G.MODE, 
+  currentHitPoints: (effect, spell) => spell.baseDmg === undefined,
+  exSkills: (effect, spell, value) => value.has(spell.skill),
+  exSpells: (effect, spell, value) => value.has(spell.id),
+  exTargets: (effect, spell, value) => value.has(spell.target),
+  exTwincastMarker: (effect, spell) => spell.canTwincast === false,
+  onSpellUse: (effect, spell) => !spell.focusable || spell.inventory, // focusable spells NOT from inventory
+  maxCastTime: (effect, spell, value) => spell.origCastTime > value,
+  maxDuration: (effect, spell, value) => spell.duration > value,
+  maxLevel: (effect, spell, value) => (spell.level > value && !effect.decay),
+  maxManaCost: (effect, spell, value) => spell.manaCost > value,
+  minCastTime: (effect, spell, value) => spell.origCastTime < value,
+  minDmg: (effect, spell, value) => spell.baseDmg < value,
+  minLevel: (effect, spell, value) => spell.level < value,
+  minManaCost: (effect, spell, value) => spell.manaCost < value,
+  nonRepeating: (effect, spell) => spell.duration > 0,
+  resists: (effect, spell, value) => !value.has(spell.resist),
+  spells: (effect, spell, value) => !value.has(spell.id),
+  targets: (effect, spell, value) => !value.has(spell.target),
+  type: (effect, spell, value) => !isSpellType(value, spell)
 }
 
 function checkLimits(id, spell, effect) {
@@ -99,6 +99,7 @@ function checkLimits(id, spell, effect) {
     let pass = true;
     let check;
     let ability = abilities.get(id);
+    let decayLevel = 0;
 
     // check basics for a spell object
     if (!spell.id || !spell.level) {
@@ -113,7 +114,7 @@ function checkLimits(id, spell, effect) {
     } else if (effect.limits) {
       effect.limits.find(limit => {
         let key = Object.keys(limit)[0]; // each limit has 1 key
-        if (LIMIT_RULES_FOR_FAILURE[key](spell, limit[key])) {
+        if (LIMIT_RULES_FOR_FAILURE[key](effect, spell, limit[key])) {
           pass = false; check = key;
           return true;
         } else {
@@ -121,6 +122,11 @@ function checkLimits(id, spell, effect) {
           if (ability.charges && !effect.proc && (spell.skill === 52 && spell.inventory)) {
             pass = false; check = 'hit type';
             return true;
+          }
+
+          // save the level to decay on
+          if (effect.decay && key === 'maxLevel') {
+            decayLevel = limit[key];
           }
         }
       });
@@ -130,7 +136,12 @@ function checkLimits(id, spell, effect) {
       //console.debug(spell.id + " failed on " + check + " -> " + id);
     }
 
-    return { pass: pass, failure: check };
+    let result = { pass: pass, failure: check };
+    if (decayLevel) { // include decay level in result
+      result.decayLevel = decayLevel;
+    }
+
+    return result;
   });
 }
 
@@ -210,7 +221,12 @@ export function buildSPAData(ids, spell) {
             }
           }
 
-          spaMap.set(key, { value: effect.value, spa: effect.spa, id: id });
+          let value = effect.value;
+          if (effect.decay && result.decayLevel && (spell.level > result.decayLevel)) {
+            value -= (effect.decay * (spell.level - result.decayLevel));
+          }
+
+          spaMap.set(key, { value: value, spa: effect.spa, id: id });
           abilitySet.add(id);
         } else if (existing && effect.spa === 294) {
           abilitySet.delete(id);
@@ -337,18 +353,18 @@ export function getCompoundSpellList(id) {
     return {
       'WF': [
         { id: 'PF', chance: WILDMAGIC_PURE_CHANCE },
-        { id: 'RC2', chance: WILDMAGIC_RIMEBLAST_CHANCE },
-        { id: 'CS2', chance: WILDMAGIC_CHAOS_CHANCE }
+        { id: 'IC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
+        { id: 'CB', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
       'WE': [
         { id: 'PE', chance: WILDMAGIC_PURE_CHANCE },
         { id: 'HC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
-      'FU': [
+      'EB': [
         { id: 'ES', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'ER', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EF', chance: FUSE_PROC_SPELL_CHANCE }
+        { id: 'EI', chance: FUSE_PROC_SPELL_CHANCE },
+        { id: 'EV', chance: FUSE_PROC_SPELL_CHANCE }
       ]
     }[id];
   });
