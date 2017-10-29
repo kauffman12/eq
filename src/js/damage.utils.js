@@ -224,6 +224,9 @@ export function buildSPAData(ids, spell) {
           let value = effect.value;
           if (effect.decay && result.decayLevel && (spell.level > result.decayLevel)) {
             value -= (effect.decay * (spell.level - result.decayLevel));
+            if (value < 0) {
+              value = 0;
+            }
           }
 
           spaMap.set(key, { value: value, spa: effect.spa, id: id });

@@ -28,7 +28,7 @@ function addSpellAndEqpProcs(state, mod) {
   dmgU.getSpellProcs(state.spellProcAbilities, state.spell)
     .forEach(item => {
       // remove if execute failed to do anything
-      if (!executeProc(state, item.proc, mod, item.id)) {
+      if (!item.proc || !executeProc(state, item.proc, mod, item.id)) {
         state.spellProcAbilities.delete(item.id);
       }
     });
@@ -335,12 +335,14 @@ function calcAvgMRProcDamage(state, mod, dmgKey) {
 function calcAvgProcDamage(state, proc, mod, dmgKey) {
   // proc damage is based on normal spell damage modified by proc rate and whether or not
   // we're in a twincast
-  let procRate = dmgU.getProcRate(state.spell, proc);
+  let procRate = dmgU.getProcRate(state.spell, proc) * mod;
   let prevSpell = state.spell;
 
   state.spell = proc;
-  execute(state, procRate * mod, dmgKey);
+  execute(state, procRate, dmgKey);
   state.spell = prevSpell;
+
+  stats.addAggregateStatistics('totalProcs', procRate);
 }
 
 function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
@@ -395,7 +397,8 @@ function executeProc(state, id, mod, statId) {
   if (ability && ability.charges) {
     if (utils.isAbilityActive(state, key)) {
       let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
-      partUsed = dmgU.processCounter(state, key, mod * chargesPer);
+      let charge = mod * chargesPer;
+      partUsed = dmgU.processCounter(state, key, charge);
     } else {
       // inactive
       partUsed = 0;
