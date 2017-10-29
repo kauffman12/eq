@@ -339,7 +339,7 @@ function calcAvgProcDamage(state, proc, mod, dmgKey) {
   let prevSpell = state.spell;
 
   state.spell = proc;
-  execute(state, procRate, dmgKey);
+  execute(state, procRate, dmgKey, true);
   state.spell = prevSpell;
 
   stats.addAggregateStatistics('totalProcs', procRate);
@@ -512,7 +512,7 @@ function getTwincastRate(state, spaValues) {
   return rate;
 }
 
-export function execute(state, mod, dmgKey) {
+export function execute(state, mod, dmgKey, isProc) {
   // Default to full strength
   mod = (mod === undefined) ? 1 : mod;
 
@@ -539,6 +539,10 @@ export function execute(state, mod, dmgKey) {
     applyPostSpellEffects(state, tcMod, dmgKey);
 
     state.inTwincast = false;
+ 
+    if (isProc) { // keep stats for proc twincast
+      stats.addAggregateStatistics('totalProcs', tcMod);
+    }
   }
 
   return stats.getSpellStatistics(state, 'totalDmg') || 0; // Alliance
