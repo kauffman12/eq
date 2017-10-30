@@ -73,6 +73,8 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsynChargesUsed'));
     addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
     addDecimalStatDescription(data, "FlamesWeak Effect", spellStats.get('fweakChargesUsed'));
+    addDecimalStatDescription(data, "ThricePwr Charges", spellStats.get('thpwrChargesUsed'));
+    addDecimalStatDescription(data, "ThriceWeak Effect", spellStats.get('thweakChargesUsed'));
 
     addPercentStatDescription(data, "Crit Dmg Mult", spellStats.get('critDmgMult'), true);
     addPercentStatDescription(data, "Crit Rate", spellStats.get('critRate'), true);

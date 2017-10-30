@@ -560,6 +560,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'vortex'
   },
+  TW: {
+    baseDmg: 24343,
+    castTime: 1800,
+    focusable: true,
+    id: 'TW',
+    level: 110,
+    lockoutTime: 1500,
+    manaCost: 2455,
+    name: 'Thricewoven Capacity Rk. III',
+    origCastTime: 3500,
+    recastTime: 5000,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'thricecapacity',
+    type3DmgAug: 0
+  },
   WE: {
     baseDmg: 0,
     castTime: 600,

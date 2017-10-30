@@ -1042,46 +1042,6 @@ const ABILITIES = {
       }
     ]
   },
-  FURYDRUZ: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Druzzil XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['MAGIC']) }
-        ]
-      }
-    ]
-  },
-  FURYECI: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Eci XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['COLD']) }
-        ]
-      }
-    ]
-  },
   FURYGODS: {
     adpsDropdown: true,
     class: 'wiz',
@@ -1098,46 +1058,6 @@ const ABILITIES = {
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }
-        ]
-      }
-    ]
-  },
-  FURYKERA: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Kerafyrm IX',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 1550,
-        limits: [
-          { type: 'detrimental' },
-          { maxDuration: 0 }
-        ]
-      }
-    ]
-  },
-  FURYRO: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Ro XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['FIRE']) }
         ]
       }
     ]
@@ -1871,7 +1791,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Ice III',
+    name: 'Syllable of Ice III',
     effects: [
       {
         spa: 303,
@@ -1896,7 +1816,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Fire III',
+    name: 'Syllable of Fire III',
     effects: [
       {
         spa: 303,
@@ -1921,7 +1841,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Magic III',
+    name: 'Syllable of Magic III',
     effects: [
       {
         spa: 303,
@@ -1946,7 +1866,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Mastery III',
+    name: 'Syllable of Mastery III',
     effects: [
       {
         spa: 303,
@@ -2042,6 +1962,53 @@ const ABILITIES = {
           { currentHitPoints: true },
           { exSkills: COMBAT_SKILLS },
           { exTwincastMarker: true }
+        ]
+      }
+    ]
+  },
+  THPWR: {
+    class: 'wiz',
+    charges: 1,
+    duration: 60000,
+    level: 255,
+    mode: 'wiz',
+    name: 'Thricewoven Power VI',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: 1.125,
+        limits: [
+          { minDmg: 100 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 },
+          { maxLevel: 110 }
+        ]
+      }
+    ]
+  },
+  THWEAK: {
+    class: 'wiz',
+    charges: 1000, // workaround to see count in stats
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Thricewoven Weakness',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: -0.20,
+        limits: [
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 } // need to really verify
         ]
       }
     ]

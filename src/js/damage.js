@@ -47,16 +47,21 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   // Same as with Arcomancy. I think this matters less for damage procs.
   // MSYN and others dont have as big an issue because they always start on main spell cast
   // VFX procs another one when it twincasts, etc
-  let cfickleSpells;
+  let cfickleSpells = 0;
+  let clawSpells = 0;
   switch(spell.id) {
-    case 'CI': case 'FC': case 'CO': case 'CQ':
-      cfickleSpells = 1;
-      if (mod < 0.50) {
-        state.cfickleSpells = mod;
-        cfickleSpells = 0;
-      } else { // this one is deciding what to increment by unlike ARCO
-        cfickleSpells += (state.cfickleSpells || 0);
+    case 'FC': case 'TW':
+      state.cfickleSpells = mod + (state.cfickleSpells || 0);
+      if (state.cfickleSpells > 0.50 && !state.inTwincast) {
+        cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
+      }
+      break;
+    case 'CI': case 'CO': case 'CQ':
+      state.clawSpells = mod + (state.clawSpells || 0);
+      if (state.clawSpells > 0.50) {
+        clawSpells = state.clawSpells;
+        state.clawSpells = 0;
       }
       break;
   }
@@ -109,17 +114,23 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
     case 'CI': case 'CO': case 'CQ':
       // generate proc effects
-      state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
+      state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         if (id === 'REFRESH') {
           timeline.resetTimers(state);
         } else {
           timeline.addSpellProcAbility(state, id, 1, true);
         }
       });
+    
       break;
     case 'FC':
-      if (G.MODE === 'mag' && !state.inTwincast) {
+      if (G.MODE === 'mag') {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+      }
+      break;
+    case 'TW':
+      if (G.MODE === 'wiz') {
+        state.twSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
     case 'SV':
@@ -190,6 +201,13 @@ function applyPreSpellChecks(state, mod) {
             case 3: case 4: offset = 0.34; break; 
           }
           state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
+        }
+      }
+      break;
+    case 'TW':
+      if (G.MODE === 'wiz') {
+        if (!state.twSpellProcGenerator) {
+          state.twSpellProcGenerator = genSpellProc(dmgU.TW_SPELL_PROC_RATES);
         }
       }
       break;
@@ -414,6 +432,7 @@ function executeProc(state, id, mod, statId) {
 }
 
 function* genSpellProc(rateInfo, offset) {
+  offset = offset || 0;
   let count = 1 + offset;
   let lastProcCounts = [];
 

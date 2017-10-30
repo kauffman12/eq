@@ -54,6 +54,11 @@ export const CLAW_SPELL_PROC_RATES = {
   }
 };
 
+export const TW_SPELL_PROC_RATES = {
+  THPWR: 100 / (100 * 0.25),
+  THWEAK: 100 / (100 * 0.01)
+}
+
 export const FC_SPELL_PROC_RATES = {
   FPWR: 100 / (100 * 0.25),
   FWEAK: 100 / (100 * 0.01)
@@ -61,7 +66,7 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'CRYO', 'MSYN', 'PYRO', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK'
+  'ARCO', 'CRYO', 'MSYN', 'PYRO', 'VFX', 'WSYN', 'SYLLFIRE', 'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
