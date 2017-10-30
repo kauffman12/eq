@@ -33,6 +33,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  AFU3: {
+    base1: 10,
+    baseDmg: 150000,
+    castTime: 0,
+    focusable: false,
+    id: 'AFU3',
+    level: 254,
+    manaCost: 0,
+    maxCritRate: 0.15,
+    name: 'Arcane Fusion III',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'afusion'
+  },
   CRYO: {
     baseDmg: 21050,
     castTime: 0,
