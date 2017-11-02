@@ -66,6 +66,10 @@ export function getConfiguredAbilities(state) {
 
     let setSpellProc = (id, value) => {
       if (id !== 'NONE') {
+        if (value === 'NONE') {
+          value = '';
+        }
+
         let ability = abilities.get(id);
         if (value && ability) {
           abilities.setProcValue(id, value);

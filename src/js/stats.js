@@ -127,6 +127,7 @@ export function printStats(output, state, timerange) {
   let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
   let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
   let totalDotDmg = getSpellCastInfo().get('totalDotDmg') || 0;
+  let totalProcs = getSpellCastInfo().get('totalProcs') || 0;
   let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / (timerange / 1000);
 
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
@@ -172,6 +173,10 @@ export function printStats(output, state, timerange) {
   // Avg TC Rate
   let avgTcRate = (totalDetCastCount > 0) && totalAvgTcRate ? totalAvgTcRate / totalDetCastCount * 100 : 0;
   updateStatSection('#tcRateStats', avgDPS, 'TC Rate ', avgTcRate.toFixed(2) + '%', avgTcRate, 'avgTcRate');
+
+  // Avg Proc Rate
+  let avgProcRate = totalProcs / (timerange / 1000);
+  updateStatSection('#procRateStats', avgDPS, 'PPS', avgProcRate.toFixed(4), avgProcRate, 'avgProcRate');
 
   getSpellCastInfo().get('castMap').forEach((v, k) => {
     output.append(STAT_SUB_TEMPLATE({ label: utils.getSpellData(k).name, value: v}));

@@ -905,46 +905,6 @@ const ABILITIES = {
       }
     ]
   },
-  FURYDRUZ: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Druzzil XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['MAGIC']) }
-        ]
-      }
-    ]
-  },
-  FURYECI: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Eci XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['COLD']) }
-        ]
-      }
-    ]
-  },
   FURYGODS: {
     adpsDropdown: true,
     class: 'wiz',
@@ -961,46 +921,6 @@ const ABILITIES = {
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }
-        ]
-      }
-    ]
-  },
-  FURYKERA: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Kerafyrm IX',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 1550,
-        limits: [
-          { type: 'detrimental' },
-          { maxDuration: 0 }
-        ]
-      }
-    ]
-  },
-  FURYRO: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 600000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Fury of Ro XIII',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 2500,
-        limits: [
-          { type: 'detrimental' },
-          { resists: new Set(['FIRE']) }
         ]
       }
     ]
@@ -1918,43 +1838,6 @@ const ABILITIES = {
           { nonRepeating: true },
           { type: 'detrimental' },
           { minManaCost: 100 },
-          { exSkills: COMBAT_SKILLS }
-        ]
-      }
-    ]
-  },
-  THREADS2: {
-    level: 255,
-    name: 'Threads of Potential',
-    effects: [
-      {
-        spa: 286,
-        slot: 1,
-        type: 'wn',
-        value: 1500,
-        limits: [
-          { currentHitPoints: true },
-          { nonRepeating: true },
-          { minManaCost: 100 },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS }
-        ]
-      }
-    ]
-  },
-  THREADS3: {
-    level: 255,
-    name: 'Threads of Potential',
-    effects: [
-      {
-        spa: 286,
-        slot: 1,
-        type: 'wn',
-        value: 1500,
-        limits: [
-          { currentHitPoints: true },
-          { nonRepeating: true },
-          { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS }
         ]
       }

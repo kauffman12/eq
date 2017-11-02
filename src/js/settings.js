@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.962',
+  VERSION: 'Version 0.963',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -136,8 +136,6 @@ export const basicDmgFocusContext = [
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
       { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
-      { value: 'THREADS2', desc: 'Threads of Potential Belt' },
-      { value: 'THREADS3', desc: 'Proposed Threads of Potential Belt' },
       { value: 'THREADS', desc: 'Parogressio' },
       { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }

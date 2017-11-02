@@ -28,7 +28,7 @@ function addSpellAndEqpProcs(state, mod) {
   dmgU.getSpellProcs(state.spellProcAbilities, state.spell)
     .forEach(item => {
       // remove if execute failed to do anything
-      if (!executeProc(state, item.proc, mod, item.id)) {
+      if (!item.proc || !executeProc(state, item.proc, mod, item.id)) {
         state.spellProcAbilities.delete(item.id);
       }
     });
@@ -47,16 +47,21 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   // Same as with Arcomancy. I think this matters less for damage procs.
   // MSYN and others dont have as big an issue because they always start on main spell cast
   // VFX procs another one when it twincasts, etc
-  let cfickleSpells;
+  let cfickleSpells = 0;
+  let clawSpells = 0;
   switch(spell.id) {
-    case 'CF': case 'FC': case 'CO':
-      cfickleSpells = 1;
-      if (mod < 0.50) {
-        state.cfickleSpells = mod;
-        cfickleSpells = 0;
-      } else { // this one is deciding what to increment by unlike ARCO
-        cfickleSpells += (state.cfickleSpells || 0);
+    case 'FC':
+      state.cfickleSpells = mod + (state.cfickleSpells || 0);
+      if (state.cfickleSpells > 0.50 && !state.inTwincast) {
+        cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
+      }
+      break;
+    case 'CF': case 'CO':
+      state.clawSpells = mod + (state.clawSpells || 0);
+      if (state.clawSpells > 0.50) {
+        clawSpells = state.clawSpells;
+        state.clawSpells = 0;
       }
       break;
   }
@@ -109,7 +114,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
     case 'CF': case 'CO':
       // generate proc effects
-      state.cfSpellProcGenerator.next(cfickleSpells).value.forEach(id => {
+      state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         if (id === 'REFRESH') {
           timeline.resetTimers(state);
         } else {
@@ -118,7 +123,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       });
       break;
     case 'FC':
-      if (G.MODE === 'mag' && !state.inTwincast) {
+      if (G.MODE === 'mag') {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
@@ -335,12 +340,14 @@ function calcAvgMRProcDamage(state, mod, dmgKey) {
 function calcAvgProcDamage(state, proc, mod, dmgKey) {
   // proc damage is based on normal spell damage modified by proc rate and whether or not
   // we're in a twincast
-  let procRate = dmgU.getProcRate(state.spell, proc);
+  let procRate = dmgU.getProcRate(state.spell, proc) * mod;
   let prevSpell = state.spell;
 
   state.spell = proc;
-  execute(state, procRate * mod, dmgKey);
+  execute(state, procRate, dmgKey, true);
   state.spell = prevSpell;
+
+  stats.addAggregateStatistics('totalProcs', procRate);
 }
 
 function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
@@ -395,7 +402,8 @@ function executeProc(state, id, mod, statId) {
   if (ability && ability.charges) {
     if (utils.isAbilityActive(state, key)) {
       let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
-      partUsed = dmgU.processCounter(state, key, mod * chargesPer);
+      let charge = mod * chargesPer;
+      partUsed = dmgU.processCounter(state, key, charge);
     } else {
       // inactive
       partUsed = 0;
@@ -411,6 +419,7 @@ function executeProc(state, id, mod, statId) {
 }
 
 function* genSpellProc(rateInfo, offset) {
+  offset = offset || 0;
   let count = 1 + offset;
   let lastProcCounts = [];
 
@@ -509,7 +518,7 @@ function getTwincastRate(state, spaValues) {
   return rate;
 }
 
-export function execute(state, mod, dmgKey) {
+export function execute(state, mod, dmgKey, isProc) {
   // Default to full strength
   mod = (mod === undefined) ? 1 : mod;
 
@@ -536,6 +545,10 @@ export function execute(state, mod, dmgKey) {
     applyPostSpellEffects(state, tcMod, dmgKey);
 
     state.inTwincast = false;
+    
+    if (isProc) { // keep stats for proc twincast
+      stats.addAggregateStatistics('totalProcs', tcMod);
+    }
   }
 
   return stats.getSpellStatistics(state, 'totalDmg') || 0; // Alliance
