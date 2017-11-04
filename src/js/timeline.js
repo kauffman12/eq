@@ -266,7 +266,7 @@ function updateActiveAbilities(state, duringGCD) {
 // RS has type 3 aug and AAs that reduce the recast so account for that here
 function getModifiedSpellRecastTime(spell) {
   return utils.useCache('spell-recast-time' + spell.id, () => {
-    let recastMod = (spell.id === 'TEMPRS') ? (dom.getHastenedServantValue() + dom.getType3AugValue(spell)) * -1 : 0;
+    let recastMod = (spell.id === 'RS') ? (dom.getHastenedServantValue() + dom.getType3AugValue(spell)) * -1 : 0;
     return (spell.recastTime + recastMod);
   });
 }

@@ -614,7 +614,7 @@ export const SPELL_DATA = {
     timer: 'WOCIV',
     type3Dmg: 0
   },
-  WSYN: {
+  WSYN1: {
     baseDmg: 25000,
     castTime: 0,
     focusable: false,
@@ -623,6 +623,23 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     name: 'Evoker\'s Synergy Strike I',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    spellDmgCap: 0,
+    target: 'SINGLE',
+    timer: 'WSYN'
+  },
+  WSYN2: {
+    baseDmg: 30000,
+    castTime: 0,
+    focusable: false,
+    id: 'WSYN',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Evoker\'s Synergy Strike II',
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',

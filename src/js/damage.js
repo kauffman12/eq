@@ -135,10 +135,17 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
-      timeline.addSpellProcAbility(state, 'WSYN', dom.getEvokersSynergyValue(), true);
+  
+      if (dom.getEvokersSynergyValue() < 11) {
+        timeline.addSpellProcAbility(state, 'WSYN1', dom.getEvokersSynergyValue() / 10, true);
+      }
       break;
     case 'RS':
-      // TEMP timeline.addSpellProcAbility(state, 'MSYN', dom.getConjurersSynergyValue(), true);
+      if (dom.getConjurersSynergyValue() >= 11) {
+        timeline.addSpellProcAbility(state, 'MSYN2', 1, true);
+      } else {
+        timeline.addSpellProcAbility(state, 'MSYN1', dom.getConjurersSynergyValue() / 10, true);
+      }
 
       let keys = utils.getCounterKeys('RS');
       if (state[keys.timers] === undefined) {
@@ -170,6 +177,10 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
+
+      if (dom.getEvokersSynergyValue() >= 11) {
+        timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
+      }
       break;
     case 'WF': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
@@ -285,25 +296,6 @@ function calcAvgDamage(state, mod, dmgKey) {
     // apply mod
     avgDmg = dmgU.trunc(avgDmg * mod);
 
-    // Handle AE waves if current spell is an AE
-    if (state.spell.target === 'AE' && !state.aeWave) {
-      addAEWaves(state, mod, avgDmg);
-    }
-
-    // update totals
-    stats.addSpellStatistics(state, 'totalDmg', avgDmg);
-
-    // save avg damage of main spell
-    let avgDmgKey = state.inTwincast ? 'tcAvgDmg' : 'avgDmg';
-    if (!dmgKey || state.aeWave) {
-      stats.addSpellStatistics(state, avgDmgKey, avgDmg);
-    }
-
-    // dont count twincast damage in AE Hits
-    if (dmgKey && !(state.aeWave && state.inTwincast)) {
-      stats.addSpellStatistics(state, dmgKey, avgDmg);
-    }
-
     // update stats for main damage spells
     if (dmgU.isCastDetSpellOrAbility(state.spell)) {
       // save total crit rate including from twincats and procs plus associated count
@@ -331,6 +323,25 @@ function calcAvgDamage(state, mod, dmgKey) {
         state.updatedCritRValues.push({time: state.timeEst, y: Math.round(critRate * 100)});
         state.updatedCritDValues.push({time: state.timeEst, y: Math.round(critDmgMult * 100)});
       }
+    }
+
+    // Handle AE waves if current spell is an AE
+    if (state.spell.target === 'AE' && !state.aeWave) {
+      addAEWaves(state, mod, avgDmg);
+    }
+
+    // update totals
+    stats.addSpellStatistics(state, 'totalDmg', avgDmg);
+
+    // save avg damage of main spell
+    let avgDmgKey = state.inTwincast ? 'tcAvgDmg' : 'avgDmg';
+    if (!dmgKey || state.aeWave) {
+      stats.addSpellStatistics(state, avgDmgKey, avgDmg);
+    }
+
+    // dont count twincast damage in AE Hits
+    if (dmgKey && !(state.aeWave && state.inTwincast)) {
+      stats.addSpellStatistics(state, dmgKey, avgDmg);
     }
 
     // add spell procs last
@@ -495,7 +506,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
+  if (['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -507,7 +518,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
+  if (! ['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 

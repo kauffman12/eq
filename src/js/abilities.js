@@ -540,15 +540,15 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Beguiler\'s Synergy I',
+    name: 'Beguiler\'s Synergy II',
     repeatEvery: 11000,
-    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindsunder.',
+    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
     effects: [
       {
         spa: 461,
         slot: 1,
         type: 'sp',
-        value: 0.4,
+        value: 0.45,
         limits: [
          { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
          { maxLevel: 249 },
@@ -1640,14 +1640,13 @@ const ABILITIES = {
       }
     ]
   },
-  MSYN: {
+  MSYN1: {
     class: 'mag',
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Conjurer\'s Synergy I',
-    otherCast: true,
-    repeatEvery: 13000,
+    repeatEvery: -1,
     tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
     effects: [
       {
@@ -1664,20 +1663,44 @@ const ABILITIES = {
       }
     ]
   },
+  MSYN2: {
+    class: 'mag',
+    charges: 1,
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Conjurer\'s Synergy II',
+    otherCast: true,
+    repeatEvery: 13000,
+    tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless or Reckless Servant.',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'sp',
+        value: 0.60,
+        limits: [
+          { resists: new Set(['FIRE', 'CHROMATIC']) },
+          { maxLevel: 250 },
+          { minDmg: 100 },
+          { nonRepeating: true }
+        ]
+      }
+    ]
+  },
   NSYN: {
     charges: 1,
     class: 'nec',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Defiler\'s Synergy I',
+    name: 'Defiler\'s Synergy II',
     repeatEvery: 7000,
-    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Impose for Blood.',
+    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Refute for Blood.',
     effects: [
       {
         spa: 170,
         slot: 1,
         type: 'sp',
-        value: 0.15
+        value: 0.20
       }
 /*
       {
@@ -2188,18 +2211,37 @@ const ABILITIES = {
       }
     ]
   },
-  WSYN: {
+  WSYN1: {
     charges: 1,
     class: 'wiz',
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Evoker\'s Synergy I',
-    otherCast: true,
-    repeatEvery: 25000,
+    repeatEvery: -1,
     tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
     effects: [
       {
-        proc: 'WSYN',
+        proc: 'WSYN1',
+        limits: [
+          { onSpellUse: true },
+          { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
+          { type: 'detrimental' }
+        ]
+      }
+    ]
+  },
+  WSYN2: {
+    charges: 1,
+    class: 'wiz',
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Evoker\'s Synergy II',
+    otherCast: true,
+    repeatEvery: 38000,
+    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Ethereal Braid.',
+    effects: [
+      {
+        proc: 'WSYN2',
         limits: [
           { onSpellUse: true },
           { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },

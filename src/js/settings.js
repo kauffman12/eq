@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.961B6',
+  VERSION: 'Version 0.963B7',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -207,184 +207,210 @@ export const basicDmgFocusContext = [
 export const wizSpellFocusAAContext = [
   {
     id: 'aa-evokers-synergy',
-    value: '1',
-    desc: 'Evoker\'s Synergy (10/10)',
+    value: '11',
+    desc: 'Evoker\'s Synergy (11/11)',
     data: [
-      { value: '1', desc: 'Evoker\'s Synergy (10/10)' },
-      { value: '0.9', desc: 'Evoker\'s Synergy (9/10)' },
-      { value: '0.8', desc: 'Evoker\'s Synergy (8/10)' },
-      { value: '0.7', desc: 'Evoker\'s Synergy (7/10)' },
-      { value: '0.6', desc: 'Evoker\'s Synergy (6/10)' },
-      { value: '0.5', desc: 'Evoker\'s Synergy (5/10)' },
-      { value: '0.4', desc: 'Evoker\'s Synergy (4/10)' },
-      { value: '0.3', desc: 'Evoker\'s Synergy (3/10)' },
-      { value: '0.2', desc: 'Evoker\'s Synergy (2/10)' },
-      { value: '0.1', desc: 'Evoker\'s Synergy (1/10)' },
-      { value: '0', desc: 'Evoker\'s Synergy (0/10)' }
+      { value: '11', desc: 'Evoker\'s Synergy (11/11)' },
+      { value: '10', desc: 'Evoker\'s Synergy (10/11)' },
+      { value: '9', desc: 'Evoker\'s Synergy (9/11)' },
+      { value: '8', desc: 'Evoker\'s Synergy (8/11)' },
+      { value: '7', desc: 'Evoker\'s Synergy (7/11)' },
+      { value: '6', desc: 'Evoker\'s Synergy (6/11)' },
+      { value: '5', desc: 'Evoker\'s Synergy (5/11)' },
+      { value: '4', desc: 'Evoker\'s Synergy (4/11)' },
+      { value: '3', desc: 'Evoker\'s Synergy (3/11)' },
+      { value: '2', desc: 'Evoker\'s Synergy (2/11)' },
+      { value: '1', desc: 'Evoker\'s Synergy (1/11)' },
+      { value: '0', desc: 'Evoker\'s Synergy (0/11)' }
     ]
   },
-/*
   {
     id: 'aa-focus-chaos',
     value: '0.16',
-    desc: 'Chaos Scintillation (8/8)',
+    desc: 'Chaos Scintillation (9/9)',
     data: [
-      { value: '0.16', desc: 'Chaos Scintillation (8/8)' },
-      { value: '0.14', desc: 'Chaos Scintillation (7/8)' },
-      { value: '0.12', desc: 'Chaos Scintillation (6/8)' },
-      { value: '0.1', desc: 'Chaos Scintillation (5/8)' },
-      { value: '0.08', desc: 'Chaos Scintillation (4/8)' },
-      { value: '0.06', desc: 'Chaos Scintillation (3/8)' },
-      { value: '0.04', desc: 'Chaos Scintillation (2/8)' },
-      { value: '0.02', desc: 'Chaos Scintillation (1/8)' },
+      { value: '0.16', desc: 'Chaos Scintillation (9/9)' },
+      { value: '0', desc: 'Chaos Scintillation (8/9)' },
+      { value: '0', desc: 'Chaos Scintillation (7/8)' },
+      { value: '0', desc: 'Chaos Scintillation (6/8)' },
+      { value: '0', desc: 'Chaos Scintillation (5/8)' },
+      { value: '0', desc: 'Chaos Scintillation (4/8)' },
+      { value: '0', desc: 'Chaos Scintillation (3/8)' },
+      { value: '0', desc: 'Chaos Scintillation (2/8)' },
+      { value: '0', desc: 'Chaos Scintillation (1/8)' },
       { value: '0', desc: 'Chaos Scintillation (0/8)' }
     ]
   },
   {
     id: 'aa-focus-claws',
     value: '0.16',
-    desc: 'Claws (8/8)',
+    desc: 'Claws (9/9)',
     data: [
-      { value: '0.16', desc: 'Claws (8/8)' },
-      { value: '0.14', desc: 'Claws (7/8)' },
-      { value: '0.12', desc: 'Claws (6/8)' },
-      { value: '0.1', desc: 'Claws (5/8)' },
-      { value: '0.08', desc: 'Claws (4/8)' },
-      { value: '0.06', desc: 'Claws (3/8)' },
-      { value: '0.04', desc: 'Claws (2/8)' },
-      { value: '0.02', desc: 'Claws (1/8)' },
-      { value: '0', desc: 'Claws (0/8)' }
+      { value: '0.16', desc: 'Claws (9/9)' },
+      { value: '0', desc: 'Claws (8/9)' },
+      { value: '0', desc: 'Claws (7/9)' },
+      { value: '0', desc: 'Claws (6/9)' },
+      { value: '0', desc: 'Claws (5/9)' },
+      { value: '0', desc: 'Claws (4/9)' },
+      { value: '0', desc: 'Claws (3/9)' },
+      { value: '0', desc: 'Claws (2/9)' },
+      { value: '0', desc: 'Claws (1/9)' },
+      { value: '0', desc: 'Claws (0/9)' }
     ]
   },
   {
     id: 'aa-focus-cloudburst',
     value: '0.16',
-    desc: 'Cloudburst Stormstrike (8/8)',
+    desc: 'Cloudburst Stormstrike (9/9)',
     data: [
-      { value: '0.16', desc: 'Cloudburst Stormstrike (8/8)' },
-      { value: '0.14', desc: 'Cloudburst Stormstrike (7/8)' },
-      { value: '0.12', desc: 'Cloudburst Stormstrike (6/8)' },
-      { value: '0.1', desc: 'Cloudburst Stormstrike (5/8)' },
-      { value: '0.08', desc: 'Cloudburst Stormstrike (4/8)' },
-      { value: '0.06', desc: 'Cloudburst Stormstrike (3/8)' },
-      { value: '0.04', desc: 'Cloudburst Stormstrike (2/8)' },
-      { value: '0.02', desc: 'Cloudburst Stormstrike (1/8)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (0/8)' }
+      { value: '0.16', desc: 'Cloudburst Stormstrike (9/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (8/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (7/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (6/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (5/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (4/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (3/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (2/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (1/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-flash',
     value: '0.16',
-    desc: 'Ethereal Flash (8/8)',
+    desc: 'Ethereal Flash (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Flash (8/8)' },
-      { value: '0.14', desc: 'Ethereal Flash (7/8)' },
-      { value: '0.12', desc: 'Ethereal Flash (6/8)' },
-      { value: '0.10', desc: 'Ethereal Flash (5/8)' },
-      { value: '0.08', desc: 'Ethereal Flash (4/8)' },
-      { value: '0.06', desc: 'Ethereal Flash (3/8)' },
-      { value: '0.04', desc: 'Ethereal Flash (2/8)' },
-      { value: '0.02', desc: 'Ethereal Flash (1/8)' },
-      { value: '0', desc: 'Ethereal Flash (0/8)' }
+      { value: '0.16', desc: 'Ethereal Flash (9/9)' },
+      { value: '0', desc: 'Ethereal Flash (8/9)' },
+      { value: '0', desc: 'Ethereal Flash (7/9)' },
+      { value: '0', desc: 'Ethereal Flash (6/9)' },
+      { value: '0', desc: 'Ethereal Flash (5/9)' },
+      { value: '0', desc: 'Ethereal Flash (4/9)' },
+      { value: '0', desc: 'Ethereal Flash (3/9)' },
+      { value: '0', desc: 'Ethereal Flash (2/9)' },
+      { value: '0', desc: 'Ethereal Flash (1/9)' },
+      { value: '0', desc: 'Ethereal Flash (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-rimeblast',
     value: '0.16',
-    desc: 'Ethereal Rimeblast (8/8)',
+    desc: 'Ethereal Rimeblast (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Rimeblast (8/8)' },
-      { value: '0.14', desc: 'Ethereal Rimeblast (7/8)' },
-      { value: '0.12', desc: 'Ethereal Rimeblast (6/8)' },
-      { value: '0.1', desc: 'Ethereal Rimeblast (5/8)' },
-      { value: '0.08', desc: 'Ethereal Rimeblast (4/8)' },
-      { value: '0.06', desc: 'Ethereal Rimeblast (3/8)' },
-      { value: '0.04', desc: 'Ethereal Rimeblast (2/8)' },
-      { value: '0.02', desc: 'Ethereal Rimeblast (1/8)' },
-      { value: '0', desc: 'Ethereal Rimeblast (0/8)' }
+      { value: '0.16', desc: 'Ethereal Rimeblast (9/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (8/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (7/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (6/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (5/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (4/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (3/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (2/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (1/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-skyblaze',
     value: '0.16',
-    desc: 'Ethereal Skyblaze (8/8)',
+    desc: 'Ethereal Skyblaze (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Skyblaze (8/8)' },
-      { value: '0.14', desc: 'Ethereal Skyblaze (7/8)' },
-      { value: '0.12', desc: 'Ethereal Skyblaze (6/8)' },
-      { value: '0.1', desc: 'Ethereal Skyblaze (5/8)' },
-      { value: '0.08', desc: 'Ethereal Skyblaze (4/8)' },
-      { value: '0.06', desc: 'Ethereal Skyblaze (3/8)' },
-      { value: '0.04', desc: 'Ethereal Skyblaze (2/8)' },
-      { value: '0.02', desc: 'Ethereal Skyblaze (1/8)' },
-      { value: '0', desc: 'Ethereal Skyblaze (0/8)' }
+      { value: '0.16', desc: 'Ethereal Skyblaze (9/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (8/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (7/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (6/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (5/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (4/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (3/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (2/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (1/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (0/9)' }
     ]
   },
   {
     id: 'aa-focus-flashchar',
     value: '0.16',
-    desc: 'Flashchar (8/8)',
+    desc: 'Flashchar (9/9)',
     data: [
-      { value: '0.16', desc: 'Flashchar (8/8)' },
-      { value: '0.14', desc: 'Flashchar (7/8)' },
-      { value: '0.12', desc: 'Flashchar (6/8)' },
-      { value: '0.1', desc: 'Flashchar (5/8)' },
-      { value: '0.08', desc: 'Flashchar (4/8)' },
-      { value: '0.06', desc: 'Flashchare (3/8)' },
-      { value: '0.04', desc: 'Flashchar (2/8)' },
-      { value: '0.02', desc: 'Flashchar (1/8)' },
-      { value: '0', desc: 'Flashchar (0/8)' }
+      { value: '0.16', desc: 'Flashchar (9/9)' },
+      { value: '0', desc: 'Flashchar (8/9)' },
+      { value: '0', desc: 'Flashchar (7/9)' },
+      { value: '0', desc: 'Flashchar (6/9)' },
+      { value: '0', desc: 'Flashchar (5/9)' },
+      { value: '0', desc: 'Flashchar (4/9)' },
+      { value: '0', desc: 'Flashchare (3/9)' },
+      { value: '0', desc: 'Flashchar (2/9)' },
+      { value: '0', desc: 'Flashchar (1/9)' },
+      { value: '0', desc: 'Flashchar (0/9)' }
     ]
   },
   {
     id: 'aa-focus-purewild',
     value: '0.16',
-    desc: 'Pure Wildflash (8/8)',
+    desc: 'Pure Wildflash (9/9)',
     data: [
-      { value: '0.16', desc: 'Pure Wildflash (8/8)' },
-      { value: '0.14', desc: 'Pure Wildflash (7/8)' },
-      { value: '0.12', desc: 'Pure Wildflash (6/8)' },
-      { value: '0.1', desc: 'Pure Wildflash (5/8)' },
-      { value: '0.08', desc: 'Pure Wildflash (4/8)' },
-      { value: '0.06', desc: 'Pure Wildflash (3/8)' },
-      { value: '0.04', desc: 'Pure Wildflash (2/8)' },
-      { value: '0.02', desc: 'Pure Wildflash (1/8)' },
-      { value: '0', desc: 'Pure Wildflash (0/8)' }
+      { value: '0.16', desc: 'Pure Wildflash (9/9)' },
+      { value: '0', desc: 'Pure Wildflash (8/9)' },
+      { value: '0', desc: 'Pure Wildflash (7/9)' },
+      { value: '0', desc: 'Pure Wildflash (6/9)' },
+      { value: '0', desc: 'Pure Wildflash (5/9)' },
+      { value: '0', desc: 'Pure Wildflash (4/9)' },
+      { value: '0', desc: 'Pure Wildflash (3/9)' },
+      { value: '0', desc: 'Pure Wildflash (2/9)' },
+      { value: '0', desc: 'Pure Wildflash (1/9)' },
+      { value: '0', desc: 'Pure Wildflash (0/9)' }
     ]
   },
   {
     id: 'aa-focus-rains',
     value: '0.16',
-    desc: 'Rains (8/8)',
+    desc: 'Rains (9/9)',
     data: [
-      { value: '0.16', desc: 'Rains (8/8)' },
-      { value: '0.14', desc: 'Rains (7/8)' },
-      { value: '0.12', desc: 'Rains (6/8)' },
-      { value: '0.1', desc: 'Rains (5/8)' },
-      { value: '0.08', desc: 'Rains (4/8)' },
-      { value: '0.06', desc: 'Rains (3/8)' },
-      { value: '0.04', desc: 'Rains (2/8)' },
-      { value: '0.02', desc: 'Rains (1/8)' },
-      { value: '0', desc: 'Rains (0/8)' }
+      { value: '0.16', desc: 'Rains (9/9)' },
+      { value: '0', desc: 'Rains (8/9)' },
+      { value: '0', desc: 'Rains (7/9)' },
+      { value: '0', desc: 'Rains (6/9)' },
+      { value: '0', desc: 'Rains (5/9)' },
+      { value: '0', desc: 'Rains (4/9)' },
+      { value: '0', desc: 'Rains (3/9)' },
+      { value: '0', desc: 'Rains (2/9)' },
+      { value: '0', desc: 'Rains (1/9)' },
+      { value: '0', desc: 'Rains (0/9)' }
     ]
   },
   {
     id: 'aa-focus-rimeblastcascade',
     value: '0.16',
-    desc: 'Rimeblast Cascade (8/8)',
+    desc: 'Rimeblast Cascade (9/9)',
     data: [
-      { value: '0.16', desc: 'Rimeblast Cascade (8/8)' },
-      { value: '0.14', desc: 'Rimeblast Cascade (7/8)' },
-      { value: '0.12', desc: 'Rimeblast Cascade (6/8)' },
-      { value: '0.1', desc: 'Rimeblast Cascade (5/8)' },
-      { value: '0.08', desc: 'Rimeblast Cascade (4/8)' },
-      { value: '0.06', desc: 'Rimeblast Cascade (3/8)' },
-      { value: '0.04', desc: 'Rimeblast Cascade (2/8)' },
-      { value: '0.02', desc: 'Rimeblast Cascade (1/8)' },
-      { value: '0', desc: 'Rimeblast Cascade (0/8)' }
+      { value: '0.16', desc: 'Rimeblast Cascade (9/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (8/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (7/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (6/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (5/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (4/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (3/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (2/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (1/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (0/9)' }
     ]
   },
-*/
+  {
+    id: 'aa-focus-thricewovenstorm',
+    value: '0.16',
+    desc: 'Thricewoven Stormstrike (9/9)',
+    data: [
+      { value: '0.16', desc: 'Thricewoven Stormstrike (9/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (8/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (7/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (6/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (5/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (4/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (3/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (2/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (1/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (0/9)' }
+    ]
+  },
   {
     id: 'aa-focus-vortexes',
     value: '0.16',
@@ -406,56 +432,57 @@ export const wizSpellFocusAAContext = [
 export const magSpellFocusAAContext = [
   {
     id: 'aa-conjurers-synergy',
-    value: '1',
-    desc: 'Conjurer\'s Synergy (10/10)',
+    value: '11',
+    desc: 'Conjurer\'s Synergy (11/11)',
     data: [
-      { value: '1', desc: 'Conjurer\'s Synergy (10/10)' },
-      { value: '0.9', desc: 'Conjurer\'s Synergy (9/10)' },
-      { value: '0.8', desc: 'Conjurer\'s Synergy (8/10)' },
-      { value: '0.7', desc: 'Conjurer\'s Synergy (7/10)' },
-      { value: '0.6', desc: 'Conjurer\'s Synergy (6/10)' },
-      { value: '0.5', desc: 'Conjurer\'s Synergy (5/10)' },
-      { value: '0.4', desc: 'Conjurer\'s Synergy (4/10)' },
-      { value: '0.3', desc: 'Conjurer\'s Synergy (3/10)' },
-      { value: '0.2', desc: 'Conjurer\'s Synergy (2/10)' },
-      { value: '0.1', desc: 'Conjurer\'s Synergy (1/10)' },
-      { value: '0', desc: 'Conjurer\'s Synergy (0/10)' }
+      { value: '11', desc: 'Conjurer\'s Synergy (11/11)' },
+      { value: '10', desc: 'Conjurer\'s Synergy (10/11)' },
+      { value: '9', desc: 'Conjurer\'s Synergy (9/11)' },
+      { value: '8', desc: 'Conjurer\'s Synergy (8/11)' },
+      { value: '7', desc: 'Conjurer\'s Synergy (7/11)' },
+      { value: '6', desc: 'Conjurer\'s Synergy (6/11)' },
+      { value: '5', desc: 'Conjurer\'s Synergy (5/11)' },
+      { value: '4', desc: 'Conjurer\'s Synergy (4/11)' },
+      { value: '3', desc: 'Conjurer\'s Synergy (3/11)' },
+      { value: '2', desc: 'Conjurer\'s Synergy (2/11)' },
+      { value: '1', desc: 'Conjurer\'s Synergy (1/11)' },
+      { value: '0', desc: 'Conjurer\'s Synergy (0/11)' }
     ]
   },
-/*
   {
     id: 'aa-focus-bolt-molten',
     value: '0.16',
-    desc: 'Bolt of Molten Shieldstone (8/8)',
+    desc: 'Bolt of Molten Shieldstone (9/9)',
     data: [
-      { value: '0.16', desc: 'Bolt of Molten Shieldstone (8/8)' },
-      { value: '0.14', desc: 'Bolt of Molten Shieldstone (7/8)' },
-      { value: '0.12', desc: 'Bolt of Molten Shieldstone (6/8)' },
-      { value: '0.1', desc: 'Bolt of Molten Shieldstone (5/8)' },
-      { value: '0.08', desc: 'Bolt of Molten Shieldstone (4/8)' },
-      { value: '0.06', desc: 'Bolt of Molten Shieldstone (3/8)' },
-      { value: '0.04', desc: 'Bolt of Molten Shieldstone (2/8)' },
-      { value: '0.02', desc: 'Bolt of Molten Shieldstone (1/8)' },
-      { value: '0', desc: 'Bolt of Molten Shieldstone (0/8)' }
+      { value: '16', desc: 'Bolt of Molten Shieldstone (9/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (8/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (7/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (6/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (5/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (4/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (3/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (2/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (1/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (0/9)' }
     ]
   },
   {
     id: 'aa-focus-coronal-rain',
     value: '0.16',
-    desc: 'Coronal Rain (8/8)',
+    desc: 'Coronal Rain (9/9)',
     data: [
-      { value: '0.16', desc: 'Coronal Rain (8/8)' },
-      { value: '0.14', desc: 'Coronal Rain (7/8)' },
-      { value: '0.12', desc: 'Coronal Rain (6/8)' },
-      { value: '0.1', desc: 'Coronal Rain (5/8)' },
-      { value: '0.08', desc: 'Coronal Rain (4/8)' },
-      { value: '0.06', desc: 'Coronal Rain (3/8)' },
-      { value: '0.04', desc: 'Coronal Rain (2/8)' },
-      { value: '0.02', desc: 'Coronal Rain (1/8)' },
-      { value: '0', desc: 'Coronal Rain (0/8)' }
+      { value: '0.16', desc: 'Coronal Rain (9/9)' },
+      { value: '0', desc: 'Coronal Rain (8/9)' },
+      { value: '0', desc: 'Coronal Rain (7/9)' },
+      { value: '0', desc: 'Coronal Rain (6/9)' },
+      { value: '0', desc: 'Coronal Rain (5/9)' },
+      { value: '0', desc: 'Coronal Rain (4/9)' },
+      { value: '0', desc: 'Coronal Rain (3/9)' },
+      { value: '0', desc: 'Coronal Rain (2/9)' },
+      { value: '0', desc: 'Coronal Rain (1/9)' },
+      { value: '0', desc: 'Coronal Rain (0/9)' }
     ]
   },
-*/
   {
     id: 'aa-focus-fickle-conflag',
     value: '0.16',
@@ -484,7 +511,6 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Flames of Power (0/4)' }
     ]
   },
-/*
   {
     id: 'aa-hastened-servant',
     value: '6',
@@ -499,54 +525,54 @@ export const magSpellFocusAAContext = [
   {
     id: 'aa-focus-rain-cutlasses',
     value: '0.16',
-    desc: 'Rain of Cutlasses (8/8)',
+    desc: 'Rain of Cutlasses (9/9)',
     data: [
-      { value: '0.16', desc: 'Rain of Cutlasses (8/8)' },
-      { value: '0.14', desc: 'Rain of Cutlasses (7/8)' },
-      { value: '0.12', desc: 'Rain of Cutlasses (6/8)' },
-      { value: '0.1', desc: 'Rain of Cutlasses (5/8)' },
-      { value: '0.08', desc: 'Rain of Cutlasses (4/8)' },
-      { value: '0.06', desc: 'Rain of Cutlasses (3/8)' },
-      { value: '0.04', desc: 'Rain of Cutlasses (2/8)' },
-      { value: '0.02', desc: 'Rain of Cutlasses (1/8)' },
-      { value: '0', desc: 'Rain of Cutlasses (0/8)' }
+      { value: '0.16', desc: 'Rain of Cutlasses (9/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (8/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (7/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (6/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (5/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (4/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (3/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (2/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (1/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (0/9)' }
     ]
   },
-*/
   {
     id: 'aa-focus-spear-molten',
-    value: '0.16',
-    desc: 'Spear of Molten Shieldstone (8/8)',
+    value: '9',  // special case to check new spear vs old. uses 16%
+    desc: 'Spear of Molten Shieldstone (9/9)',
     data: [
-      { value: '0.16', desc: 'Spear of Molten Shieldstone (8/8)' },
-      { value: '0.14', desc: 'Spear of Molten Shieldstone (7/8)' },
-      { value: '0.12', desc: 'Spear of Molten Shieldstone (6/8)' },
-      { value: '0.1', desc: 'Spear of Molten Shieldstone (5/8)' },
-      { value: '0.08', desc: 'Spear of Molten Shieldstone (4/8)' },
-      { value: '0.06', desc: 'Spear of Molten Shieldstone (3/8)' },
-      { value: '0.04', desc: 'Spear of Molten Shieldstone (2/8)' },
-      { value: '0.02', desc: 'Spear of Molten Shieldstone (1/8)' },
-      { value: '0', desc: 'Spear of Molten Shieldstone (0/8)' }
+      { value: '9', desc: 'Spear of Molten Shieldstone (9/9)' },
+      { value: '0.16', desc: 'Spear of Molten Shieldstone (8/9)' },
+      { value: '0.14', desc: 'Spear of Molten Shieldstone (7/9)' },
+      { value: '0.12', desc: 'Spear of Molten Shieldstone (6/9)' },
+      { value: '0.10', desc: 'Spear of Molten Shieldstone (5/9)' },
+      { value: '0.08', desc: 'Spear of Molten Shieldstone (4/9)' },
+      { value: '0.06', desc: 'Spear of Molten Shieldstone (3/9)' },
+      { value: '0.04', desc: 'Spear of Molten Shieldstone (2/9)' },
+      { value: '0.02', desc: 'Spear of Molten Shieldstone (1/9)' },
+      { value: '0', desc: 'Spear of Molten Shieldstone (0/9)' }
     ]
-  }
-/*
+  },
   {
     id: 'aa-focus-storm-many',
     value: '0.40',
-    desc: 'Storm of Many (8/8)',
+    desc: 'Storm of Many (9/9)',
     data: [
-      { value: '0.40', desc: 'Storm of Many (8/8)' },
-      { value: '0.35', desc: 'Storm of Many (7/8)' },
-      { value: '0.30', desc: 'Storm of Many (6/8)' },
-      { value: '0.25', desc: 'Storm of Many (5/8)' },
-      { value: '0.20', desc: 'Storm of Many (4/8)' },
-      { value: '0.15', desc: 'Storm of Many (3/8)' },
-      { value: '0.10', desc: 'Storm of Many (2/8)' },
-      { value: '0.05', desc: 'Storm of Many (1/8)' },
-      { value: '0', desc: 'Storm of Many (0/8)' }
+      { value: '0.40', desc: 'Storm of Many (9/9)' },
+      { value: '0', desc: 'Storm of Many (8/9)' },
+      { value: '0', desc: 'Storm of Many (7/9)' },
+      { value: '0', desc: 'Storm of Many (6/9)' },
+      { value: '0', desc: 'Storm of Many (5/9)' },
+      { value: '0', desc: 'Storm of Many (4/9)' },
+      { value: '0', desc: 'Storm of Many (3/9)' },
+      { value: '0', desc: 'Storm of Many (2/9)' },
+      { value: '0', desc: 'Storm of Many (1/9)' },
+      { value: '0', desc: 'Storm of Many (0/9)' }
     ]
   }
-*/
 ];
 
 export const wizDPSAAContext = [

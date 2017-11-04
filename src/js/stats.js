@@ -68,9 +68,11 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "Gift of Chroma", spellStats.get('gchChargesUsed'));
     addDecimalStatDescription(data, "Mana Charge", spellStats.get('mcChargesUsed'));
     addDecimalStatDescription(data, "Enc Synergy", spellStats.get('esynChargesUsed'));
-    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msynChargesUsed'));
+    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msyn1ChargesUsed'));
+    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msyn2ChargesUsed'));
     addDecimalStatDescription(data, "Nec Synergy", spellStats.get('nsynChargesUsed'));
-    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsynChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn1ChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn2ChargesUsed'));
     addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
     addDecimalStatDescription(data, "FlamesWeak Effect", spellStats.get('fweakChargesUsed'));
     addDecimalStatDescription(data, "ThricePwr Charges", spellStats.get('thpwrChargesUsed'));
@@ -115,7 +117,8 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
   addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
 
-  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsynAddDmg'));
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn1AddDmg'));
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn2AddDmg'));
 
   addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
