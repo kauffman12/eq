@@ -440,7 +440,12 @@ export function addSpellProcAbility(state, id, mod, initialize) {
     let keys = utils.getCounterKeys(id);
     if (ability.charges) {
       // mod initially added for conjurer's synergy proc rate
-      state[keys.counter] = mod * (dom.getAbilityCharges(id) || ability.charges);
+      let charges = dom.getAbilityCharges(id);
+      if (charges == undefined) {
+        charges = ability.charges;
+      }
+    
+      state[keys.counter] = mod * charges;
     }
 
     if (ability.duration) {
