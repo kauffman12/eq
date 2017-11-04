@@ -7,4 +7,4 @@ Build:
 
 npm install
 
-npm run build|dev|prod
+npm run build|dev|prod|gzip
