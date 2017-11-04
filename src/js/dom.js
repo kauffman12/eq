@@ -123,7 +123,13 @@ export function getActiveRepeatingAbilities() {
 
 export function getAbilityCharges(id) {
   return utils.useCache('ability-charges-' + id, () => {
-    return utils.getNumberValue(($('#' + id + 'Charges').val()));
+    let charges;
+    let $node = $('#' + id + 'Charges');
+    if ($node.length > 0) {
+      charges = utils.getNumberValue($node.val());
+    }
+
+    return charges;
   });
 }
 

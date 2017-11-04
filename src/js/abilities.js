@@ -1646,7 +1646,6 @@ const ABILITIES = {
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Conjurer\'s Synergy I',
-    repeatEvery: -1,
     tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
     effects: [
       {
@@ -2217,7 +2216,6 @@ const ABILITIES = {
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Evoker\'s Synergy I',
-    repeatEvery: -1,
     tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
     effects: [
       {
