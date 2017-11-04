@@ -15,6 +15,7 @@ import {globals as G} from './settings.js';
 // 399 - increase twincast rate
 // 413 - increase spell effectiveness            (effectiveness multiplyer)
 // 461 - increase spell damage v2                (special crit multiplier)
+// 461 - increase spell damage                   (after crit addition)
 // 483 - increase spell and dot damage taken     (after crit multiplyer not modifiable)
 // 484 - increase spell damage taken             (after crit addition not modifiable)
 
@@ -27,7 +28,7 @@ import {globals as G} from './settings.js';
 //             +N repeat every N 
 //             -999 repeat when activated by some means like proc/cast
 
-export const SPA_AFTER_CRIT_ADD = new Set([286]);
+export const SPA_AFTER_CRIT_ADD = new Set([286, 462]);
 export const SPA_AFTER_CRIT_ADD_NO_MOD = new Set([484]);
 export const SPA_AFTER_CRIT_FOCUS_NO_MOD = new Set([483]);
 export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
@@ -37,7 +38,7 @@ export const SPA_POST_CALC_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 484]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -2060,9 +2061,9 @@ const ABILITIES = {
     name: 'Threads of Potential',
     effects: [
       {
-        spa: 286,
+        spa: 462,
         slot: 1,
-        type: 'sp',
+        type: 'wn',
         value: 1500,
         limits: [
           { currentHitPoints: true },
@@ -2079,9 +2080,9 @@ const ABILITIES = {
     name: 'Threads of Potential 3500',
     effects: [
       {
-        spa: 286,
+        spa: 462,
         slot: 1,
-        type: 'sp',
+        type: 'wn',
         value: 3500,
         limits: [
           { currentHitPoints: true },

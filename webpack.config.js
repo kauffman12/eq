@@ -59,6 +59,12 @@ module.exports = (env, args) => {
           use: [
             { loader: 'file-loader', options: { name: 'fonts/[name].[ext]', publicPath: '../../' } }
           ]
+        },
+        {
+          test: /\.(json)$/,
+          use: [
+            { loader: 'file-loader', options: {name: 'data/[name].[ext]', publicPath: '../../' } }
+          ]
         }
       ]
     },
@@ -102,7 +108,7 @@ module.exports = (env, args) => {
       new CompressionPlugin({
         asset: "[path][query]",
         algorithm: "gzip",
-        test: /\.js$|\.css$/,
+        test: /\.js$|\.css$|\.json$/,
         minRatio: 0.8
       })
     );

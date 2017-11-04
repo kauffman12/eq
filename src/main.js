@@ -3,6 +3,7 @@ import './css/generated/bootstrap.css';
 import './css/generated/vis-timeline-graph2d.css';
 import 'bootstrap-multiselect/dist/css/bootstrap-multiselect.css';
 import './css/main.css';
+import testData from './data/spell-validation.json';
 
 // Library References
 import {globals as G} from './js/settings.js';
@@ -196,7 +197,7 @@ $('.custom-collapse').each((i, p) => {
 });
 
 $('#myModal').on('shown.bs.modal', () => {
-  dmgU.displaySpellInfo($('#myModal .modal-body'));
+  $.get(testData, (data) => dmgU.displaySpellInfo($('#myModal .modal-body'), data));
 })
 
 // Set default collapse state

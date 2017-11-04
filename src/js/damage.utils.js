@@ -3,7 +3,7 @@ import * as abilities from './abilities.js';
 import * as dom from './dom.js';
 import * as stats from './stats.js';
 import * as utils from './utils.js';
-import * as testData from './test/test.data.js';
+//import * as testData from './test/test.data.js';
 
 // Wiz Settings
 export const FUSE_PROC_CHANCE = 0.35;
@@ -388,7 +388,7 @@ export function getEqpProcs(spell) {
     ].filter(id => {
       if (id !== 'NONE') {
         let procSpell = utils.getSpellData(id);
-        return (procSpell && procSpell.id != spell.id); // check self
+        return (procSpell && procSpell.id && procSpell.id != spell.id); // check self
       }
     });
   });
@@ -462,7 +462,7 @@ export function trunc(value) {
   return Math.trunc(utils.asDecimal32Precision(value));
 }
 
-export function displaySpellInfo(target) {
+export function displaySpellInfo(target, testData) {
   $(target).css('height', '600px');
   $(target).css('overflow-y', 'auto');
   let test = $(target).find('.test-data');  
@@ -510,8 +510,9 @@ export function displaySpellInfo(target) {
   let preCurrent = $('<pre><code>');
   let preTest = $('<pre><code>');
 
+  console.debug(testData);
   lines.forEach(line => preCurrent.append(line + '\n'));
-  testData.VALID_RULES.forEach(line => preTest.append(line + '\n'));
+  testData.forEach(line => preTest.append(line + '\n'));
 
   // do this and view page source...
   //let w = window.open('', 'Test Data');
@@ -523,7 +524,7 @@ export function displaySpellInfo(target) {
   // check for errors
   let error = -1;
   for (let i=0; i<lines.length; i++) {
-    if (lines[i] !== testData.VALID_RULES[i]) {
+    if (lines[i] !== testData[i]) {
       error = i + 1;
       break;
     }
