@@ -510,7 +510,6 @@ export function displaySpellInfo(target, testData) {
   let preCurrent = $('<pre><code>');
   let preTest = $('<pre><code>');
 
-  console.debug(testData);
   lines.forEach(line => preCurrent.append(line + '\n'));
   testData.forEach(line => preTest.append(line + '\n'));
 
