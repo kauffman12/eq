@@ -1712,6 +1712,27 @@ const ABILITIES = {
 */
     ]
   },
+  PRECISION: {
+    adpsDropdown: true,
+    class: 'war',
+    duration: 60000,
+    level: 25,
+    name: 'Imperator\'s Precision IV',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 483,
+        slot: 1,
+        type: 'sp',
+        value: 0.185,
+        limits: [
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
   PYRO: {
     class: 'wiz',
     debuff: true,
@@ -2064,26 +2085,7 @@ const ABILITIES = {
         spa: 462,
         slot: 1,
         type: 'wn',
-        value: 1500,
-        limits: [
-          { currentHitPoints: true },
-          { nonRepeating: true },
-          { type: 'detrimental' },
-          { minManaCost: 100 },
-          { exSkills: COMBAT_SKILLS }
-        ]
-      }
-    ]
-  },
-  THREADSP3500: {
-    level: 255,
-    name: 'Threads of Potential 3500',
-    effects: [
-      {
-        spa: 462,
-        slot: 1,
-        type: 'wn',
-        value: 3500,
+        value: 3000,
         limits: [
           { currentHitPoints: true },
           { nonRepeating: true },

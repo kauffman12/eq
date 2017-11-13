@@ -13,6 +13,7 @@ export const CLASS_TO_NAME = {
   rng: 'Ranger',
   nec: 'Necromancer',
   mag: 'Magician',
+  war: 'Warrior',
   wiz: 'Wizard'
 };
 
