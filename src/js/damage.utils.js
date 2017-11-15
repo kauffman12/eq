@@ -22,7 +22,7 @@ export const MAGE_INNATE_CRIT_DMG = 100;
 export const ARCO_PROC_RATE = 100 / (100 * 0.30);
 export const CRYO_PROC_RATE = 100 / (100 * 0.25);
 export const PYRO_PROC_RATE = 100 / (100 * 0.21);
-export const PYRO_DPS = 22200 / 6; // TEMP
+export const PYRO_DPS = 20400 / 6;
 
 // Claw/Chaotic effect proc rates per 100 casts
 export const CLAW_SPELL_PROC_RATES = {

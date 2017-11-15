@@ -279,12 +279,12 @@ function calcAvgDamage(state, mod, dmgKey) {
     let beforeCritDmg = effDmg + dmgU.trunc(effDmg * beforeCritFocus) + beforeCritAdd + spellDmg;
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd;
+    let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
+    let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
 
     // special case for manaburn. it's the only SPA 484 but 483 seems to get doubled with it
     // like it's counting as a 2nd hit? need to test with other kinds of after crit add
     let afterCritNoModDmg = (dmgU.trunc(effDmg * afterCritFocusNoMod) * (afterCritAddNoMod ? 2 : 1)) + afterCritAddNoMod;
-    let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
-    let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
 
     // add SPA 461 and after crit that's not modifiable (only based on effective damage)
     avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcFocus) + afterCritNoModDmg;

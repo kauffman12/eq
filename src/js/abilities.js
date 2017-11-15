@@ -264,17 +264,17 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 254,
     mode: 'wiz',
-    name: 'Arcomancy XXVII (Not In Beta Yet)',
+    name: 'Arcomancy XXVII',
     repeatEvery: -999,
     type: 'sp',
     effects: [
       {
         slot: 1,
         spa: 297,
-        value: 2200,
+        value: 3500,
         limits: [
           { maxLevel: 110 },
-          { minLevel: 75 },
+          { minLevel: 96 },
           { minManaCost: 10 }
         ]
       }
@@ -423,7 +423,7 @@ const ABILITIES = {
     debuff: true,
     level: 254,
     mode: 'wiz',
-    name: 'Cryomancy XXVII (Not In Beta Yet)',
+    name: 'Cryomancy XXVII',
     repeatEvery: -999,
     effects: [
       {
@@ -432,7 +432,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { type: 'detrimental' },
           { resists: new Set(['COLD']) },
-          { minLevel: 70 },
+          { minLevel: 91 },
           { maxLevel: 110 },
           { maxDuration: 0 },
           { minManaCost: 10 }
@@ -588,7 +588,7 @@ const ABILITIES = {
     duration: 410000,
     level: 254,
     mode: 'wiz',
-    name: 'Frenzied Devastation XXIX',
+    name: 'Frenzied Devastation XXX',
     effects: [
       {
         spa: 212,
@@ -607,7 +607,7 @@ const ABILITIES = {
         spa: 170,
         slot: 8,
         type: 'sp',
-        value: 0.80
+        value: 0.85
       }
     ]
   },
@@ -1049,13 +1049,13 @@ const ABILITIES = {
     duration: 240000,
     level: 254,
     mode: 'wiz',
-    name: 'Fury of the Gods XLVIII',
+    name: 'Fury of the Gods XLIX',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3600,
+        value: 3700,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }
@@ -1389,42 +1389,13 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'Improved Familiar XXVIII',
+    name: 'Improved Familiar XXX',
     effects: [
       {
-        decay: 0.05, // per level
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 0.50,
-        limits: [
-          { maxDuration: 0 },
-          { type: 'detrimental' },
-          { exTargets: TARGET_AES },
-          { maxLevel: 105 }, // from testing
-          { exSkills: COMBAT_SKILLS }, // from testing
-        ]
-      },
-      {
-        spa: 170, // moved rules up from testing
-        slot: 5,
-        type: 'sp',
-        value: 0.27,
-      }
-    ]
-  },
-  IMPF2: {
-    class: 'wiz',
-    level: 254,
-    mode: 'wiz',
-    name: 'Improved Familiar XXX (Not In Beta Yet)',
-    effects: [
-      {
-        decay: 0.05,
-        spa: 124,
-        slot: 1,
-        type: 'sp',
-        value: 0.50, // 0.5 wheh max level updated
+        value: 0.525,
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
@@ -1437,7 +1408,7 @@ const ABILITIES = {
         spa: 170, // moved rules up from testing
         slot: 5,
         type: 'sp',
-        value: 0.27,
+        value: 0.29,
       }
     ]
   },
@@ -1525,14 +1496,14 @@ const ABILITIES = {
     class: 'enc',
     debuff: true,
     level: 255,
-    name: 'Tashan\'s Lingering Cry IV',
+    name: 'Tashan\'s Lingering Cry V',
     repeatEvery: -1,
     effects: [
       {
         spa: 483,
         slot: 1,
         type: 'sp',
-        value: 0.08,
+        value: 0.09,
         limits: [
           { maxLevel: 110 },
           { minManaCost: 10 }
@@ -1568,13 +1539,13 @@ const ABILITIES = {
     charges: 500,
     duration: 120000,
     level: 254,
-    name: 'Mana Burn XVI',
+    name: 'Mana Burn XVII',
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 19200,
+        value: 20400,
         limits: [
           { maxDuration: 0 }
         ]
@@ -1739,9 +1710,9 @@ const ABILITIES = {
     duration: 36000, // dot does 5 ticks of damage plus 1 at the end
     level: 254,
     mode: 'wiz',
-    name: 'Pyromancy XXVII (Not In Beta Yet)',
+    name: 'Pyromancy XXVII',
     repeatEvery: -999,
-    effects: [] // handled by DOT generator and constants in dmgU
+    effects: [] // handled by DOT generator and constants in dmgU ++ should have level 91
   },
   QUNARD: {
     class: 'brd',

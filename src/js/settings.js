@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.965B8',
+  VERSION: 'Version 0.965B9',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -661,32 +661,41 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-force-of-flame',
-    value: 'FF6',
-    desc: 'Force of Flame (6/6)',
+    value: 'FF9',
+    desc: 'Force of Flame (9/9)',
     data: [
-      { value: 'FF6', desc: 'Force of Flame (6/6)' },
-      { value: 'FF5', desc: 'Force of Flame (5/6)' },
-      { value: 'FF4', desc: 'Force of Flame (4/6)' }
+      { value: 'FF9', desc: 'Force of Flame (9/9)' },
+      { value: 'FF8', desc: 'Force of Flame (8/9)' },
+      { value: 'FF7', desc: 'Force of Flame (7/9)' },
+      { value: 'FF6', desc: 'Force of Flame (6/9)' },
+      { value: 'FF5', desc: 'Force of Flame (5/9)' },
+      { value: 'FF4', desc: 'Force of Flame (4/9)' }
     ]
   },
   {
     id: 'aa-force-of-ice',
-    value: 'FI6',
-    desc: 'Force of Ice (6/6)',
+    value: 'FI9',
+    desc: 'Force of Ice (9/9)',
     data: [
-      { value: 'FI6', desc: 'Force of Ice (6/6)' },
-      { value: 'FI5', desc: 'Force of Ice (5/6)' },
-      { value: 'FI4', desc: 'Force of Ice (4/6)' }
+      { value: 'FI9', desc: 'Force of Ice (9/9)' },
+      { value: 'FI8', desc: 'Force of Ice (8/9)' },
+      { value: 'FI7', desc: 'Force of Ice (7/9)' },
+      { value: 'FI6', desc: 'Force of Ice (6/9)' },
+      { value: 'FI5', desc: 'Force of Ice (5/9)' },
+      { value: 'FI4', desc: 'Force of Ice (4/9)' }
     ]
   },
   {
     id: 'aa-force-of-will',
-    value: 'FW26',
-    desc: 'Force of Will (26/26)',
+    value: 'FW29',
+    desc: 'Force of Will (29/29)',
     data: [
-      { value: 'FW26', desc: 'Force of Will (26/26)' },
-      { value: 'FW25', desc: 'Force of Will (25/26)' },
-      { value: 'FW24', desc: 'Force of Will (24/26)' }
+      { value: 'FW29', desc: 'Force of Will (29/29)' },
+      { value: 'FW28', desc: 'Force of Will (28/29)' },
+      { value: 'FW27', desc: 'Force of Will (27/29)' },
+      { value: 'FW26', desc: 'Force of Will (26/29)' },
+      { value: 'FW25', desc: 'Force of Will (25/29)' },
+      { value: 'FW24', desc: 'Force of Will (24/29)' }
     ]
   },
   {
@@ -734,11 +743,10 @@ export const wizDPSAAContext = [
   },
   {
     id: 'spell-pet-focus',
-    value: 'IMPF2',
-    desc: 'Improved Familiar (30) (Not In Beta Yet)',
+    value: 'IMPF',
+    desc: 'Improved Familiar (30)',
     data: [
-      { value: 'IMPF2', desc: 'Improved Familiar (30) (Not In Beta Yet)' },
-      { value: 'IMPF', desc: 'Improved Familiar (28)' },
+      { value: 'IMPF', desc: 'Improved Familiar (30)' },
       { value: '', desc: 'No Familiar Selected' }
     ]
   },
