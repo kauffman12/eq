@@ -1437,10 +1437,10 @@ const ABILITIES = {
   },
   ITC: {
     adpsDropdown: true,
-    charges: 18,
+    charges: 19,
     duration: 150000,
     level: 254,
-    name: 'Improved Twincast VI',
+    name: 'Improved Twincast VII',
     effects: [
       {
         spa: 399,
