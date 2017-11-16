@@ -150,15 +150,15 @@ export function getAddAfterCritAddValue() {
     return utils.getNumberValue($('#addAfterCritAdd').val());
   });
 }
-export function getAddAfterCritAddNoModValue() {
-  return utils.useCache('.add-after-crit-add-nomod', () => {
-    return utils.getNumberValue($('#addAfterCritAddNoMod').val());
+export function getAddAfterSPA461AddValue() {
+  return utils.useCache('.add-after-spa-461-add', () => {
+    return utils.getNumberValue($('#addAfterSPA461Add').val());
   });
 }
 
-export function getAddAfterCritFocusNoModValue() {
-  return utils.useCache('.add-after-crit-focus-nomod', () => {
-    return utils.getNumberValue($('#addAfterCritFocusNoMod').val() / 100);
+export function getAddAfterSPA461FocusValue() {
+  return utils.useCache('.add-after-spa-461-focus', () => {
+    return utils.getNumberValue($('#addAfterSPA461Focus').val() / 100);
   });
 }
 

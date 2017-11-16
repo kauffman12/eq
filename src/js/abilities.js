@@ -15,9 +15,10 @@ import {globals as G} from './settings.js';
 // 399 - increase twincast rate
 // 413 - increase spell effectiveness            (effectiveness multiplyer)
 // 461 - increase spell damage v2                (special crit multiplier)
-// 461 - increase spell damage                   (after crit addition)
-// 483 - increase spell and dot damage taken     (after crit multiplyer not modifiable)
-// 484 - increase spell damage taken             (after crit addition not modifiable)
+// 462 - increase spell damage                   (after crit addition)
+// 483 - increase spell and dot damage taken     (after SPA 461 mutliplyer)
+// 484 - increase spell damage taken             (after SPA 461 addition not modifiable)
+// 507 - increase spell damage                   (after SPA 461 multiplayer)
 
 // Notes
 // tick durations rounded up 1/2 tick since it seems random what you really get
@@ -28,17 +29,19 @@ import {globals as G} from './settings.js';
 //             +N repeat every N 
 //             -999 repeat when activated by some means like proc/cast
 
-export const SPA_AFTER_CRIT_ADD = new Set([286, 462]);
-export const SPA_AFTER_CRIT_ADD_NO_MOD = new Set([484]);
-export const SPA_AFTER_CRIT_FOCUS_NO_MOD = new Set([483]);
+export const SPA_483_FOCUS = new Set([483]);
+export const SPA_AFTER_CRIT_ADD = new Set([286]);
+export const SPA_AFTER_CRIT_FOCUS = new Set([]);
+export const SPA_AFTER_SPA_461_ADD = new Set([462, 484]);
+export const SPA_AFTER_SPA_461_FOCUS = new Set([507]);
 export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
 export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
 export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
-export const SPA_POST_CALC_FOCUS = new Set([461]);
+export const SPA_461_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 483, 484, 507]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -46,13 +49,15 @@ export const SPA_TWINCAST = new Set([399]);
 export const SPA_KEY_MAP = new Map();
 SPA_CRIT_RATE_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritRate'));
 SPA_CRIT_DMG_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritDmg'));
+SPA_483_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa483Focus'));
 SPA_AFTER_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAdd'));
-SPA_AFTER_CRIT_ADD_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAddNoMod'));
-SPA_AFTER_CRIT_FOCUS_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocusNoMod'));
+SPA_AFTER_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocus'));
+SPA_AFTER_SPA_461_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Add'));
+SPA_AFTER_SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Focus'));
 SPA_BEFORE_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritAdd'));
 SPA_BEFORE_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritFocus'));
 SPA_BEFORE_DOT_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeDoTCritFocus'));
-SPA_POST_CALC_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'postCalcFocus'));
+SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa461Focus'));
 SPA_EFFECTIVENESS.forEach(spa => SPA_KEY_MAP.set(spa, 'effectiveness'));
 SPA_TWINCAST.forEach(spa => SPA_KEY_MAP.set(spa, 'twincast'));
 
@@ -615,8 +620,8 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'brd',
     duration: 120000,
-    level: 105,
-    name: 'Fierce Eye III',
+    level: 110,
+    name: 'Fierce Eye IV',
     effects: [
 /*
       {
@@ -630,13 +635,19 @@ const ABILITIES = {
         spa: 294,
         slot: 5,
         type: 'sp',
-        value: 0.12
+        value: 0.13
       },
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 0.12
+        value: 0.13
+      },
+      {
+        spa: 507,
+        slot: 12,
+        type: 'sp',
+        value: 0.13
       }
     ]
   },
@@ -1049,13 +1060,13 @@ const ABILITIES = {
     duration: 240000,
     level: 254,
     mode: 'wiz',
-    name: 'Fury of the Gods XLIX',
+    name: 'Fury of the Gods LI',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3700,
+        value: 3900,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }

@@ -90,9 +90,9 @@ export function getStatisticsSummary(spellStats) {
       addPercentStatDescription(data, "Before DoT Crit Focus", spellStats.get('beforeDoTCritFocus'));
       addPercentStatDescription(data, "After Crit Focus", spellStats.get('afterCritFocus'));
       addNumberStatDescription(data, "After Crit Add", spellStats.get('afterCritAdd'));
-      addPercentStatDescription(data, "After Crit Focus NM", spellStats.get('afterCritFocusNoMod'));
-      addNumberStatDescription(data, "After Crit Add NM", spellStats.get('afterCritAddNoMod'));
-      addPercentStatDescription(data, "Post Calc Focus", spellStats.get('postCalcFocus'));
+      addPercentStatDescription(data, "SPA 461 Focus", spellStats.get('spa461Focus'));
+      addPercentStatDescription(data, "After SPA 461 Focus", spellStats.get('afterSPA461Focus'));
+      addNumberStatDescription(data, "After SPA 461 Add", spellStats.get('afterSPA461Add'));
 
       addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
       addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));

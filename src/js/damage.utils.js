@@ -203,6 +203,7 @@ export function buildSPAData(ids, spell) {
   let abilitySet = new Set();
   let dontChargeSet = new Set();
   let blocked = new Set();
+  let spaSet = new Set();
   
   ids.forEach(id => {
     let ability = abilities.get(id);
@@ -235,6 +236,7 @@ export function buildSPAData(ids, spell) {
             }
           }
 
+          spaSet.add(effect.spa);
           spaMap.set(key, { value: value, spa: effect.spa, id: id });
           abilitySet.add(id);
         } else if (existing && effect.spa === 294) {
@@ -251,7 +253,7 @@ export function buildSPAData(ids, spell) {
     });
   });
   
-  return {abilitySet: abilitySet, dontChargeSet: dontChargeSet, spaMap: spaMap};
+  return {abilitySet: abilitySet, dontChargeSet: dontChargeSet, spaMap: spaMap, spaSet: spaSet};
 }
 
 export function checkSingleEffectLimit(spell, id) {
@@ -304,10 +306,15 @@ export function computeSPAs(state, mod) {
         }
       }
 
+      // special case for 483 getting double benefit when used with 484
+      if (spa === 483 && result.spaSet.has(484)) {
+        update = update * 2;
+      }
+
       spaValues[key] += update * partUsed;
     }
   });
-
+   
   return {abilitySet: result.abilitySet, spaValues: spaValues};
 }
 

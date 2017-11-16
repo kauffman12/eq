@@ -264,31 +264,38 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Before DoT Crit Focus
     let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
     // Get After Crit Focus
-    let afterCritFocus = dom.getAddAfterCritFocusValue();
+    let afterCritFocus = (spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue(); // or 0 since non defined atm
     // Get After Crit Add
     let afterCritAdd = spaValues.afterCritAdd + dom.getAddAfterCritAddValue();
     // Get AfterCrit Add (SPA 484) (not modifiable)
-    let afterCritAddNoMod = spaValues.afterCritAddNoMod + dom.getAddAfterCritAddNoModValue();
+    let afterSPA461Add = spaValues.afterSPA461Add + dom.getAddAfterSPA461AddValue();
     // Get AfterCrit Focus (not modifiable)
-    let afterCritFocusNoMod = spaValues.afterCritFocusNoMod + dom.getAddAfterCritFocusNoModValue();
+    let afterSPA461Focus = spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue();
     // Get New SPA 461 Focus
-    let postCalcFocus = spaValues.postCalcFocus;
+    let spa461Focus = spaValues.spa461Focus;
+    // Get New semi-broken SPA 483 Focus
+    let spa483Focus = spaValues.spa483Focus;
 
-    // find avergage non crit
+    // effective damage
     let effDmg = state.spell.baseDmg + dmgU.trunc(state.spell.baseDmg * effectiveness);
+    // SPAs that are included in a crit
     let beforeCritDmg = effDmg + dmgU.trunc(effDmg * beforeCritFocus) + beforeCritAdd + spellDmg;
+    // SPAs that are included when a dot crits (none implemented for wizard)
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
+    // damage to appended after crits have been calculated but before SPA 461
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd;
+
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
 
-    // special case for manaburn. it's the only SPA 484 but 483 seems to get doubled with it
-    // like it's counting as a 2nd hit? need to test with other kinds of after crit add
-    let afterCritNoModDmg = (dmgU.trunc(effDmg * afterCritFocusNoMod) * (afterCritAddNoMod ? 2 : 1)) + afterCritAddNoMod;
+    // damage to append after SPA 461
+    // need to add 483 separate or damage is off by 1 plus its the messed up SPA so it's 
+    // probably calculated on its own
+    let afterSPA461Dmg = dmgU.trunc(effDmg * afterSPA461Focus) + afterSPA461Add + dmgU.trunc(effDmg * spa483Focus);
 
-    // add SPA 461 and after crit that's not modifiable (only based on effective damage)
-    avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcFocus) + afterCritNoModDmg;
-    avgCritDmg += dmgU.trunc(avgCritDmg * postCalcFocus) + afterCritNoModDmg;
+    // add SPA 461
+    avgBaseDmg += dmgU.trunc(avgBaseDmg * spa461Focus) + afterSPA461Dmg;
+    avgCritDmg += dmgU.trunc(avgCritDmg * spa461Focus) + afterSPA461Dmg;
 
     // find average damage overall before additional twincasts
     avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
@@ -312,9 +319,9 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.updateSpellStatistics(state, 'beforeDoTCritFocus', beforeDoTCritFocus);
       stats.updateSpellStatistics(state, 'afterCritFocus', afterCritFocus);
       stats.updateSpellStatistics(state, 'afterCritAdd', afterCritAdd);
-      stats.updateSpellStatistics(state, 'afterCritFocusNoMod', afterCritFocusNoMod);
-      stats.updateSpellStatistics(state, 'afterCritAddNoMod', afterCritAddNoMod);
-      stats.updateSpellStatistics(state, 'postCalcFocus', postCalcFocus);
+      stats.updateSpellStatistics(state, 'spa461Focus', spa461Focus);
+      stats.updateSpellStatistics(state, 'afterSPA461Focus', afterSPA461Focus + spa483Focus);
+      stats.updateSpellStatistics(state, 'afterSPA461Add', afterSPA461Add);
       stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
       stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
 
