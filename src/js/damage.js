@@ -272,7 +272,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get AfterCrit Focus (not modifiable)
     let afterSPA461Focus = spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue();
     // Get New SPA 461 Focus
-    let spa461Focus = spaValues.spa461Focus;
+    let spa461Focus = spaValues.spa461Focus + dom.getAddSPA461FocusValue();
     // Get New semi-broken SPA 483 Focus
     let spa483Focus = spaValues.spa483Focus;
 

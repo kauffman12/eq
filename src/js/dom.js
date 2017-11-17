@@ -186,6 +186,12 @@ export function getAddEffectivenessValue() {
   });
 }
 
+export function getAddSPA461FocusValue() {
+  return utils.useCache('.add-SPA461Focus', () => {
+    return utils.getNumberValue($('#addSPA461Focus').val() / 100);
+  });
+}
+
 export function getAddTwincastValue() {
   return utils.useCache('.add-twincast', () => {
     return utils.getNumberValue($('#addTwincast').val() / 100);

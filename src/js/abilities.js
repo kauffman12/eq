@@ -1700,7 +1700,6 @@ const ABILITIES = {
     duration: 60000,
     level: 25,
     name: 'Imperator\'s Precision IV',
-    repeatEvery: -1,
     effects: [
       {
         spa: 483,
