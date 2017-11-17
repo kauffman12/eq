@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.965B11',
+  VERSION: 'Version 0.965B12',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -864,12 +864,15 @@ export const magDPSAAContext = [
   },
   {
     id: 'aa-force-of-elements',
-    value: 'FE15',
-    desc: 'Force of Elements (15/15)',
+    value: 'FE18',
+    desc: 'Force of Elements (18/18)',
     data: [
-      { value: 'FE15', desc: 'Force of Elements (15/15)' },
-      { value: 'FE14', desc: 'Force of Elements (14/15)' },
-      { value: 'FE13', desc: 'Force of Elements (13/15)' }
+      { value: 'FE18', desc: 'Force of Elements (18/18)' },
+      { value: 'FE17', desc: 'Force of Elements (17/18)' },
+      { value: 'FE16', desc: 'Force of Elements (16/18)' },
+      { value: 'FE15', desc: 'Force of Elements (15/18)' },
+      { value: 'FE14', desc: 'Force of Elements (14/18)' },
+      { value: 'FE13', desc: 'Force of Elements (13/18)' }
     ]
   },
   {

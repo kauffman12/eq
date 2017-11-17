@@ -567,21 +567,35 @@ const ABILITIES = {
   EU: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 144000,
+    duration: 180000,
     level: 254,
     mode: 'mag',
-    name: 'Elemental Union XIV (Not In Beta Yet)',
+    name: 'Elemental Union XVI',
     effects: [
       {
-        spa: 124,
+        spa: 212,
         slot: 1,
         type: 'sp',
-        value: 0.95,
+        value: 0.10,
         limits: [
           { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 0 },
           { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { exTargets: TARGET_AES }
+          { maxDuration: 0 }
+        ]
+      },
+      {
+        spa: 461,
+        slot: 7,
+        type: 'sp',
+        value: 0.55,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 0 },
+          { type: 'detrimental' },
+          { maxDuration: 0 }
         ]
       }
     ]
@@ -1360,16 +1374,16 @@ const ABILITIES = {
   HOF: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 276000,
+    duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Flames XIII (Not In Beta Yet)',
+    name: 'Heart of Flames XIII',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 1.1,
+        value: 1.15,
         limits: [
           { maxLevel: 110 },
           { resists: new Set(['FIRE']) },
@@ -1383,16 +1397,16 @@ const ABILITIES = {
   HOV: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 276000,
+    duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Vapor XIV',
+    name: 'Heart of Vapor XV',
     effects: [
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 0.35
+        value: 0.45
       }
     ]
   },
