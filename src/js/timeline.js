@@ -27,7 +27,7 @@ const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(
 
 let BASE_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
 let UPDATING_CHART = -1; // used to throttle calls to update the chart data
-let TIME_INCREMENT = 200;
+let TIME_INCREMENT = 50;
 
 // helper for creating a timeline
 function createTimeline(id, time, dom, data, template) {
@@ -42,18 +42,10 @@ function createGraph(id, time, dom, data) {
   return new vis.Graph2d(dom, data, opts);
 }
 
-function castSpell(state, spell) {
+function castSpell(state, spell, adjCastTime) {
   // update current state with spell
   state.chartIndex++;
   state.spell = spell;
-
-  let neededTime = state.workingTime + spell.castTime;
-  if (neededTime > state.endTime) return false; // Time EXCEEDED
-
-  // advance dot damage until we hit end of cast time
-  for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
-    getDoTDamage(state);
-  }
 
   // if twincast spell is no longer active
   utils.isAbilityActive(state, 'TC');
@@ -62,8 +54,18 @@ function castSpell(state, spell) {
   // cancel or reset counters based on timer, only need to check once per workingTime
   updateActiveAbilities(state)
 
+  adjCastTime = adjCastTime || utils.getCastTime(state, spell);
+  let neededTime = state.workingTime + adjCastTime;
+  if (neededTime > state.endTime) return false; // Time EXCEEDED
+
+  // advance dot damage until we hit end of cast time
+  for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
+    getDoTDamage(state);
+  }
+
   // initialize stats
   stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
+  stats.updateSpellStatistics(state, 'adjCastTime', adjCastTime);
   stats.updateSpellStatistics(state, 'id', spell.id);
 
   // set time of last cast and update statistics for interval
@@ -416,10 +418,10 @@ function updateDmgGraph(state, dmg) {
   }
 }
 
-function willCastDuring(state, time, spell) {
+function willCastDuring(state, time, spell, adjCastTime) {
   let lockout = false;
   let lockoutTime = spell.lockoutTime ? ((spell.lockoutTime > state.gcd) ? (spell.lockoutTime) : state.gcd) : 0;
-  lockoutTime += spell.castTime; // total time the spell will be busy
+  lockoutTime += adjCastTime; // total time the spell will be busy
   let timeToCast = state.workingTime + lockoutTime;
 
   return (timeToCast >= time.start && state.workingTime < time.end);
@@ -483,7 +485,6 @@ export function connectPopovers() {
   items.on('inserted.bs.popover', function(e) {
     let index = $(e.currentTarget).data('value');
     let statInfo = stats.getSpellStatisticsForIndex(index);
-
     let popover = $('#spellPopover' + index);
     popover.html('');
     popover.append(SPELL_DETAILS_TEMPLATE({ data: stats.getStatisticsSummary(statInfo) }));
@@ -645,14 +646,15 @@ export function updateSpellChart() {
     if (entry.item && !entry.hasBeenCast) {
       // if we're about to cast a spell but it won't land until after this ability is supposed to be
       // cast then do nothing and wait
-      lockout = current && (spellReady && willCastDuring(state, entry.iTime, current));
+      let adjCastTime = utils.getCastTime(state, entry.spell);
+      lockout = current && (spellReady && willCastDuring(state, entry.iTime, current, adjCastTime));
 
-      if (withinTimeFrame(state.workingTime + (entry.spell.castTime), entry.item)) {
+      if (withinTimeFrame(state.workingTime + adjCastTime, entry.item)) {
         // Fix start point on timeline if its out of bounds
         let adpsStartTime = state.workingTime;
         
-        castSpell(state, entry.spell);
-        setTimelineItemStart(adpsStartTime, entry.item, entry.spell.castTime);
+        castSpell(state, entry.spell, adjCastTime);
+        setTimelineItemStart(adpsStartTime, entry.item, adjCastTime);
         entry.hasBeenCast = true;
         lockout = false;
 

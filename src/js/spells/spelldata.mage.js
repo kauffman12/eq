@@ -68,7 +68,7 @@ export const SPELL_DATA = {
     timer: '3'
   },
   FA: {
-    castTime: 2000,
+    castTime: 1980,
     focusable: true,
     id: 'FA',
     level: 101,
@@ -308,7 +308,7 @@ export const SPELL_DATA = {
   },
   SA: {
     baseDmg: 36056,
-    castTime: 1800,
+    castTime: 1750,
     focusable: true,
     id: 'SA',
     level: 110,
@@ -325,7 +325,7 @@ export const SPELL_DATA = {
   },
   SS: {
     baseDmg: 29731,
-    castTime: 1800,
+    castTime: 1750,
     focusable: true,
     id: 'SS',
     level: 105,

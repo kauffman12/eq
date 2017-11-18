@@ -407,7 +407,8 @@ function calcSpellDamage(state) {
   // that get applied differently depending on what we're looking for
   var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
 
-  var totalCastTime = spell.origCastTime +
+  // fix for dicho being a combined proc/spell
+  var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +
     ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
 
   var multiplier = dmgU.getMultiplier(totalCastTime);

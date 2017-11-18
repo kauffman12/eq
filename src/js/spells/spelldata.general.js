@@ -1,23 +1,4 @@
 export const SPELL_DATA = {
-  AHB: {
-    base1: 100,
-    baseDmg: 6500,
-    castTime: 0,
-    focusable: false,
-    id: 'AHB',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    max: 0,
-    name: 'Hedgewizard\'s Spell',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'DISEASE',
-    skill: 24,
-    target: 'SINGLE',
-    timer: 'AB',
-    type3Dmg: 0
-  },
   AB: {
     baseDmg: 1463,
     castTime: 0,
@@ -142,6 +123,25 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'BOIX',
+    type3Dmg: 0
+  },
+  DM: {
+    base1: 100,
+    baseDmg: 6500,
+    castTime: 0,
+    focusable: false,
+    id: 'DM',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    max: 0,
+    name: 'Dragonmagic Spell',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'DISEASE',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'DM',
     type3Dmg: 0
   },
   DR: {

@@ -12,9 +12,9 @@ function addNumberStatDescription(data, title, value, force) {
   }
 }
 
-function addDecimalStatDescription(data, title, value, force) {
+function addDecimalStatDescription(data, title, value, force, fixed) {
   if (value || force) {
-    data.push({ title: title, value: value.toFixed(2) });
+    data.push({ title: title, value: value.toFixed(fixed||2) });
   }
 }
 
@@ -39,8 +39,8 @@ export function getStatisticsSummary(spellStats) {
   let spell = utils.getSpellData(spellStats.get('id'));
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
-  addDecimalStatDescription(data, "Cast Time(s)", spell.castTime / 1000, true);
-  addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'));
+  addDecimalStatDescription(data, "Cast Time(s)", spellStats.get('adjCastTime') / 1000, true, 3);
+  addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'), false, 3);
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));
   addNumberStatDescription(data, "Pet Count", spellStats.get('rsCounter'));
   addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
@@ -115,7 +115,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FReave Proc", spellStats.get('fraAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
-  addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
+  addNumberStatDescription(data, "DragonMagic", spellStats.get('dmAddDmg'));
 
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn1AddDmg'));
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn2AddDmg'));

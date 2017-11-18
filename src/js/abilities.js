@@ -173,7 +173,7 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { currentHitPoints: true },
-          { exSpells: new Set(['AM']) },
+          { exSpells: new Set(['AB']) },
           { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -246,13 +246,13 @@ const ABILITIES = {
       }
     ]
   },
-  AHB: {
+  DM: {
     level: 255,
-    name: 'Ancient Hedgewizard Brew',
+    name: 'Dragonmagic Focus',
     repeatEvery: -1,
     effects: [
       {
-        proc: 'AHB',
+        proc: 'DM',
         limits: [
           { onSpellUse: true },
           { minManaCost: 10 },
@@ -311,7 +311,7 @@ const ABILITIES = {
     class: 'rng',
     duration: 96000,
     level: 254,
-    name: 'Auspice of the Hunter XXVI',
+    name: 'Auspice of the Hunter XXVIII',
     effects: [
       {
         spa: 294,
@@ -398,13 +398,13 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Chromatic Haze VII',
+    name: 'Chromatic Haze VIII',
     effects: [
       {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 3.75,
+        value: 3.80,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 },
@@ -1240,7 +1240,7 @@ const ABILITIES = {
     class: 'dru',
     duration: 225000,
     level: 254,
-    name: 'Group Spirit of the Black Wolf VI',
+    name: 'Group Spirit of the Black Wolf VII',
     effects: [
       {
         spa: 294,
@@ -1487,7 +1487,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 120000,
     level: 105,
-    name: 'Illusions of Grandeur II',
+    name: 'Illusions of Grandeur III',
     effects: [
 /*
       {
@@ -1507,13 +1507,13 @@ const ABILITIES = {
         spa: 294,
         slot: 5,
         type: 'sp',
-        value: 0.12
+        value: 0.13
       },
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 1.55
+        value: 1.60
       }
     ]
   },
@@ -1738,6 +1738,14 @@ const ABILITIES = {
     repeatEvery: -999,
     effects: [] // handled by DOT generator and constants in dmgU ++ should have level 91
   },
+  QT: {
+    adpsDropdown: true,
+    class: 'brd',
+    duration: 240000,
+    level: 110,
+    name: 'Quick Time VIII',
+    effects: []
+  },
   QUNARD: {
     class: 'brd',
     level: 108,
@@ -1928,13 +1936,13 @@ const ABILITIES = {
     class: 'dru',
     duration: 30000 + TICK_OFFSET,
     level: 254,
-    name: 'Season\'s Wrath V',
+    name: 'Season\'s Wrath VII',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.185,
+        value: 0.195,
         limits: [
           { type: 'detrimental' },
           { resists: new Set(['FIRE', 'COLD']) }
@@ -2185,7 +2193,7 @@ const ABILITIES = {
         value: 0.05,
         limits: [
        //   { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['ES']) }
+          { spells: new Set(['TEMPES']) }
         ]
       }
     ]
@@ -2204,6 +2212,96 @@ const ABILITIES = {
         limits: [
          // { class: 'wiz' }, // messes up tester/data when in mage mode
           { spells: new Set(['TEMPES']) }
+        ]
+      }
+    ]
+  },
+  WIZED302: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage Test',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['ES']) }
+        ]
+      }
+    ]
+  },
+  WIZED413: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage Test',
+    effects: [
+      {
+        spa: 413,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['ES']) }
+        ]
+      }
+    ]
+  },
+  WIZED461: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage Test',
+    effects: [
+      {
+        spa: 461,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['ES']) }
+        ]
+      }
+    ]
+  },
+  WIZED462: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage Test',
+    effects: [
+      {
+        spa: 462,
+        slot: 1,
+        type: 'wn',
+        value: 10000,
+        limits: [
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['ES']) }
+        ]
+      }
+    ]
+  },
+  WIZED507: {
+    class: 'wiz',
+    level: 255,
+    mode: 'wiz',
+    name: 'WIZ Ethereal Damage Test',
+    effects: [
+      {
+        spa: 507,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+         // { class: 'wiz' }, // messes up tester/data when in mage mode
+          { spells: new Set(['ES']) }
         ]
       }
     ]

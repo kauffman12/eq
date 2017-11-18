@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.965B12',
+  VERSION: 'Version 0.965B13',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -107,12 +107,11 @@ export const basicDmgFocusContext = [
     desc: 'Scaleborn Robe',
     data: [
       { value: 'NONE', desc: 'Scaleborn Robe' },
-      { value: 'WIZED7', desc: 'Velazul\'s Robe' },
-      { value: 'WIZED7', desc: 'Deathseeker\'s Robe' },
-      { value: 'NONE', desc: 'Scaled Robe' },
-      { value: 'NONE', desc: 'Scale Touched Robe' },
-      { value: 'WIZED5', desc: 'Selrach\'s Robe' },
-      { value: 'WIZED5', desc: 'Cohort\'s Robe' },
+      { value: 'WIZED302', desc: 'Test SPA 302 7% Robe' },
+      { value: 'WIZED413', desc: 'Test SPA 413 7% Robe' },
+      { value: 'WIZED461', desc: 'Test SPA 461 7% Robe' },
+      { value: 'WIZED462', desc: 'Test SPA 462 10k Robe' },
+      { value: 'WIZED507', desc: 'Test SPA 507 7% Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },

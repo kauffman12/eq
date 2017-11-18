@@ -154,14 +154,14 @@ export const SPELL_DATA = {
   DF: {
     baseDmg: 127710,
     canTwincast: false,
-    castTime: 2000,
+    castTime: 1980,
     focusable: true,
     id: 'DF',
     level: 250,
     lockoutTime: 1500,
     manaCost: 100,
     name: 'Dichotomic Fire 6',
-    origCastTime: 0,
+    origCastTime: 3000,
     recastTime: 60000,
     recastTime2: 6000,
     resist: 'FIRE',
@@ -171,7 +171,7 @@ export const SPELL_DATA = {
   },
   EI: {
     baseDmg: 36353,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'EI',
     level: 109,
@@ -188,7 +188,7 @@ export const SPELL_DATA = {
   },
   ES: {
     baseDmg: 40421,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'ES',
     level: 110,
@@ -205,7 +205,7 @@ export const SPELL_DATA = {
   },
   EV: {
     baseDmg: 34201,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'EV',
     level: 107,
@@ -221,7 +221,7 @@ export const SPELL_DATA = {
     type3DmgAug: 0
   },
   FA: {
-    castTime: 2000,
+    castTime: 1980,
     focusable: true,
     id: 'FA',
     level: 102,
@@ -664,7 +664,7 @@ export const SPELL_DATA = {
   PF: {
     baseDmg: 15826,
     canTwincast: false,
-    castTime: 750,
+    castTime: 600,
     focusable: true,
     id: 'PF',
     level: 105,
@@ -715,7 +715,7 @@ export const SPELL_DATA = {
   },
   TW: {
     baseDmg: 24343,
-    castTime: 1800,
+    castTime: 1750,
     focusable: true,
     id: 'TW',
     level: 110,
