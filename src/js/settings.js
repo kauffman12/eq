@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.965B13',
+  VERSION: 'Version 0.97B14',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -103,15 +103,11 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-chest-focus',
-    value: 'NONE',
+    value: 'WIZED7',
     desc: 'Scaleborn Robe',
     data: [
-      { value: 'NONE', desc: 'Scaleborn Robe' },
-      { value: 'WIZED302', desc: 'Test SPA 302 7% Robe' },
-      { value: 'WIZED413', desc: 'Test SPA 413 7% Robe' },
-      { value: 'WIZED461', desc: 'Test SPA 461 7% Robe' },
-      { value: 'WIZED462', desc: 'Test SPA 462 10k Robe' },
-      { value: 'WIZED507', desc: 'Test SPA 507 7% Robe' },
+      { value: 'WIZED7', desc: 'Scaleborn Robe' },
+      { value: 'WIZED5', desc: 'Scaled Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },

@@ -127,7 +127,7 @@ export const SPELL_DATA = {
   },
   DM: {
     base1: 100,
-    baseDmg: 6500,
+    baseDmg: 10000,
     castTime: 0,
     focusable: false,
     id: 'DM',

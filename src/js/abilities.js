@@ -256,6 +256,7 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { minManaCost: 10 },
+          { minLevel: 75 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
         ]
@@ -1302,26 +1303,28 @@ const ABILITIES = {
       }
     ]
   },
-  GLYPHC: {
-    adpsDropdown: true,
-    duration: 120000,
-    level: 254,
-    name: 'Glyph of the Cataclysm',
+  FATE: {
+    class: 'brd',
+    level: 107,
+    name: 'Fatesong of Dekloaz Rk. III',
+    refreshTime: 12000,
+    repeatEvery: -1,
     effects: [
       {
-        spa: 170,
-        slot: 10,
+        spa: 286,
+        slot: 1,
         type: 'sp',
-        value: 0.6
+        value: 2781,
+        limits: [
+          { minLevel: 101 },
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { resists: new Set(['COLD']) }
+        ]
       }
-/*
-      {
-        spa: 375,
-        slot: 8,
-        type: 'sp',
-        value: 0.6
-      }
-*/
     ]
   },
   FPWR: {
@@ -1369,6 +1372,28 @@ const ABILITIES = {
           { maxLevel: 110 } // need to really verify
         ]
       }
+    ]
+  },
+  GLYPHC: {
+    adpsDropdown: true,
+    duration: 120000,
+    level: 254,
+    name: 'Glyph of the Cataclysm',
+    effects: [
+      {
+        spa: 170,
+        slot: 10,
+        type: 'sp',
+        value: 0.6
+      }
+/*
+      {
+        spa: 375,
+        slot: 8,
+        type: 'sp',
+        value: 0.6
+      }
+*/
     ]
   },
   HOF: {
@@ -2187,13 +2212,13 @@ const ABILITIES = {
     name: 'WIZ Ethereal Damage 5',
     effects: [
       {
-        spa: 413,
+        spa: 302,
         slot: 1,
         type: 'wn',
         value: 0.05,
         limits: [
        //   { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['TEMPES']) }
+          { spells: new Set(['ES']) }
         ]
       }
     ]
@@ -2205,97 +2230,7 @@ const ABILITIES = {
     name: 'WIZ Ethereal Damage 7',
     effects: [
       {
-        spa: 413,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['TEMPES']) }
-        ]
-      }
-    ]
-  },
-  WIZED302: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage Test',
-    effects: [
-      {
         spa: 302,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED413: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage Test',
-    effects: [
-      {
-        spa: 413,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED461: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage Test',
-    effects: [
-      {
-        spa: 461,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED462: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage Test',
-    effects: [
-      {
-        spa: 462,
-        slot: 1,
-        type: 'wn',
-        value: 10000,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED507: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage Test',
-    effects: [
-      {
-        spa: 507,
         slot: 1,
         type: 'wn',
         value: 0.07,
