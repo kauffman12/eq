@@ -51,17 +51,17 @@ function castSpell(state, spell, adjCastTime) {
   let neededTime = state.workingTime + adjCastTime;
   if (neededTime > state.endTime) return false; // Time EXCEEDED
 
+  // advance dot damage until we hit end of cast time
+  for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
+    getDoTDamage(state);
+  } // INCREMENTS TIME
+
   // if twincast spell is no longer active
   utils.isAbilityActive(state, 'TC');
 
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
-  updateActiveAbilities(state, false, neededTime)
-
-  // advance dot damage until we hit end of cast time
-  for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
-    getDoTDamage(state);
-  }
+  updateActiveAbilities(state, false);
 
   // initialize stats
   stats.updateSpellStatistics(state, 'chartIndex', state.chartIndex);
@@ -121,7 +121,7 @@ function getDoTDamage(state, end) {
   }
 }
 
-function initAbility(state, id, ability, neededTime) {
+function initAbility(state, id, ability) {
   let active = false;
 
   if (ability.charges) {
@@ -165,9 +165,8 @@ function initAbility(state, id, ability, neededTime) {
     else if (!ability.repeatEvery) {
       let item = TIMELINE_DATA.get(id);
       let time = getTime(item);
-      let startTime = (neededTime || state.workingTime);
 
-      if (withinTimeFrame(startTime, getTime(item))) {
+      if (withinTimeFrame(state.workingTime, getTime(item))) {
         active = true;
 
         // initialize for first use
@@ -198,9 +197,8 @@ function initAbility(state, id, ability, neededTime) {
 
     if (item) {
       let time = getTime(item);
-      let startTime = (neededTime || state.workingTime);
 
-      active = withinTimeFrame(startTime, getTime(item));
+      active = withinTimeFrame(state.workingTime, getTime(item));
     } else {
       active = (ability.repeatEvery >= -1);
     }
@@ -210,7 +208,7 @@ function initAbility(state, id, ability, neededTime) {
 }
 
 // Get list of active abilities by ID
-function updateActiveAbilities(state, duringGCD, neededTime) {
+function updateActiveAbilities(state, duringGCD) {
   let preConfigured = dom.getConfiguredAbilities();
   state.activeAbilities = new Set(preConfigured.active);
   state.spellProcAbilities = new Set(preConfigured.spellProc);
@@ -245,7 +243,7 @@ function updateActiveAbilities(state, duringGCD, neededTime) {
     let ability = abilities.get(item.id);
 
     // make sure ability is active if it has charges
-    if (initAbility(state, item.id, ability, neededTime)) {
+    if (initAbility(state, item.id, ability)) {
       // all of these included here
       state.activeAbilities.add(item.id);
 
