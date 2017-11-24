@@ -47,16 +47,16 @@ function castSpell(state, spell, adjCastTime) {
   state.chartIndex++;
   state.spell = spell;
 
+  adjCastTime = adjCastTime || utils.getCastTime(state, spell);
+  let neededTime = state.workingTime + adjCastTime;
+  if (neededTime > state.endTime) return false; // Time EXCEEDED
+
   // if twincast spell is no longer active
   utils.isAbilityActive(state, 'TC');
 
   // abilities that can be enabled and repeat every so often like Enc Synergy
   // cancel or reset counters based on timer, only need to check once per workingTime
-  updateActiveAbilities(state)
-
-  adjCastTime = adjCastTime || utils.getCastTime(state, spell);
-  let neededTime = state.workingTime + adjCastTime;
-  if (neededTime > state.endTime) return false; // Time EXCEEDED
+  updateActiveAbilities(state, false, neededTime)
 
   // advance dot damage until we hit end of cast time
   for (state.workingTime; state.workingTime<=neededTime; state.workingTime+= TIME_INCREMENT) {
@@ -121,7 +121,7 @@ function getDoTDamage(state, end) {
   }
 }
 
-function initAbility(state, id, ability) {
+function initAbility(state, id, ability, neededTime) {
   let active = false;
 
   if (ability.charges) {
@@ -165,8 +165,9 @@ function initAbility(state, id, ability) {
     else if (!ability.repeatEvery) {
       let item = TIMELINE_DATA.get(id);
       let time = getTime(item);
+      let startTime = (neededTime || state.workingTime);
 
-      if (withinTimeFrame(state.workingTime, getTime(item))) {
+      if (withinTimeFrame(startTime, getTime(item))) {
         active = true;
 
         // initialize for first use
@@ -197,7 +198,9 @@ function initAbility(state, id, ability) {
 
     if (item) {
       let time = getTime(item);
-      active = withinTimeFrame(state.workingTime, getTime(item));
+      let startTime = (neededTime || state.workingTime);
+
+      active = withinTimeFrame(startTime, getTime(item));
     } else {
       active = (ability.repeatEvery >= -1);
     }
@@ -207,7 +210,7 @@ function initAbility(state, id, ability) {
 }
 
 // Get list of active abilities by ID
-function updateActiveAbilities(state, duringGCD) {
+function updateActiveAbilities(state, duringGCD, neededTime) {
   let preConfigured = dom.getConfiguredAbilities();
   state.activeAbilities = new Set(preConfigured.active);
   state.spellProcAbilities = new Set(preConfigured.spellProc);
@@ -242,7 +245,7 @@ function updateActiveAbilities(state, duringGCD) {
     let ability = abilities.get(item.id);
 
     // make sure ability is active if it has charges
-    if (initAbility(state, item.id, ability)) {
+    if (initAbility(state, item.id, ability, neededTime)) {
       // all of these included here
       state.activeAbilities.add(item.id);
 
@@ -288,7 +291,8 @@ function executeManualAbilities(state) {
 
       let effect = abilities.getProcEffectForAbility(ability);
       spell = utils.getSpellData(effect.proc);
-      return !state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime);
+      return (state.workingTime + spell.castTime < state.gcdWaitTime) &&
+        (!state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime));
     });
 
     if (ready) {

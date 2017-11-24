@@ -1736,6 +1736,7 @@ const ABILITIES = {
   PRECISION: {
     adpsDropdown: true,
     class: 'war',
+    debuff: true,
     duration: 60000,
     level: 25,
     name: 'Imperator\'s Precision IV',
@@ -1790,6 +1791,66 @@ const ABILITIES = {
           { exTargets: TARGET_AES },
           { maxDuration: 0 },
           { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  REA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Elemental Arrow II',
+    otherCast: true,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.15,
+        limits: [
+          { resists: new Set(['FIRE', 'COLD']) }
+        ]
+      }
+    ]
+  },
+  RGA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Glacial Arrow IV',
+    otherCast: true,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.12,
+        limits: [
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  RVA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Volatile Arrow IV',
+    otherCast: true,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.12,
+        limits: [
           { resists: new Set(['FIRE']) }
         ]
       }
