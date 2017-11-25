@@ -27,7 +27,7 @@ const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(
 
 let BASE_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
 let UPDATING_CHART = -1; // used to throttle calls to update the chart data
-let TIME_INCREMENT = 200;
+let TIME_INCREMENT = 50;
 
 // helper for creating a timeline
 function createTimeline(id, time, dom, data, template) {
@@ -286,7 +286,8 @@ function executeManualAbilities(state) {
 
       let effect = abilities.getProcEffectForAbility(ability);
       spell = utils.getSpellData(effect.proc);
-      return !state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime);
+      return (state.workingTime + spell.castTime < state.gcdWaitTime) &&
+        (!state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime));
     });
 
     if (ready) {
@@ -441,7 +442,7 @@ export function addSpellProcAbility(state, id, mod, initialize) {
     if (ability.charges) {
       // mod initially added for conjurer's synergy proc rate
       let charges = dom.getAbilityCharges(id);
-      if (charges == undefined) {
+      if (charges === undefined) {
         charges = ability.charges;
       }
     

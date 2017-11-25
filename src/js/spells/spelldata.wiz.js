@@ -137,7 +137,7 @@ export const SPELL_DATA = {
   DF: {
     baseDmg: 127710,
     canTwincast: false,
-    castTime: 2000,
+    castTime: 1980,
     focusable: true,
     id: 'DF',
     level: 250,
@@ -154,7 +154,7 @@ export const SPELL_DATA = {
   },
   EF: {
     baseDmg: 28201,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'EF',
     level: 102,
@@ -171,7 +171,7 @@ export const SPELL_DATA = {
   },
   ER: {
     baseDmg: 29975,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'ER',
     level: 104,
@@ -188,7 +188,7 @@ export const SPELL_DATA = {
   },
   ES: {
     baseDmg: 33330,
-    castTime: 1900,
+    castTime: 1875,
     focusable: true,
     id: 'ES',
     level: 105,
@@ -204,7 +204,7 @@ export const SPELL_DATA = {
     type3DmgAug: 2381
   },
   FA: {
-    castTime: 2000,
+    castTime: 1980,
     focusable: true,
     id: 'FA',
     level: 102,
