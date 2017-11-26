@@ -398,7 +398,7 @@ export function getNormalizer(spell) {
 }
 
 export function isCastDetSpell(spell) {
-  return spell.manaCost > 0 && !![5, 14, 24, 98].find(x => x === spell.skill);
+  return spell.manaCost > 0 && !![5, 14, 24, 98].find(x => x === spell.skill) && !spell.aa && !spell.inventory;
 }
 
 export function isCastDetSpellOrAbility(spell) {
