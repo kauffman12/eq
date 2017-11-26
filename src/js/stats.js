@@ -128,12 +128,19 @@ export function getStatisticsSummary(spellStats) {
   return data;
 }
 
-export function printStats(output, state, timerange) {
+export function printStats(output, state) {
+  let timerange = (state.castTimeLast - state.castTimeFirst);
+  if (timerange < 1000) {
+    timerange = 1000; // no less than 1 second
+  }
+
+  timerange = Math.ceil(timerange / 1000);
+
   let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
   let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
   let totalDotDmg = getSpellCastInfo().get('totalDotDmg') || 0;
   let totalProcs = getSpellCastInfo().get('totalProcs') || 0;
-  let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / (timerange / 1000);
+  let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / timerange;
  
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
@@ -144,6 +151,9 @@ export function printStats(output, state, timerange) {
   
   // Spell Count
   updateStatSection('#spellCountStats', avgDPS, 'Spells', totalCastCount, totalCastCount, 'totalCastCount');
+
+  // Cast Time
+  updateStatSection('#castTimeStats', 0, 'Cast Time ', timerange + 's', timerange, 'timerange');
 
   // DPS
   updateStatSection('#dpsStats', avgDPS, 'DPS ', utils.numberWithCommas(avgDPS.toFixed(2)), avgDPS, 'avgDPS');
@@ -180,7 +190,7 @@ export function printStats(output, state, timerange) {
   updateStatSection('#tcRateStats', avgDPS, 'TC Rate ', avgTcRate.toFixed(2) + '%', avgTcRate, 'avgTcRate');
 
   // Avg Proc Rate
-  let avgProcRate = totalProcs / (timerange / 1000);
+  let avgProcRate = totalProcs / timerange;
   updateStatSection('#procRateStats', avgDPS, 'PPS', avgProcRate.toFixed(4), avgProcRate, 'avgProcRate');
 
   getSpellCastInfo().get('castMap').forEach((v, k) => {

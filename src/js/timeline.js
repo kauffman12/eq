@@ -73,6 +73,13 @@ function castSpell(state, spell, adjCastTime) {
    stats.updateSpellStatistics(state, 'castInterval', (state.workingTime - state.lastCastMap[spell.timer]) / 1000);
   }
 
+  // save time of first case
+  if (state.castTimeFirst === 0) {
+    state.castTimeFirst = state.workingTime;
+  }
+  // last cast time
+  state.castTimeLast = state.workingTime;
+
   state.lastCastMap[spell.timer] = state.workingTime;
   state.spellTimerMap[spell.timer] = state.workingTime;
 
@@ -289,7 +296,7 @@ function executeManualAbilities(state) {
 
       let effect = abilities.getProcEffectForAbility(ability);
       spell = utils.getSpellData(effect.proc);
-      return (state.workingTime + spell.castTime < state.gcdWaitTime) &&
+      return (!state.gcdWaitTime || (state.workingTime + spell.castTime < state.gcdWaitTime)) &&
         (!state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime));
     });
 
@@ -619,8 +626,10 @@ export function updateSpellChart() {
   let state = {
     cache: {},
     castQueue: [],
+    castTimeFirst: 0,
+    castTimeLast: 0,
     chartIndex: -1, 
-    gcd: dom.getGCDValue(),
+    gcd: dom.getGCDValue() + 75, // PC lag? offset from test
     gcdWaitTime: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
@@ -722,7 +731,7 @@ export function updateSpellChart() {
     }
 
     // spell not available so handle other click/AA abilities
-    if (sp === state.spells.length || state.gcdWaitTime > state.workingTime) {
+    if (state.spells.length === 0 || sp === state.spells.length || state.gcdWaitTime > state.workingTime) {
       // try to cast force nuke early to prevent conflicts later on
       // Ex FD can update crit dmg in the chart itself
       executeManualAbilities(state);
@@ -751,7 +760,7 @@ export function updateSpellChart() {
   connectPopovers();
 
   // print spellStats window
-  stats.printStats($('#spellCountStats'), state, dom.getSpellTimeRangeValue());
+  stats.printStats($('#spellCountStats'), state);
 }
 
 export function updateWindow(caller, update, windowList){
