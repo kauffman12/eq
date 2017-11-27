@@ -272,7 +272,7 @@ export const SPELL_DATA = {
     spellDmgCap: 0,
     target: 'SINGLE',
     timer: 'recklessserv',
-    type3Aug: 0
+    type3Aug: 1000
   },
   SFB: {
     baseDmg: 0,
