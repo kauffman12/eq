@@ -220,6 +220,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '73'
   },
+  MB: {
+    baseDmg: 18549,
+    castTime: 1500,
+    focusable: true,
+    id: 'MB',
+    level: 103,
+    lockoutTime: 1500,
+    manaCost: 1618,
+    name: 'Meteoric Bolt Rk. III',
+    origCastTime: 3000,
+    recastTime: 6000,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'LOS',
+    timer: 'meteorbolt',
+    type3DmgAug: 0
+  },
   RK: {
     baseDmg: 20263,
     castTime: 2000,

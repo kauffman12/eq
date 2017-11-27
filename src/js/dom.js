@@ -233,15 +233,11 @@ export function getConjurersSynergyValue() {
 }
 
 export function getCritDmgValue() {
-  return utils.useCache('.innate-crit-dmg', () => {
-    return utils.getNumberValue($('#innatCritDmg').val());
-  });
+  return utils.getNumberValue($('#innatCritDmg').val());
 }
 
 export function getCritRateValue() {
-  return utils.useCache('.innate-crit-rate', () => {
-    return utils.getNumberValue($('#innatCritRate').val());
-  });
+  return utils.getNumberValue($('#innatCritRate').val());
 }
 
 export function getDPSAug1AugValue() {
@@ -476,9 +472,7 @@ export function getDoNValue() {
 }
 
 export function getFuryOfMagicValue() {
-  return utils.useCache('.aa-fury-of-magic', () => {
-    return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
-  });
+  return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
 }
 
 export function getFamiliarValue() {

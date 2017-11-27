@@ -473,16 +473,20 @@ export function addSpellProcAbility(state, id, mod, initialize) {
   }
 }
 
-export function callUpdateSpellChart() {
+export function callUpdateSpellChart(rates) {
   if (UPDATING_CHART === -1) {
     UPDATING_CHART = setTimeout(function() {
+      if (rates) {
+        loadRates();
+      }
+
       updateSpellChart();
       UPDATING_CHART = -1;
     }, 350);
   } else {
     clearTimeout(UPDATING_CHART);
     UPDATING_CHART = -1;
-    callUpdateSpellChart();
+    callUpdateSpellChart(rates);
   }
 }
 
@@ -532,6 +536,7 @@ export function getTimelineItemTime(id) {
 
 export function loadRates() {
   BASE_CRIT_DATA = [];
+
   let baseRate = dmgU.getBaseCritRate();
   let baseDmg = dmgU.getBaseCritDmg();
   let seconds = dom.getSpellTimeRangeValue();
@@ -582,8 +587,7 @@ export function quiet() {
 export function resume() {
   TIMELINE_DATA.on('add', visTimelineListener);
   TIMELINE_DATA.on('remove', visTimelineListener);
-  setTimeout(loadRates, 5);
-  callUpdateSpellChart();
+  callUpdateSpellChart(true);
 }
 
 export function removeAdpsItem(id) {
@@ -791,14 +795,15 @@ export function visTimelineListener(e, item) {
       setTitle(TIMELINE_DATA, lineItem, time);
     }
 
+    let loadRates = false;
     // only update rates when changing abilities that effect them
     if (!ability.charges && (abilities.hasSPA(ability, abilities.SPA_CRIT_RATE_NUKE) ||
       abilities.hasSPA(ability, abilities.SPA_CRIT_DMG_NUKE))) {
-      setTimeout(loadRates, 5);
+      loadRates = true;
     }
 
     if (e != 'update' || item.oldData[0].start != item.data[0].start || item.oldData[0].end != item.data[0].end) {
-      callUpdateSpellChart();
+      callUpdateSpellChart(loadRates);
     }
   }
 }

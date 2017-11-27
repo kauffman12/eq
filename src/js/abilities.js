@@ -1411,7 +1411,6 @@ const ABILITIES = {
         value: 1.15,
         limits: [
           { maxLevel: 110 },
-          { resists: new Set(['FIRE']) },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exTargets: TARGET_AES }

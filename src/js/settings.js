@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.986B14',
+  VERSION: 'Version 0.987B14',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -28,7 +28,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'CI', 'FC', 'FA', 'RK', 'RM', 'RS', 'SA', 'SS', 'VM'
+  'BS', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SS', 'VM'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -974,7 +974,7 @@ export const chartOptions = {
       left: {
         range: {
           min: 0,
-          max: 110
+          max: 130
         },
         title: {
           text: 'Crit Rate'
