@@ -103,11 +103,11 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-chest-focus',
-    value: 'WIZED7',
+    value: 'ESD9',
     desc: 'Scaleborn Robe',
     data: [
-      { value: 'WIZED7', desc: 'Scaleborn Robe' },
-      { value: 'WIZED5', desc: 'Scaled Robe' },
+      { value: 'ESD9', desc: 'Scaleborn Robe' },
+      { value: 'ESD7', desc: 'Scaled Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },

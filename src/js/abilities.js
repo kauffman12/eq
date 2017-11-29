@@ -542,6 +542,36 @@ const ABILITIES = {
       }
     ]
   },
+  ESD7: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 7',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+          { spells: new Set(['ES', 'SA']) }
+        ]
+      }
+    ]
+  },
+  ESD9: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 9',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.09,
+        limits: [
+          { spells: new Set(['ES', 'SA']) }
+        ]
+      }
+    ]
+  },
   ESYN: {
     charges: 1,
     class: 'enc',
@@ -2262,42 +2292,6 @@ const ABILITIES = {
         slot: 3,
         type: 'sp',
         value: 1.6
-      }
-    ]
-  },
-  WIZED5: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage 5',
-    effects: [
-      {
-        spa: 302,
-        slot: 1,
-        type: 'wn',
-        value: 0.05,
-        limits: [
-       //   { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED7: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage 7',
-    effects: [
-      {
-        spa: 302,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester/data when in mage mode
-          { spells: new Set(['ES']) }
-        ]
       }
     ]
   },

@@ -88,7 +88,6 @@ export function getConfiguredAbilities(state) {
       case 'wiz':
         // familiar
         addAbility(getFamiliarValue());
-        addAbility(getRobeValue());
         setSpellProc('AFU', getArcaneFusionValue());
         setSpellProc('FF', getForceOfFlameValue());
         setSpellProc('FI', getForceOfIceValue());
@@ -105,6 +104,7 @@ export function getConfiguredAbilities(state) {
         break;
     }
 
+    addAbility(getRobeValue());
     addAbility(getBeltProcValue());
     addAbility('EDECAY', getEyeOfDecayValue(), 413);
     addAbility('TCAA', getTwincastAAValue(), 399);
