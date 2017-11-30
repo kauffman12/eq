@@ -552,7 +552,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-          { spells: new Set(['ES', 'SA']) }
+          { spells: new Set(['ES', 'EZ', 'SA']) }
         ]
       }
     ]
@@ -567,7 +567,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.09,
         limits: [
-          { spells: new Set(['ES', 'SA']) }
+          { spells: new Set(['ES', 'EZ', 'SA']) }
         ]
       }
     ]

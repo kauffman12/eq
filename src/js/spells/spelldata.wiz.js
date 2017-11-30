@@ -80,7 +80,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '11',
-    type3DmgAug: 0
+    type3DmgAug: 1688
   },
   CI: {
     baseDmg: 7237,
@@ -114,7 +114,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '11',
-    type3DmgAug: 0
+    type3DmgAug: 1688
   },
   CB: {
     baseDmg: 10577,
@@ -132,7 +132,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'chaosburn',
-    type3DmgAug: 0
+    type3DmgAug: 1005
   },
   CT: {
     baseDmg: 21765,
@@ -149,7 +149,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '2',
-    type3DmgAug: 0
+    type3DmgAug: 1555
   },
   DF: {
     baseDmg: 127710,
@@ -184,7 +184,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'eiceflow',
-    type3DmgAug: 0
+    type3DmgAug: 2887
   },
   ES: {
     baseDmg: 40421,
@@ -200,8 +200,8 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'neskyblaze',
-    type3DmgAug: 0
+    timer: 'skyfire',
+    type3DmgAug: 2887
   },
   EV: {
     baseDmg: 34201,
@@ -218,7 +218,24 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'evolley',
-    type3DmgAug: 0
+    type3DmgAug: 2887
+  },
+  EZ: {
+    baseDmg: 33330,
+    castTime: 1875,
+    focusable: true,
+    id: 'EZ',
+    level: 105,
+    lockoutTime: 1500,
+    manaCost: 6196,
+    name: 'Ethereal Skyblaze Rk. III',
+    origCastTime: 3750,
+    recastTime: 5500,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'skyblaze',
+    type3DmgAug: 2381
   },
   FA: {
     castTime: 1980,
@@ -269,7 +286,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '2',
-    type3DmgAug: 0
+    type3DmgAug: 1262
   },
   FF4: {
     aa: true,
@@ -624,7 +641,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'AE',
     timer: '6',
-    type3DmgAug: 0
+    type3DmgAug: 1095
   },
   MBRN: {
     baseDmg: 2800000,
@@ -677,7 +694,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'pwildflash',
-    type3DmgAug: 0
+    type3DmgAug: 1130
   },
   IC: {
     baseDmg: 25542 ,
@@ -695,7 +712,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'iceflowcas',
-    type3DmgAug: 0
+    type3DmgAug: 1824
   },
   SV: {
     baseDmg: 14388,
@@ -728,7 +745,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'thricecapacity',
-    type3DmgAug: 0
+    type3DmgAug: 1739
   },
   WE: {
     baseDmg: 0,

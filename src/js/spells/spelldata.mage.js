@@ -31,7 +31,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'LOS',
     timer: 'boltofsky',
-    type3DmgAug: 0
+    type3DmgAug: 1497
   },
   CI: {
     baseDmg: 26069,
@@ -48,7 +48,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '4',
-    type3DmgAug: 0
+    type3DmgAug: 1862
   },
   RM: {
     baseDmg: 20765,
@@ -253,7 +253,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'AE',
     timer: '7',
-    type3DmgAug: 0
+    type3DmgAug: 1447
   },
   RS: {
     baseDmg: 2,
@@ -321,7 +321,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'LOS',
     timer: '6',
-    type3DmgAug: 0
+    type3DmgAug: 281
   },
   SA: {
     baseDmg: 36056,
@@ -338,7 +338,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'LOS',
     timer: 'spearmolten',
-    type3DmgAug: 0
+    type3DmgAug: 2575
   },
   SS: {
     baseDmg: 29731,

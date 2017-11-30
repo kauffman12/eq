@@ -21,6 +21,7 @@ const WIZ_FOCUS_AA_KEYS = {
   'CB': '.aa-focus-chaos .dropdown-toggle',
   'EV': '.aa-focus-ethereal-flash .dropdown-toggle',
   'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
+  'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
   'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
   'FB': '.aa-focus-flashchar .dropdown-toggle',
   'ME': '.aa-focus-rains .dropdown-toggle',
