@@ -401,22 +401,25 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 }
 
 function calcSpellDamage(state) {
+  let spellDmg = 0;
   let spell = state.spell;
 
-  // dicho/fuse needs to use an alternative time since it's really 2 spell casts
-  // that get applied differently depending on what we're looking for
-  var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
+  if ((G.MAX_LEVEL - spell.level) < 10) {
+    // dicho/fuse needs to use an alternative time since it's really 2 spell casts
+    // that get applied differently depending on what we're looking for
+    var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
 
-  // fix for dicho being a combined proc/spell
-  var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +
-    ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
+    // fix for dicho being a combined proc/spell
+    var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +
+      ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
 
-  var multiplier = dmgU.getMultiplier(totalCastTime);
-  let spellDmg = dmgU.trunc(dom.getSpellDamageValue() * multiplier);
+    var multiplier = dmgU.getMultiplier(totalCastTime);
+    spellDmg = dmgU.trunc(dom.getSpellDamageValue() * multiplier);
 
-  // The ranged augs seem to get stuck at 2x their damage
-  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
-    spellDmg = spell.spellDmgCap;
+    // The ranged augs seem to get stuck at 2x their damage
+    if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
+      spellDmg = spell.spellDmgCap;
+    }
   }
 
   return spellDmg;

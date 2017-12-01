@@ -358,7 +358,7 @@ export const SPELL_DATA = {
     type3DmgAug: 2124
   },
   SB: {
-    baseDmg: 26967,
+    baseDmg: 25683,
     castTime: 1750,
     focusable: true,
     id: 'SB',
