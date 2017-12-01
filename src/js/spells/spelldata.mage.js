@@ -356,5 +356,22 @@ export const SPELL_DATA = {
     target: 'LOS',
     timer: 'spearmoltenshield',
     type3DmgAug: 2124
+  },
+  SB: {
+    baseDmg: 26967,
+    castTime: 1750,
+    focusable: true,
+    id: 'SB',
+    level: 100,
+    lockoutTime: 1500,
+    manaCost: 4273,
+    name: 'Spear of Blistersteel Rk. III',
+    origCastTime: 3500,
+    recastTime: 9000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'LOS',
+    timer: 'spearblistersteal',
+    type3DmgAug: 1926
   }
 }

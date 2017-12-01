@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.988B16',
+  VERSION: 'Version 0.988B17',
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -28,7 +28,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SS', 'VM'
+  'BS', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // values need to be strings for HTML dom nodes

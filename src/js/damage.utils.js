@@ -217,6 +217,11 @@ export function buildSPAData(ids, spell) {
         if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) ||       // negative effects override all
           effect.value >= existing.value)) {
 
+          // special case for FD/AD stacking
+          if (id === 'FD' && abilitySet.has('AD')) {
+            dontChargeSet.add(id);
+          }
+
           if (existing) {
             abilitySet.delete(existing.id);
 
@@ -228,16 +233,8 @@ export function buildSPAData(ids, spell) {
             }
           }
 
-          let value = effect.value;
-          if (effect.decay && result.decayLevel && (spell.level > result.decayLevel)) {
-            value -= (effect.decay * (spell.level - result.decayLevel));
-            if (value < 0) {
-              value = 0;
-            }
-          }
-
           spaSet.add(effect.spa);
-          spaMap.set(key, { value: value, spa: effect.spa, id: id });
+          spaMap.set(key, { value: effect.value, spa: effect.spa, id: id });
           abilitySet.add(id);
         } else if (existing && effect.spa === 294) {
           abilitySet.delete(id);
