@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 0.988B17',
+  VERSION: 'Version 0.989B18',
   MAX_LEVEL: 110,
   CLASSES: {
     mag: {
@@ -117,18 +117,14 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
-      { value: 'HOMVII', desc: 'Raid 2H Hammer of Magic VII' },
+      { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
-      { value: 'BOFVII', desc: 'Raid 1H Burst of Flames VII' },
-      { value: 'BFIV', desc: 'Group 2H Blaze of Fire IV' },
-      { value: 'SOCV', desc: 'Group 1H Spike of Corruption V' },
+      { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
+      { value: 'BFIV', desc: 'Blackened August Warhammer' },
+      { value: 'SOCV', desc: 'Eldritch Misericorde' },
       { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
       { value: 'WOCIV', desc: 'Advisor\'s Guide' },
       { value: 'HOMIII', desc: 'Bronzewood Mindstaff' },
-      { value: 'FOMXV', desc: 'High Bokon Mangling Staff' },
-      { value: 'SOFXIV', desc: 'Staff of Undead Legions' },
-      { value: 'SOFXIII', desc: 'Fleshburner of Boromas' },
-      { value: 'FOMXIII', desc: 'Beater of the Teeth' },
       { value: 'NONE', desc: 'No Primary Weapon Selected' }
     ]
   },
@@ -147,8 +143,8 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: 'THREADSP', desc: 'Threads of Potential' },
-      { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
+      { value: 'THREADSP', desc: 'Skywing Threaded Sash' },
+      { value: 'SEERS', desc: 'Sash of the Dar Brood (Seers)' },
       { value: 'THREADSM', desc: 'Parogressio' },
       { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
@@ -164,9 +160,7 @@ export const basicDmgFocusContext = [
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
-      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -180,9 +174,7 @@ export const basicDmgFocusContext = [
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
-      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
