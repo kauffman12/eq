@@ -633,7 +633,7 @@ export function updateSpellChart() {
     castTimeFirst: 0,
     castTimeLast: 0,
     chartIndex: -1, 
-    gcd: dom.getGCDValue() + 75, // PC lag? offset from test
+    gcd: dom.getGCDValue(),
     gcdWaitTime: 0,
     updatedCritRValues: [],
     updatedCritDValues: [],
