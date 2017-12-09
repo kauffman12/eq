@@ -214,7 +214,23 @@ export function buildSPAData(ids, spell) {
         let key = buildSPAKey(effect);
         let existing = spaMap.get(key);
 
-        if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) ||       // negative effects override all
+        // block whatever was on there before when its SPA 294
+        // as of beta 2017 IoG had special case added that basically only blocks FE
+        // only cases that current matter are intensity > IoG > FE 
+        if (effect.spa === 294) {
+          switch(id) {
+            case 'INTENSE':
+              blockAbility(spaMap, 'IOG');
+              blocked.add('IOG');
+              abilitySet.delete('IOG');
+            case 'IOG':
+              blockAbility(spaMap, 'FIERCE');
+              blocked.add('FIERCE');
+              abilitySet.delete('FIERCE');
+          }
+        }
+
+        if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) || // negative effects override all
           effect.value >= existing.value)) {
 
           // special case for FD/AD stacking
@@ -224,22 +240,11 @@ export function buildSPAData(ids, spell) {
 
           if (existing) {
             abilitySet.delete(existing.id);
-
-            // block whatever was on there before when its SPA 294
-            // only cases that current matter are intensity > FE || IOG and FE == IOG
-            if (effect.spa === 294) {
-              blockAbility(spaMap, existing.id);
-              blocked.add(existing.id);
-            }
           }
 
           spaSet.add(effect.spa);
           spaMap.set(key, { value: effect.value, spa: effect.spa, id: id });
           abilitySet.add(id);
-        } else if (existing && effect.spa === 294) {
-          abilitySet.delete(id);
-          blockAbility(spaMap, id);
-          blocked.add(id);
         }
       } else {
         // dont charge for abilities when any SPA fails unless hit type allows for any (Mana Charge)

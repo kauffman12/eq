@@ -625,6 +625,24 @@ export const SPELL_DATA = {
     timer: 'hoarcascade',
     type3DmgAug: 1345
   },
+  IC: {
+    baseDmg: 25542 ,
+    canTwincast: false,
+    castTime: 0,
+    focusable: true,
+    id: 'IC',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 100,
+    name: 'Icefloe Cascade III',
+    origCastTime: 0,
+    recastTime: 9000,
+    resist: 'COLD',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'iceflowcas',
+    type3DmgAug: 1824
+  },
   ME: {
     baseDmg: 16294,
     castTime: 1500,
@@ -695,24 +713,6 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'pwildflash',
     type3DmgAug: 1130
-  },
-  IC: {
-    baseDmg: 25542 ,
-    canTwincast: false,
-    castTime: 0,
-    focusable: true,
-    id: 'IC',
-    level: 106,
-    lockoutTime: 1500,
-    manaCost: 100,
-    name: 'Icefloe Cascade III',
-    origCastTime: 0,
-    recastTime: 9000,
-    resist: 'COLD',
-    skill: 24,
-    target: 'SINGLE',
-    timer: 'iceflowcas',
-    type3DmgAug: 1824
   },
   SV: {
     baseDmg: 14388,
