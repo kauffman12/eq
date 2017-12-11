@@ -1,5 +1,6 @@
 export const globals = {
-  VERSION: 'Version 0.976',
+  VERSION: 'Version 1.0',
+  MAX_LEVEL: 110,
   CLASSES: {
     mag: {
       switchTo: 'Wizard',
@@ -22,13 +23,13 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CF', 'CO', 'CS', 'DF', 'EF', 'FU', 'ER', 'ES', 'FC',
-  'FA', 'MB', 'SV', 'WE', 'WF'
+  'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'EZ', 'ES', 'EV', 'FB',
+  'FA', 'IC', 'ME', 'SV', 'TW', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'CF', 'CR', 'FC', 'FA', 'RC', 'RS', 'SB', 'SS', 'SM'
+  'BS', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -58,49 +59,56 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'worn-head-focus',
-    value: 'FMAGIC67',
-    desc: 'Velazul\'s Cap',
+    value: 'FMAGIC70',
+    desc: 'Scaleborn Cap',
     data: [
+      { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
-      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
       { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
+      { value: 'FMAGIC60', desc: 'Scaled Cap' },
+      { value: 'FMAGIC57', desc: 'Scale Touched Cap' },
+      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
       { value: 'FMAGIC55', desc: 'Cohort\'s Cap' },
       { value: 'NONE', desc: 'No Cap Selected' }
     ]
   },
   {
     id: 'worn-hands-focus',
-    value: 'FCOLD67',
-    desc: 'Velazul\'s Gloves',
+    value: 'FCOLD70',
+    desc: 'Scaleborn Gloves',
     data: [
+      { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
-      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
       { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
+      { value: 'FCOLD60', desc: 'Scaled Gloves' },
+      { value: 'FCOLD57', desc: 'Scale Touched Gloves' },
+      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
       { value: 'FCOLD55', desc: 'Cohort\'s Gloves' },
       { value: 'NONE', desc: 'No Gloves Selected' }
     ]
   },
   {
     id: 'worn-arms-focus',
-    value: 'FFIRE67',
-    desc: 'Velazul\'s Sleeves',
+    value: 'FFIRE70',
+    desc: 'Scaleborn Sleeves',
     data: [
+      { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
-      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
+      { value: 'FFIRE60', desc: 'Scale Sleeves' },
+      { value: 'FFIRE57', desc: 'Scale Touched Sleeves' },
+      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
       { value: 'NONE', desc: 'No Sleeves Selected' }
     ]
   },
   {
     id: 'worn-chest-focus',
-    value: 'WIZED7',
-    desc: 'Velazul\'s Robe',
+    value: 'ESD9',
+    desc: 'Scaleborn Robe',
     data: [
-      { value: 'WIZED7', desc: 'Velazul\'s Robe' },
-      { value: 'WIZED5', desc: 'Selrach\'s Robe' },
-      { value: 'WIZED7', desc: 'Deathseeker\'s Robe' },
-      { value: 'WIZED5', desc: 'Cohort\'s Robe' },
+      { value: 'ESD9', desc: 'Scaleborn Robe' },
+      { value: 'ESD7', desc: 'Scaled Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },
@@ -109,14 +117,14 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
+      { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
+      { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
+      { value: 'BFIV', desc: 'Blackened August Warhammer' },
+      { value: 'SOCV', desc: 'Eldritch Misericorde' },
       { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
-      { value: 'WOC4', desc: 'Advisor\'s Guide' },
-      { value: 'HOM3', desc: 'Bronzewood Mindstaff' },
-      { value: 'FOMXV', desc: 'High Bokon Mangling Staff' },
-      { value: 'SOFXIV', desc: 'Staff of Undead Legions' },
-      { value: 'SOFXIII', desc: 'Fleshburner of Boromas' },
-      { value: 'FOMXIII', desc: 'Beater of the Teeth' },
+      { value: 'WOCIV', desc: 'Advisor\'s Guide' },
+      { value: 'HOMIII', desc: 'Bronzewood Mindstaff' },
       { value: 'NONE', desc: 'No Primary Weapon Selected' }
     ]
   },
@@ -135,8 +143,9 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: 'SEERS', desc: 'Emblazoned Belt of Boromas' },
-      { value: 'THREADS', desc: 'Parogressio' },
+      { value: 'THREADSP', desc: 'Skywing Threaded Sash' },
+      { value: 'SEERS', desc: 'Sash of the Dar Brood (Seers)' },
+      { value: 'THREADSM', desc: 'Parogressio' },
       { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
@@ -151,9 +160,7 @@ export const basicDmgFocusContext = [
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
-      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -167,9 +174,7 @@ export const basicDmgFocusContext = [
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
-      { value: 'BOVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -189,180 +194,208 @@ export const basicDmgFocusContext = [
 export const wizSpellFocusAAContext = [
   {
     id: 'aa-evokers-synergy',
-    value: '1',
-    desc: 'Evoker\'s Synergy (10/10)',
+    value: '11',
+    desc: 'Evoker\'s Synergy (11/11)',
     data: [
-      { value: '1', desc: 'Evoker\'s Synergy (10/10)' },
-      { value: '0.9', desc: 'Evoker\'s Synergy (9/10)' },
-      { value: '0.8', desc: 'Evoker\'s Synergy (8/10)' },
-      { value: '0.7', desc: 'Evoker\'s Synergy (7/10)' },
-      { value: '0.6', desc: 'Evoker\'s Synergy (6/10)' },
-      { value: '0.5', desc: 'Evoker\'s Synergy (5/10)' },
-      { value: '0.4', desc: 'Evoker\'s Synergy (4/10)' },
-      { value: '0.3', desc: 'Evoker\'s Synergy (3/10)' },
-      { value: '0.2', desc: 'Evoker\'s Synergy (2/10)' },
-      { value: '0.1', desc: 'Evoker\'s Synergy (1/10)' },
-      { value: '0', desc: 'Evoker\'s Synergy (0/10)' }
+      { value: '11', desc: 'Evoker\'s Synergy (11/11)' },
+      { value: '10', desc: 'Evoker\'s Synergy (10/11)' },
+      { value: '9', desc: 'Evoker\'s Synergy (9/11)' },
+      { value: '8', desc: 'Evoker\'s Synergy (8/11)' },
+      { value: '7', desc: 'Evoker\'s Synergy (7/11)' },
+      { value: '6', desc: 'Evoker\'s Synergy (6/11)' },
+      { value: '5', desc: 'Evoker\'s Synergy (5/11)' },
+      { value: '4', desc: 'Evoker\'s Synergy (4/11)' },
+      { value: '3', desc: 'Evoker\'s Synergy (3/11)' },
+      { value: '2', desc: 'Evoker\'s Synergy (2/11)' },
+      { value: '1', desc: 'Evoker\'s Synergy (1/11)' },
+      { value: '0', desc: 'Evoker\'s Synergy (0/11)' }
     ]
   },
   {
     id: 'aa-focus-chaos',
     value: '0.16',
-    desc: 'Chaos Scintillation (8/8)',
+    desc: 'Chaos Scintillation (9/9)',
     data: [
-      { value: '0.16', desc: 'Chaos Scintillation (8/8)' },
-      { value: '0.14', desc: 'Chaos Scintillation (7/8)' },
-      { value: '0.12', desc: 'Chaos Scintillation (6/8)' },
-      { value: '0.1', desc: 'Chaos Scintillation (5/8)' },
-      { value: '0.08', desc: 'Chaos Scintillation (4/8)' },
-      { value: '0.06', desc: 'Chaos Scintillation (3/8)' },
-      { value: '0.04', desc: 'Chaos Scintillation (2/8)' },
-      { value: '0.02', desc: 'Chaos Scintillation (1/8)' },
+      { value: '0.16', desc: 'Chaos Scintillation (9/9)' },
+      { value: '0', desc: 'Chaos Scintillation (8/9)' },
+      { value: '0', desc: 'Chaos Scintillation (7/8)' },
+      { value: '0', desc: 'Chaos Scintillation (6/8)' },
+      { value: '0', desc: 'Chaos Scintillation (5/8)' },
+      { value: '0', desc: 'Chaos Scintillation (4/8)' },
+      { value: '0', desc: 'Chaos Scintillation (3/8)' },
+      { value: '0', desc: 'Chaos Scintillation (2/8)' },
+      { value: '0', desc: 'Chaos Scintillation (1/8)' },
       { value: '0', desc: 'Chaos Scintillation (0/8)' }
     ]
   },
   {
     id: 'aa-focus-claws',
     value: '0.16',
-    desc: 'Claws (8/8)',
+    desc: 'Claws (9/9)',
     data: [
-      { value: '0.16', desc: 'Claws (8/8)' },
-      { value: '0.14', desc: 'Claws (7/8)' },
-      { value: '0.12', desc: 'Claws (6/8)' },
-      { value: '0.1', desc: 'Claws (5/8)' },
-      { value: '0.08', desc: 'Claws (4/8)' },
-      { value: '0.06', desc: 'Claws (3/8)' },
-      { value: '0.04', desc: 'Claws (2/8)' },
-      { value: '0.02', desc: 'Claws (1/8)' },
-      { value: '0', desc: 'Claws (0/8)' }
+      { value: '0.16', desc: 'Claws (9/9)' },
+      { value: '0', desc: 'Claws (8/9)' },
+      { value: '0', desc: 'Claws (7/9)' },
+      { value: '0', desc: 'Claws (6/9)' },
+      { value: '0', desc: 'Claws (5/9)' },
+      { value: '0', desc: 'Claws (4/9)' },
+      { value: '0', desc: 'Claws (3/9)' },
+      { value: '0', desc: 'Claws (2/9)' },
+      { value: '0', desc: 'Claws (1/9)' },
+      { value: '0', desc: 'Claws (0/9)' }
     ]
   },
   {
     id: 'aa-focus-cloudburst',
     value: '0.16',
-    desc: 'Cloudburst Stormstrike (8/8)',
+    desc: 'Cloudburst Stormstrike (9/9)',
     data: [
-      { value: '0.16', desc: 'Cloudburst Stormstrike (8/8)' },
-      { value: '0.14', desc: 'Cloudburst Stormstrike (7/8)' },
-      { value: '0.12', desc: 'Cloudburst Stormstrike (6/8)' },
-      { value: '0.1', desc: 'Cloudburst Stormstrike (5/8)' },
-      { value: '0.08', desc: 'Cloudburst Stormstrike (4/8)' },
-      { value: '0.06', desc: 'Cloudburst Stormstrike (3/8)' },
-      { value: '0.04', desc: 'Cloudburst Stormstrike (2/8)' },
-      { value: '0.02', desc: 'Cloudburst Stormstrike (1/8)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (0/8)' }
+      { value: '0.16', desc: 'Cloudburst Stormstrike (9/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (8/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (7/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (6/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (5/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (4/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (3/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (2/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (1/9)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-flash',
     value: '0.16',
-    desc: 'Ethereal Flash (8/8)',
+    desc: 'Ethereal Flash (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Flash (8/8)' },
-      { value: '0.14', desc: 'Ethereal Flash (7/8)' },
-      { value: '0.12', desc: 'Ethereal Flash (6/8)' },
-      { value: '0.10', desc: 'Ethereal Flash (5/8)' },
-      { value: '0.08', desc: 'Ethereal Flash (4/8)' },
-      { value: '0.06', desc: 'Ethereal Flash (3/8)' },
-      { value: '0.04', desc: 'Ethereal Flash (2/8)' },
-      { value: '0.02', desc: 'Ethereal Flash (1/8)' },
-      { value: '0', desc: 'Ethereal Flash (0/8)' }
+      { value: '0.16', desc: 'Ethereal Flash (9/9)' },
+      { value: '0', desc: 'Ethereal Flash (8/9)' },
+      { value: '0', desc: 'Ethereal Flash (7/9)' },
+      { value: '0', desc: 'Ethereal Flash (6/9)' },
+      { value: '0', desc: 'Ethereal Flash (5/9)' },
+      { value: '0', desc: 'Ethereal Flash (4/9)' },
+      { value: '0', desc: 'Ethereal Flash (3/9)' },
+      { value: '0', desc: 'Ethereal Flash (2/9)' },
+      { value: '0', desc: 'Ethereal Flash (1/9)' },
+      { value: '0', desc: 'Ethereal Flash (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-rimeblast',
     value: '0.16',
-    desc: 'Ethereal Rimeblast (8/8)',
+    desc: 'Ethereal Rimeblast (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Rimeblast (8/8)' },
-      { value: '0.14', desc: 'Ethereal Rimeblast (7/8)' },
-      { value: '0.12', desc: 'Ethereal Rimeblast (6/8)' },
-      { value: '0.1', desc: 'Ethereal Rimeblast (5/8)' },
-      { value: '0.08', desc: 'Ethereal Rimeblast (4/8)' },
-      { value: '0.06', desc: 'Ethereal Rimeblast (3/8)' },
-      { value: '0.04', desc: 'Ethereal Rimeblast (2/8)' },
-      { value: '0.02', desc: 'Ethereal Rimeblast (1/8)' },
-      { value: '0', desc: 'Ethereal Rimeblast (0/8)' }
+      { value: '0.16', desc: 'Ethereal Rimeblast (9/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (8/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (7/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (6/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (5/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (4/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (3/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (2/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (1/9)' },
+      { value: '0', desc: 'Ethereal Rimeblast (0/9)' }
     ]
   },
   {
     id: 'aa-focus-ethereal-skyblaze',
     value: '0.16',
-    desc: 'Ethereal Skyblaze (8/8)',
+    desc: 'Ethereal Skyblaze (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Skyblaze (8/8)' },
-      { value: '0.14', desc: 'Ethereal Skyblaze (7/8)' },
-      { value: '0.12', desc: 'Ethereal Skyblaze (6/8)' },
-      { value: '0.1', desc: 'Ethereal Skyblaze (5/8)' },
-      { value: '0.08', desc: 'Ethereal Skyblaze (4/8)' },
-      { value: '0.06', desc: 'Ethereal Skyblaze (3/8)' },
-      { value: '0.04', desc: 'Ethereal Skyblaze (2/8)' },
-      { value: '0.02', desc: 'Ethereal Skyblaze (1/8)' },
-      { value: '0', desc: 'Ethereal Skyblaze (0/8)' }
+      { value: '0.16', desc: 'Ethereal Skyblaze (9/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (8/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (7/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (6/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (5/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (4/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (3/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (2/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (1/9)' },
+      { value: '0', desc: 'Ethereal Skyblaze (0/9)' }
     ]
   },
   {
     id: 'aa-focus-flashchar',
     value: '0.16',
-    desc: 'Flashchar (8/8)',
+    desc: 'Flashchar (9/9)',
     data: [
-      { value: '0.16', desc: 'Flashchar (8/8)' },
-      { value: '0.14', desc: 'Flashchar (7/8)' },
-      { value: '0.12', desc: 'Flashchar (6/8)' },
-      { value: '0.1', desc: 'Flashchar (5/8)' },
-      { value: '0.08', desc: 'Flashchar (4/8)' },
-      { value: '0.06', desc: 'Flashchare (3/8)' },
-      { value: '0.04', desc: 'Flashchar (2/8)' },
-      { value: '0.02', desc: 'Flashchar (1/8)' },
-      { value: '0', desc: 'Flashchar (0/8)' }
+      { value: '0.16', desc: 'Flashchar (9/9)' },
+      { value: '0', desc: 'Flashchar (8/9)' },
+      { value: '0', desc: 'Flashchar (7/9)' },
+      { value: '0', desc: 'Flashchar (6/9)' },
+      { value: '0', desc: 'Flashchar (5/9)' },
+      { value: '0', desc: 'Flashchar (4/9)' },
+      { value: '0', desc: 'Flashchare (3/9)' },
+      { value: '0', desc: 'Flashchar (2/9)' },
+      { value: '0', desc: 'Flashchar (1/9)' },
+      { value: '0', desc: 'Flashchar (0/9)' }
     ]
   },
   {
     id: 'aa-focus-purewild',
     value: '0.16',
-    desc: 'Pure Wildflash (8/8)',
+    desc: 'Pure Wildflash (9/9)',
     data: [
-      { value: '0.16', desc: 'Pure Wildflash (8/8)' },
-      { value: '0.14', desc: 'Pure Wildflash (7/8)' },
-      { value: '0.12', desc: 'Pure Wildflash (6/8)' },
-      { value: '0.1', desc: 'Pure Wildflash (5/8)' },
-      { value: '0.08', desc: 'Pure Wildflash (4/8)' },
-      { value: '0.06', desc: 'Pure Wildflash (3/8)' },
-      { value: '0.04', desc: 'Pure Wildflash (2/8)' },
-      { value: '0.02', desc: 'Pure Wildflash (1/8)' },
-      { value: '0', desc: 'Pure Wildflash (0/8)' }
+      { value: '0.16', desc: 'Pure Wildflash (9/9)' },
+      { value: '0', desc: 'Pure Wildflash (8/9)' },
+      { value: '0', desc: 'Pure Wildflash (7/9)' },
+      { value: '0', desc: 'Pure Wildflash (6/9)' },
+      { value: '0', desc: 'Pure Wildflash (5/9)' },
+      { value: '0', desc: 'Pure Wildflash (4/9)' },
+      { value: '0', desc: 'Pure Wildflash (3/9)' },
+      { value: '0', desc: 'Pure Wildflash (2/9)' },
+      { value: '0', desc: 'Pure Wildflash (1/9)' },
+      { value: '0', desc: 'Pure Wildflash (0/9)' }
     ]
   },
   {
     id: 'aa-focus-rains',
     value: '0.16',
-    desc: 'Rains (8/8)',
+    desc: 'Rains (9/9)',
     data: [
-      { value: '0.16', desc: 'Rains (8/8)' },
-      { value: '0.14', desc: 'Rains (7/8)' },
-      { value: '0.12', desc: 'Rains (6/8)' },
-      { value: '0.1', desc: 'Rains (5/8)' },
-      { value: '0.08', desc: 'Rains (4/8)' },
-      { value: '0.06', desc: 'Rains (3/8)' },
-      { value: '0.04', desc: 'Rains (2/8)' },
-      { value: '0.02', desc: 'Rains (1/8)' },
-      { value: '0', desc: 'Rains (0/8)' }
+      { value: '0.16', desc: 'Rains (9/9)' },
+      { value: '0', desc: 'Rains (8/9)' },
+      { value: '0', desc: 'Rains (7/9)' },
+      { value: '0', desc: 'Rains (6/9)' },
+      { value: '0', desc: 'Rains (5/9)' },
+      { value: '0', desc: 'Rains (4/9)' },
+      { value: '0', desc: 'Rains (3/9)' },
+      { value: '0', desc: 'Rains (2/9)' },
+      { value: '0', desc: 'Rains (1/9)' },
+      { value: '0', desc: 'Rains (0/9)' }
     ]
   },
   {
     id: 'aa-focus-rimeblastcascade',
     value: '0.16',
-    desc: 'Rimeblast Cascade (8/8)',
+    desc: 'Rimeblast Cascade (9/9)',
     data: [
-      { value: '0.16', desc: 'Rimeblast Cascade (8/8)' },
-      { value: '0.14', desc: 'Rimeblast Cascade (7/8)' },
-      { value: '0.12', desc: 'Rimeblast Cascade (6/8)' },
-      { value: '0.1', desc: 'Rimeblast Cascade (5/8)' },
-      { value: '0.08', desc: 'Rimeblast Cascade (4/8)' },
-      { value: '0.06', desc: 'Rimeblast Cascade (3/8)' },
-      { value: '0.04', desc: 'Rimeblast Cascade (2/8)' },
-      { value: '0.02', desc: 'Rimeblast Cascade (1/8)' },
-      { value: '0', desc: 'Rimeblast Cascade (0/8)' }
+      { value: '0.16', desc: 'Rimeblast Cascade (9/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (8/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (7/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (6/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (5/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (4/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (3/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (2/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (1/9)' },
+      { value: '0', desc: 'Rimeblast Cascade (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-focus-thricewovenstorm',
+    value: '0.16',
+    desc: 'Thricewoven Stormstrike (9/9)',
+    data: [
+      { value: '0.16', desc: 'Thricewoven Stormstrike (9/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (8/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (7/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (6/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (5/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (4/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (3/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (2/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (1/9)' },
+      { value: '0', desc: 'Thricewoven Stormstrike (0/9)' }
     ]
   },
   {
@@ -386,52 +419,55 @@ export const wizSpellFocusAAContext = [
 export const magSpellFocusAAContext = [
   {
     id: 'aa-conjurers-synergy',
-    value: '1',
-    desc: 'Conjurer\'s Synergy (10/10)',
+    value: '11',
+    desc: 'Conjurer\'s Synergy (11/11)',
     data: [
-      { value: '1', desc: 'Conjurer\'s Synergy (10/10)' },
-      { value: '0.9', desc: 'Conjurer\'s Synergy (9/10)' },
-      { value: '0.8', desc: 'Conjurer\'s Synergy (8/10)' },
-      { value: '0.7', desc: 'Conjurer\'s Synergy (7/10)' },
-      { value: '0.6', desc: 'Conjurer\'s Synergy (6/10)' },
-      { value: '0.5', desc: 'Conjurer\'s Synergy (5/10)' },
-      { value: '0.4', desc: 'Conjurer\'s Synergy (4/10)' },
-      { value: '0.3', desc: 'Conjurer\'s Synergy (3/10)' },
-      { value: '0.2', desc: 'Conjurer\'s Synergy (2/10)' },
-      { value: '0.1', desc: 'Conjurer\'s Synergy (1/10)' },
-      { value: '0', desc: 'Conjurer\'s Synergy (0/10)' }
+      { value: '11', desc: 'Conjurer\'s Synergy (11/11)' },
+      { value: '10', desc: 'Conjurer\'s Synergy (10/11)' },
+      { value: '9', desc: 'Conjurer\'s Synergy (9/11)' },
+      { value: '8', desc: 'Conjurer\'s Synergy (8/11)' },
+      { value: '7', desc: 'Conjurer\'s Synergy (7/11)' },
+      { value: '6', desc: 'Conjurer\'s Synergy (6/11)' },
+      { value: '5', desc: 'Conjurer\'s Synergy (5/11)' },
+      { value: '4', desc: 'Conjurer\'s Synergy (4/11)' },
+      { value: '3', desc: 'Conjurer\'s Synergy (3/11)' },
+      { value: '2', desc: 'Conjurer\'s Synergy (2/11)' },
+      { value: '1', desc: 'Conjurer\'s Synergy (1/11)' },
+      { value: '0', desc: 'Conjurer\'s Synergy (0/11)' }
     ]
   },
   {
     id: 'aa-focus-bolt-molten',
     value: '0.16',
-    desc: 'Bolt of Molten Shieldstone (8/8)',
+    desc: 'Bolt of Molten Shieldstone (9/9)',
     data: [
-      { value: '0.16', desc: 'Bolt of Molten Shieldstone (8/8)' },
-      { value: '0.14', desc: 'Bolt of Molten Shieldstone (7/8)' },
-      { value: '0.12', desc: 'Bolt of Molten Shieldstone (6/8)' },
-      { value: '0.1', desc: 'Bolt of Molten Shieldstone (5/8)' },
-      { value: '0.08', desc: 'Bolt of Molten Shieldstone (4/8)' },
-      { value: '0.06', desc: 'Bolt of Molten Shieldstone (3/8)' },
-      { value: '0.04', desc: 'Bolt of Molten Shieldstone (2/8)' },
-      { value: '0.02', desc: 'Bolt of Molten Shieldstone (1/8)' },
-      { value: '0', desc: 'Bolt of Molten Shieldstone (0/8)' }
+      { value: '16', desc: 'Bolt of Molten Shieldstone (9/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (8/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (7/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (6/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (5/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (4/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (3/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (2/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (1/9)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (0/9)' }
     ]
   },
   {
     id: 'aa-focus-coronal-rain',
     value: '0.16',
-    desc: 'Coronal Rain (8/8)',
+    desc: 'Coronal Rain (9/9)',
     data: [
-      { value: '0.16', desc: 'Coronal Rain (8/8)' },
-      { value: '0.14', desc: 'Coronal Rain (7/8)' },
-      { value: '0.12', desc: 'Coronal Rain (6/8)' },
-      { value: '0.1', desc: 'Coronal Rain (5/8)' },
-      { value: '0.08', desc: 'Coronal Rain (4/8)' },
-      { value: '0.06', desc: 'Coronal Rain (3/8)' },
-      { value: '0.04', desc: 'Coronal Rain (2/8)' },
-      { value: '0.02', desc: 'Coronal Rain (1/8)' },
-      { value: '0', desc: 'Coronal Rain (0/8)' }
+      { value: '0.16', desc: 'Coronal Rain (9/9)' },
+      { value: '0', desc: 'Coronal Rain (8/9)' },
+      { value: '0', desc: 'Coronal Rain (7/9)' },
+      { value: '0', desc: 'Coronal Rain (6/9)' },
+      { value: '0', desc: 'Coronal Rain (5/9)' },
+      { value: '0', desc: 'Coronal Rain (4/9)' },
+      { value: '0', desc: 'Coronal Rain (3/9)' },
+      { value: '0', desc: 'Coronal Rain (2/9)' },
+      { value: '0', desc: 'Coronal Rain (1/9)' },
+      { value: '0', desc: 'Coronal Rain (0/9)' }
     ]
   },
   {
@@ -476,49 +512,52 @@ export const magSpellFocusAAContext = [
   {
     id: 'aa-focus-rain-cutlasses',
     value: '0.16',
-    desc: 'Rain of Cutlasses (8/8)',
+    desc: 'Rain of Cutlasses (9/9)',
     data: [
-      { value: '0.16', desc: 'Rain of Cutlasses (8/8)' },
-      { value: '0.14', desc: 'Rain of Cutlasses (7/8)' },
-      { value: '0.12', desc: 'Rain of Cutlasses (6/8)' },
-      { value: '0.1', desc: 'Rain of Cutlasses (5/8)' },
-      { value: '0.08', desc: 'Rain of Cutlasses (4/8)' },
-      { value: '0.06', desc: 'Rain of Cutlasses (3/8)' },
-      { value: '0.04', desc: 'Rain of Cutlasses (2/8)' },
-      { value: '0.02', desc: 'Rain of Cutlasses (1/8)' },
-      { value: '0', desc: 'Rain of Cutlasses (0/8)' }
+      { value: '0.16', desc: 'Rain of Cutlasses (9/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (8/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (7/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (6/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (5/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (4/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (3/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (2/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (1/9)' },
+      { value: '0', desc: 'Rain of Cutlasses (0/9)' }
     ]
   },
   {
     id: 'aa-focus-spear-molten',
-    value: '0.16',
-    desc: 'Spear of Molten Shieldstone (8/8)',
+    value: '9',  // special case to check new spear vs old. uses 16%
+    desc: 'Spear of Molten Shieldstone (9/9)',
     data: [
-      { value: '0.16', desc: 'Spear of Molten Shieldstone (8/8)' },
-      { value: '0.14', desc: 'Spear of Molten Shieldstone (7/8)' },
-      { value: '0.12', desc: 'Spear of Molten Shieldstone (6/8)' },
-      { value: '0.1', desc: 'Spear of Molten Shieldstone (5/8)' },
-      { value: '0.08', desc: 'Spear of Molten Shieldstone (4/8)' },
-      { value: '0.06', desc: 'Spear of Molten Shieldstone (3/8)' },
-      { value: '0.04', desc: 'Spear of Molten Shieldstone (2/8)' },
-      { value: '0.02', desc: 'Spear of Molten Shieldstone (1/8)' },
-      { value: '0', desc: 'Spear of Molten Shieldstone (0/8)' }
+      { value: '9', desc: 'Spear of Molten Shieldstone (9/9)' },
+      { value: '0.16', desc: 'Spear of Molten Shieldstone (8/9)' },
+      { value: '0.14', desc: 'Spear of Molten Shieldstone (7/9)' },
+      { value: '0.12', desc: 'Spear of Molten Shieldstone (6/9)' },
+      { value: '0.10', desc: 'Spear of Molten Shieldstone (5/9)' },
+      { value: '0.08', desc: 'Spear of Molten Shieldstone (4/9)' },
+      { value: '0.06', desc: 'Spear of Molten Shieldstone (3/9)' },
+      { value: '0.04', desc: 'Spear of Molten Shieldstone (2/9)' },
+      { value: '0.02', desc: 'Spear of Molten Shieldstone (1/9)' },
+      { value: '0', desc: 'Spear of Molten Shieldstone (0/9)' }
     ]
   },
   {
     id: 'aa-focus-storm-many',
     value: '0.40',
-    desc: 'Storm of Many (8/8)',
+    desc: 'Storm of Many (9/9)',
     data: [
-      { value: '0.40', desc: 'Storm of Many (8/8)' },
-      { value: '0.35', desc: 'Storm of Many (7/8)' },
-      { value: '0.30', desc: 'Storm of Many (6/8)' },
-      { value: '0.25', desc: 'Storm of Many (5/8)' },
-      { value: '0.20', desc: 'Storm of Many (4/8)' },
-      { value: '0.15', desc: 'Storm of Many (3/8)' },
-      { value: '0.10', desc: 'Storm of Many (2/8)' },
-      { value: '0.05', desc: 'Storm of Many (1/8)' },
-      { value: '0', desc: 'Storm of Many (0/8)' }
+      { value: '0.40', desc: 'Storm of Many (9/9)' },
+      { value: '0', desc: 'Storm of Many (8/9)' },
+      { value: '0', desc: 'Storm of Many (7/9)' },
+      { value: '0', desc: 'Storm of Many (6/9)' },
+      { value: '0', desc: 'Storm of Many (5/9)' },
+      { value: '0', desc: 'Storm of Many (4/9)' },
+      { value: '0', desc: 'Storm of Many (3/9)' },
+      { value: '0', desc: 'Storm of Many (2/9)' },
+      { value: '0', desc: 'Storm of Many (1/9)' },
+      { value: '0', desc: 'Storm of Many (0/9)' }
     ]
   }
 ];
@@ -526,67 +565,73 @@ export const magSpellFocusAAContext = [
 export const wizDPSAAContext = [
   {
     id: 'aa-arcane-fusion',
-    value: 'AFU2',
-    desc: 'Arcane Fusion (2/2)',
+    value: 'AFU3',
+    desc: 'Arcane Fusion (3/3)',
     data: [
-      { value: 'AFU2', desc: 'Arcane Fusion (2/2)' },
-      { value: 'AFU1', desc: 'Arcane Fusion (1/2)' },
-      { value: 'NONE', desc: 'Arcane Fusion (0/2)' }
+      { value: 'AFU3', desc: 'Arcane Fusion (3/3)' },
+      { value: 'AFU2', desc: 'Arcane Fusion (2/3)' },
+      { value: 'AFU1', desc: 'Arcane Fusion (1/3)' },
+      { value: 'NONE', desc: 'Arcane Fusion (0/3)' }
     ]
   },
   {
     id: 'aa-destructive-adept',
-    value: '0.06',
-    desc: 'Destructive Adept (6/6)',
+    value: '0.08',
+    desc: 'Destructive Adept (8/8)',
     data: [
-      { value: '0.06', desc: 'Destructive Adept (6/6)' },
-      { value: '0.05', desc: 'Destructive Adept (5/6)' },
-      { value: '0.04', desc: 'Destructive Adept (4/6)' },
-      { value: '0.03', desc: 'Destructive Adept (3/6)' },
-      { value: '0.02', desc: 'Destructive Adept (2/6)' },
-      { value: '0.01', desc: 'Destructive Adept (1/6)' },
-      { value: '0', desc: 'Destructive Adept (0/6)' }
+      { value: '0.08', desc: 'Destructive Adept (8/8)' },
+      { value: '0.07', desc: 'Destructive Adept (7/8)' },
+      { value: '0.06', desc: 'Destructive Adept (6/8)' },
+      { value: '0.05', desc: 'Destructive Adept (5/8)' },
+      { value: '0.04', desc: 'Destructive Adept (4/8)' },
+      { value: '0.03', desc: 'Destructive Adept (3/8)' },
+      { value: '0.02', desc: 'Destructive Adept (2/8)' },
+      { value: '0.01', desc: 'Destructive Adept (1/8)' },
+      { value: '0', desc: 'Destructive Adept (0/8)' }
     ]
   },
   {
     id: 'aa-destructive-fury',
-    value: '310',
-    desc: 'Destructive Fury (33/33)',
+    value: '325',
+    desc: 'Destructive Fury (36/36)',
     data: [
-      { value: '310', desc: 'Destructive Fury (33/33)' },
-      { value: '300', desc: 'Destructive Fury (32/33)' },
-      { value: '290', desc: 'Destructive Fury (31/33)' },
-      { value: '280', desc: 'Destructive Fury (30/33)' },
-      { value: '278', desc: 'Destructive Fury (29/33)' },
-      { value: '276', desc: 'Destructive Fury (28/33)' },
-      { value: '274', desc: 'Destructive Fury (27/33)' },
-      { value: '264', desc: 'Destructive Fury (26/33)' },
-      { value: '254', desc: 'Destructive Fury (25/33)' },
-      { value: '249', desc: 'Destructive Fury (24/33)' },
-      { value: '242', desc: 'Destructive Fury (23/33)' },
-      { value: '235', desc: 'Destructive Fury (22/33)' },
-      { value: '228', desc: 'Destructive Fury (21/33)' },
-      { value: '221', desc: 'Destructive Fury (20/33)' },
-      { value: '214', desc: 'Destructive Fury (19/33)' },
-      { value: '207', desc: 'Destructive Fury (18/33)' },
-      { value: '200', desc: 'Destructive Fury (17/33)' },
-      { value: '193', desc: 'Destructive Fury (16/33)' },
-      { value: '186', desc: 'Destructive Fury (15/33)' },
-      { value: '179', desc: 'Destructive Fury (14/33)' },
-      { value: '172', desc: 'Destructive Fury (13/33)' },
-      { value: '165', desc: 'Destructive Fury (12/33)' },
-      { value: '160', desc: 'Destructive Fury (11/33)' },
-      { value: '155', desc: 'Destructive Fury (10/33)' },
-      { value: '150', desc: 'Destructive Fury (9/33)' },
-      { value: '141', desc: 'Destructive Fury (8/33)' },
-      { value: '133', desc: 'Destructive Fury (7/33)' },
-      { value: '125', desc: 'Destructive Fury (6/33)' },
-      { value: '115', desc: 'Destructive Fury (5/33)' },
-      { value: '107', desc: 'Destructive Fury (4/33)' },
-      { value: '100', desc: 'Destructive Fury (3/33)' },
-      { value: '60', desc: 'Destructive Fury (2/33)' },
-      { value: '30', desc: 'Destructive Fury (1/33)' },
-      { value: '0', desc: 'Destructive Fury (0/33)' }
+      { value: '325', desc: 'Destructive Fury (36/36)' },
+      { value: '320', desc: 'Destructive Fury (35/36)' },
+      { value: '315', desc: 'Destructive Fury (34/36)' },
+      { value: '310', desc: 'Destructive Fury (33/36)' },
+      { value: '300', desc: 'Destructive Fury (32/36)' },
+      { value: '290', desc: 'Destructive Fury (31/36)' },
+      { value: '280', desc: 'Destructive Fury (30/36)' },
+      { value: '278', desc: 'Destructive Fury (29/36)' },
+      { value: '276', desc: 'Destructive Fury (28/36)' },
+      { value: '274', desc: 'Destructive Fury (27/36)' },
+      { value: '264', desc: 'Destructive Fury (26/36)' },
+      { value: '254', desc: 'Destructive Fury (25/36)' },
+      { value: '249', desc: 'Destructive Fury (24/36)' },
+      { value: '242', desc: 'Destructive Fury (23/36)' },
+      { value: '235', desc: 'Destructive Fury (22/36)' },
+      { value: '228', desc: 'Destructive Fury (21/36)' },
+      { value: '221', desc: 'Destructive Fury (20/36)' },
+      { value: '214', desc: 'Destructive Fury (19/36)' },
+      { value: '207', desc: 'Destructive Fury (18/36)' },
+      { value: '200', desc: 'Destructive Fury (17/36)' },
+      { value: '193', desc: 'Destructive Fury (16/36)' },
+      { value: '186', desc: 'Destructive Fury (15/36)' },
+      { value: '179', desc: 'Destructive Fury (14/36)' },
+      { value: '172', desc: 'Destructive Fury (13/36)' },
+      { value: '165', desc: 'Destructive Fury (12/36)' },
+      { value: '160', desc: 'Destructive Fury (11/36)' },
+      { value: '155', desc: 'Destructive Fury (10/36)' },
+      { value: '150', desc: 'Destructive Fury (9/36)' },
+      { value: '141', desc: 'Destructive Fury (8/36)' },
+      { value: '133', desc: 'Destructive Fury (7/36)' },
+      { value: '125', desc: 'Destructive Fury (6/36)' },
+      { value: '115', desc: 'Destructive Fury (5/36)' },
+      { value: '107', desc: 'Destructive Fury (4/36)' },
+      { value: '100', desc: 'Destructive Fury (3/36)' },
+      { value: '60', desc: 'Destructive Fury (2/36)' },
+      { value: '30', desc: 'Destructive Fury (1/36)' },
+      { value: '0', desc: 'Destructive Fury (0/36)' }
     ]
   },
   {
@@ -604,98 +649,114 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-force-of-flame',
-    value: 'FF6',
-    desc: 'Force of Flame (6/6)',
+    value: 'FF9',
+    desc: 'Force of Flame (9/9)',
     data: [
-      { value: 'FF6', desc: 'Force of Flame (6/6)' },
-      { value: 'FF5', desc: 'Force of Flame (5/6)' },
-      { value: 'FF4', desc: 'Force of Flame (4/6)' }
+      { value: 'FF9', desc: 'Force of Flame (9/9)' },
+      { value: 'FF8', desc: 'Force of Flame (8/9)' },
+      { value: 'FF7', desc: 'Force of Flame (7/9)' },
+      { value: 'FF6', desc: 'Force of Flame (6/9)' },
+      { value: 'FF5', desc: 'Force of Flame (5/9)' },
+      { value: 'FF4', desc: 'Force of Flame (4/9)' }
     ]
   },
   {
     id: 'aa-force-of-ice',
-    value: 'FI6',
-    desc: 'Force of Ice (6/6)',
+    value: 'FI9',
+    desc: 'Force of Ice (9/9)',
     data: [
-      { value: 'FI6', desc: 'Force of Ice (6/6)' },
-      { value: 'FI5', desc: 'Force of Ice (5/6)' },
-      { value: 'FI4', desc: 'Force of Ice (4/6)' }
+      { value: 'FI9', desc: 'Force of Ice (9/9)' },
+      { value: 'FI8', desc: 'Force of Ice (8/9)' },
+      { value: 'FI7', desc: 'Force of Ice (7/9)' },
+      { value: 'FI6', desc: 'Force of Ice (6/9)' },
+      { value: 'FI5', desc: 'Force of Ice (5/9)' },
+      { value: 'FI4', desc: 'Force of Ice (4/9)' }
     ]
   },
   {
     id: 'aa-force-of-will',
-    value: 'FW26',
-    desc: 'Force of Will (26/26)',
+    value: 'FW29',
+    desc: 'Force of Will (29/29)',
     data: [
-      { value: 'FW26', desc: 'Force of Will (26/26)' },
-      { value: 'FW25', desc: 'Force of Will (25/26)' },
-      { value: 'FW24', desc: 'Force of Will (24/26)' }
+      { value: 'FW29', desc: 'Force of Will (29/29)' },
+      { value: 'FW28', desc: 'Force of Will (28/29)' },
+      { value: 'FW27', desc: 'Force of Will (27/29)' },
+      { value: 'FW26', desc: 'Force of Will (26/29)' },
+      { value: 'FW25', desc: 'Force of Will (25/29)' },
+      { value: 'FW24', desc: 'Force of Will (24/29)' }
     ]
   },
   {
     id: 'aa-fury-of-magic',
-    value: '45',
-    desc: 'Fury of Magic (32/32)',
+    value: '50',
+    desc: 'Fury of Magic (35/35)',
     data: [
-      { value: '45', desc: 'Fury of Magic (32/32)' },
-      { value: '43', desc: 'Fury of Magic (31/32)' },
-      { value: '41', desc: 'Fury of Magic (30/32)' },
-      { value: '39', desc: 'Fury of Magic (29/32)' },
-      { value: '38', desc: 'Fury of Magic (28/32)' },
-      { value: '37', desc: 'Fury of Magic (27/32)' },
-      { value: '36', desc: 'Fury of Magic (26/32)' },
-      { value: '35', desc: 'Fury of Magic (25/32)' },
-      { value: '34', desc: 'Fury of Magic (24/32)' },
-      { value: '33', desc: 'Fury of Magic (23/32)' },
-      { value: '32', desc: 'Fury of Magic (22/32)' },
-      { value: '31', desc: 'Fury of Magic (21/32)' },
-      { value: '30', desc: 'Fury of Magic (20/32)' },
-      { value: '29', desc: 'Fury of Magic (19/32)' },
-      { value: '28', desc: 'Fury of Magic (18/32)' },
-      { value: '27', desc: 'Fury of Magic (17/32)' },
-      { value: '26', desc: 'Fury of Magic (16/32)' },
-      { value: '25', desc: 'Fury of Magic (15/32)' },
-      { value: '24', desc: 'Fury of Magic (14/32)' },
-      { value: '22', desc: 'Fury of Magic (13/32)' },
-      { value: '20', desc: 'Fury of Magic (12/32)' },
-      { value: '18', desc: 'Fury of Magic (11/32)' },
-      { value: '17', desc: 'Fury of Magic (10/32)' },
-      { value: '16', desc: 'Fury of Magic (9/32)' },
-      { value: '15', desc: 'Fury of Magic (8/32)' },
-      { value: '14', desc: 'Fury of Magic (7/32)' },
-      { value: '13', desc: 'Fury of Magic (6/32)' },
-      { value: '11', desc: 'Fury of Magic (5/32)' },
-      { value: '9', desc: 'Fury of Magic (4/32)' },
-      { value: '7', desc: 'Fury of Magic (3/32)' },
-      { value: '4', desc: 'Fury of Magic (2/32)' },
-      { value: '2', desc: 'Fury of Magic (1/32)' },
-      { value: '0', desc: 'Fury of Magic (0/32)' }
+      { value: '50', desc: 'Fury of Magic (35/35)' },
+      { value: '49', desc: 'Fury of Magic (34/35)' },
+      { value: '47', desc: 'Fury of Magic (33/35)' },
+      { value: '45', desc: 'Fury of Magic (32/35)' },
+      { value: '43', desc: 'Fury of Magic (31/35)' },
+      { value: '41', desc: 'Fury of Magic (30/35)' },
+      { value: '39', desc: 'Fury of Magic (29/35)' },
+      { value: '38', desc: 'Fury of Magic (28/35)' },
+      { value: '37', desc: 'Fury of Magic (27/35)' },
+      { value: '36', desc: 'Fury of Magic (26/35)' },
+      { value: '35', desc: 'Fury of Magic (25/35)' },
+      { value: '34', desc: 'Fury of Magic (24/35)' },
+      { value: '33', desc: 'Fury of Magic (23/35)' },
+      { value: '32', desc: 'Fury of Magic (22/35)' },
+      { value: '31', desc: 'Fury of Magic (21/35)' },
+      { value: '30', desc: 'Fury of Magic (20/35)' },
+      { value: '29', desc: 'Fury of Magic (19/35)' },
+      { value: '28', desc: 'Fury of Magic (18/35)' },
+      { value: '27', desc: 'Fury of Magic (17/35)' },
+      { value: '26', desc: 'Fury of Magic (16/35)' },
+      { value: '25', desc: 'Fury of Magic (15/35)' },
+      { value: '24', desc: 'Fury of Magic (14/35)' },
+      { value: '22', desc: 'Fury of Magic (13/35)' },
+      { value: '20', desc: 'Fury of Magic (12/35)' },
+      { value: '18', desc: 'Fury of Magic (11/35)' },
+      { value: '17', desc: 'Fury of Magic (10/35)' },
+      { value: '16', desc: 'Fury of Magic (9/35)' },
+      { value: '15', desc: 'Fury of Magic (8/35)' },
+      { value: '14', desc: 'Fury of Magic (7/35)' },
+      { value: '13', desc: 'Fury of Magic (6/35)' },
+      { value: '11', desc: 'Fury of Magic (5/35)' },
+      { value: '9', desc: 'Fury of Magic (4/35)' },
+      { value: '7', desc: 'Fury of Magic (3/35)' },
+      { value: '4', desc: 'Fury of Magic (2/35)' },
+      { value: '2', desc: 'Fury of Magic (1/35)' },
+      { value: '0', desc: 'Fury of Magic (0/35)' }
     ]
   },
   {
     id: 'spell-pet-focus',
     value: 'IMPF',
-    desc: 'Improved Familiar (28)',
+    desc: 'Improved Familiar (30)',
     data: [
-      { value: 'IMPF', desc: 'Improved Familiar (28)' },
+      { value: 'IMPF', desc: 'Improved Familiar (30)' },
       { value: '', desc: 'No Familiar Selected' }
     ]
   },
   {
     id: 'aa-sorcerer-vengeance',
-    value: '1200',
-    desc: 'Sorcerer\'s Vengeance (9/9)',
+    value: '2000',
+    desc: 'Sorcerer\'s Vengeance (13/13)',
     data: [
-      { value: '1200', desc: 'Sorcerer\'s Vengeance (9/9)' },
-      { value: '1100', desc: 'Sorcerer\'s Vengeance (8/9)' },
-      { value: '1000', desc: 'Sorcerer\'s Vengeance (7/9)' },
-      { value: '900', desc: 'Sorcerer\'s Vengeance (6/9)' },
-      { value: '800', desc: 'Sorcerer\'s Vengeance (5/9)' },
-      { value: '700', desc: 'Sorcerer\'s Vengeance (4/9)' },
-      { value: '600', desc: 'Sorcerer\'s Vengeance (3/9)' },
-      { value: '400', desc: 'Sorcerer\'s Vengeance (2/9)' },
-      { value: '200', desc: 'Sorcerer\'s Vengeance (1/9)' },
-      { value: '0', desc: 'Sorcerer\'s Vengeance (0/9)' }
+      { value: '2000', desc: 'Sorcerer\'s Vengeance (13/13)' },
+      { value: '1800', desc: 'Sorcerer\'s Vengeance (12/13)' },
+      { value: '1600', desc: 'Sorcerer\'s Vengeance (11/13)' },
+      { value: '1400', desc: 'Sorcerer\'s Vengeance (10/13)' },
+      { value: '1200', desc: 'Sorcerer\'s Vengeance (9/13)' },
+      { value: '1100', desc: 'Sorcerer\'s Vengeance (8/13)' },
+      { value: '1000', desc: 'Sorcerer\'s Vengeance (7/13)' },
+      { value: '900', desc: 'Sorcerer\'s Vengeance (6/13)' },
+      { value: '800', desc: 'Sorcerer\'s Vengeance (5/13)' },
+      { value: '700', desc: 'Sorcerer\'s Vengeance (4/13)' },
+      { value: '600', desc: 'Sorcerer\'s Vengeance (3/13)' },
+      { value: '400', desc: 'Sorcerer\'s Vengeance (2/13)' },
+      { value: '200', desc: 'Sorcerer\'s Vengeance (1/13)' },
+      { value: '0', desc: 'Sorcerer\'s Vengeance (0/13)' }
     ]
   },
   {
@@ -713,17 +774,18 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-twinproc',
-    value: '0.19',
-    desc: 'Twinproc (7/7)',
+    value: '0.20',
+    desc: 'Twinproc (8/8)',
     data: [
-      { value: '0.19', desc: 'Twinproc (7/7)' },
-      { value: '0.18', desc: 'Twinproc (6/7)' },
-      { value: '0.15', desc: 'Twinproc (5/7)' },
-      { value: '0.12', desc: 'Twinproc (4/7)' },
-      { value: '0.09', desc: 'Twinproc (3/7)' },
-      { value: '0.06', desc: 'Twinproc (2/7)' },
-      { value: '0.03', desc: 'Twinproc (1/7)' },
-      { value: '0', desc: 'Twinproc (0/7)' }
+      { value: '0.20', desc: 'Twinproc (8/8)' },
+      { value: '0.19', desc: 'Twinproc (7/8)' },
+      { value: '0.18', desc: 'Twinproc (6/8)' },
+      { value: '0.15', desc: 'Twinproc (5/8)' },
+      { value: '0.12', desc: 'Twinproc (4/8)' },
+      { value: '0.09', desc: 'Twinproc (3/8)' },
+      { value: '0.06', desc: 'Twinproc (2/8)' },
+      { value: '0.03', desc: 'Twinproc (1/8)' },
+      { value: '0', desc: 'Twinproc (0/8)' }
     ]
   }
 ];
@@ -731,46 +793,48 @@ export const wizDPSAAContext = [
 export const magDPSAAContext = [
   {
     id: 'aa-destructive-fury',
-    value: '330',
-    desc: 'Destructive Fury (36/36)',
+    value: '340',
+    desc: 'Destructive Fury (38/38)',
     data: [
-      { value: '330', desc: 'Destructive Fury (36/36)' },
-      { value: '320', desc: 'Destructive Fury (35/36)' },
-      { value: '310', desc: 'Destructive Fury (34/36)' },
-      { value: '301', desc: 'Destructive Fury (33/36)' },
-      { value: '296', desc: 'Destructive Fury (32/36)' },
-      { value: '291', desc: 'Destructive Fury (31/36)' },
-      { value: '286', desc: 'Destructive Fury (30/36)' },
-      { value: '279', desc: 'Destructive Fury (29/36)' },
-      { value: '272', desc: 'Destructive Fury (28/36)' },
-      { value: '265', desc: 'Destructive Fury (27/36)' },
-      { value: '251', desc: 'Destructive Fury (26/36)' },
-      { value: '238', desc: 'Destructive Fury (25/36)' },
-      { value: '230', desc: 'Destructive Fury (24/36)' },
-      { value: '222', desc: 'Destructive Fury (23/36)' },
-      { value: '214', desc: 'Destructive Fury (22/36)' },
-      { value: '206', desc: 'Destructive Fury (21/36)' },
-      { value: '199', desc: 'Destructive Fury (20/36)' },
-      { value: '192', desc: 'Destructive Fury (19/36)' },
-      { value: '185', desc: 'Destructive Fury (18/36)' },
-      { value: '180', desc: 'Destructive Fury (17/36)' },
-      { value: '175', desc: 'Destructive Fury (16/36)' },
-      { value: '170', desc: 'Destructive Fury (15/36)' },
-      { value: '165', desc: 'Destructive Fury (14/36)' },
-      { value: '160', desc: 'Destructive Fury (13/36)' },
-      { value: '155', desc: 'Destructive Fury (12/36)' },
-      { value: '150', desc: 'Destructive Fury (11/36)' },
-      { value: '145', desc: 'Destructive Fury (10/36)' },
-      { value: '140', desc: 'Destructive Fury (9/36)' },
-      { value: '135', desc: 'Destructive Fury (8/36)' },
-      { value: '130', desc: 'Destructive Fury (7/36)' },
-      { value: '125', desc: 'Destructive Fury (6/36)' },
-      { value: '115', desc: 'Destructive Fury (5/36)' },
-      { value: '107', desc: 'Destructive Fury (4/36)' },
-      { value: '100', desc: 'Destructive Fury (3/36)' },
-      { value: '60', desc: 'Destructive Fury (2/36)' },
-      { value: '30', desc: 'Destructive Fury (1/36)' },
-      { value: '0', desc: 'Destructive Fury (0/36)  ' }
+      { value: '340', desc: 'Destructive Fury (38/38)' },
+      { value: '335', desc: 'Destructive Fury (37/38)' },
+      { value: '330', desc: 'Destructive Fury (36/38)' },
+      { value: '320', desc: 'Destructive Fury (35/38)' },
+      { value: '310', desc: 'Destructive Fury (34/38)' },
+      { value: '301', desc: 'Destructive Fury (33/38)' },
+      { value: '296', desc: 'Destructive Fury (32/38)' },
+      { value: '291', desc: 'Destructive Fury (31/38)' },
+      { value: '286', desc: 'Destructive Fury (30/38)' },
+      { value: '279', desc: 'Destructive Fury (29/38)' },
+      { value: '272', desc: 'Destructive Fury (28/38)' },
+      { value: '265', desc: 'Destructive Fury (27/38)' },
+      { value: '251', desc: 'Destructive Fury (26/38)' },
+      { value: '238', desc: 'Destructive Fury (25/38)' },
+      { value: '230', desc: 'Destructive Fury (24/38)' },
+      { value: '222', desc: 'Destructive Fury (23/38)' },
+      { value: '214', desc: 'Destructive Fury (22/38)' },
+      { value: '206', desc: 'Destructive Fury (21/38)' },
+      { value: '199', desc: 'Destructive Fury (20/38)' },
+      { value: '192', desc: 'Destructive Fury (19/38)' },
+      { value: '185', desc: 'Destructive Fury (18/38)' },
+      { value: '180', desc: 'Destructive Fury (17/38)' },
+      { value: '175', desc: 'Destructive Fury (16/38)' },
+      { value: '170', desc: 'Destructive Fury (15/38)' },
+      { value: '165', desc: 'Destructive Fury (14/38)' },
+      { value: '160', desc: 'Destructive Fury (13/38)' },
+      { value: '155', desc: 'Destructive Fury (12/38)' },
+      { value: '150', desc: 'Destructive Fury (11/38)' },
+      { value: '145', desc: 'Destructive Fury (10/38)' },
+      { value: '140', desc: 'Destructive Fury (9/38)' },
+      { value: '135', desc: 'Destructive Fury (8/38)' },
+      { value: '130', desc: 'Destructive Fury (7/38)' },
+      { value: '125', desc: 'Destructive Fury (6/38)' },
+      { value: '115', desc: 'Destructive Fury (5/38)' },
+      { value: '107', desc: 'Destructive Fury (4/38)' },
+      { value: '100', desc: 'Destructive Fury (3/38)' },
+      { value: '60', desc: 'Destructive Fury (2/38)' },
+      { value: '30', desc: 'Destructive Fury (1/38)' },
+      { value: '0', desc: 'Destructive Fury (0/38)  ' }
     ]
   },
   {
@@ -788,12 +852,15 @@ export const magDPSAAContext = [
   },
   {
     id: 'aa-force-of-elements',
-    value: 'FE15',
-    desc: 'Force of Elements (15/15)',
+    value: 'FE18',
+    desc: 'Force of Elements (18/18)',
     data: [
-      { value: 'FE15', desc: 'Force of Elements (15/15)' },
-      { value: 'FE14', desc: 'Force of Elements (14/15)' },
-      { value: 'FE13', desc: 'Force of Elements (13/15)' }
+      { value: 'FE18', desc: 'Force of Elements (18/18)' },
+      { value: 'FE17', desc: 'Force of Elements (17/18)' },
+      { value: 'FE16', desc: 'Force of Elements (16/18)' },
+      { value: 'FE15', desc: 'Force of Elements (15/18)' },
+      { value: 'FE14', desc: 'Force of Elements (14/18)' },
+      { value: 'FE13', desc: 'Force of Elements (13/18)' }
     ]
   },
   {
@@ -849,17 +916,18 @@ export const magDPSAAContext = [
   },
   {
     id: 'aa-twinproc',
-    value: '0.19',
-    desc: 'Twinproc (7/7)',
+    value: '0.20',
+    desc: 'Twinproc (8/8)',
     data: [
-      { value: '0.19', desc: 'Twinproc (7/7)' },
-      { value: '0.18', desc: 'Twinproc (6/7)' },
-      { value: '0.15', desc: 'Twinproc (5/7)' },
-      { value: '0.12', desc: 'Twinproc (4/7)' },
-      { value: '0.09', desc: 'Twinproc (3/7)' },
-      { value: '0.06', desc: 'Twinproc (2/7)' },
-      { value: '0.03', desc: 'Twinproc (1/7)' },
-      { value: '0', desc: 'Twinproc (0/7)' }
+      { value: '0.20', desc: 'Twinproc (8/8)' },
+      { value: '0.19', desc: 'Twinproc (7/8)' },
+      { value: '0.18', desc: 'Twinproc (6/8)' },
+      { value: '0.15', desc: 'Twinproc (5/8)' },
+      { value: '0.12', desc: 'Twinproc (4/8)' },
+      { value: '0.09', desc: 'Twinproc (3/8)' },
+      { value: '0.06', desc: 'Twinproc (2/8)' },
+      { value: '0.03', desc: 'Twinproc (1/8)' },
+      { value: '0', desc: 'Twinproc (0/8)' }
     ]
   }
 ];
@@ -899,7 +967,7 @@ export const chartOptions = {
       left: {
         range: {
           min: 0,
-          max: 110
+          max: 130
         },
         title: {
           text: 'Crit Rate'

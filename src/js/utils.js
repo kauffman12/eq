@@ -13,6 +13,7 @@ export const CLASS_TO_NAME = {
   rng: 'Ranger',
   nec: 'Necromancer',
   mag: 'Magician',
+  war: 'Warrior',
   wiz: 'Wizard'
 };
 
@@ -119,6 +120,37 @@ export function createTimer(expireTime, updateFunc) {
 
 export function displayPercent(value) {
   return value ? (value * 100).toFixed(2) + "%" : "0%";
+}
+
+export function getCastTime(state, spell) {
+  let castTime = spell.castTime;
+
+  // cast spells that can be adjusted
+  // DF is listed as 250 atm 
+  if (spell.level <= 250 && spell.castTime > 0) {
+    let adjust = 0;
+    if (state && state.activeAbilities.has('QT')) {
+      adjust = 250;
+    }
+
+    let origCastTime = spell.origCastTime;
+    if (origCastTime >= 3000) {
+      origCastTime -= adjust;
+      if (['DF', 'FA'].find(id => id === spell.id)) {
+        // DF and FA don't receive benefit from AA quicker damage
+        castTime = origCastTime - origCastTime * 0.34; 
+      } else {
+        // most spells hit 50% cap with piety + legs + AA (11 + 23 + 20)
+        castTime = origCastTime - origCastTime * 0.50; 
+      }
+    } else {
+      origCastTime -= adjust;
+      // spells with low cast times only receive AA benefit
+      castTime = origCastTime - origCastTime * 0.20;
+    }
+  }
+
+  return castTime;
 }
 
 export function getCurrentTime() {

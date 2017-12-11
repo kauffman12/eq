@@ -14,7 +14,7 @@ function addNumberStatDescription(data, title, value, force) {
 
 function addDecimalStatDescription(data, title, value, force, fixed) {
   if (value || force) {
-    data.push({ title: title, value: value.toFixed(fixed || 2) });
+    data.push({ title: title, value: value.toFixed(fixed||2) });
   }
 }
 
@@ -39,7 +39,7 @@ export function getStatisticsSummary(spellStats) {
   let spell = utils.getSpellData(spellStats.get('id'));
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
-  addDecimalStatDescription(data, "Cast Time(s)", spell.castTime / 1000, true, 3);
+  addDecimalStatDescription(data, "Cast Time(s)", spellStats.get('adjCastTime') / 1000, true, 3);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'), false, 3);
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));
   addNumberStatDescription(data, "Pet Count", spellStats.get('rsCounter'));
@@ -52,9 +52,9 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "ITC Charges", spellStats.get('itcChargesUsed'));
     addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
     addDecimalStatDescription(data, "AAura Charges", spellStats.get('aaChargesUsed'));
-    addDecimalStatDescription(data, "AMelody Charges", spellStats.get('amChargesUsed'));
+    addDecimalStatDescription(data, "ABallod Charges", spellStats.get('abChargesUsed'));
     addDecimalStatDescription(data, "Arcomancy Charges", spellStats.get('arcoChargesUsed'));
-    addDecimalStatDescription(data, "FWeave Charges", spellStats.get('fwaeChargesUsed'));
+    addDecimalStatDescription(data, "FReave Charges", spellStats.get('fraChargesUsed'));
     addDecimalStatDescription(data, "Firebound Charges", spellStats.get('firebaChargesUsed'));
     addDecimalStatDescription(data, "Frostbound Charges", spellStats.get('frostbaChargesUsed'));
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
@@ -68,11 +68,15 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "Gift of Chroma", spellStats.get('gchChargesUsed'));
     addDecimalStatDescription(data, "Mana Charge", spellStats.get('mcChargesUsed'));
     addDecimalStatDescription(data, "Enc Synergy", spellStats.get('esynChargesUsed'));
-    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msynChargesUsed'));
+    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msyn1ChargesUsed'));
+    addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msyn2ChargesUsed'));
     addDecimalStatDescription(data, "Nec Synergy", spellStats.get('nsynChargesUsed'));
-    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsynChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn1ChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn2ChargesUsed'));
     addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
     addDecimalStatDescription(data, "FlamesWeak Effect", spellStats.get('fweakChargesUsed'));
+    addDecimalStatDescription(data, "ThricePwr Charges", spellStats.get('thpwrChargesUsed'));
+    addDecimalStatDescription(data, "ThriceWeak Effect", spellStats.get('thweakChargesUsed'));
 
     addPercentStatDescription(data, "Crit Dmg Mult", spellStats.get('critDmgMult'), true);
     addPercentStatDescription(data, "Crit Rate", spellStats.get('critRate'), true);
@@ -86,9 +90,9 @@ export function getStatisticsSummary(spellStats) {
       addPercentStatDescription(data, "Before DoT Crit Focus", spellStats.get('beforeDoTCritFocus'));
       addPercentStatDescription(data, "After Crit Focus", spellStats.get('afterCritFocus'));
       addNumberStatDescription(data, "After Crit Add", spellStats.get('afterCritAdd'));
-      addPercentStatDescription(data, "After Crit Focus NM", spellStats.get('afterCritFocusNoMod'));
-      addNumberStatDescription(data, "After Crit Add NM", spellStats.get('afterCritAddNoMod'));
-      addPercentStatDescription(data, "Post Calc Focus", spellStats.get('postCalcFocus'));
+      addPercentStatDescription(data, "SPA 461 Focus", spellStats.get('spa461Focus'));
+      addPercentStatDescription(data, "After SPA 461 Focus", spellStats.get('afterSPA461Focus'));
+      addNumberStatDescription(data, "After SPA 461 Add", spellStats.get('afterSPA461Add'));
 
       addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
       addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));
@@ -106,19 +110,20 @@ export function getStatisticsSummary(spellStats) {
 
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
-  addNumberStatDescription(data, "AMelody Proc", spellStats.get('amAddDmg'));
+  addNumberStatDescription(data, "ABallad Proc", spellStats.get('abAddDmg'));
   addNumberStatDescription(data, "Cryo Proc", spellStats.get('cryoAddDmg'));
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
-  addNumberStatDescription(data, "FWeave Proc", spellStats.get('fwaeAddDmg'));
+  addNumberStatDescription(data, "FReave Proc", spellStats.get('fraAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
-  addNumberStatDescription(data, "Hedgewizards", spellStats.get('ahbAddDmg'));
+  addNumberStatDescription(data, "DragonMagic", spellStats.get('dmAddDmg'));
 
-  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsynAddDmg'));
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn1AddDmg'));
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn2AddDmg'));
 
   addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
 
-  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spell.castTime + dom.getGCDValue()) * 1000);
+  let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spellStats.get('adjCastTime') + dom.getGCDValue()) * 1000);
   data.push({ title: "DPS", value: utils.numberWithCommas(dps) + "/s"});
   return data;
 }
@@ -136,7 +141,7 @@ export function printStats(output, state) {
   let totalDotDmg = getSpellCastInfo().get('totalDotDmg') || 0;
   let totalProcs = getSpellCastInfo().get('totalProcs') || 0;
   let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / timerange;
-
+ 
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
   let aggrCritRate = getSpellCastInfo().get('critRate') || 0;

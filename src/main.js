@@ -160,10 +160,9 @@ $('li.dropdown').each((i1, dropdown) => {
             $(dropdown).hasClass('aa-destructive-fury') ||
             $(dropdown).hasClass('spell-pet-focus') ||
             $(dropdown).hasClass('aa-don')) {
-            setTimeout(timeline.loadRates, 5);
           }
           
-          timeline.callUpdateSpellChart();
+          timeline.callUpdateSpellChart(true);
       });
   });
 });
@@ -187,8 +186,7 @@ $('#configurationSection input').change(() => { timeline.callUpdateSpellChart() 
 
 // Listen to configuration changes that need to update the spell chart and update crit rates
 $('#spellTimeRange, #customSettingsSection input').change(() => {
-  setTimeout(timeline.loadRates, 5);
-  timeline.callUpdateSpellChart();
+  timeline.callUpdateSpellChart(true);
 });
 
 // Sets listener on each collapsable dropdown menu to handle collapse/expand events

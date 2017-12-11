@@ -15,8 +15,10 @@ import {globals as G} from './settings.js';
 // 399 - increase twincast rate
 // 413 - increase spell effectiveness            (effectiveness multiplyer)
 // 461 - increase spell damage v2                (special crit multiplier)
-// 483 - increase spell and dot damage taken     (after crit multiplyer not modifiable)
-// 484 - increase spell damage taken             (after crit addition not modifiable)
+// 462 - increase spell damage                   (after crit addition)
+// 483 - increase spell and dot damage taken     (after SPA 461 mutliplyer)
+// 484 - increase spell damage taken             (after SPA 461 addition not modifiable)
+// 507 - increase spell damage                   (after SPA 461 multiplayer)
 
 // Notes
 // tick durations rounded up 1/2 tick since it seems random what you really get
@@ -27,17 +29,19 @@ import {globals as G} from './settings.js';
 //             +N repeat every N 
 //             -999 repeat when activated by some means like proc/cast
 
+export const SPA_483_FOCUS = new Set([483]);
 export const SPA_AFTER_CRIT_ADD = new Set([286]);
-export const SPA_AFTER_CRIT_ADD_NO_MOD = new Set([484]);
-export const SPA_AFTER_CRIT_FOCUS_NO_MOD = new Set([483]);
+export const SPA_AFTER_CRIT_FOCUS = new Set([]);
+export const SPA_AFTER_SPA_461_ADD = new Set([462, 484]);
+export const SPA_AFTER_SPA_461_FOCUS = new Set([507]);
 export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
 export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
 export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
-export const SPA_POST_CALC_FOCUS = new Set([461]);
+export const SPA_461_FOCUS = new Set([461]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 484]);
+export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 483, 484, 507]);
 export const SPA_NO_DMG = new Set([389, 399]);
 export const SPA_TWINCAST = new Set([399]);
 
@@ -45,13 +49,15 @@ export const SPA_TWINCAST = new Set([399]);
 export const SPA_KEY_MAP = new Map();
 SPA_CRIT_RATE_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritRate'));
 SPA_CRIT_DMG_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritDmg'));
+SPA_483_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa483Focus'));
 SPA_AFTER_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAdd'));
-SPA_AFTER_CRIT_ADD_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAddNoMod'));
-SPA_AFTER_CRIT_FOCUS_NO_MOD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocusNoMod'));
+SPA_AFTER_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocus'));
+SPA_AFTER_SPA_461_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Add'));
+SPA_AFTER_SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Focus'));
 SPA_BEFORE_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritAdd'));
 SPA_BEFORE_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritFocus'));
 SPA_BEFORE_DOT_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeDoTCritFocus'));
-SPA_POST_CALC_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'postCalcFocus'));
+SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa461Focus'));
 SPA_EFFECTIVENESS.forEach(spa => SPA_KEY_MAP.set(spa, 'effectiveness'));
 SPA_TWINCAST.forEach(spa => SPA_KEY_MAP.set(spa, 'twincast'));
 
@@ -153,26 +159,25 @@ const TARGET_SINGLE = new Set(['SINGLE']);
 const TICK_OFFSET = 3000;
 
 const ABILITIES = {
-  AA: {
-    charges: 22, // game displays double
-    class: 'enc',
-    duration: 50000,
-    level: 103,
-    name: 'Augmenting Aura Rk. III',
-    refreshTime: 30000,
+  AB: {
+    charges: 4,
+    class: 'brd',
+    duration: 24000 + TICK_OFFSET, // about 4 ticks
+    level: 110,
+    name: 'Arcane Ballad Rk. III',
+    refreshTime: 12000, // varies depending on bard melody set
     repeatEvery: -1,
     effects: [
       {
-        spa: 413,
-        slot: 1,
-        type: 'sp',
-        value: 0.04,
+        proc: 'AB',
         limits: [
-          { maxLevel: 105 },
+          { onSpellUse: true },
+          { currentHitPoints: true },
+          { exSpells: new Set(['AB']) },
+          { maxLevel: 110 },
           { type: 'detrimental' },
-          { minManaCost: 10 },
-          { exTargets: TARGET_AES },
-          { exSkills: COMBAT_SKILLS }
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 }
         ]
       }
     ]
@@ -241,41 +246,19 @@ const ABILITIES = {
       }
     ]
   },
-  AHB: {
+  DM: {
     level: 255,
-    name: 'Ancient Hedgewizard Brew',
+    name: 'Dragonmagic Focus',
     repeatEvery: -1,
     effects: [
       {
-        proc: 'AHB',
+        proc: 'DM',
         limits: [
           { onSpellUse: true },
           { minManaCost: 10 },
+          { minLevel: 75 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-        ]
-      }
-    ]
-  },
-  AM: {
-    charges: 4,
-    class: 'brd',
-    duration: 24000 + TICK_OFFSET, // about 4 ticks
-    level: 105,
-    name: 'Arcane Melody III',
-    refreshTime: 12000, // varies depending on bard melody set
-    repeatEvery: -1,
-    effects: [
-      {
-        proc: 'AM',
-        limits: [
-          { onSpellUse: true },
-          { currentHitPoints: true },
-          { exSpells: new Set(['AM']) },
-          { maxLevel: 105 },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { minManaCost: 10 }
         ]
       }
     ]
@@ -287,17 +270,17 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 254,
     mode: 'wiz',
-    name: 'Arcomancy XXIV',
+    name: 'Arcomancy XXVII',
     repeatEvery: -999,
     type: 'sp',
     effects: [
       {
         slot: 1,
         spa: 297,
-        value: 2050,
+        value: 3500,
         limits: [
-          { maxLevel: 105 },
-          { minLevel: 75 },
+          { maxLevel: 110 },
+          { minLevel: 96 },
           { minManaCost: 10 }
         ]
       }
@@ -305,8 +288,8 @@ const ABILITIES = {
   },
   ARIA: {
     class: 'brd',
-    level: 101,
-    name: 'Aria of Maetanrus Rk. III',
+    level: 106,
+    name: 'Aria of Begalru Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -316,7 +299,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.45,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS }
@@ -329,7 +312,7 @@ const ABILITIES = {
     class: 'rng',
     duration: 96000,
     level: 254,
-    name: 'Auspice of the Hunter XXVI',
+    name: 'Auspice of the Hunter XXVIII',
     effects: [
       {
         spa: 294,
@@ -366,23 +349,26 @@ const ABILITIES = {
       }
     ]
   },
-  BLIZZARD: {
-    class: 'dru',
-    debuff: true,
-    level: 102,
-    name: 'Blizzard Breath Rk. III',
+  BA: {
+    charges: 24, // game only uses half of spell data?
+    class: 'enc',
+    duration: 50000,
+    level: 108,
+    name: 'Bolstering Aura Rk. III',
+    refreshTime: 30000,
     repeatEvery: -1,
     effects: [
       {
-        spa: 296,
+        spa: 413,
         slot: 1,
         type: 'sp',
-        value: 0.055,
+        value: 0.04,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { minManaCost: 10 },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS }
         ]
       }
     ]
@@ -413,13 +399,13 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Chromatic Haze VII',
+    name: 'Chromatic Haze VIII',
     effects: [
       {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 3.75,
+        value: 3.80,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 },
@@ -443,7 +429,7 @@ const ABILITIES = {
     debuff: true,
     level: 254,
     mode: 'wiz',
-    name: 'Cryomancy XXIV',
+    name: 'Cryomancy XXVII',
     repeatEvery: -999,
     effects: [
       {
@@ -452,8 +438,8 @@ const ABILITIES = {
           { onSpellUse: true },
           { type: 'detrimental' },
           { resists: new Set(['COLD']) },
-          { minLevel: 70 },
-          { maxLevel: 105 },
+          { minLevel: 91 },
+          { maxLevel: 110 },
           { maxDuration: 0 },
           { minManaCost: 10 }
         ]
@@ -549,9 +535,39 @@ const ABILITIES = {
         type: 'wn',
         value: 0.0, // value read from settings/UI choice
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { currentHitPoints: true }
           // others not sure how to handle and prob dont need to
+        ]
+      }
+    ]
+  },
+  ESD7: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 7',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB']) }
+        ]
+      }
+    ]
+  },
+  ESD9: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 9',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.09,
+        limits: [
+          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB']) }
         ]
       }
     ]
@@ -561,15 +577,15 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Beguiler\'s Synergy I',
+    name: 'Beguiler\'s Synergy II',
     repeatEvery: 11000,
-    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindsunder.',
+    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
     effects: [
       {
         spa: 461,
         slot: 1,
         type: 'sp',
-        value: 0.4,
+        value: 0.45,
         limits: [
          { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
          { maxLevel: 249 },
@@ -582,21 +598,35 @@ const ABILITIES = {
   EU: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 144000,
+    duration: 180000,
     level: 254,
     mode: 'mag',
-    name: 'Elemental Union XIII',
+    name: 'Elemental Union XVI',
     effects: [
       {
-        spa: 124,
+        spa: 212,
         slot: 1,
         type: 'sp',
-        value: 0.95,
+        value: 0.10,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 0 },
           { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { exTargets: TARGET_AES }
+          { maxDuration: 0 }
+        ]
+      },
+      {
+        spa: 461,
+        slot: 7,
+        type: 'sp',
+        value: 0.55,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 0 },
+          { type: 'detrimental' },
+          { maxDuration: 0 }
         ]
       }
     ]
@@ -608,7 +638,7 @@ const ABILITIES = {
     duration: 410000,
     level: 254,
     mode: 'wiz',
-    name: 'Frenzied Devastation XXIX',
+    name: 'Frenzied Devastation XXX',
     effects: [
       {
         spa: 212,
@@ -627,7 +657,7 @@ const ABILITIES = {
         spa: 170,
         slot: 8,
         type: 'sp',
-        value: 0.80
+        value: 0.85
       }
     ]
   },
@@ -635,8 +665,8 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'brd',
     duration: 120000,
-    level: 105,
-    name: 'Fierce Eye III',
+    level: 110,
+    name: 'Fierce Eye IV',
     effects: [
 /*
       {
@@ -650,13 +680,19 @@ const ABILITIES = {
         spa: 294,
         slot: 5,
         type: 'sp',
-        value: 0.12
+        value: 0.13
       },
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 0.12
+        value: 0.13
+      },
+      {
+        spa: 507,
+        slot: 12,
+        type: 'sp',
+        value: 0.13
       }
     ]
   },
@@ -690,6 +726,25 @@ const ABILITIES = {
         value: 0.66,
         limits: [
           { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  FCOLD60: {
+    level: 255,
+    name: 'Cold Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
@@ -736,6 +791,25 @@ const ABILITIES = {
       }
     ]
   },
+  FCOLD70: {
+    level: 255,
+    name: 'Cold Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
   FFIRE55: {
     level: 255,
     name: 'Fire Damage 55-75 L110',
@@ -766,6 +840,25 @@ const ABILITIES = {
         value: 0.66,
         limits: [
           { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  FFIRE60: {
+    level: 255,
+    name: 'Fire Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
@@ -812,6 +905,25 @@ const ABILITIES = {
       }
     ]
   },
+  FFIRE70: {
+    level: 255,
+    name: 'Fire Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
   FMAGIC55: {
     level: 255,
     name: 'Magic Damage 55-75 L110',
@@ -842,6 +954,25 @@ const ABILITIES = {
         value: 0.66,
         limits: [
           { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  FMAGIC60: {
+    level: 255,
+    name: 'Magic Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
@@ -888,6 +1019,25 @@ const ABILITIES = {
       }
     ]
   },
+  FMAGIC70: {
+    level: 255,
+    name: 'Magic Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
   FR: {
     adpsDropdown: true,
     duration: 20000,
@@ -905,19 +1055,63 @@ const ABILITIES = {
       }
     ]
   },
+  FRA: {
+    charges: 6,
+    class: 'dru',
+    duration: 18000 + TICK_OFFSET,
+    level: 108,
+    name: 'Frostreave Aura Rk. III',
+    refreshTime: 18000,
+    repeatEvery: -1,
+    effects: [
+      {
+        proc: 'FW',
+        limits: [
+          { onSpellUse: true },
+          { type: 'detrimental' },
+          { currentHitPoints: true },
+          { exSpells: new Set(['FW']) },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 115 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+  FRB: {
+    class: 'dru',
+    debuff: true,
+    level: 107,
+    name: 'Frostreave Breath Rk. III',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.06,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
   FURYGODS: {
     adpsDropdown: true,
     class: 'wiz',
     duration: 240000,
     level: 254,
     mode: 'wiz',
-    name: 'Fury of the Gods XLVIII',
+    name: 'Fury of the Gods LI',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3600,
+        value: 3900,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }
@@ -1072,35 +1266,12 @@ const ABILITIES = {
       }
     ]
   },
-  FWAE: {
-    charges: 6,
-    class: 'dru',
-    duration: 18000 + TICK_OFFSET,
-    level: 103,
-    name: 'Frostweave Aura III',
-    refreshTime: 18000,
-    repeatEvery: -1,
-    effects: [
-      {
-        proc: 'FW',
-        limits: [
-          { onSpellUse: true },
-          { type: 'detrimental' },
-          { currentHitPoints: true },
-          { exSpells: new Set(['FW']) },
-          { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },
   GBW: {
     adpsDropdown: true,
     class: 'dru',
     duration: 225000,
     level: 254,
-    name: 'Group Spirit of the Black Wolf VI',
+    name: 'Group Spirit of the Black Wolf VII',
     effects: [
       {
         spa: 294,
@@ -1162,26 +1333,28 @@ const ABILITIES = {
       }
     ]
   },
-  GLYPHC: {
-    adpsDropdown: true,
-    duration: 120000,
-    level: 254,
-    name: 'Glyph of the Cataclysm',
+  FATE: {
+    class: 'brd',
+    level: 107,
+    name: 'Fatesong of Dekloaz Rk. III',
+    refreshTime: 12000,
+    repeatEvery: -1,
     effects: [
       {
-        spa: 170,
-        slot: 10,
+        spa: 286,
+        slot: 1,
         type: 'sp',
-        value: 0.6
+        value: 2781,
+        limits: [
+          { minLevel: 101 },
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { resists: new Set(['COLD']) }
+        ]
       }
-/*
-      {
-        spa: 375,
-        slot: 8,
-        type: 'sp',
-        value: 0.6
-      }
-*/
     ]
   },
   FPWR: {
@@ -1203,7 +1376,7 @@ const ABILITIES = {
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
-          { maxLevel: 105 } // need to really verify
+          { maxLevel: 110 } // need to really verify
         ]
       }
     ]
@@ -1226,27 +1399,48 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 } // need to really verify
+          { maxLevel: 110 } // need to really verify
         ]
       }
+    ]
+  },
+  GLYPHC: {
+    adpsDropdown: true,
+    duration: 120000,
+    level: 254,
+    name: 'Glyph of the Cataclysm',
+    effects: [
+      {
+        spa: 170,
+        slot: 10,
+        type: 'sp',
+        value: 0.6
+      }
+/*
+      {
+        spa: 375,
+        slot: 8,
+        type: 'sp',
+        value: 0.6
+      }
+*/
     ]
   },
   HOF: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 276000,
+    duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Flames XII',
+    name: 'Heart of Flames XIII',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 1.1,
+        value: 1.15,
         limits: [
-          { maxLevel: 105 },
-          { resists: new Set(['FIRE']) },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exTargets: TARGET_AES }
@@ -1257,16 +1451,16 @@ const ABILITIES = {
   HOV: {
     adpsDropdown: true,
     class: 'mag',
-    duration: 276000,
+    duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Vapor XIV',
+    name: 'Heart of Vapor XV',
     effects: [
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 0.35
+        value: 0.45
       }
     ]
   },
@@ -1274,18 +1468,18 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'Improved Familiar XXVIII',
+    name: 'Improved Familiar XXX',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 0.5,
+        value: 0.525,
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
           { exTargets: TARGET_AES },
-          { maxLevel: 105 }, // from testing
+          { maxLevel: 110 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
       },
@@ -1293,7 +1487,7 @@ const ABILITIES = {
         spa: 170, // moved rules up from testing
         slot: 5,
         type: 'sp',
-        value: 0.27,
+        value: 0.29,
       }
     ]
   },
@@ -1322,10 +1516,10 @@ const ABILITIES = {
   },
   ITC: {
     adpsDropdown: true,
-    charges: 18,
+    charges: 19,
     duration: 150000,
     level: 254,
-    name: 'Improved Twincast VI',
+    name: 'Improved Twincast VII',
     effects: [
       {
         spa: 399,
@@ -1347,7 +1541,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 120000,
     level: 105,
-    name: 'Illusions of Grandeur II',
+    name: 'Illusions of Grandeur III',
     effects: [
 /*
       {
@@ -1367,13 +1561,13 @@ const ABILITIES = {
         spa: 294,
         slot: 5,
         type: 'sp',
-        value: 0.12
+        value: 0.13
       },
       {
         spa: 170,
         slot: 6,
         type: 'sp',
-        value: 1.55
+        value: 1.60
       }
     ]
   },
@@ -1381,14 +1575,14 @@ const ABILITIES = {
     class: 'enc',
     debuff: true,
     level: 255,
-    name: 'Tashan\'s Lingering Cry IV',
+    name: 'Tashan\'s Lingering Cry V',
     repeatEvery: -1,
     effects: [
       {
         spa: 483,
         slot: 1,
         type: 'sp',
-        value: 0.08,
+        value: 0.09,
         limits: [
           { maxLevel: 110 },
           { minManaCost: 10 }
@@ -1399,8 +1593,8 @@ const ABILITIES = {
   MALO: {
     class: 'mag',
     debuff: true,
-    level: 101,
-    name: 'Malosenete Rk. III',
+    level: 106,
+    name: 'Malosinata Rk. III',
     otherCast: true,
     repeatEvery: -1,
     effects: [
@@ -1408,9 +1602,9 @@ const ABILITIES = {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.055,
+        value: 0.06,
         limits: [
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { resists: new Set(['MAGIC']) },
           { exSkills: COMBAT_SKILLS }
@@ -1424,13 +1618,13 @@ const ABILITIES = {
     charges: 500,
     duration: 120000,
     level: 254,
-    name: 'Mana Burn XVI',
+    name: 'Mana Burn XVII',
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 19200,
+        value: 20400,
         limits: [
           { maxDuration: 0 }
         ]
@@ -1479,8 +1673,8 @@ const ABILITIES = {
     charges: 6,
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
-    level: 105,
-    name: 'Mana Reciprocation Aura Rk. III',
+    level: 110,
+    name: 'Mana Repetition Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1491,20 +1685,18 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exSpells: new Set(['MR']) },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 }
         ]
       }
     ]
   },
-  MSYN: {
+  MSYN1: {
     class: 'mag',
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Conjurer\'s Synergy I',
-    otherCast: true,
-    repeatEvery: 13000,
     tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
     effects: [
       {
@@ -1521,26 +1713,26 @@ const ABILITIES = {
       }
     ]
   },
-  NILSARA: {
-    class: 'brd',
-    level: 103,
-    name: 'Nilsara\'s Aria Rk. III',
-    refreshTime: 12000,
-    repeatEvery: -1,
+  MSYN2: {
+    class: 'mag',
+    charges: 1,
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Conjurer\'s Synergy II',
+    otherCast: true,
+    repeatEvery: 13000,
+    tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless or Reckless Servant.',
     effects: [
       {
-        spa: 286,
+        spa: 302,
         slot: 1,
         type: 'sp',
-        value: 1638,
+        value: 0.60,
         limits: [
-          { minLevel: 96 },
-          { maxLevel: 105 },
-          { type: 'detrimental' },
-          { exTargets: TARGET_AES },
-          { maxDuration: 0 },
-          { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
+          { resists: new Set(['FIRE', 'CHROMATIC']) },
+          { maxLevel: 250 },
+          { minDmg: 100 },
+          { nonRepeating: true }
         ]
       }
     ]
@@ -1550,15 +1742,15 @@ const ABILITIES = {
     class: 'nec',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Defiler\'s Synergy I',
+    name: 'Defiler\'s Synergy II',
     repeatEvery: 7000,
-    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Impose for Blood.',
+    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Refute for Blood.',
     effects: [
       {
         spa: 170,
         slot: 1,
         type: 'sp',
-        value: 0.15
+        value: 0.20
       }
 /*
       {
@@ -1570,33 +1762,125 @@ const ABILITIES = {
 */
     ]
   },
+  PRECISION: {
+    adpsDropdown: true,
+    class: 'war',
+    debuff: true,
+    duration: 60000,
+    level: 25,
+    name: 'Imperator\'s Precision IV',
+    effects: [
+      {
+        spa: 483,
+        slot: 1,
+        type: 'sp',
+        value: 0.185,
+        limits: [
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
   PYRO: {
     class: 'wiz',
     debuff: true,
     duration: 36000, // dot does 5 ticks of damage plus 1 at the end
     level: 254,
     mode: 'wiz',
-    name: 'Pyromancy XXIV',
+    name: 'Pyromancy XXVII',
     repeatEvery: -999,
-    effects: [] // handled by DOT generator and constants in dmgU
+    effects: [] // handled by DOT generator and constants in dmgU ++ should have level 91
   },
-  SEEDLINGS: {
-    class: 'dru',
-    debuff: true,
-    level: 98,
-    name: 'Skin to Seedlings Rk. III',
+  QT: {
+    adpsDropdown: true,
+    class: 'brd',
+    duration: 240000,
+    level: 110,
+    name: 'Quick Time VIII',
+    effects: []
+  },
+  QUNARD: {
+    class: 'brd',
+    level: 108,
+    name: 'Qunard\'s Aria Rk. III',
+    refreshTime: 12000,
     repeatEvery: -1,
+    effects: [
+      {
+        spa: 286,
+        slot: 1,
+        type: 'sp',
+        value: 1987,
+        limits: [
+          { minLevel: 101 },
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  REA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Elemental Arrow II',
+    otherCast: true,
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.065,
+        value: 0.15,
         limits: [
-          { maxLevel: 105 },
-          { type: 'detrimental' },
-          { resists: new Set(['FIRE']) },
-          { exSkills: COMBAT_SKILLS }
+          { resists: new Set(['FIRE', 'COLD']) }
+        ]
+      }
+    ]
+  },
+  RGA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Glacial Arrow IV',
+    otherCast: true,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.12,
+        limits: [
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  RVA: {
+    adpsDropdown: true,
+    class: 'rng',
+    debuff: true,
+    duration: 18000 + TICK_OFFSET,
+    level: 110,
+    name: 'Volatile Arrow IV',
+    otherCast: true,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.12,
+        limits: [
+          { resists: new Set(['FIRE']) }
         ]
       }
     ]
@@ -1619,6 +1903,27 @@ const ABILITIES = {
           { minLevel: 254 },
           { maxDuration: 0 },
           { maxCastTime: 0 }
+        ]
+      }
+    ]
+  },
+  SUMAC: {
+    class: 'dru',
+    debuff: true,
+    level: 108,
+    name: 'Skin to Sumac Rk. III',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 296,
+        slot: 1,
+        type: 'sp',
+        value: 0.07,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { resists: new Set(['FIRE']) },
+          { exSkills: COMBAT_SKILLS }
         ]
       }
     ]
@@ -1654,13 +1959,13 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['COLD']) }
         ]
@@ -1679,13 +1984,13 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['FIRE']) }
         ]
@@ -1704,13 +2009,13 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3469,
+        value: 4207,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1729,13 +2034,13 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4232,
+        value: 5132,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 105 },
+          { maxLevel: 110 },
           { minManaCost: 10 }
         ]
       }
@@ -1746,13 +2051,13 @@ const ABILITIES = {
     class: 'dru',
     duration: 30000 + TICK_OFFSET,
     level: 254,
-    name: 'Season\'s Wrath V',
+    name: 'Season\'s Wrath VII',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.185,
+        value: 0.195,
         limits: [
           { type: 'detrimental' },
           { resists: new Set(['FIRE', 'COLD']) }
@@ -1823,7 +2128,54 @@ const ABILITIES = {
       }
     ]
   },
-  THREADS: {
+  THPWR: {
+    class: 'wiz',
+    charges: 1,
+    duration: 60000,
+    level: 255,
+    mode: 'wiz',
+    name: 'Thricewoven Power VI',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: 1.125,
+        limits: [
+          { minDmg: 100 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 },
+          { maxLevel: 110 }
+        ]
+      }
+    ]
+  },
+  THWEAK: {
+    class: 'wiz',
+    charges: 1000, // workaround to see count in stats
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Thricewoven Weakness',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: -0.20,
+        limits: [
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 } // need to really verify
+        ]
+      }
+    ]
+  },
+  THREADSM: {
     level: 255,
     name: 'Threads of Mana',
     effects: [
@@ -1834,6 +2186,25 @@ const ABILITIES = {
         value: 1000,
         limits: [
           { resists: new Set(['MAGIC']) },
+          { currentHitPoints: true },
+          { nonRepeating: true },
+          { type: 'detrimental' },
+          { minManaCost: 100 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
+  THREADSP: {
+    level: 255,
+    name: 'Threads of Potential',
+    effects: [
+      {
+        spa: 462,
+        slot: 1,
+        type: 'wn',
+        value: 3000,
+        limits: [
           { currentHitPoints: true },
           { nonRepeating: true },
           { type: 'detrimental' },
@@ -1924,54 +2295,36 @@ const ABILITIES = {
       }
     ]
   },
-  WIZED5: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage 5',
-    effects: [
-      {
-        spa: 413,
-        slot: 1,
-        type: 'wn',
-        value: 0.05,
-        limits: [
-       //   { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WIZED7: {
-    class: 'wiz',
-    level: 255,
-    mode: 'wiz',
-    name: 'WIZ Ethereal Damage 7',
-    effects: [
-      {
-        spa: 413,
-        slot: 1,
-        type: 'wn',
-        value: 0.07,
-        limits: [
-         // { class: 'wiz' }, // messes up tester when in mage mode
-          { spells: new Set(['ES']) }
-        ]
-      }
-    ]
-  },
-  WSYN: {
+  WSYN1: {
     charges: 1,
     class: 'wiz',
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Evoker\'s Synergy I',
-    otherCast: true,
-    repeatEvery: 25000,
     tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
     effects: [
       {
-        proc: 'WSYN',
+        proc: 'WSYN1',
+        limits: [
+          { onSpellUse: true },
+          { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
+          { type: 'detrimental' }
+        ]
+      }
+    ]
+  },
+  WSYN2: {
+    charges: 1,
+    class: 'wiz',
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Evoker\'s Synergy II',
+    otherCast: true,
+    repeatEvery: 38000,
+    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Ethereal Braid.',
+    effects: [
+      {
+        proc: 'WSYN2',
         limits: [
           { onSpellUse: true },
           { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },

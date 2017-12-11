@@ -5,29 +5,30 @@ import * as utils from './utils.js';
 // What to query on to find a spell focus value by ID
 const MAGE_FOCUS_AA_KEYS = {
   'BS': '.aa-focus-bolt-molten .dropdown-toggle',
-  'CR': '.aa-focus-coronal-rain .dropdown-toggle',
+  'RM': '.aa-focus-coronal-rain .dropdown-toggle',
   'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
-  'RC': '.aa-focus-rain-cutlasses .dropdown-toggle',
-  'SM': '.aa-focus-storm-many .dropdown-toggle',
-  'SS': '.aa-focus-spear-molten .dropdown-toggle'
+  'RK': '.aa-focus-rain-cutlasses .dropdown-toggle',
+  'VM': '.aa-focus-storm-many .dropdown-toggle',
+  'SS': '.aa-focus-spear-molten .dropdown-toggle',
+  'SA': '.aa-focus-spear-molten .dropdown-toggle'
 };
 
 // What to query on to find a spell focus value by ID
 const WIZ_FOCUS_AA_KEYS = {
-  'CF': '.aa-focus-claws .dropdown-toggle',
+  'CQ': '.aa-focus-claws .dropdown-toggle',
   'CO': '.aa-focus-claws .dropdown-toggle',
-  'CS': '.aa-focus-cloudburst .dropdown-toggle',
-  'CS2': '.aa-focus-chaos .dropdown-toggle',
-  'EF': '.aa-focus-ethereal-flash .dropdown-toggle',
+  'CT': '.aa-focus-cloudburst .dropdown-toggle',
+  'CB': '.aa-focus-chaos .dropdown-toggle',
+  'EV': '.aa-focus-ethereal-flash .dropdown-toggle',
   'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-  'FU': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-  'ER': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
-  'FC': '.aa-focus-flashchar .dropdown-toggle',
-  'MB': '.aa-focus-rains .dropdown-toggle',
-  'PW': '.aa-focus-purewild .dropdown-toggle',
-  'RC2': '.aa-focus-rimeblastcascade .dropdown-toggle',
+  'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
+  'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
+  'FB': '.aa-focus-flashchar .dropdown-toggle',
+  'ME': '.aa-focus-rains .dropdown-toggle',
+  'PF': '.aa-focus-purewild .dropdown-toggle',
+  'IC': '.aa-focus-rimeblastcascade .dropdown-toggle',
   'SV': '.aa-focus-vortexes .dropdown-toggle',
-  'TS': '.aa-focus-thricewoven .dropdown-toggle'
+  'TW': '.aa-focus-thricewovenstorm .dropdown-toggle'
 };
 
 // Methods for easy lookup of values from DOM nodes related to configuration of
@@ -88,7 +89,6 @@ export function getConfiguredAbilities(state) {
       case 'wiz':
         // familiar
         addAbility(getFamiliarValue());
-        addAbility(getRobeValue());
         setSpellProc('AFU', getArcaneFusionValue());
         setSpellProc('FF', getForceOfFlameValue());
         setSpellProc('FI', getForceOfIceValue());
@@ -105,6 +105,7 @@ export function getConfiguredAbilities(state) {
         break;
     }
 
+    addAbility(getRobeValue());
     addAbility(getBeltProcValue());
     addAbility('EDECAY', getEyeOfDecayValue(), 413);
     addAbility('TCAA', getTwincastAAValue(), 399);
@@ -150,15 +151,15 @@ export function getAddAfterCritAddValue() {
     return utils.getNumberValue($('#addAfterCritAdd').val());
   });
 }
-export function getAddAfterCritAddNoModValue() {
-  return utils.useCache('.add-after-crit-add-nomod', () => {
-    return utils.getNumberValue($('#addAfterCritAddNoMod').val());
+export function getAddAfterSPA461AddValue() {
+  return utils.useCache('.add-after-spa-461-add', () => {
+    return utils.getNumberValue($('#addAfterSPA461Add').val());
   });
 }
 
-export function getAddAfterCritFocusNoModValue() {
-  return utils.useCache('.add-after-crit-focus-nomod', () => {
-    return utils.getNumberValue($('#addAfterCritFocusNoMod').val() / 100);
+export function getAddAfterSPA461FocusValue() {
+  return utils.useCache('.add-after-spa-461-focus', () => {
+    return utils.getNumberValue($('#addAfterSPA461Focus').val() / 100);
   });
 }
 
@@ -183,6 +184,12 @@ export function getAddBeforeDoTCritFocusValue() {
 export function getAddEffectivenessValue() {
   return utils.useCache('.add-effectiveness', () => {
     return utils.getNumberValue($('#addEffectiveness').val() / 100);
+  });
+}
+
+export function getAddSPA461FocusValue() {
+  return utils.useCache('.add-SPA461Focus', () => {
+    return utils.getNumberValue($('#addSPA461Focus').val() / 100);
   });
 }
 
@@ -227,15 +234,11 @@ export function getConjurersSynergyValue() {
 }
 
 export function getCritDmgValue() {
-  return utils.useCache('.innate-crit-dmg', () => {
-    return utils.getNumberValue($('#innatCritDmg').val());
-  });
+  return utils.getNumberValue($('#innatCritDmg').val());
 }
 
 export function getCritRateValue() {
-  return utils.useCache('.innate-crit-rate', () => {
-    return utils.getNumberValue($('#innatCritRate').val());
-  });
+  return utils.getNumberValue($('#innatCritRate').val());
 }
 
 export function getDPSAug1AugValue() {
@@ -391,6 +394,16 @@ export function getSpellFocusAAValue(id) {
     let keys = (G.MODE === 'wiz') ? WIZ_FOCUS_AA_KEYS : MAGE_FOCUS_AA_KEYS;
     if (keys[id]) {
       value = utils.getNumberValue($(keys[id]).data('value'));
+
+      // special case for now to handle old Mage Spear benefiting from old focus
+      // levels but not the new one
+      if (id === 'SA' && value < 9) {
+        value = 0;
+      } else if (id === 'SA' || id === 'SS') {
+        if (value === 9) {
+          value = 0.16;
+        }
+      }
     }
 
     return value ? value : 0;
@@ -415,9 +428,9 @@ export function getStaffProcValue() {
   });
 }
 
-export function getStormOfManyCountValue() {
-  return utils.useCache('.storm-of-many-count', () => {
-    return utils.getNumberValue($('#stormOfManyCount').val());
+export function getVolleyOfManyCountValue() {
+  return utils.useCache('.volley-of-many-count', () => {
+    return utils.getNumberValue($('#volleyOfManyCount').val());
   });
 }
 
@@ -460,9 +473,7 @@ export function getDoNValue() {
 }
 
 export function getFuryOfMagicValue() {
-  return utils.useCache('.aa-fury-of-magic', () => {
-    return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
-  });
+  return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
 }
 
 export function getFamiliarValue() {

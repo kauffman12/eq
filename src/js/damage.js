@@ -50,14 +50,14 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   let cfickleSpells = 0;
   let clawSpells = 0;
   switch(spell.id) {
-    case 'FC':
+    case 'FC': case 'TW':
       state.cfickleSpells = mod + (state.cfickleSpells || 0);
       if (state.cfickleSpells > 0.50 && !state.inTwincast) {
         cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
       }
       break;
-    case 'CF': case 'CO':
+    case 'CI': case 'CO': case 'CQ':
       state.clawSpells = mod + (state.clawSpells || 0);
       if (state.clawSpells > 0.50) {
         clawSpells = state.clawSpells;
@@ -112,7 +112,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
   switch(spell.id) {
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
-    case 'CF': case 'CO':
+    case 'CI': case 'CO': case 'CQ':
       // generate proc effects
       state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         if (id === 'REFRESH') {
@@ -121,18 +121,31 @@ function applyPostSpellEffects(state, mod, dmgKey) {
           timeline.addSpellProcAbility(state, id, 1, true);
         }
       });
+    
       break;
     case 'FC':
       if (G.MODE === 'mag') {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
+    case 'TW':
+      if (G.MODE === 'wiz') {
+        state.twSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+      }
+      break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
-      timeline.addSpellProcAbility(state, 'WSYN', dom.getEvokersSynergyValue(), true);
+  
+      if (dom.getEvokersSynergyValue() < 11) {
+        timeline.addSpellProcAbility(state, 'WSYN1', dom.getEvokersSynergyValue() / 10, true);
+      }
       break;
     case 'RS':
-      timeline.addSpellProcAbility(state, 'MSYN', dom.getConjurersSynergyValue(), true);
+      if (dom.getConjurersSynergyValue() >= 11) {
+        timeline.addSpellProcAbility(state, 'MSYN2', 1, true);
+      } else {
+        timeline.addSpellProcAbility(state, 'MSYN1', dom.getConjurersSynergyValue() / 10, true);
+      }
 
       let keys = utils.getCounterKeys('RS');
       if (state[keys.timers] === undefined) {
@@ -155,7 +168,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
-    case 'FU':
+    case 'EB':
       // Fuse is really just a Skyblaze
       let origSpell = spell;
       state.spell = utils.getSpellData('ES');
@@ -163,7 +176,11 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       state.spell = origSpell;
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
-      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('FU'), 'fuseProcDmg');
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
+
+      if (dom.getEvokersSynergyValue() >= 11) {
+        timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
+      }
       break;
     case 'WF': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
@@ -176,12 +193,12 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CF': case 'CO':
+    case 'CQ': case 'CI': case 'CO':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
         let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
-        state.cfSpellProcGenerator = genSpellProc(dmgU.CF_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
+        state.cfSpellProcGenerator = genSpellProc(dmgU.CLAW_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
       }
       break;
     case 'FC':
@@ -198,8 +215,15 @@ function applyPreSpellChecks(state, mod) {
         }
       }
       break;
-    case 'SM':
-      let baseDmg = state.spell['baseDmg' + dom.getStormOfManyCountValue()];
+    case 'TW':
+      if (G.MODE === 'wiz') {
+        if (!state.twSpellProcGenerator) {
+          state.twSpellProcGenerator = genSpellProc(dmgU.TW_SPELL_PROC_RATES);
+        }
+      }
+      break;
+    case 'VM':
+      let baseDmg = state.spell['baseDmg' + dom.getVolleyOfManyCountValue()];
       state.spell.baseDmg = baseDmg || state.spell.baseDmg;
       break;
     }
@@ -240,37 +264,73 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Before DoT Crit Focus
     let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
     // Get After Crit Focus
-    let afterCritFocus = dom.getAddAfterCritFocusValue();
+    let afterCritFocus = (spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue(); // or 0 since non defined atm
     // Get After Crit Add
     let afterCritAdd = spaValues.afterCritAdd + dom.getAddAfterCritAddValue();
     // Get AfterCrit Add (SPA 484) (not modifiable)
-    let afterCritAddNoMod = spaValues.afterCritAddNoMod + dom.getAddAfterCritAddNoModValue();
+    let afterSPA461Add = spaValues.afterSPA461Add + dom.getAddAfterSPA461AddValue();
     // Get AfterCrit Focus (not modifiable)
-    let afterCritFocusNoMod = spaValues.afterCritFocusNoMod + dom.getAddAfterCritFocusNoModValue();
+    let afterSPA461Focus = spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue();
     // Get New SPA 461 Focus
-    let postCalcFocus = spaValues.postCalcFocus;
+    let spa461Focus = spaValues.spa461Focus + dom.getAddSPA461FocusValue();
+    // Get New semi-broken SPA 483 Focus
+    let spa483Focus = spaValues.spa483Focus;
 
-    // find avergage non crit
+    // effective damage
     let effDmg = state.spell.baseDmg + dmgU.trunc(state.spell.baseDmg * effectiveness);
+    // SPAs that are included in a crit
     let beforeCritDmg = effDmg + dmgU.trunc(effDmg * beforeCritFocus) + beforeCritAdd + spellDmg;
+    // SPAs that are included when a dot crits (none implemented for wizard)
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
+    // damage to appended after crits have been calculated but before SPA 461
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd;
 
-    // special case for manaburn. it's the only SPA 484 but 483 seems to get doubled with it
-    // like it's counting as a 2nd hit? need to test with other kinds of after crit add
-    let afterCritNoModDmg = (dmgU.trunc(effDmg * afterCritFocusNoMod) * (afterCritAddNoMod ? 2 : 1)) + afterCritAddNoMod;
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
 
-    // add SPA 461 and after crit that's not modifiable (only based on effective damage)
-    avgBaseDmg += dmgU.trunc(avgBaseDmg * postCalcFocus) + afterCritNoModDmg;
-    avgCritDmg += dmgU.trunc(avgCritDmg * postCalcFocus) + afterCritNoModDmg;
+    // damage to append after SPA 461
+    // need to add 483 separate or damage is off by 1 plus its the messed up SPA so it's 
+    // probably calculated on its own
+    let afterSPA461Dmg = dmgU.trunc(effDmg * afterSPA461Focus) + afterSPA461Add + dmgU.trunc(effDmg * spa483Focus);
+
+    // add SPA 461
+    avgBaseDmg += dmgU.trunc(avgBaseDmg * spa461Focus) + afterSPA461Dmg;
+    avgCritDmg += dmgU.trunc(avgCritDmg * spa461Focus) + afterSPA461Dmg;
 
     // find average damage overall before additional twincasts
     avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
 
     // apply mod
     avgDmg = dmgU.trunc(avgDmg * mod);
+
+    // update stats for main damage spells
+    if (dmgU.isCastDetSpellOrAbility(state.spell)) {
+      // save total crit rate including from twincats and procs plus associated count
+      stats.addAggregateStatistics('critRate', critRate * mod);
+      stats.addAggregateStatistics('spellCount', mod);
+
+      // update core stats in main spell cast
+      stats.updateSpellStatistics(state, 'critRate', critRate);
+      stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
+      stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
+      stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
+      stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
+      stats.updateSpellStatistics(state, 'beforeCritAdd', beforeCritAdd);
+      stats.updateSpellStatistics(state, 'beforeDoTCritFocus', beforeDoTCritFocus);
+      stats.updateSpellStatistics(state, 'afterCritFocus', afterCritFocus);
+      stats.updateSpellStatistics(state, 'afterCritAdd', afterCritAdd);
+      stats.updateSpellStatistics(state, 'spa461Focus', spa461Focus);
+      stats.updateSpellStatistics(state, 'afterSPA461Focus', afterSPA461Focus + spa483Focus);
+      stats.updateSpellStatistics(state, 'afterSPA461Add', afterSPA461Add);
+      stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
+      stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
+
+      if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
+        // Update graph
+        state.updatedCritRValues.push({time: state.timeEst, y: Math.round(critRate * 100)});
+        state.updatedCritDValues.push({time: state.timeEst, y: Math.round(critDmgMult * 100)});
+      }
+    }
 
     // Handle AE waves if current spell is an AE
     if (state.spell.target === 'AE' && !state.aeWave) {
@@ -289,35 +349,6 @@ function calcAvgDamage(state, mod, dmgKey) {
     // dont count twincast damage in AE Hits
     if (dmgKey && !(state.aeWave && state.inTwincast)) {
       stats.addSpellStatistics(state, dmgKey, avgDmg);
-    }
-
-    // update stats for main damage spells
-    if (dmgU.isCastDetSpellOrAbility(state.spell)) {
-      // save total crit rate including from twincats and procs plus associated count
-      stats.addAggregateStatistics('critRate', critRate * mod);
-      stats.addAggregateStatistics('spellCount', mod);
-
-      // update core stats in main spell cast
-      stats.updateSpellStatistics(state, 'critRate', critRate);
-      stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
-      stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
-      stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
-      stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
-      stats.updateSpellStatistics(state, 'beforeCritAdd', beforeCritAdd);
-      stats.updateSpellStatistics(state, 'beforeDoTCritFocus', beforeDoTCritFocus);
-      stats.updateSpellStatistics(state, 'afterCritFocus', afterCritFocus);
-      stats.updateSpellStatistics(state, 'afterCritAdd', afterCritAdd);
-      stats.updateSpellStatistics(state, 'afterCritFocusNoMod', afterCritFocusNoMod);
-      stats.updateSpellStatistics(state, 'afterCritAddNoMod', afterCritAddNoMod);
-      stats.updateSpellStatistics(state, 'postCalcFocus', postCalcFocus);
-      stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
-      stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
-
-      if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
-        // Update graph
-        state.updatedCritRValues.push({time: state.timeEst, y: Math.round(critRate * 100)});
-        state.updatedCritDValues.push({time: state.timeEst, y: Math.round(critDmgMult * 100)});
-      }
     }
 
     // add spell procs last
@@ -370,21 +401,25 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
 }
 
 function calcSpellDamage(state) {
+  let spellDmg = 0;
   let spell = state.spell;
 
-  // dicho/fuse needs to use an alternative time since it's really 2 spell casts
-  // that get applied differently depending on what we're looking for
-  var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
+  if ((G.MAX_LEVEL - spell.level) < 10) {
+    // dicho/fuse needs to use an alternative time since it's really 2 spell casts
+    // that get applied differently depending on what we're looking for
+    var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
 
-  var totalCastTime = spell.origCastTime +
-    ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
+    // fix for dicho being a combined proc/spell
+    var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +
+      ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
 
-  var multiplier = dmgU.getMultiplier(totalCastTime);
-  let spellDmg = dmgU.trunc(dom.getSpellDamageValue() * multiplier);
+    var multiplier = dmgU.getMultiplier(totalCastTime);
+    spellDmg = dmgU.trunc(dom.getSpellDamageValue() * multiplier);
 
-  // The ranged augs seem to get stuck at 2x their damage
-  if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
-    spellDmg = spell.spellDmgCap;
+    // The ranged augs seem to get stuck at 2x their damage
+    if (spell.spellDmgCap !== undefined && spellDmg > spell.spellDmgCap) {
+      spellDmg = spell.spellDmgCap;
+    }
   }
 
   return spellDmg;
@@ -482,7 +517,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
+  if (['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -494,7 +529,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SV', 'CF', 'CO'].find(id => id === spell.id)) {
+  if (! ['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -545,7 +580,7 @@ export function execute(state, mod, dmgKey, isProc) {
     applyPostSpellEffects(state, tcMod, dmgKey);
 
     state.inTwincast = false;
-    
+ 
     if (isProc) { // keep stats for proc twincast
       stats.addAggregateStatistics('totalProcs', tcMod);
     }
