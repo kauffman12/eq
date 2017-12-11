@@ -102,7 +102,7 @@ export function getAbilityList(repeating) {
   Object.keys(ABILITIES).forEach(key => {
     let ability = ABILITIES[key];
 
-    if (!ability.mode || (ability.mode && ability.mode === G.MODE)) {
+    if ((!ability.mode || (ability.mode && ability.mode === G.MODE)) && (!ability.noClass || !ability.noClass.find(cls => cls === G.MODE))) {
       if ((!repeating && ability.adpsDropdown) || (repeating && ability.repeatEvery)) {
         list.push(
           {
@@ -2288,6 +2288,7 @@ const ABILITIES = {
     duration: 18000 + TICK_OFFSET,
     level: 85,
     name: 'Twincast Rk. III',
+    noClass: ['enc'],
     effects: [
       {
         spa: 399,
