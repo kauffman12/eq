@@ -18,7 +18,12 @@ $('span.version').text(G.VERSION);
 
 // on click for changing between wiz mode and mage mode
 let switchButton = $('button.switch-button');
-switchButton.click(utils.switchMode);
+$('div.mode-chooser li > a').click(e => {
+  let selected = $(e.currentTarget);
+  let mode = selected.attr('data-value');
+  switchButton.find('span.desc').text(utils.CLASS_TO_NAME[mode] + ' Spells');
+  utils.switchMode(mode);
+});
 
 // try to find mode set in url then in cookie then default to wiz
 let mode = utils.getUrlParameter('class') || document.cookie.split('=')[1];
@@ -28,7 +33,7 @@ $('.' + G.CLASSES[mode].css).removeClass(G.CLASSES[mode].css);
 document.title = G.CLASSES[mode].title;
 $('#innatCritRate').val(dmgU[G.CLASSES[mode].critRate]);
 $('#innatCritDmg').val(dmgU[G.CLASSES[mode].critDmg]);
-switchButton.text('Switch to ' + G.CLASSES[mode].switchTo + ' Spells');
+switchButton.find('span.desc').text(utils.CLASS_TO_NAME[mode] + ' Spells');
 document.cookie = 'mode=' + mode + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
 G.MODE = mode;
             

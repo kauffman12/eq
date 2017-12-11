@@ -114,7 +114,10 @@ function castSpell(state, spell, adjCastTime) {
   }
 
   // upgrade graph
-  updateDmgGraph(state, plotDmg);
+  if (plotDmg > 0) {
+    updateDmgGraph(state, plotDmg);
+  }
+
   return true;
 }
 
@@ -686,10 +689,7 @@ export function updateSpellChart() {
     return false;
   };
 
-  while (state.workingTime <= state.endTime) {
-    // workaround to get these on the timeline for AA or abilities like Firebound Orb
-    preemptSpells.find(entry => checkPreempt(entry));
-        
+  while (state.workingTime <= state.endTime) {        
      // Forced Rejuvination resets lockouts and end GCD
     if (hasForcedRejuv && withinTimeFrame(state.workingTime, getTime(hasForcedRejuv))) {
       hasForcedRejuv = false;
@@ -697,14 +697,27 @@ export function updateSpellChart() {
     }
 
     // Display/Cast alliance damage when timer expires
-    if (utils.isAbilityExpired(state, 'FA')) {
-      castSpell(state, utils.getSpellData('FAF'));
-      continue;
+    switch(G.MODE) {
+      case 'wiz': case 'mag': 
+        if (utils.isAbilityExpired(state, 'FA')) {
+          castSpell(state, utils.getSpellData('FAF'));
+          continue;
+        }
+        break;
+      case 'enc': 
+        if (utils.isAbilityExpired(state, 'CA')) {
+          castSpell(state, utils.getSpellData('CAF'));
+          continue;
+        }
+        break;
     }
 
     // abilities that can be enabled and repeat every so often like Enc Synergy
     // cancel or reset counters based on timer, only need to check once per workingTime
     updateActiveAbilities(state, true);
+
+    // workaround to get these on the timeline for AA or abilities like Firebound Orb
+    preemptSpells.find(entry => checkPreempt(entry));
 
     // Don't do any spell cast if we're during the GCD lockout phase
     if (state.gcdWaitTime <= state.workingTime) {

@@ -49,6 +49,7 @@ export function getStatisticsSummary(spellStats) {
   if (spellStats.get('avgBaseDmg') > 0) {
     addDecimalStatDescription(data, "AD Charges", spellStats.get('adChargesUsed'));
     addDecimalStatDescription(data, "FD Charges", spellStats.get('fdChargesUsed'));
+    addDecimalStatDescription(data, "CI Charges", spellStats.get('ciChargesUsed'));
     addDecimalStatDescription(data, "ITC Charges", spellStats.get('itcChargesUsed'));
     addDecimalStatDescription(data, "DR Charges", spellStats.get('drChargesUsed'));
     addDecimalStatDescription(data, "AAura Charges", spellStats.get('aaChargesUsed'));

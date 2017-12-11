@@ -86,6 +86,17 @@
 <body>
 <div class="panel panel-default panel-heading title-bar">
   <span class="glyphicon glyphicon-menu-hamburger menu-button" aria-hidden="true"></span>
+  <div class="btn-group btn-group mode-chooser">
+    <button type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
+      <span class="desc"></span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a data-value="enc" href="#">Enchanter Spells</a></li>
+      <li><a data-value="mag" href="#">Magicial Spells</a></li>
+      <li><a data-value="wiz" href="#">Wizard Spells</a></li>
+    </ul>
+  </div>
   <span class="version"></span>
 </div>
 <div class="nav-side-menu">
@@ -124,7 +135,7 @@
           </li>
           <li class="list-group-item-heading">
             <input id="aeRainHits" type="number" class="form-control input-xs settings-input" value="3" min="1" max="4">
-            <span class="stats">AE Rain Hits <span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
+            <span class="stats">Rain/Target AE Hits <span style="float: right;cursor: pointer; color: #446e9b; padding:2px 4px 0px 0px;"
               class="glyphicon glyphicon-info-sign" aria-hidden="true" title="The number of hits of damage to count when using AE Rain spells."></span>
             </span>
           </li>
@@ -268,7 +279,10 @@
         </ul>
       </li>
   </div>
+<!--
   <span><button type="button" class="btn btn-default switch-button"></button></span>
+-->
+
 </div>
 <div class="container shared">
   <div class="row">

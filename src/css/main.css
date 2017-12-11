@@ -16,10 +16,14 @@
   display: none !important;
 }
 
+.mode-chooser {
+  margin-top: -5px;
+  margin-left: 20px;
+}
+
 .switch-button {
-  width: 99%;
-  padding: 4px 4px 4px 2px;
-  margin-left: 3px;
+  width: 200px;
+  padding: 0px;
 }
 
 .version {

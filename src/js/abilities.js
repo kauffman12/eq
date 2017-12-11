@@ -246,6 +246,64 @@ const ABILITIES = {
       }
     ]
   },
+  CHROMEA: {
+    adpsDropdown: true,
+    class: 'enc',
+    charges: 6,
+    duration: 18000 + TICK_OFFSET,
+    level: 101,
+    mode: 'enc',
+    name: 'Chromatic Alliance Rk. III',
+    otherCast: true,
+    effects: [
+      {
+        spa: 484,
+        slot: 1,
+        type: 'sp',
+        value: 51182,
+        limits: [
+          { targets: TARGET_SINGLE },
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { minLevel: 96 },
+          { maxLevel: 110 },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { minDmg: 2500 }
+        ]
+      }
+    ]
+  },
+  CI: {
+    adpsDropdown: true,
+    charges: 27,
+    class: 'enc',
+    duration: 240000,
+    level: 254,
+    mode: 'enc',
+    name: 'Calculated Insanity XV',
+    effects: [
+      {
+        spa: 212,
+        slot: 1,
+        type: 'sp',
+        value: 0.95,
+        limits: [
+          { maxDuration: 0 },
+          { type: 'detrimental' },
+          { minDmg: 100 },
+          { exSkills: COMBAT_SKILLS },
+          { minManaCost: 10 }
+        ]
+      },
+      {
+        spa: 170,
+        slot: 8,
+        type: 'sp',
+        value: 0.03
+      }
+    ]
+  },
   DM: {
     level: 255,
     name: 'Dragonmagic Focus',
@@ -393,6 +451,29 @@ const ABILITIES = {
       }
     ]
   },
+  CDG: {
+    charges: 2,
+    duration: 18000 + TICK_OFFSET,
+    level: 254,
+    name: 'Chaotic Delusion Gift',
+    effects: [
+      {
+        spa: 399,
+        slot: 1,
+        type: 'sp',
+        value: 1.0,
+        limits: [
+          { currentHitPoints: true },
+          { maxDuration: 0 },
+          { minManaCost: 10 },
+          { exSkills: COMBAT_SKILLS },
+          { type: 'detrimental' },
+          { maxLevel: 110 },
+          { exTwincastMarker: true }
+        ]
+      }
+    ]
+  },
   CH: {
     adpsDropdown: true,
     charges: 2,
@@ -473,12 +554,12 @@ const ABILITIES = {
     name: 'Dichotomic Reinforcement 6',
     effects: [
       {
-        proc: 'DR',
+        proc: 'DRS',
         limits: [
           { onSpellUse: true },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exSpells: new Set(['DR']) },
+          { exSpells: new Set(['DRS']) },
           { minManaCost: 100 }
         ]
       },
@@ -552,7 +633,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB']) }
+          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
@@ -567,17 +648,40 @@ const ABILITIES = {
         type: 'wn',
         value: 0.09,
         limits: [
-          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB']) }
+          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
   },
-  ESYN: {
+  ESYN1: {
+    charges: 1,
+    class: 'enc',
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Beguiler\'s Synergy I',
+    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
+    effects: [
+      {
+        spa: 461,
+        slot: 1,
+        type: 'sp',
+        value: 0.40,
+        limits: [
+         { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
+         { maxLevel: 249 },
+         { minDmg: 100 },
+         { nonRepeating: true }
+        ]
+      }
+    ]
+  },
+  ESYN2: {
     charges: 1,
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Beguiler\'s Synergy II',
+    otherCast: true,
     repeatEvery: 11000,
     tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
     effects: [
@@ -806,6 +910,120 @@ const ABILITIES = {
           { exTargets: TARGET_AES },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  FCHROM55: {
+    level: 255,
+    name: 'CHROMATIC Damage 55-75 L110',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.65,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM57: {
+    level: 255,
+    name: 'CHROMATIC Damage 57-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.66,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM60: {
+    level: 255,
+    name: 'CHROMATIC Damage 60-75 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM65: {
+    level: 255,
+    name: 'CHROMATIC Damage 65-100 L110',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.825,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM67: {
+    level: 255,
+    name: 'CHROMATIC Damage 67-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.84,
+        limits: [
+          { maxLevel: 110 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM70: {
+    level: 255,
+    name: 'CHROMATIC Damage 70-100 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: TARGET_AES },
+          { exSkills: COMBAT_SKILLS },
+          { resists: new Set(['CHROMATIC']) }
         ]
       }
     ]

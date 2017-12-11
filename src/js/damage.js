@@ -111,6 +111,12 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   }
 
   switch(spell.id) {
+    case 'CA':
+      state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      break;
+    case 'CD':
+      timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
+      break;
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
     case 'CI': case 'CO': case 'CQ':
       // generate proc effects
@@ -131,6 +137,16 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'TW':
       if (G.MODE === 'wiz') {
         state.twSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
+      }
+      break;
+    case 'MS':
+      if (dom.getBeguilersSynergyValue() >= 11) {
+        timeline.addSpellProcAbility(state, 'ESYN2', 1, true);
+      } 
+      break;
+    case 'MU':
+      if (dom.getBeguilersSynergyValue() < 11) {
+        timeline.addSpellProcAbility(state, 'ESYN1', dom.getBeguilersSynergyValue() / 10, true);
       }
       break;
     case 'SV':

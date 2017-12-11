@@ -3,32 +3,39 @@ import * as abilities from './abilities.js';
 import * as utils from './utils.js';
 
 // What to query on to find a spell focus value by ID
-const MAGE_FOCUS_AA_KEYS = {
-  'BS': '.aa-focus-bolt-molten .dropdown-toggle',
-  'RM': '.aa-focus-coronal-rain .dropdown-toggle',
-  'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
-  'RK': '.aa-focus-rain-cutlasses .dropdown-toggle',
-  'VM': '.aa-focus-storm-many .dropdown-toggle',
-  'SS': '.aa-focus-spear-molten .dropdown-toggle',
-  'SA': '.aa-focus-spear-molten .dropdown-toggle'
-};
-
-// What to query on to find a spell focus value by ID
-const WIZ_FOCUS_AA_KEYS = {
-  'CQ': '.aa-focus-claws .dropdown-toggle',
-  'CO': '.aa-focus-claws .dropdown-toggle',
-  'CT': '.aa-focus-cloudburst .dropdown-toggle',
-  'CB': '.aa-focus-chaos .dropdown-toggle',
-  'EV': '.aa-focus-ethereal-flash .dropdown-toggle',
-  'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-  'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-  'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
-  'FB': '.aa-focus-flashchar .dropdown-toggle',
-  'ME': '.aa-focus-rains .dropdown-toggle',
-  'PF': '.aa-focus-purewild .dropdown-toggle',
-  'IC': '.aa-focus-rimeblastcascade .dropdown-toggle',
-  'SV': '.aa-focus-vortexes .dropdown-toggle',
-  'TW': '.aa-focus-thricewovenstorm .dropdown-toggle'
+const FOCUS_AA_KEYS = {
+  enc: {
+    'CR': '.aa-chromarift .dropdown-toggle',
+    'GT': '.aa-gravity-twist .dropdown-toggle',
+    'MU': '.aa-mindsunder .dropdown-toggle',
+    'MS': '.aa-mindsunder .dropdown-toggle',
+    'PA': '.aa-polyrefractive-assault .dropdown-toggle'
+  },
+  mag: {
+    'BS': '.aa-focus-bolt-molten .dropdown-toggle',
+    'RM': '.aa-focus-coronal-rain .dropdown-toggle',
+    'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
+    'RK': '.aa-focus-rain-cutlasses .dropdown-toggle',
+    'VM': '.aa-focus-storm-many .dropdown-toggle',
+    'SS': '.aa-focus-spear-molten .dropdown-toggle',
+    'SA': '.aa-focus-spear-molten .dropdown-toggle'
+  },
+  wiz: {
+    'CQ': '.aa-focus-claws .dropdown-toggle',
+    'CO': '.aa-focus-claws .dropdown-toggle',
+    'CT': '.aa-focus-cloudburst .dropdown-toggle',
+    'CB': '.aa-focus-chaos .dropdown-toggle',
+    'EV': '.aa-focus-ethereal-flash .dropdown-toggle',
+    'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
+    'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
+    'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
+    'FB': '.aa-focus-flashchar .dropdown-toggle',
+    'ME': '.aa-focus-rains .dropdown-toggle',
+    'PF': '.aa-focus-purewild .dropdown-toggle',
+    'IC': '.aa-focus-rimeblastcascade .dropdown-toggle',
+    'SV': '.aa-focus-vortexes .dropdown-toggle',
+    'TW': '.aa-focus-thricewovenstorm .dropdown-toggle'
+  }
 };
 
 // Methods for easy lookup of values from DOM nodes related to configuration of
@@ -216,7 +223,8 @@ export function getWornDamageFocusList() {
     return [
       $('.worn-arms-focus .dropdown-toggle').data('value'),
       $('.worn-hands-focus .dropdown-toggle').data('value'),
-      $('.worn-head-focus .dropdown-toggle').data('value')
+      $('.worn-head-focus .dropdown-toggle').data('value'),
+      $('.worn-wrist-focus .dropdown-toggle').data('value')
     ];
   });
 }
@@ -224,6 +232,12 @@ export function getWornDamageFocusList() {
 export function getBeltProcValue() {
   return utils.useCache('.belt-proc', () => {
     return $('.belt-proc .dropdown-toggle').data('value');
+  });
+}
+
+export function getBeguilersSynergyValue() {
+  return utils.useCache('.aa-beguilers-synergy', () => {
+    return utils.getNumberValue($('.aa-beguilers-synergy .dropdown-toggle').data('value'));
   });
 }
 
@@ -391,18 +405,18 @@ export function getSpellFocusAAValue(id) {
   return utils.useCache('.spell-focus-aa-' + id, () => {
     let value = 0;
 
-    let keys = (G.MODE === 'wiz') ? WIZ_FOCUS_AA_KEYS : MAGE_FOCUS_AA_KEYS;
-    if (keys[id]) {
+    let keys = FOCUS_AA_KEYS[G.MODE];
+    if (keys && keys[id]) {
       value = utils.getNumberValue($(keys[id]).data('value'));
 
-      // special case for now to handle old Mage Spear benefiting from old focus
+      // special case for now to handle some new and old focus
       // levels but not the new one
-      if (id === 'SA' && value < 9) {
+      if (['SA', 'ES', 'MS', 'PA'].find(spell => spell === id) && value < 9) {
         value = 0;
-      } else if (id === 'SA' || id === 'SS') {
-        if (value === 9) {
-          value = 0.16;
-        }
+      } 
+
+      if (value === 9) {
+        value = 0.16;
       }
     }
 

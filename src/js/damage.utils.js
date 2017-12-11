@@ -15,6 +15,10 @@ export const WIZ_INNATE_CRIT_RATE = 2;
 export const WIZ_INNATE_CRIT_DMG = 100;
 export const FUSE_PROC_SPELL_CHANCE = FUSE_PROC_CHANCE * FUSE_PROC_INDIVIDUAL_SPELL_CHANCE;
 
+// Enc Settings
+export const ENC_INNATE_CRIT_RATE = 0;
+export const ENC_INNATE_CRIT_DMG = 100;
+
 // Mage Settings
 export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
@@ -66,12 +70,12 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'CRYO', 'MSYN1', 'MSYN2', 'PYRO', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRE',
+  'ARCO', 'CDG', 'CRYO', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'PYRO', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRE',
   'SYLLMAGIC', 'SYLLICE', 'SYLLMASTER', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
-export const PREEMPT_SPELL_CASTS = ['TC', 'MBRN'];
+export const PREEMPT_SPELL_CASTS = ['TC', 'MBRN', 'DR'];
 
 const LIMIT_RULES_FOR_FAILURE = {
   activated: (effect, spell) => true, // custom check for non spell casts like AA nukes or orb clicks

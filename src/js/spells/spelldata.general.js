@@ -144,7 +144,7 @@ export const SPELL_DATA = {
     timer: 'DM',
     type3Dmg: 0
   },
-  DR: {
+  DRS: {
     base1: 160,
     baseDmg: 21944,
     castTime: 0,

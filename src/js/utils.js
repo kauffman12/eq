@@ -3,6 +3,7 @@ import * as SETTINGS from './settings.js';
 import {SPELL_DATA as GEN_SPELLS} from './spells/spelldata.general.js';
 import {SPELL_DATA as WIZ_SPELLS} from './spells/spelldata.wiz.js';
 import {SPELL_DATA as MAGE_SPELLS} from './spells/spelldata.mage.js';
+import {SPELL_DATA as ENC_SPELLS} from './spells/spelldata.enc.js';
 
 let QUERY_CACHE = {};
 
@@ -134,7 +135,10 @@ export function getCastTime(state, spell) {
     }
 
     let origCastTime = spell.origCastTime;
-    if (origCastTime >= 3000) {
+    if (spell.mez) { // enc mez have 30% bonus AA
+      origCastTime -= adjust;
+      castTime = origCastTime - origCastTime * 0.30; 
+    } else if (origCastTime >= 3000) {
       origCastTime -= adjust;
       if (['DF', 'FA'].find(id => id === spell.id)) {
         // DF and FA don't receive benefit from AA quicker damage
@@ -200,6 +204,8 @@ export function getPercentText(first, second) {
 
 export function getSpellData(id) {
   switch(G.MODE) {
+    case 'enc':
+      return GEN_SPELLS[id] || ENC_SPELLS[id] || {};
     case 'mag':
       return GEN_SPELLS[id] || MAGE_SPELLS[id] || {};
     case 'wiz':
@@ -277,16 +283,18 @@ export function readSpellList() {
   return list;
 }
 
-export function switchMode() {
-  let className = (G.MODE === 'wiz') ? 'mag' : 'wiz';
-  let classInfo = className ? "?class=" + className : "";
-  window.location.assign(
-    window.location.protocol + "//" +
-    window.location.hostname +
-    ((window.location.port !== '') ? (':' +  window.location.port) : '') +
-    window.location.pathname +
-    classInfo
-  );
+export function switchMode(toMode) {
+  if (G.MODE !== toMode) {
+    let className = toMode;
+    let classInfo = className ? "?class=" + className : "";
+    window.location.assign(
+      window.location.protocol + "//" +
+      window.location.hostname +
+      ((window.location.port !== '') ? (':' +  window.location.port) : '') +
+      window.location.pathname +
+      classInfo
+    );
+  }
 }
 
 export function toUpper(value) {
