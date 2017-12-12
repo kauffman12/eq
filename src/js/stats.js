@@ -170,11 +170,9 @@ export function printStats(output, state) {
   updateStatSection('#castDamageStats', avgDPS, 'Cast Damage ', utils.numberWithCommas(Math.trunc(totalAvgDmg)), totalAvgDmg, 'totalAvgCastDmg');
 
   // Total Pet Damage
-  (totalAvgPetDmg > 0) ? $('#petDamageStats').show() : $('#petDamageStats').hide();
   updateStatSection('#petDamageStats', avgDPS, 'Pet Damage ', utils.numberWithCommas(Math.trunc(totalAvgPetDmg)), totalAvgPetDmg, 'totalAvgPetDmg');
 
   // Total Pet Damage
-  (totalDotDmg > 0) ? $('#dotDamageStats').show() : $('#dotDamageStats').hide();
   updateStatSection('#dotDamageStats', avgDPS, 'DoT Damage ', utils.numberWithCommas(Math.trunc(totalDotDmg)), totalDotDmg, 'totalDotDmg');
 
   // Total Damage

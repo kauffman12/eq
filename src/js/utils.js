@@ -102,16 +102,30 @@ export function createLabel(ability, date) {
 }
 
 export function collapseMenu(p) {
-  let className = (G.MODE === 'wiz') ? '.mag-only' : '.wiz-only';
-  let hidden = $(p).siblings('li:hidden:not(' + className + ')');
-  if (hidden.length > 0) {
-    hidden.show();
-    $(p).find('span.glyphicon').addClass('glyphicon-chevron-down')
-    $(p).find('span.glyphicon').removeClass('glyphicon-chevron-left');
-  } else {
-    $(p).siblings('li').hide();
-    $(p).find('span.glyphicon').removeClass('glyphicon-chevron-down')
-    $(p).find('span.glyphicon').addClass('glyphicon-chevron-left');
+  let doShow = (hidden) => {
+    if (hidden.length > 0) {
+      hidden.show();
+      $(p).find('span.glyphicon').addClass('glyphicon-chevron-down')
+      $(p).find('span.glyphicon').removeClass('glyphicon-chevron-left');
+    } else {
+      $(p).siblings('li').hide();
+      $(p).find('span.glyphicon').removeClass('glyphicon-chevron-down')
+      $(p).find('span.glyphicon').addClass('glyphicon-chevron-left');
+    }
+  };
+
+  console.debug("collapse");
+
+  switch(G.MODE) {
+    case 'wiz':
+      doShow($(p).siblings('li:hidden:not(".enc-only,.mag-only")'));
+      break;
+    case 'mag':
+      doShow($(p).siblings('li:hidden:not(".enc-only,.wiz-only")'));
+      break;
+    case 'enc':
+      doShow($(p).siblings('li:hidden:not(".wiz-only,.mag-only")'));
+      break;
   }
 }
 
