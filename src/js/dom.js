@@ -411,7 +411,7 @@ export function getSpellFocusAAValue(id) {
 
       // special case for now to handle some new and old focus
       // levels but not the new one
-      if (['SA', 'ES', 'MS', 'PA'].find(spell => spell === id) && value < 9) {
+      if (['SA', 'ES', 'MS'].find(spell => spell === id) && value < 9) {
         value = 0;
       } 
 
