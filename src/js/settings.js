@@ -3,7 +3,7 @@ export const globals = {
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
-      title: 'EQ Mage DPS Tool',
+      title: 'EQ Enchanter DPS Tool',
       critRate: 'ENC_INNATE_CRIT_RATE',
       critDmg: 'ENC_INNATE_CRIT_DMG',
       cookie: 'mode=enc',
