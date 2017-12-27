@@ -121,10 +121,15 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'CI': case 'CO': case 'CQ':
       // generate proc effects
       state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
-        if (id === 'REFRESH') {
-          timeline.resetTimers(state);
-        } else {
-          timeline.addSpellProcAbility(state, id, 1, true);
+        switch(id) {
+          case 'REFRESH':
+            timeline.resetTimers(state);
+            break;
+          case 'SYLLMAGIC': case 'SYLLICE': case 'SYLLFIRE': case 'SYLLMASTER':
+            timeline.addSpellProcAbility(state, id + utils.getRank(), 1, true);
+            break;
+          default:
+            timeline.addSpellProcAbility(state, id, 1, true);
         }
       });
     

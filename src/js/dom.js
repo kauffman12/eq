@@ -29,6 +29,7 @@ const FOCUS_AA_KEYS = {
     'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
     'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
     'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
+    'ER': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
     'FB': '.aa-focus-flashchar .dropdown-toggle',
     'ME': '.aa-focus-rains .dropdown-toggle',
     'PF': '.aa-focus-purewild .dropdown-toggle',
@@ -411,7 +412,7 @@ export function getSpellFocusAAValue(id) {
 
       // special case for now to handle some new and old focus
       // levels but not the new one
-      if (['SA', 'ES', 'MS'].find(spell => spell === id) && value < 9) {
+      if (['SA', 'ES', 'EI', 'MS'].find(spell => spell === id) && value < 9) {
         value = 0;
       } 
 

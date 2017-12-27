@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.2',
+  VERSION: 'Version 1.21',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -28,7 +28,7 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'EZ', 'ES', 'EV', 'FB',
+  'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
   'FA', 'ME', 'SV', 'TW', 'WE', 'WF'
 ];
 
@@ -306,18 +306,18 @@ export const wizSpellFocusAAContext = [
   },
   {
     id: 'aa-focus-ethereal-rimeblast',
-    value: '0.16',
+    value: '9',
     desc: 'Ethereal Rimeblast (9/9)',
     data: [
-      { value: '0.16', desc: 'Ethereal Rimeblast (9/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (8/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (7/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (6/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (5/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (4/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (3/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (2/9)' },
-      { value: '0', desc: 'Ethereal Rimeblast (1/9)' },
+      { value: '9', desc: 'Ethereal Rimeblast (9/9)' },
+      { value: '0.16', desc: 'Ethereal Rimeblast (8/9)' },
+      { value: '0.14', desc: 'Ethereal Rimeblast (7/9)' },
+      { value: '0.12', desc: 'Ethereal Rimeblast (6/9)' },
+      { value: '0.10', desc: 'Ethereal Rimeblast (5/9)' },
+      { value: '0.08', desc: 'Ethereal Rimeblast (4/9)' },
+      { value: '0.06', desc: 'Ethereal Rimeblast (3/9)' },
+      { value: '0.04', desc: 'Ethereal Rimeblast (2/9)' },
+      { value: '0.02', desc: 'Ethereal Rimeblast (1/9)' },
       { value: '0', desc: 'Ethereal Rimeblast (0/9)' }
     ]
   },

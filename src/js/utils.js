@@ -312,6 +312,10 @@ export function setRank(toRank) {
   RANK = toRank;
 }
 
+export function getRank() {
+  return RANK;
+}
+
 export function switchMode(toMode) {
   if (G.MODE !== toMode) {
     let className = toMode;

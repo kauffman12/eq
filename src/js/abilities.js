@@ -2165,7 +2165,57 @@ const ABILITIES = {
       }
     ]
   },
-  SYLLICE: {
+  SYLLICERk1: {
+    charges: 1,
+    class: 'wiz',
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Ice I',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 3816,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  SYLLICERk2: {
+    charges: 1,
+    class: 'wiz',
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Ice II',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4007,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
+  SYLLICERk3: {
     charges: 1,
     class: 'wiz',
     duration: 30000 + TICK_OFFSET,
@@ -2190,7 +2240,57 @@ const ABILITIES = {
       }
     ]
   },
-  SYLLFIRE: {
+  SYLLFIRERk1: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Fire I',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 3816,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  SYLLFIRERk2: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Fire II',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4007,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  SYLLFIRERk3: {
     class: 'wiz',
     charges: 1,
     duration: 30000 + TICK_OFFSET,
@@ -2215,7 +2315,57 @@ const ABILITIES = {
       }
     ]
   },
-  SYLLMAGIC: {
+  SYLLMAGICRk1: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Magic I',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 3816,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  SYLLMAGICRk2: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Magic II',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4007,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 },
+          { resists: new Set(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  SYLLMAGICRk3: {
     class: 'wiz',
     charges: 1,
     duration: 30000 + TICK_OFFSET,
@@ -2240,7 +2390,55 @@ const ABILITIES = {
       }
     ]
   },
-  SYLLMASTER: {
+  SYLLMASTERRk1: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Mastery I',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4655,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+  SYLLMASTERRk2: {
+    class: 'wiz',
+    charges: 1,
+    duration: 30000 + TICK_OFFSET,
+    level: 255,
+    mode: 'wiz',
+    name: 'Syllable of Mastery II',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4888,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },
+          { maxLevel: 110 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },
+  SYLLMASTERRk3: {
     class: 'wiz',
     charges: 1,
     duration: 30000 + TICK_OFFSET,

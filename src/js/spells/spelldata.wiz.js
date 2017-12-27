@@ -304,6 +304,23 @@ export const SPELL_DATA = {
     baseDmg: 34201,
     name: 'Ethereal Volley Rk. III'
   },
+  ER: {
+    baseDmg: 29975,
+    castTime: 1875,
+    focusable: true,
+    id: 'ER',
+    level: 104,
+    lockoutTime: 1500,
+    manaCost: 4639,
+    name: 'Ethereal Rimeblast Rk. III',
+    origCastTime: 3750,
+    recastTime: 5250,
+    resist: 'COLD',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'rimeblast',
+    type3DmgAug: 2381
+  },
   EZ: {
     baseDmg: 33330,
     castTime: 1875,
@@ -311,7 +328,7 @@ export const SPELL_DATA = {
     id: 'EZ',
     level: 105,
     lockoutTime: 1500,
-    manaCost: 6196,
+    manaCost: 5158,
     name: 'Ethereal Skyblaze Rk. III',
     origCastTime: 3750,
     recastTime: 5500,
