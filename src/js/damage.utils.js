@@ -488,35 +488,38 @@ export function displaySpellInfo(target, testData) {
   let count = 1;
   let lines = [];
 
+  let rankMarker = new RegExp(/Rk\d/);
   utils.getAllSpellData().forEach(data => {
     Object.keys(data.spells).sort((a, b) => {
       if (data.spells[a].name > data.spells[b].name) { return 1; }
       if (data.spells[b].name > data.spells[a].name) { return -1; }
       return 0;
     }).forEach(sid => {
-      let spell = data.spells[sid];
+      if (rankMarker.test(sid) === false) {
+        let spell = data.spells[sid];
 
-      lines.push(String(count++).padStart(4, '0') + ': <strong style="font-size: 15px;">' + spell.name + '</strong>');
+        lines.push(String(count++).padStart(4, '0') + ': <strong style="font-size: 15px;">' + spell.name + '</strong>');
 
-      abilities.getAll().forEach(aid => {
-        let ability = abilities.get(aid);
-   
-        // dont mix mage/wiz spells and abilities
-        if (!ability.mode || data.name === 'gen' || ability.mode === data.name) {
-          ability.effects.forEach(effect => {
-            let eName = 'Misc';
-            if (effect.spa) eName = 'SPA ' + effect.spa;
-            if (effect.proc !== undefined) eName = 'Proc';
+        abilities.getAll().forEach(aid => {
+          let ability = abilities.get(aid);
+     
+          // dont mix mage/wiz spells and abilities
+          if (!ability.mode || data.name === 'gen' || ability.mode === data.name) {
+            ability.effects.forEach(effect => {
+              let eName = 'Misc';
+              if (effect.spa) eName = 'SPA ' + effect.spa;
+              if (effect.proc !== undefined) eName = 'Proc';
 
-            let result = checkLimits(aid, spell, effect);
-            if (result.pass) {
-              lines.push(String(count++).padStart(4, '0') + ':   <em style="color: green;">Pass</em> ' + eName + ' ' + ability.name);
-            } else {
-              lines.push(String(count++).padStart(4, '0') + ':   <em style="color: red;">Fail</em> ' + eName + ' ' + ability.name + ' (' + result.failure + ')');
-            }
-          });
-        }
-      });
+              let result = checkLimits(aid, spell, effect);
+              if (result.pass) {
+                lines.push(String(count++).padStart(4, '0') + ':   <em style="color: green;">Pass</em> ' + eName + ' ' + ability.name);
+              } else {
+                lines.push(String(count++).padStart(4, '0') + ':   <em style="color: red;">Fail</em> ' + eName + ' ' + ability.name + ' (' + result.failure + ')');
+              }
+            });
+          }
+        });
+      }
     });
   });
 

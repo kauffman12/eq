@@ -82,6 +82,18 @@ export const SPELL_DATA = {
     timer: '11',
     type3DmgAug: 1688
   },
+  CQRk1: {
+    baseDmg: 23833,
+    name: 'Claw of Qunard Rk. I'
+  },
+  CQRk2: {
+    baseDmg: 25025,
+    name: 'Claw of Qunard Rk. II'
+  },
+  CQRk3: {
+    baseDmg: 26276,
+    name: 'Claw of Qunard Rk. III'
+  },
   CI: {
     baseDmg: 7237,
     castTime: 600,
@@ -116,6 +128,18 @@ export const SPELL_DATA = {
     timer: '11',
     type3DmgAug: 1688
   },
+  CORk1: {
+    baseDmg: 21434,
+    name: 'Claw of Travenro Rk. I'
+  },
+  CORk2: {
+    baseDmg: 22506,
+    name: 'Claw of Travenro Rk. II'
+  },
+  CORk3: {
+    baseDmg: 23631,
+    name: 'Claw of Travenro Rk. III'
+  },
   CB: {
     baseDmg: 10577,
     canTwincast: false,
@@ -134,6 +158,18 @@ export const SPELL_DATA = {
     timer: 'chaosburn',
     type3DmgAug: 1005
   },
+  CBRk1: {
+    baseDmg: 9594,
+    name: 'Chaos Burn I'
+  },
+  CBRk2: {
+    baseDmg: 10073 ,
+    name: 'Chaos Burn II'
+  },
+  CBRk3: {
+    baseDmg: 10577,
+    name: 'Chaos Burn III'
+  },
   CT: {
     baseDmg: 21765,
     castTime: 0,
@@ -150,6 +186,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '2',
     type3DmgAug: 1555
+  },
+  CTRk1: {
+    baseDmg: 19742,
+    name: 'Cloudburst Thunderbolt Rk. I'
+  },
+  CTRk2: {
+    baseDmg: 20729,
+    name: 'Cloudburst Thunderbolt Rk. II'
+  },
+  CTRk3: {
+    baseDmg: 21765,
+    name: 'Cloudburst Thunderbolt Rk. III'
   },
   DF: {
     baseDmg: 127710,
@@ -186,6 +234,18 @@ export const SPELL_DATA = {
     timer: 'eiceflow',
     type3DmgAug: 2887
   },
+  EIRk1: {
+    baseDmg: 32973,
+    name: 'Ethereal Icefloe Rk. I'
+  },
+  EIRk2: {
+    baseDmg: 34622,
+    name: 'Ethereal Icefloe Rk. II'
+  },
+  EIRk3: {
+    baseDmg: 36353,
+    name: 'Ethereal Icefloe Rk. III'
+  },
   ES: {
     baseDmg: 40421,
     castTime: 1875,
@@ -203,6 +263,18 @@ export const SPELL_DATA = {
     timer: 'skyfire',
     type3DmgAug: 2887
   },
+  ESRk1: {
+    baseDmg: 36663,
+    name: 'Ethereal Skyfire Rk. I'
+  },
+  ESRk2: {
+    baseDmg: 38496,
+    name: 'Ethereal Skyfire Rk. II'
+  },
+  ESRk3: {
+    baseDmg: 40421,
+    name: 'Ethereal Skyfire Rk. III'
+  },
   EV: {
     baseDmg: 34201,
     castTime: 1875,
@@ -219,6 +291,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'evolley',
     type3DmgAug: 2887
+  },
+  EVRk1: {
+    baseDmg: 31021,
+    name: 'Ethereal Volley Rk. I'
+  },
+  EVRk2: {
+    baseDmg: 32572,
+    name: 'Ethereal Volley Rk. II'
+  },
+  EVRk3: {
+    baseDmg: 34201,
+    name: 'Ethereal Volley Rk. III'
   },
   EZ: {
     baseDmg: 33330,
@@ -287,6 +371,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '2',
     type3DmgAug: 1262
+  },
+  FBRk1: {
+    baseDmg: 16823,
+    name: 'Flashburn Rk. I'
+  },
+  FBRk2: {
+    baseDmg: 17664,
+    name: 'Flashburn Rk. II'
+  },
+  FBRk3: {
+    baseDmg: 18547,
+    name: 'Flashburn Rk. III'
   },
   FF4: {
     aa: true,
@@ -626,7 +722,7 @@ export const SPELL_DATA = {
     type3DmgAug: 1345
   },
   IC: {
-    baseDmg: 25542 ,
+    baseDmg: 25542,
     canTwincast: false,
     castTime: 0,
     focusable: true,
@@ -642,6 +738,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'iceflowcas',
     type3DmgAug: 1824
+  },
+  ICRk1: {
+    baseDmg: 23168,
+    name: 'Icefloe Cascade I'
+  },
+  ICRk2: {
+    baseDmg: 24326,
+    name: 'Icefloe Cascade II'
+  },
+  ICRk3: {
+    baseDmg: 25542,
+    name: 'Icefloe Cascade III'
   },
   ME: {
     baseDmg: 16294,
@@ -660,6 +768,18 @@ export const SPELL_DATA = {
     target: 'AE',
     timer: '6',
     type3DmgAug: 1095
+  },
+  MERk1: {
+    baseDmg: 14779,
+    name: 'Magmatic Explosion Rk. I'
+  },
+  MERk2: {
+    baseDmg: 15518,
+    name: 'Magmatic Explosion Rk. II'
+  },
+  MERk3: {
+    baseDmg: 16294,
+    name: 'Magmatic Explosion Rk. III'
   },
   MBRN: {
     baseDmg: 2800000,
@@ -714,6 +834,18 @@ export const SPELL_DATA = {
     timer: 'pwildflash',
     type3DmgAug: 1130
   },
+  PFRk1: {
+    baseDmg: 14345,
+    name: 'Pure Wildflash Azia'
+  },
+  PFRk2: {
+    baseDmg: 15072,
+    name: 'Pure Wildflash Beza'
+  },
+  PFRk3: {
+    baseDmg: 15826,
+    name: 'Pure Wildflash Caza'
+  },
   SV: {
     baseDmg: 14388,
     castTime: 800,
@@ -747,6 +879,18 @@ export const SPELL_DATA = {
     timer: 'thricecapacity',
     type3DmgAug: 1739
   },
+  TWRk1: {
+    baseDmg: 22080,
+    name: 'Thricewoven Capacity Rk. I'
+  },
+  TWRk2: {
+    baseDmg: 23184,
+    name: 'Thricewoven Capacity Rk. II'
+  },
+  TWRk3: {
+    baseDmg: 24343,
+    name: 'Thricewoven Capacity Rk. III'
+  },
   WE: {
     baseDmg: 0,
     castTime: 600,
@@ -778,5 +922,14 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'wildflash'
+  },
+  WFRk1: {
+    name: 'Wildflash Strike Rk. I'
+  },
+  WFRk2: {
+    name: 'Wildflash Strike Rk. II'
+  },
+  WFRk3: {
+    name: 'Wildflash Strike Rk. III'
   }
 };

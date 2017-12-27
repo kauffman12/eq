@@ -6,6 +6,7 @@ import {SPELL_DATA as MAGE_SPELLS} from './spells/spelldata.mage.js';
 import {SPELL_DATA as ENC_SPELLS} from './spells/spelldata.enc.js';
 
 let QUERY_CACHE = {};
+let RANK = 'Rk3';
 
 export const CLASS_TO_NAME = {
   brd: 'Bard',
@@ -114,8 +115,6 @@ export function collapseMenu(p) {
     }
   };
 
-  console.debug("collapse");
-
   switch(G.MODE) {
     case 'wiz':
       doShow($(p).siblings('li:hidden:not(".enc-only,.mag-only")'));
@@ -217,14 +216,26 @@ export function getPercentText(first, second) {
 }
 
 export function getSpellData(id) {
+  let data = {};
+  let altData = {};
+
+  let altRankId = id + RANK;
   switch(G.MODE) {
     case 'enc':
-      return GEN_SPELLS[id] || ENC_SPELLS[id] || {};
+      data = GEN_SPELLS[id] || ENC_SPELLS[id] || data;
+      altData = GEN_SPELLS[altRankId] || ENC_SPELLS[altRankId] || altData;
+      break;
     case 'mag':
-      return GEN_SPELLS[id] || MAGE_SPELLS[id] || {};
+      data = GEN_SPELLS[id] || MAGE_SPELLS[id] || data;
+      altData = GEN_SPELLS[altRankId] || MAGE_SPELLS[altRankId] || altData;
+      break;
     case 'wiz':
-      return GEN_SPELLS[id] || WIZ_SPELLS[id] || {};
+      data = GEN_SPELLS[id] || WIZ_SPELLS[id] || data;
+      altData = GEN_SPELLS[altRankId] || WIZ_SPELLS[altRankId] || altData;
+      break;
   }
+
+  return Object.assign(data, altData);
 }
 
 export function getAllSpellData() {
@@ -295,6 +306,10 @@ export function readSpellList() {
     list.push(getSpellData(id));
   });
   return list;
+}
+
+export function setRank(toRank) {
+  RANK = toRank;
 }
 
 export function switchMode(toMode) {

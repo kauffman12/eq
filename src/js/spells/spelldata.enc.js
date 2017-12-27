@@ -51,6 +51,15 @@ export const SPELL_DATA = {
     timer: 'chaoticdelusion',
     type3Dmg: 0
   },
+  CDRk1: {
+    name: 'Chaotic Delusion Rk. I'
+  },
+  CDRk2: {
+    name: 'Chaotic Delusion Rk. II'
+  },
+  CDRk3: {
+    name: 'Chaotic Delusion Rk. III'
+  },
   CR: {
     baseDmg: 12940,
     castTime: 1500,
@@ -67,6 +76,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'chromareave',
     type3DmgAug: 924
+  },
+  CRRk1: {
+    name: 'Chromareave Rk. I',
+    baseDmg: 11737
+  },
+  CRRk2: {
+    name: 'Chromareave Rk. II',
+    baseDmg: 12324
+  },
+  CRRk3: {
+    name: 'Chromareave Rk. III',
+    baseDmg: 12940
   },
   DR: {
     baseDmg: 0,
@@ -125,7 +146,7 @@ export const SPELL_DATA = {
     castTime: 2000,
     focusable: true,
     id: 'MU',
-    level: 110,
+    level: 105,
     lockoutTime: 1500,
     manaCost: 4112,
     name: 'Mindsunder Rk. III',
@@ -154,6 +175,18 @@ export const SPELL_DATA = {
     timer: 'mindslash',
     type3DmgAug: 2189
   },
+  MSRk1: {
+    name: 'Mindslash Rk. I',
+    baseDmg: 27798
+  },
+  MSRk2: {
+    name: 'Mindslash Rk. II',
+    baseDmg: 29188
+  },
+  MSRk3: {
+    name: 'Mindslash Rk. III',
+    baseDmg: 30647
+  },
   PA: {
     baseDmg: 15103,
     castTime: 1500,
@@ -170,5 +203,17 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'polyflourescent',
     type3DmgAug: 1079
+  },
+  PARk1: {
+    name: 'Polyfluorescent Assault Rk. I',
+    baseDmg: 13699
+  },
+  PARk2: {
+    name: 'Polyfluorescent Assault Rk. II',
+    baseDmg: 14384
+  },
+  PARk3: {
+    name: 'Polyfluorescent Assault Rk. III',
+    baseDmg: 15103
   }
 };

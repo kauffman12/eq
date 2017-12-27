@@ -13,16 +13,74 @@ import * as dmgU from './js/damage.utils.js';
 import * as utils from './js/utils.js';
 import * as timeline from './js/timeline.js';
 
+function buildSpellList() {
+  // cleanup old version
+  $('#spellButtons div.spell').remove();
+
+  // Creates the 6 Spell selection buttons
+  let spellData = [];
+  utils.readSpellList().forEach(item => { spellData.push({ value: item.id, desc: item.name }); });
+
+  let spellButtonTemplate = Handlebars.compile($("#spell-selection-button-template").html());
+  utils.appendHtml($('#spellButtons'), spellButtonTemplate({ data: spellData }), 6);
+
+  // Listen for spell selection changes to update button text and color and update spell chart
+  $('#spellButtons div.spell').each((b1, group) => {
+    let button = $(group).find('button');
+    $(group).find('li > a').click(e => {
+      let selected = $(e.currentTarget);
+      button.data('value', selected.data('value'));
+      
+      if (selected.data('value') === 'NONE') {
+        button.find('span.desc').text("Choose Spell");
+        button.removeClass('btn-default');
+        button.addClass('btn-warning');
+      } else {
+        button.find('span.desc').text(selected.text());
+        button.removeClass('btn-warning');
+        button.addClass('btn-default');
+      }
+      
+      timeline.callUpdateSpellChart();
+    });
+  });
+}
+
 // Set app version
 $('span.version').text(G.VERSION);
 
 // on click for changing between wiz mode and mage mode
-let switchButton = $('button.switch-button');
+let switchModeButton = $('div.mode-chooser button.switch-button');
 $('div.mode-chooser li > a').click(e => {
   let selected = $(e.currentTarget);
   let mode = selected.attr('data-value');
-  switchButton.find('span.desc').text(utils.CLASS_TO_NAME[mode] + ' Spells');
+  switchModeButton.find('span.desc').text(utils.CLASS_TO_NAME[mode]);
   utils.switchMode(mode);
+});
+
+// on click for changing spell rank
+let switchRankButton = $('div.rank-chooser button.switch-button');
+$('div.rank-chooser li > a').click(e => {
+  let selected = $(e.currentTarget);
+  let rank = selected.attr('data-value');
+  switchRankButton.find('span.desc').text(selected.text());
+ 
+  // save previous values
+  let prevValues = [];
+  $('#spellButtons div.spell button').each((i, b) => prevValues.push($(b).data('value')));
+
+  // set rank and rebuild spell dropdowns
+  utils.setRank(rank);
+  buildSpellList();
+
+  // reset values
+  $('#spellButtons div.spell button').each((i, b) => {
+    if (prevValues[i] != 'NONE') {
+      $(b).next().find('a[data-value="' + prevValues[i] + '"]').trigger('click');
+    }
+  });
+
+  timeline.callUpdateSpellChart();
 });
 
 // try to find mode set in url then in cookie then default to wiz
@@ -33,10 +91,10 @@ $('.' + G.CLASSES[mode].css).removeClass(G.CLASSES[mode].css);
 document.title = G.CLASSES[mode].title;
 $('#innatCritRate').val(dmgU[G.CLASSES[mode].critRate]);
 $('#innatCritDmg').val(dmgU[G.CLASSES[mode].critDmg]);
-switchButton.find('span.desc').text(utils.CLASS_TO_NAME[mode] + ' Spells');
+switchModeButton.find('span.desc').text(utils.CLASS_TO_NAME[mode]);
 document.cookie = 'mode=' + mode + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
 G.MODE = mode;
-            
+           
 // Creates the dropdown menu sections DPS AAs, Focus AAs, and Equipment
 let settingsTemplate = Handlebars.compile($("#settings-dropdown-item-template").html());
 $('#basicDmgFocusSection').after(settingsTemplate({context: utils.readDmgFocusContext()}));
@@ -123,33 +181,8 @@ $('#adps-dropdown').multiselect({
   onDropdownShow: () => timeline.quiet()
 });
 
-// Creates the 6 Spell selection buttons
-let spellData = [];
-utils.readSpellList().forEach(item => { spellData.push({ value: item.id, desc: item.name }); });
-
-let spellButtonTemplate = Handlebars.compile($("#spell-selection-button-template").html());
-utils.appendHtml($('#spellButtons'), spellButtonTemplate({ data: spellData }), 6);
-      
-// Listen for spell selection changes to update button text and color and update spell chart
-$('#spellButtons div.spell').each((b1, group) => {
-  let button = $(group).find('button');
-  $(group).find('li > a').click(e => {
-    let selected = $(e.currentTarget);
-    button.data('value', selected.data('value'));
-    
-    if (selected.data('value') === 'NONE') {
-      button.find('span.desc').text("Choose Spell");
-      button.removeClass('btn-default');
-      button.addClass('btn-warning');
-    } else {
-      button.find('span.desc').text(selected.text());
-      button.removeClass('btn-warning');
-      button.addClass('btn-default');
-    }
-    
-    timeline.callUpdateSpellChart();
-  });
-});
+// build spell list
+buildSpellList();
 
 // Listen for changes to dropdown options that require updating the spell chart
 // If certain items are updated then the crit rates are reloaded as well

@@ -17,12 +17,17 @@
 }
 
 .mode-chooser {
-  margin-top: -5px;
-  margin-left: 20px;
+  margin-top: -4px;
+  margin-left: 15px;
+}
+
+.rank-chooser {
+  margin-top: -4px;
+  margin-left: 3px;
 }
 
 .switch-button {
-  width: 200px;
+  width: 180px;
   padding: 0px;
 }
 

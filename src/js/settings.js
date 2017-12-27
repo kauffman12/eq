@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.092',
+  VERSION: 'Version 1.2',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -29,7 +29,7 @@ export const globals = {
 // wizard spells to display in spell drop down
 export const wizSpellList = [
   'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'EZ', 'ES', 'EV', 'FB',
-  'FA', 'IC', 'ME', 'SV', 'TW', 'WE', 'WF'
+  'FA', 'ME', 'SV', 'TW', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down

@@ -33,6 +33,18 @@ export const SPELL_DATA = {
     timer: 'boltofsky',
     type3DmgAug: 1497
   },
+  BSRk1: {
+    name: 'Bolt of Skyfire Rk. I',
+    baseDmg: 19008
+  },
+  BSRk2: {
+    name: 'Bolt of Skyfire Rk. II',
+    baseDmg: 19958
+  },
+  BSRk3: {
+    name: 'Bolt of Skyfire Rk. III',
+    baseDmg: 20956
+  },
   CI: {
     baseDmg: 26069,
     castTime: 1200,
@@ -50,6 +62,18 @@ export const SPELL_DATA = {
     timer: '4',
     type3DmgAug: 1862
   },
+  CIRk1: {
+    name: 'Chaotic Inferno Rk. I',
+    baseDmg: 23646
+  },
+  CIRk2: {
+    name: 'Chaotic Inferno Rk. II',
+    baseDmg: 24828
+  },
+  CIRk3: {
+    name: 'Chaotic Inferno Rk. III',
+    baseDmg: 26069
+  },
   RM: {
     baseDmg: 20765,
     castTime: 2000,
@@ -66,6 +90,18 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'AE',
     timer: '3'
+  },
+  RMRk1: {
+    name: 'Rain of Molten Rhyolite Rk. I',
+    baseDmg: 18834
+  },
+  RMRk2: {
+    name: 'Rain of Molten Rhyolite Rk. II',
+    baseDmg: 19776
+  },
+  RMRk3: {
+    name: 'Rain of Molten Rhyolite Rk. III',
+    baseDmg: 20765
   },
   FA: {
     castTime: 1980,
@@ -255,6 +291,18 @@ export const SPELL_DATA = {
     timer: '7',
     type3DmgAug: 1447
   },
+  RKRk1: {
+    name: 'Rain of Knives Rk. I',
+    baseDmg: 18379
+  },
+  RKRk2: {
+    name: 'Rain of Knives Rk. II',
+    baseDmg: 19298
+  },
+  RKRk3: {
+    name: 'Rain of Knives Rk. III',
+    baseDmg: 20263
+  },
   RS: {
     baseDmg: 2,
     canTwincast: false,
@@ -273,6 +321,15 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'recklessserv',
     type3Aug: 1000
+  },
+  RSRk1: {
+    name: 'Reckless Servant Rk. I'
+  },
+  RSRk2: {
+    name: 'Reckless Servant Rk. II'
+  },
+  RSRk3: {
+    name: 'Reckless Servant Rk. III'
   },
   SFB: {
     baseDmg: 0,
@@ -323,6 +380,63 @@ export const SPELL_DATA = {
     timer: '6',
     type3DmgAug: 281
   },
+  VMRk1: {
+    name: 'Volley of Many Rk. I',
+    baseDmg: 4511,
+    baseDmg1: 4511,
+    baseDmg2: 4511,
+    baseDmg3: 9722,
+    baseDmg4: 9722,
+    baseDmg5: 9722,
+    baseDmg6: 16390,
+    baseDmg7: 16390,
+    baseDmg8: 16390,
+    baseDmg9: 16390,
+    baseDmg10: 26830,
+    baseDmg11: 26830,
+    baseDmg12: 26830,
+    baseDmg13: 26830,
+    baseDmg14: 26830,
+    baseDmg15: 42313
+  },
+  VMRk2: {
+    name: 'Volley of Many Rk. II',
+    baseDmg: 4737,
+    baseDmg1: 4737,
+    baseDmg2: 4737,
+    baseDmg3: 10208,
+    baseDmg4: 10208,
+    baseDmg5: 10208,
+    baseDmg6: 17210,
+    baseDmg7: 17210,
+    baseDmg8: 17210,
+    baseDmg9: 17210,
+    baseDmg10: 28172,
+    baseDmg11: 28172,
+    baseDmg12: 28172,
+    baseDmg13: 28172,
+    baseDmg14: 28172,
+    baseDmg15: 44429
+  },
+  VMRk3: {
+    name: 'Volley of Many Rk. III',
+    baseDmg: 4974,
+    baseDmg1: 4974,
+    baseDmg2: 4974,
+    baseDmg3: 10718,
+    baseDmg4: 10718,
+    baseDmg5: 10718,
+    baseDmg6: 18071,
+    baseDmg7: 18071,
+    baseDmg8: 18071,
+    baseDmg9: 18071,
+    baseDmg10: 29581,
+    baseDmg11: 29581,
+    baseDmg12: 29581,
+    baseDmg13: 29581,
+    baseDmg14: 29581,
+    baseDmg15: 46650
+  },
   SA: {
     baseDmg: 36056,
     castTime: 1750,
@@ -339,6 +453,18 @@ export const SPELL_DATA = {
     target: 'LOS',
     timer: 'spearmolten',
     type3DmgAug: 2575
+  },
+  SARk1: {
+    name: 'Spear of Molten Arcronite Rk. I',
+    baseDmg: 32704
+  },
+  SARk2: {
+    name: 'Spear of Molten Arcronite Rk. II',
+    baseDmg: 34339
+  },
+  SARk3: {
+    name: 'Spear of Molten Arcronite Rk. III',
+    baseDmg: 36056
   },
   SS: {
     baseDmg: 29731,
