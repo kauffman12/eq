@@ -268,9 +268,7 @@ $('#pageLink').on('click', () => {
     }
   });
 
-  let compressed = lzw.encode(inputs + checkboxes + buttons + options);
-  let appUrl = utils.getAppURL() + '&csettings=' +compressed;
-
+  let appUrl = utils.getAppURL() + '&settings=' + encodeURIComponent(inputs + checkboxes + buttons + options);
   utils.copyToClipboard(appUrl);
 });
 
@@ -290,15 +288,7 @@ timeline.init();
 timeline.loadRates();
 
 // Check for application settings
-// or compressed version
 let settings = utils.getUrlParameter('settings');
-if (!settings) {
-  let csettings = utils.getUrlParameter('csettings');
-  if (csettings) {
-    settings = lzw.decode(csettings);
-  }
-}
-
 if (settings) {
   settings.split(',').forEach(s => {
     let values = s.split('+');
