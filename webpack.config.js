@@ -14,7 +14,7 @@ module.exports = (env, args) => {
     context: path.resolve(__dirname, 'src'),
     entry: {
       app: ['babel-polyfill', './main.js'],
-      vendor: ['jquery', 'bootstrap', 'bootstrap-multiselect', 'handlebars', 'vis']
+      vendor: ['jquery', 'bootstrap', 'bootstrap-multiselect', 'handlebars', 'node-lzw', 'vis']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -75,6 +75,7 @@ module.exports = (env, args) => {
         jquery: 'jquery',
         'window.jQuery': 'jquery',
         Handlebars: 'handlebars',
+        lzw: 'node-lzw',
         vis: 'vis'
       }),
       new HtmlWebpackPlugin({
