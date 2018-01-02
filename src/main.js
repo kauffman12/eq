@@ -269,7 +269,8 @@ $('#pageLink').on('click', () => {
   });
 
   let compressed = lzw.encode(inputs + checkboxes + buttons + options);
-  let appUrl = utils.getAppURL() + '&csettings=' + encodeURIComponent(compressed);
+  let appUrl = utils.getAppURL() + '&csettings=' +compressed;
+
   utils.copyToClipboard(appUrl);
 });
 
