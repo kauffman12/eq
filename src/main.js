@@ -268,7 +268,7 @@ $('#pageLink').on('click', () => {
     }
   });
 
-  let appUrl = utils.getAppURL() + '&settings=' + encodeURIComponent(inputs + checkboxes + buttons + options);
+  let appUrl = utils.getAppURL() + '&settings=' + inputs + checkboxes + buttons + options;
   utils.copyToClipboard(appUrl);
 });
 
