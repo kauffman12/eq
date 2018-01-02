@@ -7,7 +7,7 @@
   <script id="settings-dropdown-item-template" type="text/x-handlebars-template">
     {{#each context}}
       <li class="dropdown list-group-item-heading {{id}} dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" data-value="{{value}}" href="#"><span class="desc">{{desc}}</span><span class="caret"></span></a>
+        <a id="{{id}}" class="dropdown-toggle" data-toggle="dropdown" data-value="{{value}}" href="#"><span class="desc">{{desc}}</span><span class="caret"></span></a>
         <ul class="dropdown-menu scrollable-menu">
           {{#each data}}
             <li><a data-value="{{value}}" href="#">{{desc}}</a></li>
@@ -87,7 +87,7 @@
 <div class="panel panel-default panel-heading title-bar">
   <span class="glyphicon glyphicon-menu-hamburger menu-button" aria-hidden="true"></span>
   <div class="btn-group btn-group mode-chooser">
-    <button type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
+    <button id="classButton" type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
       <span class="desc"></span>
       <span class="caret" style="margin-left: 4px;"></span>
     </button>
@@ -98,7 +98,7 @@
     </ul>
   </div>
   <div class="btn-group btn-group rank-chooser">
-    <button type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
+    <button id="rankButton" type="button" data-value="Rk3" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
       <span class="desc">Rank III RoS Spells</span>
       <span class="caret" style="margin-left: 4px;"></span>
     </button>
@@ -108,6 +108,7 @@
       <li><a data-value="Rk1" href="#">Rank I RoS Spells</a></li>
     </ul>
   </div>
+  <a id="pageLink" href="#link">Copy Page URL to Clipboard<a>
   <span class="version"></span>
 </div>
 <div class="nav-side-menu">

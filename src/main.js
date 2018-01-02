@@ -63,6 +63,7 @@ let switchRankButton = $('div.rank-chooser button.switch-button');
 $('div.rank-chooser li > a').click(e => {
   let selected = $(e.currentTarget);
   let rank = selected.attr('data-value');
+  switchRankButton.data('value', rank);
   switchRankButton.find('span.desc').text(selected.text());
  
   // save previous values
@@ -236,6 +237,41 @@ $('#myModal').on('shown.bs.modal', () => {
   $.get(testData, (data) => dmgU.displaySpellInfo($('#myModal .modal-body'), data));
 })
 
+$('#pageLink').on('click', () => {
+  let inputs = '';
+  $('input').not(':input[type=checkbox]').each((i, el) => {
+    let id = $(el).attr('id');
+    if (id !== undefined) {
+      inputs += id + '+' + $(el).val() + ',';
+    }
+  });
+
+  let checkboxes = '';
+  $('input[type=checkbox]').each((i, el) => {
+    let id = $(el).attr('id') || $(el).val();
+    checkboxes += id + '+' + $(el).is(':checked') + ',';
+  });
+
+  let buttons = '';
+  $('button').each((i, el) => {
+    let id = $(el).attr('id');
+    if (id !== undefined) {
+      buttons += id + '+' + $(el).data('value') + ',';
+    }
+  });
+
+  let options = '';
+  $('a.dropdown-toggle').each((i, el) => {
+    let id = $(el).attr('id');
+    if (id !== undefined) {
+      options += id + '+' + $(el).data('value') + ',';
+    }
+  });
+
+  let appUrl = utils.getAppURL() + '&settings=' + encodeURIComponent(inputs + checkboxes + buttons + options);
+  utils.copyToClipboard(appUrl);
+});
+
 // Set default collapse state
 utils.collapseMenu($('#synergySection .custom-collapse'));
 utils.collapseMenu($('#debuffsSection .custom-collapse'));
@@ -250,4 +286,36 @@ utils.collapseMenu($('#testSection .custom-collapse'));
 // Init timeline stuff and load the chart
 timeline.init();
 timeline.loadRates();
+
+// Check for application settings
+let settings = utils.getUrlParameter('settings');
+if (settings) {
+  settings.split(',').forEach(s => {
+    let values = s.split('+');
+    if (values.length > 0 && values[0]) {
+      let $el = $('#' + values[0]);
+      if ($el.length > 0) {
+        if ($el.is('a')) {
+          $el.next().find('a[data-value="' + values[1] + '"]').trigger('click');
+        } else if ($el.attr('type') === 'checkbox') {
+         if (values[1] === 'true') {
+           $el.trigger('click');
+         } 
+        } else if($el.attr('type') === 'button') {
+          $el.next().find('a[data-value="' + values[1] + '"]').trigger('click');
+        } else {
+          $el.val(values[1]);
+        }
+      } else {
+        let $checkbox = $('input[type=checkbox][value=' + values[0] + ']');
+        if ($checkbox.length > 0) {
+           if (values[1] === 'true') {
+             $checkbox.trigger('click');
+           }
+        }
+      }
+    }
+  });
+}
+
 timeline.updateSpellChart();
