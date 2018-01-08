@@ -87,7 +87,7 @@
 <div class="panel panel-default panel-heading title-bar">
   <span class="glyphicon glyphicon-menu-hamburger menu-button" aria-hidden="true"></span>
   <div class="btn-group btn-group mode-chooser">
-    <button id="classButton" type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
+    <button id="classButton" type="button" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false" title="Choose Player Class">
       <span class="desc"></span>
       <span class="caret" style="margin-left: 4px;"></span>
     </button>
@@ -98,7 +98,7 @@
     </ul>
   </div>
   <div class="btn-group btn-group rank-chooser">
-    <button id="rankButton" type="button" data-value="Rk3" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false">
+    <button id="rankButton" type="button" data-value="Rk3" class="btn btn-default dropdown-toggle switch-button" data-toggle="dropdown" aria-expanded="false" title="Choose Spell Rank">
       <span class="desc">Rank III RoS Spells</span>
       <span class="caret" style="margin-left: 4px;"></span>
     </button>
@@ -108,7 +108,9 @@
       <li><a data-value="Rk1" href="#">Rank I RoS Spells</a></li>
     </ul>
   </div>
-  <a id="pageLink" href="#link">Copy Page URL to Clipboard<a>
+  <button id="pageLink" type="button" class="btn btn-xs btn-default" title="Copy Page Link">
+    <span class="glyphicon glyphicon-share"></span>
+  </button>
   <span class="version"></span>
 </div>
 <div class="nav-side-menu">

@@ -98,9 +98,9 @@ body {
 }
 
 #pageLink {
-  font-size: 14px;
-  color: #ffeb5c;
-  padding-left: 5px;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-left: 3px;
 }
 
 #spellline, #timeline, #dmgGraph, #critRGraph, #critDGraph {

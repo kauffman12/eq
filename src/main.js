@@ -269,7 +269,19 @@ $('#pageLink').on('click', () => {
   });
 
   let appUrl = utils.getAppURL() + '&settings=' + inputs + checkboxes + buttons + options;
-  utils.copyToClipboard(appUrl);
+  let copyText = '';
+
+  $.ajax({
+    type: 'post',
+    url: 'https://www.googleapis.com/urlshortener/v1/url?key=' + 'AIzaSyAO8t0SjxrPe7DYmKKDJS3FkoziaZ7F1Fg',
+    data: JSON.stringify({'longUrl': appUrl}),
+    contentType: "application/json; charset=utf-8",
+    traditional: true,
+    async: false, // cant copy from within another action
+    success: (data) => { copyText = data.id; }
+  });
+
+  utils.copyToClipboard(copyText);
 });
 
 // Set default collapse state
