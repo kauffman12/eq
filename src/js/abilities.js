@@ -1789,6 +1789,42 @@ const ABILITIES = {
       }
     ]
   },
+  HFLAMMABLE: {
+    class: 'npc',
+    debuff: true,
+    level: 255,
+    name: 'Highly Flammable',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 483,
+        slot: 1,
+        type: 'sp',
+        value: 85.0,
+        limits: [
+          { resists: new Set(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  HFREEZABLE: {
+    class: 'npc',
+    debuff: true,
+    level: 255,
+    name: 'Highly Freezable',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 483,
+        slot: 1,
+        type: 'sp',
+        value: 105.0,
+        limits: [
+          { resists: new Set(['COLD']) }
+        ]
+      }
+    ]
+  },
   LINGERING: {
     class: 'enc',
     debuff: true,
