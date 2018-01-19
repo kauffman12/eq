@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.17',
+  VERSION: 'Version 1.172',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -105,7 +105,7 @@ export const basicDmgFocusContext = [
       { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
-      { value: 'FFIRE60', desc: 'Scale Sleeves' },
+      { value: 'FFIRE60', desc: 'Scaled Sleeves' },
       { value: 'FFIRE57', desc: 'Scale Touched Sleeves' },
       { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
       { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
@@ -130,7 +130,7 @@ export const basicDmgFocusContext = [
       { value: 'FCHROM70', desc: 'Scaleborn Wristguard' },
       { value: 'FCHROM67', desc: 'Velazul\'s Wristguard' },
       { value: 'FCHROM65', desc: 'Deathseeker\'s Wristguard' },
-      { value: 'FCHROM60', desc: 'Scale Wristguard' },
+      { value: 'FCHROM60', desc: 'Scaled Wristguard' },
       { value: 'FCHROM57', desc: 'Scale Touched Wristguard' },
       { value: 'FCHROM57', desc: 'Selrach\'s Wristguard' },
       { value: 'FCHROM55', desc: 'Cohort\'s Wristguard' },
@@ -144,8 +144,9 @@ export const basicDmgFocusContext = [
     data: [
       { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
-      { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
+      { value: 'SOIV', desc: 'Fathomless Staff of Warding' },
       { value: 'BFIV', desc: 'Blackened August Warhammer' },
+      { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
       { value: 'SOCV', desc: 'Eldritch Misericorde' },
       { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
       { value: 'WOCIV', desc: 'Advisor\'s Guide' },
@@ -168,7 +169,7 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: 'THREADSP', desc: 'Skywing Threaded Sash' },
+      { value: 'THREADSP', desc: 'Skywing Threaded Sash (Threads)' },
       { value: 'SEERS', desc: 'Sash of the Dar Brood (Seers)' },
       { value: 'THREADSM', desc: 'Parogressio' },
       { value: 'BONDF', desc: 'Burning Sash of Ro' },
@@ -184,8 +185,10 @@ export const basicDmgFocusContext = [
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
+      { value: 'BOIVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
+      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -198,8 +201,10 @@ export const basicDmgFocusContext = [
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
+      { value: 'BOIVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
+      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },

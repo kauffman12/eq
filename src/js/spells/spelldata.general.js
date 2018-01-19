@@ -89,7 +89,7 @@ export const SPELL_DATA = {
     timer: 'BFVI',
     type3Dmg: 0
   },
-  BOVI: {
+  BOIVI: {
     base1: 100,
     baseDmg: 510,
     castTime: 0,
@@ -558,6 +558,24 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'SOFXIV',
+    type3Dmg: 0
+  },
+  SOIV: {
+    base1: 100,
+    baseDmg: 9000,
+    castTime: 0,
+    focusable: true,
+    id: 'SOIV',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Surge of Ice V',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'COLD',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'SOIV',
     type3Dmg: 0
   },
   TC: {
