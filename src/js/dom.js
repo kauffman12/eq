@@ -9,33 +9,33 @@ const FOCUS_AA_KEYS = {
     'GT': '.aa-gravity-twist .dropdown-toggle',
     'MU': '.aa-mindsunder .dropdown-toggle',
     'MS': '.aa-mindsunder .dropdown-toggle',
-    'PA': '.aa-polyrefractive-assault .dropdown-toggle'
+    'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
-    'BS': '.aa-focus-bolt-molten .dropdown-toggle',
-    'RM': '.aa-focus-coronal-rain .dropdown-toggle',
-    'FC': '.aa-focus-fickle-conflag .dropdown-toggle',
-    'RK': '.aa-focus-rain-cutlasses .dropdown-toggle',
-    'VM': '.aa-focus-storm-many .dropdown-toggle',
-    'SS': '.aa-focus-spear-molten .dropdown-toggle',
-    'SA': '.aa-focus-spear-molten .dropdown-toggle'
+    'BS': '.aa-boltm .dropdown-toggle',
+    'RM': '.aa-coronal .dropdown-toggle',
+    'FC': '.aa-fickle .dropdown-toggle',
+    'RK': '.aa-raincut .dropdown-toggle',
+    'VM': '.aa-storm .dropdown-toggle',
+    'SS': '.aa-spearm .dropdown-toggle',
+    'SA': '.aa-spearm .dropdown-toggle'
   },
   wiz: {
-    'CQ': '.aa-focus-claws .dropdown-toggle',
-    'CO': '.aa-focus-claws .dropdown-toggle',
-    'CT': '.aa-focus-cloudburst .dropdown-toggle',
-    'CB': '.aa-focus-chaos .dropdown-toggle',
-    'EV': '.aa-focus-ethereal-flash .dropdown-toggle',
-    'ES': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-    'EZ': '.aa-focus-ethereal-skyblaze .dropdown-toggle',
-    'EI': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
-    'ER': '.aa-focus-ethereal-rimeblast .dropdown-toggle',
-    'FB': '.aa-focus-flashchar .dropdown-toggle',
-    'ME': '.aa-focus-rains .dropdown-toggle',
+    'CQ': '.aa-claws .dropdown-toggle',
+    'CO': '.aa-claws .dropdown-toggle',
+    'CT': '.aa-cloudb .dropdown-toggle',
+    'CB': '.aa-chaos .dropdown-toggle',
+    'EV': '.aa-eflash .dropdown-toggle',
+    'ES': '.aa-eblaze .dropdown-toggle',
+    'EZ': '.aa-eblaze .dropdown-toggle',
+    'EI': '.aa-erime .dropdown-toggle',
+    'ER': '.aa-erime .dropdown-toggle',
+    'FB': '.aa-flashchar .dropdown-toggle',
+    'ME': '.aa-rains .dropdown-toggle',
     'PF': '.aa-focus-purewild .dropdown-toggle',
-    'IC': '.aa-focus-rimeblastcascade .dropdown-toggle',
-    'SV': '.aa-focus-vortexes .dropdown-toggle',
-    'TW': '.aa-focus-thricewovenstorm .dropdown-toggle'
+    'IC': '.aa-rimeb .dropdown-toggle',
+    'SV': '.aa-vortex .dropdown-toggle',
+    'TW': '.aa-thrice .dropdown-toggle'
   }
 };
 
@@ -214,18 +214,18 @@ export function getAllianceFulminationValue() {
 }
 
 export function getArcaneFusionValue() {
-  return utils.useCache('.aa-arcane-fusion', () => {
-    return $('.aa-arcane-fusion .dropdown-toggle').data('value');
+  return utils.useCache('.aa-afusion', () => {
+    return $('.aa-afusion .dropdown-toggle').data('value');
   });
 }
 
 export function getWornDamageFocusList() {
   return utils.useCache('avg-worn-dmg-focus-list', () => {
     return [
-      $('.worn-arms-focus .dropdown-toggle').data('value'),
-      $('.worn-hands-focus .dropdown-toggle').data('value'),
+      $('.wn-farm .dropdown-toggle').data('value'),
+      $('.wn-fhand .dropdown-toggle').data('value'),
       $('.worn-head-focus .dropdown-toggle').data('value'),
-      $('.worn-wrist-focus .dropdown-toggle').data('value')
+      $('.wn-fwrist .dropdown-toggle').data('value')
     ];
   });
 }
@@ -237,14 +237,14 @@ export function getBeltProcValue() {
 }
 
 export function getBeguilersSynergyValue() {
-  return utils.useCache('.aa-beguilers-synergy', () => {
-    return utils.getNumberValue($('.aa-beguilers-synergy .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-esyn', () => {
+    return utils.getNumberValue($('.aa-esyn .dropdown-toggle').data('value'));
   });
 }
 
 export function getConjurersSynergyValue() {
-  return utils.useCache('.aa-conjurers-synergy', () => {
-    return utils.getNumberValue($('.aa-conjurers-synergy .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-msyn', () => {
+    return utils.getNumberValue($('.aa-msyn .dropdown-toggle').data('value'));
   });
 }
 
@@ -257,8 +257,8 @@ export function getCritRateValue() {
 }
 
 export function getDPSAug1AugValue() {
-  return utils.useCache('.add-dps-aug1', () => {
-    return $('.add-dps-aug1 .dropdown-toggle').data('value');
+  return utils.useCache('.dps-aug1', () => {
+    return $('.dps-aug1 .dropdown-toggle').data('value');
   });
 }
 
@@ -269,20 +269,20 @@ export function getDPSAug2AugValue() {
 }
 
 export function getDestructiveAdeptValue() {
-  return utils.useCache('.aa-destructive-adept', () => {
-    return utils.getNumberValue($('.aa-destructive-adept .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-dadept', () => {
+    return utils.getNumberValue($('.aa-dadept .dropdown-toggle').data('value'));
   });
 }
 
 export function getEyeOfDecayValue() {
-  return utils.useCache('.eye-of-decay', () => {
-    return utils.getNumberValue($('.eye-of-decay .dropdown-toggle').data('value'));
+  return utils.useCache('.eye-decay', () => {
+    return utils.getNumberValue($('.eye-decay .dropdown-toggle').data('value'));
   });
 }
 
 export function getFlamesOfPowerValue() {
-  return utils.useCache('.aa-flames-of-power', () => {
-    return utils.getNumberValue($('.aa-flames-of-power .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-flames-pwr', () => {
+    return utils.getNumberValue($('.aa-flames-pwr .dropdown-toggle').data('value'));
   });
 }
 
@@ -293,20 +293,20 @@ export function getForceOfElementsValue() {
 }
 
 export function getForceOfFlameValue() {
-  return utils.useCache('.aa-force-of-flame', () => {
-    return $('.aa-force-of-flame .dropdown-toggle').data('value');
+  return utils.useCache('.aa-forceflame', () => {
+    return $('.aa-forceflame .dropdown-toggle').data('value');
   });
 }
 
 export function getForceOfIceValue() {
-  return utils.useCache('.aa-force-of-ice', () => {
-    return $('.aa-force-of-ice .dropdown-toggle').data('value');
+  return utils.useCache('.aa-forceice', () => {
+    return $('.aa-forceice .dropdown-toggle').data('value');
   });
 }
 
 export function getForceOfWillValue() {
-  return utils.useCache('.aa-force-of-will', () => {
-    return $('.aa-force-of-will .dropdown-toggle').data('value');
+  return utils.useCache('.aa-forcewill', () => {
+    return $('.aa-forcewill .dropdown-toggle').data('value');
   });
 }
 
@@ -337,14 +337,14 @@ export function getDomForTimeline() {
 }
 
 export function getEvokersSynergyValue() {
-  return utils.useCache('.aa-evokers-synergy', () => {
-    return utils.getNumberValue($('.aa-evokers-synergy .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-wsyn', () => {
+    return utils.getNumberValue($('.aa-wsyn .dropdown-toggle').data('value'));
   });
 }
 
 export function getHastenedServantValue() {
-  return utils.useCache('.aa-hastened-servant', () => {
-    return 1000 * utils.getNumberValue($('.aa-hastened-servant .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-servant', () => {
+    return 1000 * utils.getNumberValue($('.aa-servant .dropdown-toggle').data('value'));
   });
 }
 
@@ -391,8 +391,8 @@ export function getShieldProcValue() {
 }
 
 export function getSorcererVengeananceValue() {
-  return utils.useCache('.aa-sorcerer-vengeance', () => {
-    return utils.getNumberValue($('.aa-sorcerer-vengeance .dropdown-toggle').data('value'));
+  return utils.useCache('.aa-sveng', () => {
+    return utils.getNumberValue($('.aa-sveng .dropdown-toggle').data('value'));
   });
 }
 
@@ -462,14 +462,14 @@ export function getTwinprocAAValue() {
 }
 
 export function getType3AugValue(spell) {
-  return utils.useCache('.worn-type3augs-' + spell.id, () => {
-    return $('.worn-type3augs .dropdown-toggle').data('value') ? spell.type3Aug || 0 : 0;
+  return utils.useCache('.wn-type3-' + spell.id, () => {
+    return $('.wn-type3 .dropdown-toggle').data('value') ? spell.type3Aug || 0 : 0;
   });
 }
 
 export function getType3DmdAugValue(spell) {
   return utils.useCache('.worn-type3dmgaugs-' + spell.id, () => {
-    return $('.worn-type3augs .dropdown-toggle').data('value') ? spell.type3DmgAug || 0 : 0;
+    return $('.wn-type3 .dropdown-toggle').data('value') ? spell.type3DmgAug || 0 : 0;
   });
 }
 
@@ -480,7 +480,7 @@ export function isUsingArcaneFusion() {
 // Don't cache these since load rates is called before cache is cleared
 // Fix sometime
 export function getDestructiveFuryValue() {
-  return utils.getNumberValue($('.aa-destructive-fury .dropdown-toggle').data('value'));
+  return utils.getNumberValue($('.aa-destfury .dropdown-toggle').data('value'));
 }
 
 export function getDoNValue() {
@@ -488,7 +488,7 @@ export function getDoNValue() {
 }
 
 export function getFuryOfMagicValue() {
-  return utils.getNumberValue($('.aa-fury-of-magic .dropdown-toggle').data('value'));
+  return utils.getNumberValue($('.aa-furymagic .dropdown-toggle').data('value'));
 }
 
 export function getFamiliarValue() {

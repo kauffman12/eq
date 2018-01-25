@@ -1317,7 +1317,7 @@ const ABILITIES = {
       }
     ]
   },
-  FURYGODS: {
+  FGODS: {
     adpsDropdown: true,
     class: 'wiz',
     duration: 240000,
@@ -1789,7 +1789,7 @@ const ABILITIES = {
       }
     ]
   },
-  HFLAMMABLE: {
+  HFLM: {
     class: 'npc',
     debuff: true,
     level: 255,
@@ -1807,7 +1807,7 @@ const ABILITIES = {
       }
     ]
   },
-  HFREEZABLE: {
+  HFRZ: {
     class: 'npc',
     debuff: true,
     level: 255,
@@ -1825,7 +1825,7 @@ const ABILITIES = {
       }
     ]
   },
-  LINGERING: {
+  LING: {
     class: 'enc',
     debuff: true,
     level: 255,

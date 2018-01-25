@@ -195,8 +195,8 @@ $('li.dropdown').each((i1, dropdown) => {
           itemDesc.find('span.desc').text(selected.text());
           itemDesc.data('value', selected.data('value'));
           
-          if ($(dropdown).hasClass('aa-fury-of-magic') ||
-            $(dropdown).hasClass('aa-destructive-fury') ||
+          if ($(dropdown).hasClass('aa-furymagic') ||
+            $(dropdown).hasClass('aa-destfury') ||
             $(dropdown).hasClass('spell-pet-focus') ||
             $(dropdown).hasClass('aa-don')) {
           }
@@ -238,10 +238,12 @@ $('#myModal').on('shown.bs.modal', () => {
 })
 
 $('#pageLink').on('click', () => {
+  console.debug("here");
   let inputs = '';
-  $('input').not(':input[type=checkbox]').each((i, el) => {
+  $('input:visible').not(':input[type=checkbox]').each((i, el) => {
     let id = $(el).attr('id');
-    if (id !== undefined) {
+    // dont save the custom adps settings
+    if (id !== undefined && !$(el).hasClass('custom-values')) {
       inputs += id + '+' + $(el).val() + ',';
     }
   });
@@ -253,7 +255,7 @@ $('#pageLink').on('click', () => {
   });
 
   let buttons = '';
-  $('button').each((i, el) => {
+  $('button:visible').each((i, el) => {
     let id = $(el).attr('id');
     if (id !== undefined) {
       buttons += id + '+' + $(el).data('value') + ',';

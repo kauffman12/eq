@@ -80,7 +80,7 @@ function getActiveState(state, key) {
 export function appendHtml(context, html, count) {
   for (let i=0; i<count; i++) {
     let $el = $(html);
-    $el.find('button').attr('id', 'spellButton' + i);
+    $el.find('button').attr('id', 'sBtn' + i);
     context.append($el);
   }
 }

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.172',
+  VERSION: 'Version 1.179',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -45,7 +45,7 @@ export const encSpellList = [
 // values need to be strings for HTML dom nodes
 export const basicDmgFocusContext = [
   {
-    id: 'eye-of-decay',
+    id: 'eye-decay',
     value: '0.1',
     desc: 'Eyes of Life and Decay (6/6)',
     data: [
@@ -59,7 +59,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-type3augs',
+    id: 'wn-type3',
     value: 'true',
     desc: 'Use Relevant Type3 Augs',
     data: [
@@ -68,7 +68,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-head-focus',
+    id: 'wn-fhead',
     value: 'FMAGIC70',
     desc: 'Scaleborn Cap',
     data: [
@@ -83,7 +83,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-hands-focus',
+    id: 'wn-fhand',
     value: 'FCOLD70',
     desc: 'Scaleborn Gloves',
     data: [
@@ -98,7 +98,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-arms-focus',
+    id: 'wn-farm',
     value: 'FFIRE70',
     desc: 'Scaleborn Sleeves',
     data: [
@@ -113,7 +113,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-chest-focus',
+    id: 'wn-fchest',
     value: 'ESD9',
     desc: 'Scaleborn Robe',
     data: [
@@ -123,7 +123,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'worn-wrist-focus',
+    id: 'wn-fwrist',
     value: 'FCHROM70',
     desc: 'Scaleborn Wristguard',
     data: [
@@ -177,7 +177,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'add-dps-aug1',
+    id: 'dps-aug1',
     value: 'NONE',
     desc: 'No Additional Aug1 Selected',
     data: [
@@ -193,7 +193,7 @@ export const basicDmgFocusContext = [
     ]
   },
   {
-    id: 'add-dps-aug2',
+    id: 'dps-aug2',
     value: 'NONE',
     desc: 'No Additional Aug2 Selected',
     data: [
@@ -223,7 +223,7 @@ export const basicDmgFocusContext = [
 
 export const wizSpellFocusAAContext = [
   {
-    id: 'aa-evokers-synergy',
+    id: 'aa-wsyn',
     value: '11',
     desc: 'Evoker\'s Synergy (11/11)',
     data: [
@@ -242,7 +242,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-chaos',
+    id: 'aa-chaos',
     value: '0.16',
     desc: 'Chaos Scintillation (9/9)',
     data: [
@@ -259,7 +259,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-claws',
+    id: 'aa-claws',
     value: '0.16',
     desc: 'Claws (9/9)',
     data: [
@@ -276,7 +276,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-cloudburst',
+    id: 'aa-cloudb',
     value: '0.16',
     desc: 'Cloudburst Stormstrike (9/9)',
     data: [
@@ -293,7 +293,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-ethereal-flash',
+    id: 'aa-eflash',
     value: '0.16',
     desc: 'Ethereal Flash (9/9)',
     data: [
@@ -310,7 +310,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-ethereal-rimeblast',
+    id: 'aa-erime',
     value: '9',
     desc: 'Ethereal Rimeblast (9/9)',
     data: [
@@ -327,7 +327,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-ethereal-skyblaze',
+    id: 'aa-eblaze',
     value: '9',
     desc: 'Ethereal Skyblaze (9/9)',
     data: [
@@ -344,7 +344,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-flashchar',
+    id: 'aa-flashchar',
     value: '0.16',
     desc: 'Flashchar (9/9)',
     data: [
@@ -361,7 +361,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-purewild',
+    id: 'aa-pure',
     value: '0.16',
     desc: 'Pure Wildflash (9/9)',
     data: [
@@ -378,7 +378,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-rains',
+    id: 'aa-rains',
     value: '0.16',
     desc: 'Rains (9/9)',
     data: [
@@ -395,7 +395,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-rimeblastcascade',
+    id: 'aa-rimeb',
     value: '0.16',
     desc: 'Rimeblast Cascade (9/9)',
     data: [
@@ -412,7 +412,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-thricewovenstorm',
+    id: 'aa-thrice',
     value: '0.16',
     desc: 'Thricewoven Stormstrike (9/9)',
     data: [
@@ -429,7 +429,7 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-vortexes',
+    id: 'aa-vortex',
     value: '0.16',
     desc: 'Vortexes (8/8)',
     data: [
@@ -448,7 +448,7 @@ export const wizSpellFocusAAContext = [
 
 export const magSpellFocusAAContext = [
   {
-    id: 'aa-conjurers-synergy',
+    id: 'aa-msyn',
     value: '11',
     desc: 'Conjurer\'s Synergy (11/11)',
     data: [
@@ -467,7 +467,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-bolt-molten',
+    id: 'aa-boltm',
     value: '0.16',
     desc: 'Bolt of Molten Shieldstone (9/9)',
     data: [
@@ -484,7 +484,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-coronal-rain',
+    id: 'aa-coronal',
     value: '0.16',
     desc: 'Coronal Rain (9/9)',
     data: [
@@ -501,7 +501,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-fickle-conflag',
+    id: 'aa-fickle',
     value: '0.16',
     desc: 'Fickle Conflagration (8/8)',
     data: [
@@ -517,7 +517,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-flames-of-power',
+    id: 'aa-flames-pwr',
     value: '4',
     desc: 'Flames of Power (4/4)',
     data: [
@@ -529,7 +529,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-hastened-servant',
+    id: 'aa-servant',
     value: '6',
     desc: 'Hastened Raging Servant (3/3)',
     data: [
@@ -540,7 +540,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-rain-cutlasses',
+    id: 'aa-raincut',
     value: '0.16',
     desc: 'Rain of Cutlasses (9/9)',
     data: [
@@ -557,7 +557,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-spear-molten',
+    id: 'aa-spearm',
     value: '9',  // special case to check new spear vs old. uses 16%
     desc: 'Spear of Molten Shieldstone (9/9)',
     data: [
@@ -574,7 +574,7 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-focus-storm-many',
+    id: 'aa-storm',
     value: '0.40',
     desc: 'Storm of Many (9/9)',
     data: [
@@ -594,7 +594,7 @@ export const magSpellFocusAAContext = [
 
 export const encSpellFocusAAContext = [
   {
-    id: 'aa-beguilers-synergy',
+    id: 'aa-esyn',
     value: '11',
     desc: 'Beguiler\'s Synergy (11/11)',
     data: [
@@ -663,7 +663,7 @@ export const encSpellFocusAAContext = [
     ]
   },
   {
-    id: 'aa-polyrefractive-assault',
+    id: 'aa-poly-ass',
     value: '0.16',
     desc: 'Polyrefractive Assault (9/9)',
     data: [
@@ -683,7 +683,7 @@ export const encSpellFocusAAContext = [
 
 export const wizDPSAAContext = [
   {
-    id: 'aa-arcane-fusion',
+    id: 'aa-afusion',
     value: 'AFU3',
     desc: 'Arcane Fusion (3/3)',
     data: [
@@ -694,7 +694,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-destructive-adept',
+    id: 'aa-dadept',
     value: '0.08',
     desc: 'Destructive Adept (8/8)',
     data: [
@@ -710,7 +710,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-destructive-fury',
+    id: 'aa-destfury',
     value: '325',
     desc: 'Destructive Fury (36/36)',
     data: [
@@ -767,7 +767,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-force-of-flame',
+    id: 'aa-forceflame',
     value: 'FF9',
     desc: 'Force of Flame (9/9)',
     data: [
@@ -780,7 +780,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-force-of-ice',
+    id: 'aa-forceice',
     value: 'FI9',
     desc: 'Force of Ice (9/9)',
     data: [
@@ -793,7 +793,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-force-of-will',
+    id: 'aa-forcewill',
     value: 'FW29',
     desc: 'Force of Will (29/29)',
     data: [
@@ -806,7 +806,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-fury-of-magic',
+    id: 'aa-furymagic',
     value: '50',
     desc: 'Fury of Magic (35/35)',
     data: [
@@ -858,7 +858,7 @@ export const wizDPSAAContext = [
     ]
   },
   {
-    id: 'aa-sorcerer-vengeance',
+    id: 'aa-sveng',
     value: '2000',
     desc: 'Sorcerer\'s Vengeance (13/13)',
     data: [
@@ -911,7 +911,7 @@ export const wizDPSAAContext = [
 
 export const magDPSAAContext = [
   {
-    id: 'aa-destructive-fury',
+    id: 'aa-destfury',
     value: '340',
     desc: 'Destructive Fury (38/38)',
     data: [
@@ -983,7 +983,7 @@ export const magDPSAAContext = [
     ]
   },
   {
-    id: 'aa-fury-of-magic',
+    id: 'aa-furymagic',
     value: '57',
     desc: 'Fury of Magic (30/30)',
     data: [
@@ -1053,7 +1053,7 @@ export const magDPSAAContext = [
 
 export const encDPSAAContext = [
   {
-    id: 'aa-destructive-fury',
+    id: 'aa-destfury',
     value: '340',
     desc: 'Destructive Fury (38/38)',
     data: [
@@ -1112,7 +1112,7 @@ export const encDPSAAContext = [
     ]
   },
   {
-    id: 'aa-fury-of-magic',
+    id: 'aa-furymagic',
     value: '57',
     desc: 'Fury of Magic (30/30)',
     data: [
