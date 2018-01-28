@@ -14,7 +14,7 @@ module.exports = (env, args) => {
     context: path.resolve(__dirname, 'src'),
     entry: {
       app: ['babel-polyfill', './main.js'],
-      vendor: ['jquery', 'bootstrap', 'bootstrap-multiselect', 'handlebars', 'vis']
+      vendor: ['jquery', 'bootstrap', 'bootstrap-multiselect', 'bootstrap-notify', 'handlebars', 'vis']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),

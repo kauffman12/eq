@@ -238,7 +238,6 @@ $('#myModal').on('shown.bs.modal', () => {
 })
 
 $('#pageLink').on('click', () => {
-  console.debug("here");
   let inputs = '';
   $('input:visible').not(':input[type=checkbox]').each((i, el) => {
     let id = $(el).attr('id');
@@ -271,19 +270,34 @@ $('#pageLink').on('click', () => {
   });
 
   let appUrl = utils.getAppURL() + '&settings=' + inputs + checkboxes + buttons + options;
-  let copyText = '';
 
-  $.ajax({
-    type: 'post',
-    url: 'https://www.googleapis.com/urlshortener/v1/url?key=' + 'AIzaSyAO8t0SjxrPe7DYmKKDJS3FkoziaZ7F1Fg',
-    data: JSON.stringify({'longUrl': appUrl}),
-    contentType: "application/json; charset=utf-8",
-    traditional: true,
-    async: false, // cant copy from within another action
-    success: (data) => { copyText = data.id; }
-  });
+  let notify = $.notify({ 
+    message: '<strong>creating link</strong>', 
+    icon: 'glyphicon glyphicon-copy', 
+    target: '_blank'
+   },
+   {
+     type: 'info',
+     delay: 0,
+     offset: { x: 450, y: 10 },
+     placement: { align: 'left' }
+   });
 
-  utils.copyToClipboard(copyText);
+   $.ajax({
+     type: 'post',
+     url: 'https://www.googleapis.com/urlshortener/v1/url?key=' + 'AIzaSyAO8t0SjxrPe7DYmKKDJS3FkoziaZ7F1Fg',
+     data: JSON.stringify({'longUrl': appUrl}),
+     contentType: "application/json; charset=utf-8",
+     traditional: true,
+     async: true,
+     success: (data) => { 
+       notify.update('message', '<strong>' + data.id + '</strong>');
+       let icon = $('div.alert span.glyphicon-copy');
+       icon.css('cursor', 'pointer');
+       icon.click(e => { utils.copyToClipboard(data.id); });
+     }
+   });
+
 });
 
 // Set default collapse state
