@@ -32,7 +32,7 @@ const FOCUS_AA_KEYS = {
     'ER': '.aa-erime .dropdown-toggle',
     'FB': '.aa-flashchar .dropdown-toggle',
     'ME': '.aa-rains .dropdown-toggle',
-    'PF': '.aa-focus-purewild .dropdown-toggle',
+    'PF': '.aa-pure .dropdown-toggle',
     'IC': '.aa-rimeb .dropdown-toggle',
     'SV': '.aa-vortex .dropdown-toggle',
     'TW': '.aa-thrice .dropdown-toggle'
@@ -224,7 +224,7 @@ export function getWornDamageFocusList() {
     return [
       $('.wn-farm .dropdown-toggle').data('value'),
       $('.wn-fhand .dropdown-toggle').data('value'),
-      $('.worn-head-focus .dropdown-toggle').data('value'),
+      $('.wn-fhead .dropdown-toggle').data('value'),
       $('.wn-fwrist .dropdown-toggle').data('value')
     ];
   });
@@ -263,8 +263,8 @@ export function getDPSAug1AugValue() {
 }
 
 export function getDPSAug2AugValue() {
-  return utils.useCache('.add-dps-aug2', () => {
-    return $('.add-dps-aug2 .dropdown-toggle').data('value');
+  return utils.useCache('dps-aug2', () => {
+    return $('.dps-aug2 .dropdown-toggle').data('value');
   });
 }
 
@@ -367,8 +367,8 @@ export function getRemorselessServantTTLValue() {
 }
 
 export function getRobeValue() {
-  return utils.useCache('.worn-chest-focus', () => {
-    return $('.worn-chest-focus .dropdown-toggle').data('value');
+  return utils.useCache('.wn-fchest', () => {
+    return $('.wn-fchest .dropdown-toggle').data('value');
   });
 }
 
