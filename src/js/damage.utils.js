@@ -72,7 +72,8 @@ export const FC_SPELL_PROC_RATES = {
 export const SPELL_PROC_ABILITIES = [
   'ARCO', 'CDG', 'CRYO', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'PYRO', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRERk1',
   'SYLLFIRERk2', 'SYLLFIRERk3', 'SYLLMAGICRk1', 'SYLLMAGICRk2', 'SYLLMAGICRk3', 'SYLLICERk1', 'SYLLICERk2',
-  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK'
+  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK',
+  'GCH'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
@@ -95,7 +96,7 @@ const LIMIT_RULES_FOR_FAILURE = {
   minDmg: (effect, spell, value) => spell.baseDmg < value,
   minLevel: (effect, spell, value) => spell.level < value,
   minManaCost: (effect, spell, value) => spell.manaCost < value,
-  nonRepeating: (effect, spell) => spell.duration > 0,
+  nonRepeating: (effect, spell) => (spell.duration > 0 && spell.spa !== 79), // dots or enc dot nukes
   resists: (effect, spell, value) => !value.has(spell.resist),
   spells: (effect, spell, value) => !value.has(spell.id),
   targets: (effect, spell, value) => !value.has(spell.target),
@@ -276,8 +277,9 @@ export function checkSingleEffectLimit(spell, id) {
   return result;
 }
 
-export function computeSPAs(state, mod) {
+export function computeSPAs(state, mod, dotMod) {
   let spell = state.spell;
+  dotMod = dotMod || 0;
 
   let spaValues = {};
   abilities.SPA_KEY_MAP.forEach((v, k) => { spaValues[v] = 0; });
@@ -316,6 +318,11 @@ export function computeSPAs(state, mod) {
       // special case for 483 getting double benefit when used with 484
       if (spa === 483 && result.spaSet.has(484)) {
         update = update * 2;
+      }
+
+      // some SPA breakup effect over each tick
+      if ([303, 462].find(x => x === spa)) {
+        update = update / dotMod;
       }
 
       spaValues[key] += update * partUsed;
@@ -367,8 +374,16 @@ export function getBaseCritDmg() {
   return (dom.getDestructiveFuryValue() + dom.getCritDmgValue()) / 100;
 }
 
+export function getBaseDoTCritDmg() {
+  return (dom.getDestructiveCascadeValue() + dom.getCritDmgValue()) / 100;
+}
+
 export function getBaseCritRate() {
   return (dom.getDoNValue() + dom.getFuryOfMagicValue() + dom.getCritRateValue()) / 100;
+}
+
+export function getBaseDoTCritRate() {
+  return (dom.getDoNValue() + dom.getCriticalAfflicationValue() + dom.getCritRateValue()) / 100;
 }
 
 export function getCompoundSpellList(id) {
@@ -453,10 +468,16 @@ export function processCounter(state, id, mod) {
   let start = (current >= 1) ? 1 : current;
 
   if (current >= mod) {
-    current -= mod;
-    counterUsed = mod;
-    partUsed = start;
-    // use full amount if it's available
+    if (current >= 1) {
+      current -= mod;
+      counterUsed = mod;
+      partUsed = start;
+      // use full amount if it's available
+    } else {
+      current -= (mod * current);
+      counterUsed = (mod * current);
+      partUsed = counterUsed;
+    }
   } else {
     partUsed = current;
     counterUsed = current;

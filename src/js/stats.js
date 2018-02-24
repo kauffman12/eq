@@ -14,7 +14,7 @@ function addNumberStatDescription(data, title, value, force) {
 
 function addDecimalStatDescription(data, title, value, force, fixed) {
   if (value || force) {
-    data.push({ title: title, value: value.toFixed(fixed||2) });
+    data.push({ title: title, value: value.toFixed(fixed||3) });
   }
 }
 

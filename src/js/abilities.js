@@ -38,6 +38,8 @@ export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
 export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
 export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
 export const SPA_461_FOCUS = new Set([461]);
+export const SPA_CRIT_DMG_DOT = new Set([375]);
+export const SPA_CRIT_RATE_DOT = new Set([273]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
@@ -377,15 +379,13 @@ const ABILITIES = {
         slot: 1,
         type: 'sp',
         value: 0.33
-      }
-/*
+      },
       {
         spa: 273,
         slot: 5,
         type: 'sp',
         value: 0.33
       }
-*/
     ]
   },
   B2: {
@@ -772,14 +772,12 @@ const ABILITIES = {
     level: 110,
     name: 'Fierce Eye IV',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
         type: 'sp',
         value: 0.12
-      }
-*/
+      },
       {
         spa: 294,
         slot: 5,
@@ -1633,15 +1631,13 @@ const ABILITIES = {
         slot: 10,
         type: 'sp',
         value: 0.6
-      }
-/*
+      },
       {
         spa: 375,
         slot: 8,
         type: 'sp',
         value: 0.6
       }
-*/
     ]
   },
   HOF: {
@@ -1715,15 +1711,12 @@ const ABILITIES = {
     level: 254,
     name: 'Intensity of the Resolute',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
         type: 'sp',
         value: 0.50
       },
-
-*/
       {
         spa: 294,
         slot: 5,
@@ -1761,7 +1754,6 @@ const ABILITIES = {
     level: 105,
     name: 'Illusions of Grandeur III',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
@@ -1774,7 +1766,6 @@ const ABILITIES = {
         type: 'sp',
         value: 1.15
       },
-*/
       {
         spa: 294,
         slot: 5,
@@ -2005,15 +1996,13 @@ const ABILITIES = {
         slot: 1,
         type: 'sp',
         value: 0.20
-      }
-/*
+      },
       {
         spa: 375,
         slot: 2,
         type: 'sp',
         value: 0.15
       }
-*/
     ]
   },
   PRECISION: {
@@ -2699,15 +2688,13 @@ const ABILITIES = {
         slot: 9,
         type: 'sp',
         value: 0.12
-      }
-/*
+      },
       {
         spa: 273,
         slot: 10,
         type: 'sp',
         value: 0.12
       }
-*/
     ]
   },
   VFX: {

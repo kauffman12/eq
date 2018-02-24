@@ -41,6 +41,14 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
 
+  // all implemented enc spells have a chance to proc gift of hazy thoughts
+  if (G.MODE === 'enc') {
+    let hazy = dom.getGiftOfHazyValue();
+    if (hazy > 0) {
+      timeline.addSpellProcAbility(state, 'GCH', hazy, true);
+    } 
+  }
+
   // keep track of a counter based on main spell cast + twincast
   // average DPS sometimes goes down when it shouldnt because some gains
   // are lost during a small twincast. Check mod > 50% ? worth testing anyway
@@ -110,6 +118,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       break;
   }
 
+  // switch cases dont have their own scope?
+  let synergy = 0;
+
   switch(spell.id) {
     case 'CA':
       state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
@@ -145,27 +156,34 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       }
       break;
     case 'MS':
-      if (dom.getBeguilersSynergyValue() >= 11) {
+      if (dom.getBeguilersSynergyValue() === 11) {
         timeline.addSpellProcAbility(state, 'ESYN2', 1, true);
       } 
       break;
     case 'MU':
-      if (dom.getBeguilersSynergyValue() < 11) {
-        timeline.addSpellProcAbility(state, 'ESYN1', dom.getBeguilersSynergyValue() / 10, true);
+      synergy = dom.getBeguilersSynergyValue();
+      if (synergy > 0 && synergy < 11) {
+        timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
       }
       break;
     case 'SV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
   
-      if (dom.getEvokersSynergyValue() < 11) {
-        timeline.addSpellProcAbility(state, 'WSYN1', dom.getEvokersSynergyValue() / 10, true);
+      synergy = dom.getEvokersSynergyValue();
+      if (synergy > 0 && synergy < 11) {
+        timeline.addSpellProcAbility(state, 'WSYN1', synergy / 10, true);
       }
+      else if (synergy === 11) {
+        timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
+      }
+
       break;
     case 'RS':
-      if (dom.getConjurersSynergyValue() >= 11) {
+      synergy = dom.getConjurersSynergyValue();
+      if (synergy > 0 && synergy < 11) {
+        timeline.addSpellProcAbility(state, 'MSYN1', synergy / 10, true);
+      } else if (synergy === 11) {
         timeline.addSpellProcAbility(state, 'MSYN2', 1, true);
-      } else {
-        timeline.addSpellProcAbility(state, 'MSYN1', dom.getConjurersSynergyValue() / 10, true);
       }
 
       let keys = utils.getCounterKeys('RS');
@@ -198,10 +216,6 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
-
-      if (dom.getEvokersSynergyValue() >= 11) {
-        timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
-      }
       break;
     case 'WF': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
@@ -260,8 +274,14 @@ function calcAvgDamage(state, mod, dmgKey) {
   // average damage
   let avgDmg = 0;
 
+  // dots spread out modifiers over the default tick duration
+  let dotMod = 1;
+  if (state.spell.duration > 0) {
+    dotMod = state.spell.ticks + 1;
+  }
+
   // get SPA info
-  let spaValues = dmgU.computeSPAs(state, mod).spaValues;
+  let spaValues = dmgU.computeSPAs(state, mod, dotMod).spaValues;
 
   if (state.spell.baseDmg > 0) {
     // Get Crit Dmg Multiplyer -- maybe keep this first since FD/AD counters modified in crit rate
@@ -280,8 +300,8 @@ function calcAvgDamage(state, mod, dmgKey) {
     let effectiveness = getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue();
     // Get Before Crit Focus
     let beforeCritFocus = getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue();
-    // Get Before Crit Add
-    let beforeCritAdd = dom.getType3DmdAugValue(state.spell) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
+    // Get Before Crit Add -- type3 dmg is SPA 303, should move to computeSPA eventually --
+    let beforeCritAdd = dmgU.trunc(dom.getType3DmdAugValue(state.spell) / dotMod) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
     // Get Before DoT Crit Focus
     let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
     // Get After Crit Focus
@@ -304,7 +324,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     // SPAs that are included when a dot crits (none implemented for wizard)
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
     // damage to appended after crits have been calculated but before SPA 461
-    let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd;
+    let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd / dotMod;
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);

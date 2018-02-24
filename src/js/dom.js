@@ -320,8 +320,16 @@ export function getDomForCritDGraph() {
   return $('#critDGraph').get(0);
 }
 
+export function getDomForDoTCritDGraph() {
+  return $('#critDDoTGraph').get(0);
+}
+
 export function getDomForCritRGraph() {
   return $('#critRGraph').get(0);
+}
+
+export function getDomForDoTCritRGraph() {
+  return $('#critRDoTGraph').get(0);
 }
 
 export function getDomForDmgGraph() {
@@ -479,6 +487,14 @@ export function isUsingArcaneFusion() {
 
 // Don't cache these since load rates is called before cache is cleared
 // Fix sometime
+export function getCriticalAfflicationValue() {
+  return utils.getNumberValue($('.aa-critafflic .dropdown-toggle').data('value'));
+}
+
+export function getDestructiveCascadeValue() {
+  return utils.getNumberValue($('.aa-destcascade .dropdown-toggle').data('value'));
+}
+
 export function getDestructiveFuryValue() {
   return utils.getNumberValue($('.aa-destfury .dropdown-toggle').data('value'));
 }
@@ -493,4 +509,8 @@ export function getFuryOfMagicValue() {
 
 export function getFamiliarValue() {
   return $('.spell-pet-focus .dropdown-toggle').data('value');
+}
+
+export function getGiftOfHazyValue() {
+  return utils.getNumberValue($('.aa-hazy .dropdown-toggle').data('value'));
 }

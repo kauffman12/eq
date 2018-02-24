@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.181',
+  VERSION: 'Version 1.185',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -39,7 +39,7 @@ export const magSpellList = [
 
 // enc spells to display in spell drop down
 export const encSpellList = [
-  'CA', 'CD', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA'
+  'CA', 'CD', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA', //'ST'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -1053,6 +1053,72 @@ export const magDPSAAContext = [
 
 export const encDPSAAContext = [
   {
+    id: 'aa-critafflic',
+    value: '33',
+    desc: 'Critical Affliction (11/11)',
+    data: [
+      { value: '33', desc: 'Critical Affliction (11/11)' },
+      { value: '30', desc: 'Critical Affliction (10/11)' },
+      { value: '27', desc: 'Critical Affliction (9/11)' },
+      { value: '24', desc: 'Critical Affliction (8/11)' },
+      { value: '21', desc: 'Critical Affliction (7/11)' },
+      { value: '18', desc: 'Critical Affliction (6/11)' },
+      { value: '15', desc: 'Critical Affliction (5/11)' },
+      { value: '12', desc: 'Critical Affliction (4/11)' },
+      { value: '9', desc: 'Critical Affliction (3/11)' },
+      { value: '6', desc: 'Critical Affliction (2/11)' },
+      { value: '3', desc: 'Critical Affliction (1/11)' },
+      { value: '0', desc: 'Critical Affliction (0/11)  ' }
+    ]
+  },
+  {
+    id: 'aa-destcascade',
+    value: '375',
+    desc: 'Destructive Cascade (39/39)',
+    data: [
+      { value: '375', desc: 'Destructive Cascade (39/39)' },
+      { value: '370', desc: 'Destructive Cascade (38/39)' },
+      { value: '365', desc: 'Destructive Cascade (37/39)' },
+      { value: '360', desc: 'Destructive Cascade (36/39)' },
+      { value: '356', desc: 'Destructive Cascade (35/39)' },
+      { value: '352', desc: 'Destructive Cascade (34/39)' },
+      { value: '347', desc: 'Destructive Cascade (33/39)' },
+      { value: '343', desc: 'Destructive Cascade (32/39)' },
+      { value: '338', desc: 'Destructive Cascade (31/39)' },
+      { value: '334', desc: 'Destructive Cascade (30/39)' },
+      { value: '329', desc: 'Destructive Cascade (29/39)' },
+      { value: '325', desc: 'Destructive Cascade (28/39)' },
+      { value: '321', desc: 'Destructive Cascade (27/39)' },
+      { value: '318', desc: 'Destructive Cascade (26/39)' },
+      { value: '315', desc: 'Destructive Cascade (25/39)' },
+      { value: '310', desc: 'Destructive Cascade (24/39)' },
+      { value: '305', desc: 'Destructive Cascade (23/39)' },
+      { value: '300', desc: 'Destructive Cascade (22/39)' },
+      { value: '295', desc: 'Destructive Cascade (21/39)' },
+      { value: '290', desc: 'Destructive Cascade (20/39)' },
+      { value: '285', desc: 'Destructive Cascade (19/39)' },
+      { value: '280', desc: 'Destructive Cascade (18/39)' },
+      { value: '275', desc: 'Destructive Cascade (17/39)' },
+      { value: '270', desc: 'Destructive Cascade (16/39)' },
+      { value: '265', desc: 'Destructive Cascade (15/39)' },
+      { value: '260', desc: 'Destructive Cascade (14/39)' },
+      { value: '250', desc: 'Destructive Cascade (13/39)' },
+      { value: '240', desc: 'Destructive Cascade (12/39)' },
+      { value: '230', desc: 'Destructive Cascade (11/39)' },
+      { value: '215', desc: 'Destructive Cascade (10/39)' },
+      { value: '200', desc: 'Destructive Cascade (9/39)' },
+      { value: '175', desc: 'Destructive Cascade (8/39)' },
+      { value: '150', desc: 'Destructive Cascade (7/39)' },
+      { value: '140', desc: 'Destructive Cascade (6/39)' },
+      { value: '135', desc: 'Destructive Cascade (5/39)' },
+      { value: '130', desc: 'Destructive Cascade (4/39)' },
+      { value: '125', desc: 'Destructive Cascade (3/39)' },
+      { value: '115', desc: 'Destructive Cascade (2/39)' },
+      { value: '107', desc: 'Destructive Cascade (1/39)' },
+      { value: '0', desc: 'Destructive Cascade (0/39)  ' }
+    ]
+  },
+  {
     id: 'aa-destfury',
     value: '340',
     desc: 'Destructive Fury (38/38)',
@@ -1150,6 +1216,15 @@ export const encDPSAAContext = [
     ]
   },
   {
+    id: 'aa-hazy',
+    value: '0.08',
+    desc: 'Gift of Hazy Thoughts (1/1)',
+    data: [
+      { value: '0.08', desc: 'Gift of Hazy Thoughts (1/1)' },
+      { value: '0', desc: 'Gift of Hazy Thoughts (0/1)' }
+    ]
+  },
+  {
     id: 'aa-twincast',
     value: '0.05',
     desc: 'Twincast (5/5)',
@@ -1214,7 +1289,7 @@ export const chartOptions = {
     dataAxis: {
       left: {
         range: {
-          min: 0,
+          min: -20,
           max: 130
         },
         title: {
@@ -1242,7 +1317,7 @@ export const chartOptions = {
     dataAxis: {
       left: {
         range: {
-          min: 0,
+          min: -200,
           max: 1200
         },
         title: {
