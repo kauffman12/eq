@@ -14,7 +14,7 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'BJ'
+    timer: 'recast-5' // from clickie
   },
   BS: {
     baseDmg: 20956,

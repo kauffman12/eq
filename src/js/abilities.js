@@ -581,7 +581,7 @@ const ABILITIES = {
     name: 'Dark Shield of the Scholar',
     refreshTime: 10000,
     repeatEvery: -1,
-    timer: '3',
+    timer: 'recast-3',
     effects: [
       {
         proc: 'DS',
@@ -1380,7 +1380,7 @@ const ABILITIES = {
     refreshTime: 12000,
     refreshTrigger: 'SFB',
     repeatEvery: -1,
-    timer: '5',
+    timer: 'recast-5',
     effects: [
       { 
         proc: 'BJ',
