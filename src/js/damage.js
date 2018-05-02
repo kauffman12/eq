@@ -374,7 +374,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     }
 
     // Handle AE waves if current spell is an AE
-    if (state.spell.target === 'AE' && !state.aeWave) {
+    if ((state.spell.target === 'AE' || state.spell.target === 'FRONTAL') && !state.aeWave) {
       addAEWaves(state, mod, avgDmg);
     }
 

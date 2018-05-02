@@ -16,6 +16,62 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'recast-5' // from clickie
   },
+  BK: {
+    baseDmg: 11820,
+    castTime: 1500,
+    focusable: true,
+    id: 'BK',
+    level: 108,
+    lockoutTime: 1500,
+    manaCost: 1679,
+    name: 'Beam of Knives Rk. III',
+    origCastTime: 3000,
+    recastTime: 1500,
+    resist: 'MAGIC',
+    skill: 14,
+    target: 'FRONTAL',
+    timer: 'beam-knives'
+  },
+  BKRk1: {
+    name: 'Beam of Knives Rk. I',
+    baseDmg: 10721
+  },
+  BKRk2: {
+    name: 'Beam of Knives Rk. II',
+    baseDmg: 11257
+  },
+  BKRk3: {
+    name: 'Beam of Knives Rk. III',
+    baseDmg: 11820
+  },
+  BM: {
+    baseDmg: 14105,
+    castTime: 1500,
+    focusable: true,
+    id: 'BM',
+    level: 107,
+    lockoutTime: 1500,
+    manaCost: 1679,
+    name: 'Beam of Molten Rhyolite Rk. III',
+    origCastTime: 3000,
+    recastTime: 1500,
+    resist: 'FIRE',
+    skill: 14,
+    target: 'FRONTAL',
+    timer: 'beam-molten'
+  },
+  BMRk1: {
+    name: 'Beam of Molten Rhyolite Rk. I',
+    baseDmg: 10184
+  },
+  BMRk2: {
+    name: 'Beam of Molten Rhyolite Rk. II',
+    baseDmg: 13433
+  },
+  BMRk3: {
+    name: 'Beam of Molten Rhyolite Rk. III',
+    baseDmg: 14105
+  },
   BS: {
     baseDmg: 20956,
     castTime: 1500,

@@ -50,6 +50,34 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  BB: {
+    baseDmg: 20299,
+    castTime: 0,
+    focusable: true,
+    id: 'BB',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 2484 ,
+    name: 'Burning Beam Rk. III',
+    origCastTime: 0,
+    recastTime: 12000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'FRONTAL',
+    timer: '2'
+  },
+  BBRk1: {
+    baseDmg: 18411,
+    name: 'Burning Beam Rk. I'
+  },
+  BBRk2: {
+    baseDmg: 19332,
+    name: 'Burning Beam Rk. II'
+  },
+  BBRk3: {
+    baseDmg: 20299,
+    name: 'Burning Beam Rk. III'
+  },
   CRYO: {
     baseDmg: 25000,
     castTime: 0,

@@ -12,6 +12,8 @@ const FOCUS_AA_KEYS = {
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
+    'BM': '.aa-beam-molten .dropdown-toggle',
+    'BK': '.aa-beam-scythes .dropdown-toggle',
     'BS': '.aa-boltm .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
     'FC': '.aa-fickle .dropdown-toggle',
@@ -21,6 +23,7 @@ const FOCUS_AA_KEYS = {
     'SA': '.aa-spearm .dropdown-toggle'
   },
   wiz: {
+    'BB': '.aa-beams .dropdown-toggle',
     'CQ': '.aa-claws .dropdown-toggle',
     'CO': '.aa-claws .dropdown-toggle',
     'CT': '.aa-cloudb .dropdown-toggle',

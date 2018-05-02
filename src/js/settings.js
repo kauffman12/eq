@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.186',
+  VERSION: 'Version 1.19',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -28,13 +28,13 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
+  'BB', 'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
   'FA', 'ME', 'SV', 'TW', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
+  'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -239,6 +239,23 @@ export const wizSpellFocusAAContext = [
       { value: '2', desc: 'Evoker\'s Synergy (2/11)' },
       { value: '1', desc: 'Evoker\'s Synergy (1/11)' },
       { value: '0', desc: 'Evoker\'s Synergy (0/11)' }
+    ]
+  },
+  {
+    id: 'aa-beams',
+    value: '0.16',
+    desc: 'Beams (9/9)',
+    data: [
+      { value: '0.16', desc: 'Beams (9/9)' },
+      { value: '0', desc: 'Beams (8/9)' },
+      { value: '0', desc: 'Beams (7/9)' },
+      { value: '0', desc: 'Beams (6/9)' },
+      { value: '0', desc: 'Beams (5/9)' },
+      { value: '0', desc: 'Beams (4/9)' },
+      { value: '0', desc: 'Beams (3/9)' },
+      { value: '0', desc: 'Beams (2/9)' },
+      { value: '0', desc: 'Beams (1/9)' },
+      { value: '0', desc: 'Beams (0/9)' }
     ]
   },
   {
@@ -464,6 +481,40 @@ export const magSpellFocusAAContext = [
       { value: '2', desc: 'Conjurer\'s Synergy (2/11)' },
       { value: '1', desc: 'Conjurer\'s Synergy (1/11)' },
       { value: '0', desc: 'Conjurer\'s Synergy (0/11)' }
+    ]
+  },
+  {
+    id: 'aa-beam-molten',
+    value: '0.16',
+    desc: 'Beam of Molten Shieldstone (9/9)',
+    data: [
+      { value: '0.16', desc: 'Beam of Molten Shieldstone (9/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (8/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (7/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (6/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (5/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (4/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (3/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (2/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (1/9)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-beam-scythes',
+    value: '0.16',
+    desc: 'Beam of Scythes (9/9)',
+    data: [
+      { value: '0.16', desc: 'Beam of Scythes (9/9)' },
+      { value: '0', desc: 'Beam of Scythes (8/9)' },
+      { value: '0', desc: 'Beam of Scythes (7/9)' },
+      { value: '0', desc: 'Beam of Scythes (6/9)' },
+      { value: '0', desc: 'Beam of Scythes (5/9)' },
+      { value: '0', desc: 'Beam of Scythes (4/9)' },
+      { value: '0', desc: 'Beam of Scythes (3/9)' },
+      { value: '0', desc: 'Beam of Scythes (2/9)' },
+      { value: '0', desc: 'Beam of Scythes (1/9)' },
+      { value: '0', desc: 'Beam of Scythes (0/9)' }
     ]
   },
   {
