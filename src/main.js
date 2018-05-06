@@ -22,7 +22,7 @@ function buildSpellList() {
   utils.readSpellList().forEach(item => { spellData.push({ value: item.id, desc: item.name }); });
 
   let spellButtonTemplate = Handlebars.compile($("#spell-selection-button-template").html());
-  utils.appendHtml($('#spellButtons'), spellButtonTemplate({ data: spellData }), 6);
+  utils.appendHtml($('#spellButtons'), spellButtonTemplate({ data: spellData }), 7);
 
   // Listen for spell selection changes to update button text and color and update spell chart
   $('#spellButtons div.spell').each((b1, group) => {
