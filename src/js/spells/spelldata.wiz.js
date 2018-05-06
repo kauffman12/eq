@@ -941,6 +941,7 @@ export const SPELL_DATA = {
     baseDmg: 14400
   },
   SP: {
+    baseDmgRk2: 15990,
     baseDmg: 16789,
     castTime: 800,
     focusable: true,

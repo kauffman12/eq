@@ -521,3 +521,7 @@ export function getFamiliarValue() {
 export function getGiftOfHazyValue() {
   return utils.getNumberValue($('.aa-hazy .dropdown-toggle').data('value'));
 }
+
+export function getLockoutTime(spell, ) {
+  return spell.lockoutTime ? ((spell.lockoutTime > getGCDValue()) ? spell.lockoutTime : getGCDValue()) : 0;
+}
