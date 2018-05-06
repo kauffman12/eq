@@ -37,6 +37,7 @@ const FOCUS_AA_KEYS = {
     'ME': '.aa-rains .dropdown-toggle',
     'PF': '.aa-pure .dropdown-toggle',
     'IC': '.aa-rimeb .dropdown-toggle',
+    'SC': '.aa-selfc .dropdown-toggle',
     'SV': '.aa-vortex .dropdown-toggle',
     'TW': '.aa-thrice .dropdown-toggle'
   }

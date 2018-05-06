@@ -155,7 +155,7 @@ export function setSPAValue(id, spa, value) {
 }
 
 const COMBAT_SKILLS = new Set([]); // not needed yet
-const TARGET_AES = new Set(['AE']);
+const TARGET_AES = new Set(['TargetAE', 'CasterPB']);
 const TARGET_LOS = new Set(['LOS']);
 const TARGET_SINGLE = new Set(['SINGLE']);
 const TICK_OFFSET = 3000;

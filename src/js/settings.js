@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.19',
+  VERSION: 'Version 1.20',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -29,7 +29,7 @@ export const globals = {
 // wizard spells to display in spell drop down
 export const wizSpellList = [
   'BB', 'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
-  'FA', 'ME', 'SV', 'TW', 'WE', 'WF'
+  'FA', 'ME', 'SC', 'SP', 'SV', 'TW', 'WE', 'WF'
 ];
 
 // mage spells to display in spell drop down
@@ -426,6 +426,22 @@ export const wizSpellFocusAAContext = [
       { value: '0', desc: 'Rimeblast Cascade (2/9)' },
       { value: '0', desc: 'Rimeblast Cascade (1/9)' },
       { value: '0', desc: 'Rimeblast Cascade (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-selfc',
+    value: '0.16',
+    desc: 'Self-Combustion (8/8)',
+    data: [
+      { value: '0.16', desc: 'Self-Combustion (8/8)' },
+      { value: '0.14', desc: 'Self-Combustion (7/8)' },
+      { value: '0.12', desc: 'Self-Combustion (6/8)' },
+      { value: '0.10', desc: 'Self-Combustion (5/8)' },
+      { value: '0.08', desc: 'Self-Combustion (4/8)' },
+      { value: '0.06', desc: 'Self-Combustion (3/8)' },
+      { value: '0.04', desc: 'Self-Combustion (2/8)' },
+      { value: '0.02', desc: 'Self-Combustion (1/8)' },
+      { value: '0', desc: 'Self-Combustion (0/8)' }
     ]
   },
   {

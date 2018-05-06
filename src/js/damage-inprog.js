@@ -13,13 +13,8 @@ function addAEWaves(state, mod, current) {
   // without procs
   state.aeWave = true;
 
-  let hits = dom.getAERainHitsValue();
-  if (hits > state.spell.maxHits) {
-    hits = state.spell.maxHits;
-  }
-
   // for each additional wave
-  for (let i=1; i<hits; i++) {
+  for (let i=1; i<dom.getAERainHitsValue(); i++) {
     calcAvgDamage(state, mod, 'aeHit' + (i+1));
   }
 
@@ -45,14 +40,6 @@ function addSpellAndEqpProcs(state, mod) {
 function applyPostSpellEffects(state, mod, dmgKey) {
   mod = (mod === undefined) ? 1 : mod;
   let spell = state.spell;
-
-  // all implemented enc spells have a chance to proc gift of hazy thoughts
-  if (G.MODE === 'enc') {
-    let hazy = dom.getGiftOfHazyValue();
-    if (hazy > 0) {
-      timeline.addSpellProcAbility(state, 'GCH', hazy, true);
-    } 
-  }
 
   // keep track of a counter based on main spell cast + twincast
   // average DPS sometimes goes down when it shouldnt because some gains
@@ -83,6 +70,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'COLD':
       if (dmgU.isCastDetSpell(spell)) {
         state.coldSpells = mod + (state.coldSpells || 0);
+        state.anyDetSpells = mod + (state.anyDetSpells || 0);
 
         if (G.MODE === 'wiz' && state.enabledButInActive.has('CRYO') && state.coldSpells >= dmgU.CRYO_PROC_RATE) {
           timeline.addSpellProcAbility(state, 'CRYO', 1, true);
@@ -97,6 +85,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'FIRE':
       if (dmgU.isCastDetSpell(spell)) {
         state.fireSpells = mod + (state.fireSpells || 0);
+        state.anyDetSpells = mod + (state.anyDetSpells || 0);
 
         if (G.MODE === 'wiz' && state.enabledButInActive.has('PYRO') && state.fireSpells >= dmgU.PYRO_PROC_RATE) {
           timeline.addSpellProcAbility(state, 'PYRO', 1, true);
@@ -108,6 +97,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'MAGIC':
       if (dmgU.isCastDetSpell(spell)) {
         state.magicSpells = mod + (state.magicSpells || 0);
+        state.anyDetSpells = mod + (state.anyDetSpells || 0);
 
         // keep track of a counter based on main spell cast + twincast
         // average DPS sometimes goes down when it shouldnt because some gains
@@ -121,6 +111,20 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         }
       }
       break;
+    default:
+      if (dmgU.isCastDetSpell(spell)) {
+        state.anyDetSpells = Math.floor(mod * 100) + (state.anyDetSpells || 0);
+      }
+  }
+
+  // all implemented enc spells have a chance to proc gift of hazy thoughts
+  if (G.MODE === 'enc') {
+    let rate = Math.floor(100 / (100 * dom.getGiftOfHazyValue()) * 100);
+    
+console.debug("rate: " + rate + " mod: " + mod + " count: " + state.anyDetSpells);
+    if (mod === 1 && state.anyDetSpells % rate === 0) {
+      timeline.addSpellProcAbility(state, 'GCH', 1, true);
+    } 
   }
 
   // switch cases dont have their own scope?
@@ -379,7 +383,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     }
 
     // Handle AE waves if current spell is an AE
-    if (['TargetAE', 'FrontalAE', 'CasterPB', 'TargetRingAE'].find(id => id === state.spell.target) && !state.aeWave) {
+    if (state.spell.target === 'AE' && !state.aeWave) {
       addAEWaves(state, mod, avgDmg);
     }
 

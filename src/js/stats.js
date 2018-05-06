@@ -110,6 +110,14 @@ export function getStatisticsSummary(spellStats) {
       addNumberStatDescription(data, "Avg AE Hit2", spellStats.get('aeHit2'));
       addNumberStatDescription(data, "Avg AE Hit3", spellStats.get('aeHit3'));
       addNumberStatDescription(data, "Avg AE Hit4", spellStats.get('aeHit4'));
+      addNumberStatDescription(data, "Avg AE Hit5", spellStats.get('aeHit5'));
+      addNumberStatDescription(data, "Avg AE Hit6", spellStats.get('aeHit6'));
+      addNumberStatDescription(data, "Avg AE Hit7", spellStats.get('aeHit7'));
+      addNumberStatDescription(data, "Avg AE Hit8", spellStats.get('aeHit8'));
+      addNumberStatDescription(data, "Avg AE Hit9", spellStats.get('aeHit9'));
+      addNumberStatDescription(data, "Avg AE Hit10", spellStats.get('aeHit10'));
+      addNumberStatDescription(data, "Avg AE Hit11", spellStats.get('aeHit11'));
+      addNumberStatDescription(data, "Avg AE Hit12", spellStats.get('aeHit12'));
     }
     
     addNumberStatDescription(data, "Avg Dmg", spellStats.get('avgDmg'));
