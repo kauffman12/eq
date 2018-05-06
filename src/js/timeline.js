@@ -446,7 +446,7 @@ function updateDmgGraph(state, dmg) {
 
 function willCastDuring(state, time, spell, adjCastTime) {
   let lockout = false;
-  let lockoutTime = dom.getLockoutTime(state, spell);
+  let lockoutTime = dom.getLockoutTime(spell);
   lockoutTime += adjCastTime; // total time the spell will be busy
   let timeToCast = state.workingTime + lockoutTime;
 
@@ -703,7 +703,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(state, spell);
+          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(spell);
         }          
           
         return true;
@@ -764,7 +764,7 @@ export function updateSpellChart() {
           // if cast successful update gcd wait time
           if (castSpell(state, current)) {
             if (current.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-              state.gcdWaitTime = state.workingTime + dom.getLockoutTime(state, state.spell);            
+              state.gcdWaitTime = state.workingTime + dom.getLockoutTime(state.spell);            
             }
           }
 
