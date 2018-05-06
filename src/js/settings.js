@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.20',
+  VERSION: 'Version 1.22',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -29,12 +29,12 @@ export const globals = {
 // wizard spells to display in spell drop down
 export const wizSpellList = [
   'BB', 'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
-  'FA', 'ME', 'SC', 'SP', 'SV', 'TW', 'WE', 'WF'
+  'FA', 'ME', 'SC', 'SF', 'SP', 'SV', 'TW', 'WE', 'WF', 'WH'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
+  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -310,6 +310,23 @@ export const wizSpellFocusAAContext = [
     ]
   },
   {
+    id: 'aa-corona',
+    value: '0.16',
+    desc: 'Corona of Flame (9/9)',
+    data: [
+      { value: '0.16', desc: 'Corona of Flame (9/9)' },
+      { value: '0', desc: 'Corona of Flame (8/9)' },
+      { value: '0', desc: 'Corona of Flame (7/9)' },
+      { value: '0', desc: 'Corona of Flame (6/9)' },
+      { value: '0', desc: 'Corona of Flame (5/9)' },
+      { value: '0', desc: 'Corona of Flame (4/9)' },
+      { value: '0', desc: 'Corona of Flame (3/9)' },
+      { value: '0', desc: 'Corona of Flame (2/9)' },
+      { value: '0', desc: 'Corona of Flame (1/9)' },
+      { value: '0', desc: 'Corona of Flame (0/9)' }
+    ]
+  },
+  {
     id: 'aa-eflash',
     value: '0.16',
     desc: 'Ethereal Flash (9/9)',
@@ -375,6 +392,23 @@ export const wizSpellFocusAAContext = [
       { value: '0', desc: 'Flashchar (2/9)' },
       { value: '0', desc: 'Flashchar (1/9)' },
       { value: '0', desc: 'Flashchar (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-pills',
+    value: '0.16',
+    desc: 'Pillars (9/9)',
+    data: [
+      { value: '0.16', desc: 'Pillars (9/9)' },
+      { value: '0', desc: 'Pillars (8/9)' },
+      { value: '0', desc: 'Pillars (7/9)' },
+      { value: '0', desc: 'Pillars (6/9)' },
+      { value: '0', desc: 'Pillars (5/9)' },
+      { value: '0', desc: 'Pillars (4/9)' },
+      { value: '0', desc: 'Pillars (3/9)' },
+      { value: '0', desc: 'Pillars (2/9)' },
+      { value: '0', desc: 'Pillars (1/9)' },
+      { value: '0', desc: 'Pillars (0/9)' }
     ]
   },
   {
@@ -593,6 +627,23 @@ export const magSpellFocusAAContext = [
       { value: '2', desc: 'Flames of Power (2/4)' },
       { value: '1', desc: 'Flames of Power (1/4)' },
       { value: '0', desc: 'Flames of Power (0/4)' }
+    ]
+  },
+  {
+    id: 'aa-sear',
+    value: '0.16',
+    desc: 'Searing Blast (9/9)',
+    data: [
+      { value: '0.16', desc: 'Searing Blast (9/9)' },
+      { value: '0', desc: 'Searing Blast (8/9)' },
+      { value: '0', desc: 'Searing Blast (7/9)' },
+      { value: '0', desc: 'Searing Blast (6/9)' },
+      { value: '0', desc: 'Searing Blast (5/9)' },
+      { value: '0', desc: 'Searing Blast (4/9)' },
+      { value: '0', desc: 'Searing Blast (3/9)' },
+      { value: '0', desc: 'Searing Blast (2/9)' },
+      { value: '0', desc: 'Searing Blast (1/9)' },
+      { value: '0', desc: 'Searing Blast (0/9)' }
     ]
   },
   {

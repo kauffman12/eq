@@ -12,6 +12,7 @@ const FOCUS_AA_KEYS = {
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
+    'BB': '.aa-sear .dropdown-toggle',
     'BM': '.aa-beam-molten .dropdown-toggle',
     'BK': '.aa-beam-scythes .dropdown-toggle',
     'BS': '.aa-boltm .dropdown-toggle',
@@ -38,8 +39,10 @@ const FOCUS_AA_KEYS = {
     'PF': '.aa-pure .dropdown-toggle',
     'IC': '.aa-rimeb .dropdown-toggle',
     'SC': '.aa-selfc .dropdown-toggle',
+    'SF': '.aa-pills .dropdown-toggle',
     'SV': '.aa-vortex .dropdown-toggle',
-    'TW': '.aa-thrice .dropdown-toggle'
+    'TW': '.aa-thrice .dropdown-toggle',
+    'WH': '.aa-corona .dropdown-toggle'
   }
 };
 

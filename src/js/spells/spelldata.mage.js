@@ -1,4 +1,33 @@
 export const SPELL_DATA = {
+  BB: {
+    baseDmg: 12917,
+    castTime: 2000,
+    focusable: true,
+    id: 'BB',
+    level: 109,
+    lockoutTime: 1500,
+    manaCost:  	3438,
+    maxHits: 20,
+    name: 'Burning Blast Rk. III',
+    origCastTime: 4000,
+    recastTime: 12000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'CasterPB',
+    timer: '2'
+  },
+  BBRk1: {
+    name: 'Burning Blast Rk. I',
+    baseDmg: 11716
+  },
+  BBRk2: {
+    name: 'Burning Blast Rk. II',
+    baseDmg: 12302
+  },
+  BBRk3: {
+    name: 'Burning Blast Rk. III',
+    baseDmg: 12917
+  },
   BJ: {
     baseDmg: 28769,
     castTime: 0,
