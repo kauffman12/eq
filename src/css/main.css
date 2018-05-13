@@ -108,7 +108,7 @@ body {
   margin-left: 3px;
 }
 
-#spellline, #timeline, #dmgGraph, #critRGraph, #critDGraph {
+#spellline, #timeline, #dmgGraph, #critRGraph, #critDGraph, #critRDoTGraph, #critDDoTGraph {
   font-family: Open Sans,Helvetica Neue,Helvetica,Arial;
   font-size: 10px;
   position: relative;

@@ -50,6 +50,35 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  BB: {
+    baseDmg: 20299,
+    castTime: 0,
+    focusable: true,
+    id: 'BB',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 2484 ,
+    maxHits: 12,
+    name: 'Burning Beam Rk. III',
+    origCastTime: 0,
+    recastTime: 12000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'FrontalAE',
+    timer: '2'
+  },
+  BBRk1: {
+    baseDmg: 18411,
+    name: 'Burning Beam Rk. I'
+  },
+  BBRk2: {
+    baseDmg: 19332,
+    name: 'Burning Beam Rk. II'
+  },
+  BBRk3: {
+    baseDmg: 20299,
+    name: 'Burning Beam Rk. III'
+  },
   CRYO: {
     baseDmg: 25000,
     castTime: 0,
@@ -777,12 +806,13 @@ export const SPELL_DATA = {
     lockoutTime: 1500,
     manaCost: 2019,
     maxCritRate: 0.40,
+    maxHits: 4,
     name: 'Magmatic Explosion Rk. III',
     origCastTime: 3000,
     recastTime: 12000,
     resist: 'FIRE',
     skill: 24,
-    target: 'AE',
+    target: 'TargetAE',
     timer: '6',
     type3DmgAug: 1095
   },
@@ -862,6 +892,71 @@ export const SPELL_DATA = {
   PFRk3: {
     baseDmg: 15826,
     name: 'Pure Wildflash Caza'
+  },
+  SC: {
+    baseDmg: 20972,
+    castTime: 1500,
+    focusable: true,
+    id: 'SC',
+    level: 105,
+    lockoutTime: 3000,
+    manaCost: 2929,
+    maxHits: 5,
+    name: 'Self-Combustion Rk. III',
+    origCastTime: 3000,
+    recastTime: 15000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'CasterPB',
+    timer: '10'
+  },
+  SF: {
+    baseDmg: 14400,
+    castTime: 2000,
+    focusable: true,
+    id: 'SF',
+    level: 109,
+    lockoutTime: 1500,
+    manaCost: 1866,
+    maxHits: 4,
+    name: 'Skyfire Pillar Rk. III',
+    origCastTime: 2500,
+    recastTime: 6000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'TargetAE',
+    timer: '8',
+    type3DmgAug: 1003
+  },
+  SFRk1: {
+    name: 'Skyfire Pillar Rk. I',
+    baseDmg: 13601
+  },
+  SFRk2: {
+    name: 'Skyfire Pillar Rk. II',
+    baseDmg: 13714
+  },
+  SFRk3: {
+    name: 'Skyfire Pillar Rk. III',
+    baseDmg: 14400
+  },
+  SP: {
+    baseDmgRk2: 15990,
+    baseDmg: 16789,
+    castTime: 800,
+    focusable: true,
+    id: 'SP',
+    level: 100,
+    lockoutTime: 1500,
+    manaCost: 2924,
+    maxHits: 5,
+    name: 'Splash of Pyroxene Rk. III (x1.2)',
+    origCastTime: 1000,
+    recastTime: 35000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'TargetRingAE',
+    timer: 'splashproxene'
   },
   SV: {
     baseDmg: 14388,
@@ -948,5 +1043,34 @@ export const SPELL_DATA = {
   },
   WFRk3: {
     name: 'Wildflash Strike Rk. III'
+  },
+  WH: {
+    baseDmg: 8763,
+    castTime: 1600,
+    focusable: true,
+    id: 'WH',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 2044,
+    maxHits: 20,
+    name: 'Wheel of Flame Rk. III',
+    origCastTime: 2000,
+    recastTime: 6000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'CasterPB',
+    timer: '4'
+  },
+  WHRk1: {
+    name: 'Wheel of Flame Rk. I',
+    baseDmg: 7949
+  },
+  WHRk2: {
+    name: 'Wheel of Flame Rk. II',
+    baseDmg: 8346
+  },
+  WHRk3: {
+    name: 'Wheel of Flame Rk. III',
+    baseDmg: 8763
   }
 };

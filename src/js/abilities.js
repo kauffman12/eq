@@ -38,6 +38,8 @@ export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
 export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
 export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
 export const SPA_461_FOCUS = new Set([461]);
+export const SPA_CRIT_DMG_DOT = new Set([375]);
+export const SPA_CRIT_RATE_DOT = new Set([273]);
 export const SPA_CRIT_DMG_NUKE = new Set([170]);
 export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
 export const SPA_EFFECTIVENESS = new Set([413]);
@@ -153,7 +155,6 @@ export function setSPAValue(id, spa, value) {
 }
 
 const COMBAT_SKILLS = new Set([]); // not needed yet
-const TARGET_AES = new Set(['AE']);
 const TARGET_LOS = new Set(['LOS']);
 const TARGET_SINGLE = new Set(['SINGLE']);
 const TICK_OFFSET = 3000;
@@ -359,7 +360,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -377,15 +378,13 @@ const ABILITIES = {
         slot: 1,
         type: 'sp',
         value: 0.33
-      }
-/*
+      },
       {
         spa: 273,
         slot: 5,
         type: 'sp',
         value: 0.33
       }
-*/
     ]
   },
   B2: {
@@ -425,7 +424,7 @@ const ABILITIES = {
           { maxLevel: 110 },
           { type: 'detrimental' },
           { minManaCost: 10 },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -581,7 +580,7 @@ const ABILITIES = {
     name: 'Dark Shield of the Scholar',
     refreshTime: 10000,
     repeatEvery: -1,
-    timer: '3',
+    timer: 'recast-3',
     effects: [
       {
         proc: 'DS',
@@ -772,14 +771,12 @@ const ABILITIES = {
     level: 110,
     name: 'Fierce Eye IV',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
         type: 'sp',
         value: 0.12
-      }
-*/
+      },
       {
         spa: 294,
         slot: 5,
@@ -812,7 +809,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -831,7 +828,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -850,7 +847,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -869,7 +866,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -888,7 +885,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -907,7 +904,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['COLD']) }
         ]
@@ -926,7 +923,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -945,7 +942,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -964,7 +961,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -983,7 +980,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -1002,7 +999,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -1021,7 +1018,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['CHROMATIC']) }
         ]
@@ -1040,7 +1037,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1059,7 +1056,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1078,7 +1075,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1097,7 +1094,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1116,7 +1113,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1135,7 +1132,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['FIRE']) }
         ]
@@ -1154,7 +1151,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1173,7 +1170,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1192,7 +1189,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1211,7 +1208,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1230,7 +1227,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1249,7 +1246,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { resists: new Set(['MAGIC']) }
         ]
@@ -1382,7 +1379,7 @@ const ABILITIES = {
     refreshTime: 12000,
     refreshTrigger: 'SFB',
     repeatEvery: -1,
-    timer: '5',
+    timer: 'recast-5',
     effects: [
       { 
         proc: 'BJ',
@@ -1567,7 +1564,7 @@ const ABILITIES = {
           { minLevel: 101 },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
           { minManaCost: 10 },
           { resists: new Set(['COLD']) }
@@ -1591,7 +1588,7 @@ const ABILITIES = {
         limits: [
           { minDmg: 100 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
           { maxLevel: 110 } // need to really verify
@@ -1615,7 +1612,7 @@ const ABILITIES = {
         limits: [
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 } // need to really verify
         ]
@@ -1633,15 +1630,13 @@ const ABILITIES = {
         slot: 10,
         type: 'sp',
         value: 0.6
-      }
-/*
+      },
       {
         spa: 375,
         slot: 8,
         type: 'sp',
         value: 0.6
       }
-*/
     ]
   },
   HOF: {
@@ -1661,7 +1656,7 @@ const ABILITIES = {
           { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { exTargets: TARGET_AES }
+          { exTargets: new Set(['TargetAE', 'CasterPB']) }
         ]
       }
     ]
@@ -1696,7 +1691,7 @@ const ABILITIES = {
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { targets: new Set(['SINGLE']) },
           { maxLevel: 110 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
@@ -1715,15 +1710,12 @@ const ABILITIES = {
     level: 254,
     name: 'Intensity of the Resolute',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
         type: 'sp',
         value: 0.50
       },
-
-*/
       {
         spa: 294,
         slot: 5,
@@ -1761,7 +1753,6 @@ const ABILITIES = {
     level: 105,
     name: 'Illusions of Grandeur III',
     effects: [
-/*
       {
         spa: 273,
         slot: 2,
@@ -1774,7 +1765,6 @@ const ABILITIES = {
         type: 'sp',
         value: 1.15
       },
-*/
       {
         spa: 294,
         slot: 5,
@@ -2005,15 +1995,13 @@ const ABILITIES = {
         slot: 1,
         type: 'sp',
         value: 0.20
-      }
-/*
+      },
       {
         spa: 375,
         slot: 2,
         type: 'sp',
         value: 0.15
       }
-*/
     ]
   },
   PRECISION: {
@@ -2071,7 +2059,7 @@ const ABILITIES = {
           { minLevel: 101 },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
           { minManaCost: 10 },
           { resists: new Set(['FIRE']) }
@@ -2597,7 +2585,7 @@ const ABILITIES = {
         limits: [
           { minDmg: 100 },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
           { maxLevel: 110 }
@@ -2621,7 +2609,7 @@ const ABILITIES = {
         limits: [
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { exTargets: TARGET_AES },
+          { exTargets: new Set(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 } // need to really verify
         ]
@@ -2699,15 +2687,13 @@ const ABILITIES = {
         slot: 9,
         type: 'sp',
         value: 0.12
-      }
-/*
+      },
       {
         spa: 273,
         slot: 10,
         type: 'sp',
         value: 0.12
       }
-*/
     ]
   },
   VFX: {

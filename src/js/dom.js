@@ -12,6 +12,9 @@ const FOCUS_AA_KEYS = {
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
+    'BB': '.aa-sear .dropdown-toggle',
+    'BM': '.aa-beam-molten .dropdown-toggle',
+    'BK': '.aa-beam-scythes .dropdown-toggle',
     'BS': '.aa-boltm .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
     'FC': '.aa-fickle .dropdown-toggle',
@@ -21,6 +24,7 @@ const FOCUS_AA_KEYS = {
     'SA': '.aa-spearm .dropdown-toggle'
   },
   wiz: {
+    'BB': '.aa-beams .dropdown-toggle',
     'CQ': '.aa-claws .dropdown-toggle',
     'CO': '.aa-claws .dropdown-toggle',
     'CT': '.aa-cloudb .dropdown-toggle',
@@ -34,8 +38,11 @@ const FOCUS_AA_KEYS = {
     'ME': '.aa-rains .dropdown-toggle',
     'PF': '.aa-pure .dropdown-toggle',
     'IC': '.aa-rimeb .dropdown-toggle',
+    'SC': '.aa-selfc .dropdown-toggle',
+    'SF': '.aa-pills .dropdown-toggle',
     'SV': '.aa-vortex .dropdown-toggle',
-    'TW': '.aa-thrice .dropdown-toggle'
+    'TW': '.aa-thrice .dropdown-toggle',
+    'WH': '.aa-corona .dropdown-toggle'
   }
 };
 
@@ -320,8 +327,16 @@ export function getDomForCritDGraph() {
   return $('#critDGraph').get(0);
 }
 
+export function getDomForDoTCritDGraph() {
+  return $('#critDDoTGraph').get(0);
+}
+
 export function getDomForCritRGraph() {
   return $('#critRGraph').get(0);
+}
+
+export function getDomForDoTCritRGraph() {
+  return $('#critRDoTGraph').get(0);
 }
 
 export function getDomForDmgGraph() {
@@ -479,6 +494,14 @@ export function isUsingArcaneFusion() {
 
 // Don't cache these since load rates is called before cache is cleared
 // Fix sometime
+export function getCriticalAfflicationValue() {
+  return utils.getNumberValue($('.aa-critafflic .dropdown-toggle').data('value'));
+}
+
+export function getDestructiveCascadeValue() {
+  return utils.getNumberValue($('.aa-destcascade .dropdown-toggle').data('value'));
+}
+
 export function getDestructiveFuryValue() {
   return utils.getNumberValue($('.aa-destfury .dropdown-toggle').data('value'));
 }
@@ -493,4 +516,12 @@ export function getFuryOfMagicValue() {
 
 export function getFamiliarValue() {
   return $('.spell-pet-focus .dropdown-toggle').data('value');
+}
+
+export function getGiftOfHazyValue() {
+  return utils.getNumberValue($('.aa-hazy .dropdown-toggle').data('value'));
+}
+
+export function getLockoutTime(spell) {
+  return spell.lockoutTime ? ((spell.lockoutTime > getGCDValue()) ? spell.lockoutTime : getGCDValue()) : 0;
 }

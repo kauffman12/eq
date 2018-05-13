@@ -16,16 +16,21 @@ const CURRENT_TIME = utils.getCurrentTime();
 // create the graphs and data set objects
 const CRITR_DATA = new vis.DataSet([]);
 const CRITD_DATA = new vis.DataSet([]);
+const CRITR_DOT_DATA = new vis.DataSet([]);
+const CRITD_DOT_DATA = new vis.DataSet([]);
 const DMG_DATA = new vis.DataSet([]);
 const SPELLLINE_DATA = new vis.DataSet([]);
 const TIMELINE_DATA = new vis.DataSet([]);
 const GRAPH_CRITR = createGraph('graphcritr', CURRENT_TIME, dom.getDomForCritRGraph(), CRITR_DATA);
 const GRAPH_CRITD = createGraph('graphcritd', CURRENT_TIME, dom.getDomForCritDGraph(), CRITD_DATA);
+const GRAPH_DOT_CRITR = createGraph('graphcritr', CURRENT_TIME, dom.getDomForDoTCritRGraph(), CRITR_DOT_DATA);
+const GRAPH_DOT_CRITD = createGraph('graphcritd', CURRENT_TIME, dom.getDomForDoTCritDGraph(), CRITD_DOT_DATA);
 const GRAPH_DMG = createGraph('graphdmg', CURRENT_TIME, dom.getDomForDmgGraph(), DMG_DATA);
 const SPELL_TIMELINE = createTimeline('spellline', CURRENT_TIME, dom.getDomForSpellline(), SPELLLINE_DATA);
 const TIMELINE = createTimeline('timeline', CURRENT_TIME, dom.getDomForTimeline(), TIMELINE_DATA);
 
 let BASE_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
+let BASE_DOT_CRIT_DATA = []; // crit info so it doesn't have to be re-calculated all the time
 let UPDATING_CHART = -1; // used to throttle calls to update the chart data
 let TIME_INCREMENT = 50;
 
@@ -358,7 +363,16 @@ function getTime(item) {
 function updateCritGraphs() {
   CRITR_DATA.clear();
   CRITD_DATA.clear();
+  updateDDCritGraphs(BASE_CRIT_DATA, CRITR_DATA, CRITD_DATA);
+ 
+  if (G.MODE === 'enc') {
+    CRITR_DOT_DATA.clear();
+    CRITD_DOT_DATA.clear();
+    updateDDCritGraphs(BASE_DOT_CRIT_DATA, CRITR_DOT_DATA, CRITD_DOT_DATA);
+  }
+}
 
+function updateDDCritGraphs(baseData, rateData, dmgData) {
   let critRPoints = [];
   let critDPoints = [];
   let prevRate = 0;
@@ -366,7 +380,7 @@ function updateCritGraphs() {
   let lastRateLabel = 0;
   let lastDmgLabel = 0;
 
-  $(BASE_CRIT_DATA).each(function(i, item) {
+  $(baseData).each(function(i, item) {
     let rp = {id: item.time, x: item.time, y: item.rate};
     let dp = {id: item.time, x: item.time, y: item.dmg};
 
@@ -391,8 +405,8 @@ function updateCritGraphs() {
   });
 
   // Update graph
-  CRITR_DATA.add(critRPoints);
-  CRITD_DATA.add(critDPoints);
+  rateData.add(critRPoints);
+  dmgData.add(critDPoints);
 }
 
 function updateCritGraphValue(data, time, value) {
@@ -432,7 +446,7 @@ function updateDmgGraph(state, dmg) {
 
 function willCastDuring(state, time, spell, adjCastTime) {
   let lockout = false;
-  let lockoutTime = spell.lockoutTime ? ((spell.lockoutTime > state.gcd) ? (spell.lockoutTime) : state.gcd) : 0;
+  let lockoutTime = dom.getLockoutTime(spell);
   lockoutTime += adjCastTime; // total time the spell will be busy
   let timeToCast = state.workingTime + lockoutTime;
 
@@ -521,11 +535,13 @@ export function createAdpsItem(id) {
 
 export function init() {
   // connect all the zoom/pan/range events together of the charts
-  let chartList = [SPELL_TIMELINE, TIMELINE, GRAPH_CRITR, GRAPH_CRITD, GRAPH_DMG];
+  let chartList = [SPELL_TIMELINE, TIMELINE, GRAPH_CRITR, GRAPH_CRITD, GRAPH_DOT_CRITR, GRAPH_DOT_CRITD, GRAPH_DMG];
   $(chartList).each(function(index, chart) {
-    chart.on('rangechanged', function(update) {
-      updateWindow(chart, update, chartList);
-    });
+    if (chart) {
+      chart.on('rangechanged', function(update) {
+        updateWindow(chart, update, chartList);
+      });
+    }
   });
 
   TIMELINE_DATA.on('add', visTimelineListener);
@@ -538,18 +554,26 @@ export function getTimelineItemTime(id) {
 }
 
 export function loadRates() {
+  let seconds = dom.getSpellTimeRangeValue();
   BASE_CRIT_DATA = [];
 
-  let baseRate = dmgU.getBaseCritRate();
-  let baseDmg = dmgU.getBaseCritDmg();
-  let seconds = dom.getSpellTimeRangeValue();
+  // get rates for DDs
+  getRates(seconds, BASE_CRIT_DATA, dmgU.getBaseCritRate(), dmgU.getBaseCritDmg(), abilities.SPA_CRIT_RATE_NUKE, abilities.SPA_CRIT_DMG_NUKE);
 
+  if (G.MODE === 'enc') {
+    BASE_DOT_CRIT_DATA = [];
+    // get rates for DoTs
+    getRates(seconds, BASE_DOT_CRIT_DATA, dmgU.getBaseDoTCritRate(), dmgU.getBaseDoTCritDmg(), abilities.SPA_CRIT_RATE_DOT, abilities.SPA_CRIT_DMG_DOT);
+  }
+}
+
+function getRates(seconds, baseData, baseRate, baseDmg, rateSPAs, dmgSPAs) {
   // add all the timeline items
   let ids = TIMELINE_DATA.getIds().filter(id => {
     let ability = abilities.get(id);
     return !ability.charges && 
-           (abilities.hasSPA(ability, abilities.SPA_CRIT_RATE_NUKE) ||
-            abilities.hasSPA(ability, abilities.SPA_CRIT_DMG_NUKE));
+           (abilities.hasSPA(ability, rateSPAs) ||
+            abilities.hasSPA(ability, dmgSPAs));
   });
 
   for(let i=0; i<=seconds; i+=1000) {
@@ -568,17 +592,17 @@ export function loadRates() {
     dmgU.buildSPAData(abilityList).spaMap.forEach((value, key) => {
       let spa = Number.parseInt(key.substring(0, 3));
 
-      if (abilities.SPA_CRIT_RATE_NUKE.has(spa)) {
+      if (rateSPAs.has(spa)) {
         rate += value.value;
       }
-      if (abilities.SPA_CRIT_DMG_NUKE.has(spa)) {
+      if (dmgSPAs.has(spa)) {
         dmg += value.value;
       }
     });
     
     rate = dmgU.trunc(rate * 100);
     dmg = dmgU.trunc(dmg * 100);
-    BASE_CRIT_DATA.push({time: time, rate: rate, dmg: dmg});
+    baseData.push({time: time, rate: rate, dmg: dmg});
   }
 }
 
@@ -679,7 +703,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          state.gcdWaitTime = state.workingTime + state.gcd;            
+          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(spell);
         }          
           
         return true;
@@ -740,7 +764,7 @@ export function updateSpellChart() {
           // if cast successful update gcd wait time
           if (castSpell(state, current)) {
             if (current.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-              state.gcdWaitTime = state.workingTime + state.gcd;            
+              state.gcdWaitTime = state.workingTime + dom.getLockoutTime(state.spell);            
             }
           }
 

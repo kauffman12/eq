@@ -215,5 +215,37 @@ export const SPELL_DATA = {
   PARk3: {
     name: 'Polyfluorescent Assault Rk. III',
     baseDmg: 15103
+  },
+  ST: {
+    baseDmg: 38564,
+    castTime: 1980,
+    duration: 4800, // 8 ticks
+    focusable: true,
+    id: 'ST',
+    level: 108,
+    lockoutTime: 1500,
+    manaCost: 10335,
+    name: 'Strangulate Rk. III',
+    origCastTime: 3000,
+    recastTime: 1500,
+    resist: 'CHROMATIC',
+    spa: 79,
+    skill: 5,
+    target: 'SINGLE',
+    timer: 'drown',
+    ticks: 8,
+    type3DmgAug: 1946
+  },
+  STRk1: {
+    baseDmg: 34979,
+    name: 'Strangulate Rk. I'
+  },
+  STRk2: {
+    baseDmg: 36728,
+    name: 'Strangulate Rk. II'
+  },
+  STRk3: {
+    baseDmg: 38564,
+    name: 'Strangulate Rk. III'
   }
 };

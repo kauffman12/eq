@@ -679,5 +679,5 @@ SPELL_DATA.DS = Object.assign({}, SPELL_DATA.FOMXV, {
   origCastTime: 100,
   skill: 52,
   target: 'SINGLE',
-  timer: '3'
+  timer: 'recast-3'
 });

@@ -1,4 +1,33 @@
 export const SPELL_DATA = {
+  BB: {
+    baseDmg: 12917,
+    castTime: 2000,
+    focusable: true,
+    id: 'BB',
+    level: 109,
+    lockoutTime: 1500,
+    manaCost:  	3438,
+    maxHits: 20,
+    name: 'Burning Blast Rk. III',
+    origCastTime: 4000,
+    recastTime: 12000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'CasterPB',
+    timer: '2'
+  },
+  BBRk1: {
+    name: 'Burning Blast Rk. I',
+    baseDmg: 11716
+  },
+  BBRk2: {
+    name: 'Burning Blast Rk. II',
+    baseDmg: 12302
+  },
+  BBRk3: {
+    name: 'Burning Blast Rk. III',
+    baseDmg: 12917
+  },
   BJ: {
     baseDmg: 28769,
     castTime: 0,
@@ -14,7 +43,65 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'BJ'
+    timer: 'recast-5' // from clickie
+  },
+  BK: {
+    baseDmg: 11820,
+    castTime: 1500,
+    focusable: true,
+    id: 'BK',
+    level: 108,
+    lockoutTime: 1500,
+    manaCost: 1679,
+    maxHits: 12,
+    name: 'Beam of Knives Rk. III',
+    origCastTime: 3000,
+    recastTime: 1500,
+    resist: 'MAGIC',
+    skill: 14,
+    target: 'FrontalAE',
+    timer: 'beam-knives'
+  },
+  BKRk1: {
+    name: 'Beam of Knives Rk. I',
+    baseDmg: 10721
+  },
+  BKRk2: {
+    name: 'Beam of Knives Rk. II',
+    baseDmg: 11257
+  },
+  BKRk3: {
+    name: 'Beam of Knives Rk. III',
+    baseDmg: 11820
+  },
+  BM: {
+    baseDmg: 14105,
+    castTime: 1500,
+    focusable: true,
+    id: 'BM',
+    level: 107,
+    lockoutTime: 1500,
+    manaCost: 1679,
+    maxHits: 12,
+    name: 'Beam of Molten Rhyolite Rk. III',
+    origCastTime: 3000,
+    recastTime: 1500,
+    resist: 'FIRE',
+    skill: 14,
+    target: 'FrontalAE',
+    timer: 'beam-molten'
+  },
+  BMRk1: {
+    name: 'Beam of Molten Rhyolite Rk. I',
+    baseDmg: 10184
+  },
+  BMRk2: {
+    name: 'Beam of Molten Rhyolite Rk. II',
+    baseDmg: 13433
+  },
+  BMRk3: {
+    name: 'Beam of Molten Rhyolite Rk. III',
+    baseDmg: 14105
   },
   BS: {
     baseDmg: 20956,
@@ -83,12 +170,13 @@ export const SPELL_DATA = {
     lockoutTime: 1500,
     manaCost: 2371,
     maxCritRate: 0.40,
+    maxHits: 4,
     name: 'Rain of Molten Rhyolite Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'FIRE',
     skill: 24,
-    target: 'AE',
+    target: 'TargetAE',
     timer: '3'
   },
   RMRk1: {
@@ -282,12 +370,13 @@ export const SPELL_DATA = {
     lockoutTime: 1500,
     manaCost: 2281,
     maxCritRate: 0.40,
+    maxHits: 4,
     name: 'Rain of Knives Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'MAGIC',
     skill: 24,
-    target: 'AE',
+    target: 'TargetAE',
     timer: '7',
     type3DmgAug: 1447
   },
