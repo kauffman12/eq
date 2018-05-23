@@ -703,7 +703,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(spell);
+          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(entry.spell);
         }          
           
         return true;

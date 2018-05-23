@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.232',
+  VERSION: 'Version 1.235',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -24,7 +24,7 @@ export const globals = {
       css: 'wiz-only'
     }
   }
-}
+};
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
@@ -39,7 +39,7 @@ export const magSpellList = [
 
 // enc spells to display in spell drop down
 export const encSpellList = [
-  'CA', 'CD', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA', //'ST'
+  'CA', 'CD', 'CF', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA', //'ST'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -745,6 +745,23 @@ export const encSpellFocusAAContext = [
       { value: '0', desc: 'Chromarift (2/9)' },
       { value: '0', desc: 'Chromarift (1/9)' },
       { value: '0', desc: 'Chromarift (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-chromablink',
+    value: '0.16',
+    desc: 'Chromatic Blink (9/9)',
+    data: [
+      { value: '0.16', desc: 'Chromatic Blink (9/9)' },
+      { value: '0', desc: 'Chromatic Blink (8/9)' },
+      { value: '0', desc: 'Chromatic Blink (7/9)' },
+      { value: '0', desc: 'Chromatic Blink (6/9)' },
+      { value: '0', desc: 'Chromatic Blink (5/9)' },
+      { value: '0', desc: 'Chromatic Blink (4/9)' },
+      { value: '0', desc: 'Chromatic Blink (3/9)' },
+      { value: '0', desc: 'Chromatic Blink (2/9)' },
+      { value: '0', desc: 'Chromatic Blink (1/9)' },
+      { value: '0', desc: 'Chromatic Blink (0/9)' }
     ]
   },
   {

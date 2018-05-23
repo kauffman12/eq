@@ -6,6 +6,7 @@ import * as utils from './utils.js';
 const FOCUS_AA_KEYS = {
   enc: {
     'CR': '.aa-chromarift .dropdown-toggle',
+    'CF': '.aa-chromablink .dropdown-toggle',
     'GT': '.aa-gravity-twist .dropdown-toggle',
     'MU': '.aa-mindsunder .dropdown-toggle',
     'MS': '.aa-mindsunder .dropdown-toggle',

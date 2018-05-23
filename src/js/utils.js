@@ -272,6 +272,7 @@ export function getSpellData(id) {
 export function getAllSpellData() {
   return [
     { name: 'gen', spells: GEN_SPELLS },
+    { name: 'enc', spells: ENC_SPELLS },
     { name: 'mag', spells: MAGE_SPELLS },
     { name: 'wiz', spells: WIZ_SPELLS }
   ];
