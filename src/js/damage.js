@@ -255,6 +255,15 @@ function applyPreSpellChecks(state, mod) {
         }
       }
       break;
+    case 'SC':
+      state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSCDmgMod(dom.getAEUnitDistanceValue()));
+      break;
+    case 'SP':
+      state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSPDmgMod(dom.getAEUnitDistanceValue()));
+      break;
+    case 'SH': case 'SR':
+      state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSHDmgMod(dom.getAEUnitDistanceValue()));
+      break;
     case 'TW':
       if (G.MODE === 'wiz') {
         if (!state.twSpellProcGenerator) {

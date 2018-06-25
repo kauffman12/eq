@@ -39,6 +39,7 @@ export function getStatisticsSummary(spellStats) {
   let spell = utils.getSpellData(spellStats.get('id'));
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
+  addNumberStatDescription(data, "Level", spell.level, true);
   addDecimalStatDescription(data, "Cast Time(s)", spellStats.get('adjCastTime') / 1000, true, 3);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'), false, 3);
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));

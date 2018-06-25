@@ -60,6 +60,12 @@ export function getAERainHitsValue() {
   });
 }
 
+export function getAEUnitDistanceValue() {
+  return utils.useCache('.ae-unit-distance', () => {
+    return utils.getNumberValue($('#aeUnitDistance').val());
+  });
+}
+
 export function getConfiguredAbilities(state) {
   return utils.useCache('active-configured-abilities', () => {
     let active = [];
