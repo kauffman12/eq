@@ -778,26 +778,26 @@ const ABILITIES = {
     name: 'Fierce Eye IV',
     effects: [
       {
-        spa: 273,
-        slot: 2,
-        type: 'sp',
-        value: 0.12
-      },
-      {
         spa: 294,
-        slot: 5,
-        type: 'sp',
-        value: 0.13
-      },
-      {
-        spa: 170,
         slot: 6,
         type: 'sp',
         value: 0.13
       },
       {
+        spa: 273,
+        slot: 7,
+        type: 'sp',
+        value: 0.13
+      },
+      {
+        spa: 170,
+        slot: 11,
+        type: 'sp',
+        value: 0.13
+      },
+      {
         spa: 507,
-        slot: 12,
+        slot: 14,
         type: 'sp',
         value: 0.13
       }
@@ -1629,17 +1629,23 @@ const ABILITIES = {
     adpsDropdown: true,
     duration: 120000,
     level: 254,
-    name: 'Glyph of the Cataclysm',
+    name: 'Glyph of Destruction IV',
     effects: [
       {
-        spa: 170,
-        slot: 10,
+        spa: 294,
+        slot: 7,
         type: 'sp',
-        value: 0.6
+        value: 0.15
       },
       {
         spa: 375,
         slot: 8,
+        type: 'sp',
+        value: 0.6
+      },
+      {
+        spa: 170,
+        slot: 10,
         type: 'sp',
         value: 0.6
       }
@@ -1717,14 +1723,14 @@ const ABILITIES = {
     name: 'Intensity of the Resolute',
     effects: [
       {
-        spa: 273,
-        slot: 2,
+        spa: 294,
+        slot: 7,
         type: 'sp',
         value: 0.50
       },
       {
-        spa: 294,
-        slot: 5,
+        spa: 273,
+        slot: 9,
         type: 'sp',
         value: 0.50
       }
@@ -1761,15 +1767,9 @@ const ABILITIES = {
     effects: [
       {
         spa: 273,
-        slot: 2,
+        slot: 4,
         type: 'sp',
-        value: 0.12
-      },
-      {
-        spa: 375,
-        slot: 3,
-        type: 'sp',
-        value: 1.15
+        value: 0.13
       },
       {
         spa: 294,
@@ -1778,8 +1778,14 @@ const ABILITIES = {
         value: 0.13
       },
       {
-        spa: 170,
+        spa: 375,
         slot: 6,
+        type: 'sp',
+        value: 1.15
+      },
+      {
+        spa: 170,
+        slot: 12,
         type: 'sp',
         value: 1.60
       }
@@ -1814,7 +1820,7 @@ const ABILITIES = {
         spa: 483,
         slot: 1,
         type: 'sp',
-        value: 105.0,
+        value: 120.75,
         limits: [
           { resists: SMap(['COLD']) }
         ]
@@ -2188,8 +2194,7 @@ const ABILITIES = {
         value: 0, // value read from settings/UI choice
         limits: [
           { type: 'detrimental' },
-          { minCastTime: 1 },
-          { minManaCost: 10 },
+          { maxLevel: 254 },
           { maxDuration: 0 }
         ]
       }
@@ -2721,6 +2726,22 @@ const ABILITIES = {
           { maxDuration: 0 },
           { minManaCost: 100 }
         ]
+      }
+    ]
+  },
+  W1: {
+    adpsDropdown: true,
+    class: 'wiz',
+    duration: 90000,
+    level: 254,
+    mode: 'wiz',
+    name: 'First Spire of Arcanum IV',
+    effects: [
+      {
+        spa: 294,
+        slot: 2,
+        type: 'sp',
+        value: 0.16
       }
     ]
   },

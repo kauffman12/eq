@@ -182,17 +182,6 @@ function parseSPAKey(key) {
   };
 }
 
-function blockAbility(spaMap, id) {
-  abilities.get(id).effects.forEach(effect => {
-    let key = buildSPAKey(effect);
-    let existing = spaMap.get(key);
-
-    if (existing && existing.id === id) {
-      spaMap.delete(key);
-    }
-  });
-}
-
 function getChargeCount(state, id, mod) {
   // bug for Dicho using extra counters
   // really should make Dicho have a proc
@@ -221,7 +210,6 @@ export function buildSPAData(ids, spell) {
   let spaMap = new Map();
   let abilitySet = new Set();
   let dontChargeSet = new Set();
-  let blocked = new Set();
   let spaSet = new Set();
   
   ids.forEach(id => {
@@ -233,23 +221,7 @@ export function buildSPAData(ids, spell) {
         let key = buildSPAKey(effect);
         let existing = spaMap.get(key);
 
-        // block whatever was on there before when its SPA 294
-        // as of beta 2017 IoG had special case added that basically only blocks FE
-        // only cases that current matter are intensity > IoG > FE 
-        if (effect.spa === 294) {
-          switch(id) {
-            case 'INTENSE':
-              blockAbility(spaMap, 'IOG');
-              blocked.add('IOG');
-              abilitySet.delete('IOG');
-            case 'IOG':
-              blockAbility(spaMap, 'FIERCE');
-              blocked.add('FIERCE');
-              abilitySet.delete('FIERCE');
-          }
-        }
-
-        if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) || // negative effects override all
+        if ((!existing || (effect.value < 0 && effect.value < existing.value) || // negative effects override all
           effect.value >= existing.value)) {
 
           // special case for FD/AD stacking
@@ -346,7 +318,7 @@ export function computeSPAs(state, mod, dotMod) {
 }
 
 export function getMultiplier(castTime) {
-  var multiplier = 0.25;
+  var multiplier = 0.2499;
 
   if(castTime >= 2500 && castTime <= 7000) {
     multiplier = .000167 * (castTime - 1000);
