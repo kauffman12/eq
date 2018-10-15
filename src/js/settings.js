@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.34',
+  VERSION: 'Version 1.41',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -34,7 +34,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
+  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SH', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -672,6 +672,23 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Rain of Cutlasses (2/9)' },
       { value: '0', desc: 'Rain of Cutlasses (1/9)' },
       { value: '0', desc: 'Rain of Cutlasses (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-shockd',
+    value: '9',  // special case to check new spear vs old. uses 16%
+    desc: 'Shock of Darksteel  (9/9)',
+    data: [
+      { value: '9', desc: 'Shock of Darksteel (9/9)' },
+      { value: '0.16', desc: 'Shock of Darksteel (8/9)' },
+      { value: '0.14', desc: 'Shock of Darksteel (7/9)' },
+      { value: '0.12', desc: 'Shock of Darksteel (6/9)' },
+      { value: '0.10', desc: 'Shock of Darksteel (5/9)' },
+      { value: '0.08', desc: 'Shock of Darksteel (4/9)' },
+      { value: '0.06', desc: 'Shock of Darksteel (3/9)' },
+      { value: '0.04', desc: 'Shock of Darksteel (2/9)' },
+      { value: '0.02', desc: 'Shock of Darksteel (1/9)' },
+      { value: '0', desc: 'Shock of Darksteel (0/9)' }
     ]
   },
   {

@@ -22,7 +22,8 @@ const FOCUS_AA_KEYS = {
     'RK': '.aa-raincut .dropdown-toggle',
     'VM': '.aa-storm .dropdown-toggle',
     'SS': '.aa-spearm .dropdown-toggle',
-    'SA': '.aa-spearm .dropdown-toggle'
+    'SA': '.aa-spearm .dropdown-toggle',
+    'SH': '.aa-shockd .dropdown-toggle'
   },
   wiz: {
     'BB': '.aa-beams .dropdown-toggle',
@@ -434,7 +435,7 @@ export function getSpellFocusAAValue(id) {
 
       // special case for now to handle some new and old focus
       // levels but not the new one
-      if (['SA', 'ES', 'EI', 'MS'].find(spell => spell === id) && value < 9) {
+      if (['SA', 'ES', 'EI', 'MS', 'SH'].find(spell => spell === id) && value < 9) {
         value = 0;
       } 
 

@@ -163,6 +163,7 @@ export function createTimer(expireTime, updateFunc) {
   return { expireTime: expireTime, update: updateFunc };
 }
 
+
 export function displayPercent(value) {
   return value ? (value * 100).toFixed(2) + "%" : "0%";
 }

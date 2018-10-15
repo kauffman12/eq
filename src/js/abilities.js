@@ -704,42 +704,6 @@ const ABILITIES = {
       }
     ]
   },
-  EU: {
-    adpsDropdown: true,
-    class: 'mag',
-    duration: 180000,
-    level: 254,
-    mode: 'mag',
-    name: 'Elemental Union XVI',
-    effects: [
-      {
-        spa: 212,
-        slot: 1,
-        type: 'sp',
-        value: 0.10,
-        limits: [
-          { maxLevel: 110 },
-          { currentHitPoints: true },
-          { minManaCost: 0 },
-          { type: 'detrimental' },
-          { maxDuration: 0 }
-        ]
-      },
-      {
-        spa: 461,
-        slot: 7,
-        type: 'sp',
-        value: 0.55,
-        limits: [
-          { maxLevel: 110 },
-          { currentHitPoints: true },
-          { minManaCost: 0 },
-          { type: 'detrimental' },
-          { maxDuration: 0 }
-        ]
-      }
-    ]
-  },
   FD: {
     adpsDropdown: true,
     charges: 45,
@@ -2576,6 +2540,46 @@ const ABILITIES = {
           { currentHitPoints: true },
           { exSkills: COMBAT_SKILLS },
           { exTwincastMarker: true }
+        ]
+      }
+    ]
+  },
+  TF: {
+    adpsDropdown: true,
+    class: 'mag',
+    duration: 180000,
+    level: 254,
+    mode: 'mag',
+    name: 'Thaumaturge\'s Focus XVI',
+    effects: [
+      {
+        spa: 212,
+        slot: 1,
+        type: 'sp',
+        value: 0.10,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 10 },
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { resists: SMap(['MAGIC']) },
+          { minDmg: 100 }
+        ]
+      },
+      {
+        spa: 461,
+        slot: 8,
+        type: 'sp',
+        value: 0.55,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 10 },
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { resists: SMap(['MAGIC']) },
+          { minDmg: 100 }
         ]
       }
     ]

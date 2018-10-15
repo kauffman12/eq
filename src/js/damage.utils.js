@@ -136,6 +136,9 @@ function checkLimits(id, spell, effect) {
     } else if (!spell.focusable && abilities.SPA_FOCUSABLE.has(effect.spa)) {
       check = 'not focusable';
       pass = false;
+    } else if (spell.inventory && abilities.SPA_EFFECTIVENESS.has(effect.spa)) {
+      check = 'inventory';
+      pass = false;
     } else if (effect.limits) {
       effect.limits.find(limit => {
         let key = Object.keys(limit)[0]; // each limit has 1 key
