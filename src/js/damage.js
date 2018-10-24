@@ -128,7 +128,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
   switch(spell.id) {
     case 'CA':
-      state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      if (dom.getAllianceFulminationValue() > 0) {
+        state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      }
       break;
     case 'CD':
       timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
@@ -214,7 +216,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       //state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
     case 'FA':
-      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      if (dom.getAllianceFulminationValue() > 0) {
+        state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      }
       break;
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
