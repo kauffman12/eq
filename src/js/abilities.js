@@ -881,6 +881,25 @@ const ABILITIES = {
       }
     ]
   },
+  FCOLD85: {
+    level: 255,
+    name: 'Cold Damage 85-125 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['COLD']) }
+        ]
+      }
+    ]
+  },
   FCHROM55: {
     level: 255,
     name: 'CHROMATIC Damage 55-75 L110',
@@ -987,6 +1006,25 @@ const ABILITIES = {
         value: 0.85,
         limits: [
           { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM85: {
+    level: 255,
+    name: 'CHROMATIC Damage 85-125 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
@@ -1109,6 +1147,25 @@ const ABILITIES = {
       }
     ]
   },
+  FFIRE85: {
+    level: 255,
+    name: 'Fire Damage 85-125 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['FIRE']) }
+        ]
+      }
+    ]
+  },
   FMAGIC55: {
     level: 255,
     name: 'Magic Damage 55-75 L110',
@@ -1215,6 +1272,25 @@ const ABILITIES = {
         value: 0.85,
         limits: [
           { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  FMAGIC85: {
+    level: 255,
+    name: 'Magic Damage 85-125 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
@@ -1410,25 +1486,25 @@ const ABILITIES = {
     class: 'wiz',
     charges: 8,
     duration: 18000 + TICK_OFFSET,
-    level: 102,
+    level: 107,
     mode: 'wiz',
-    name: 'Frostbound Alliance Rk. III',
+    name: 'Frostbound Covenant Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 48115,
+        value: 55699,
         limits: [
           { targets: TARGET_SINGLE },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 96 },
-          { maxLevel: 110 },
+          { minLevel: 101 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2500 }
+          { minDmg: 2750 }
         ]
       }
     ]
@@ -2715,7 +2791,7 @@ const ABILITIES = {
     class: 'wiz',
     charges: 24,
     duration: 18000 + TICK_OFFSET,
-    level: 103,
+    level: 108,
     mode: 'wiz',
     name: 'Shocking Vortex Effect',
     effects: [
@@ -2723,9 +2799,9 @@ const ABILITIES = {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.75,
+        value: 0.825,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { maxDuration: 0 },
           { minManaCost: 100 }

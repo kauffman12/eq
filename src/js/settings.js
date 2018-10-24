@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.41',
+  VERSION: 'Version 1.41Beta',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -69,9 +69,10 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhead',
-    value: 'FMAGIC70',
-    desc: 'Scaleborn Cap',
+    value: 'FMAGIC85',
+    desc: 'Beta Cap',
     data: [
+      { value: 'FMAGIC85', desc: 'Beta Cap' },
       { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
       { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
@@ -84,9 +85,10 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhand',
-    value: 'FCOLD70',
-    desc: 'Scaleborn Gloves',
+    value: 'FCOLD85',
+    desc: 'Beta Gloves',
     data: [
+      { value: 'FCOLD85', desc: 'Beta Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
       { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
@@ -99,9 +101,10 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-farm',
-    value: 'FFIRE70',
-    desc: 'Scaleborn Sleeves',
+    value: 'FFIRE85',
+    desc: 'Beta Sleeves',
     data: [
+      { value: 'FFIRE85', desc: 'Beta Sleeves' },
       { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
@@ -124,9 +127,10 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fwrist',
-    value: 'FCHROM70',
-    desc: 'Scaleborn Wristguard',
+    value: 'FCHROM85',
+    desc: 'Beta Wristguard',
     data: [
+      { value: 'FCHROM85', desc: 'Beta Wristguard' },
       { value: 'FCHROM70', desc: 'Scaleborn Wristguard' },
       { value: 'FCHROM67', desc: 'Velazul\'s Wristguard' },
       { value: 'FCHROM65', desc: 'Deathseeker\'s Wristguard' },
