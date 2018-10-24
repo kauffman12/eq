@@ -60,6 +60,35 @@ export const SPELL_DATA = {
   CDRk3: {
     name: 'Chaotic Delusion Rk. III'
   },
+  CF: {
+    baseDmg: 8317,
+    castTime: 1200,
+    focusable: true,
+    id: 'CF',
+    level: 106,
+    lockoutTime: 1500,
+    manaCost: 1107,
+    name: 'Chromatic Flicker Rk. III',
+    origCastTime: 1500,
+    recastTime: 6000,
+    resist: 'CHROMATIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'chromaticflicker',
+    type3DmgAug: 594
+  },
+  CFRk1: {
+    name: 'Chromatic Flicker Rk. I',
+    baseDmg: 7544
+  },
+  CFRk2: {
+    name: 'Chromatic Flicker Rk. II',
+    baseDmg: 7921
+  },
+  CFRk3: {
+    name: 'Chromatic Flicker Rk. III',
+    baseDmg: 8317
+  },
   CR: {
     baseDmg: 12940,
     castTime: 1500,

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.232',
+  VERSION: 'Version 1.41',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -24,22 +24,22 @@ export const globals = {
       css: 'wiz-only'
     }
   }
-}
+};
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
   'BB', 'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
-  'FA', 'ME', 'SC', 'SF', 'SP', 'SV', 'TW', 'WE', 'WF', 'WH'
+  'FA', 'ME', 'SC', 'SF', 'SR', 'SH', 'SP', 'SV', 'TW', 'WE', 'WF', 'WH'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SA', 'SB', 'SS', 'VM'
+  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SH', 'SA', 'SB', 'SS', 'VM'
 ];
 
 // enc spells to display in spell drop down
 export const encSpellList = [
-  'CA', 'CD', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA', //'ST'
+  'CA', 'CD', 'CF', 'CR', 'GT', 'MC', 'MU', 'MS', 'PA', //'ST'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -675,6 +675,23 @@ export const magSpellFocusAAContext = [
     ]
   },
   {
+    id: 'aa-shockd',
+    value: '9',  // special case to check new spear vs old. uses 16%
+    desc: 'Shock of Darksteel  (9/9)',
+    data: [
+      { value: '9', desc: 'Shock of Darksteel (9/9)' },
+      { value: '0.16', desc: 'Shock of Darksteel (8/9)' },
+      { value: '0.14', desc: 'Shock of Darksteel (7/9)' },
+      { value: '0.12', desc: 'Shock of Darksteel (6/9)' },
+      { value: '0.10', desc: 'Shock of Darksteel (5/9)' },
+      { value: '0.08', desc: 'Shock of Darksteel (4/9)' },
+      { value: '0.06', desc: 'Shock of Darksteel (3/9)' },
+      { value: '0.04', desc: 'Shock of Darksteel (2/9)' },
+      { value: '0.02', desc: 'Shock of Darksteel (1/9)' },
+      { value: '0', desc: 'Shock of Darksteel (0/9)' }
+    ]
+  },
+  {
     id: 'aa-spearm',
     value: '9',  // special case to check new spear vs old. uses 16%
     desc: 'Spear of Molten Shieldstone (9/9)',
@@ -745,6 +762,23 @@ export const encSpellFocusAAContext = [
       { value: '0', desc: 'Chromarift (2/9)' },
       { value: '0', desc: 'Chromarift (1/9)' },
       { value: '0', desc: 'Chromarift (0/9)' }
+    ]
+  },
+  {
+    id: 'aa-chromablink',
+    value: '0.16',
+    desc: 'Chromatic Blink (9/9)',
+    data: [
+      { value: '0.16', desc: 'Chromatic Blink (9/9)' },
+      { value: '0', desc: 'Chromatic Blink (8/9)' },
+      { value: '0', desc: 'Chromatic Blink (7/9)' },
+      { value: '0', desc: 'Chromatic Blink (6/9)' },
+      { value: '0', desc: 'Chromatic Blink (5/9)' },
+      { value: '0', desc: 'Chromatic Blink (4/9)' },
+      { value: '0', desc: 'Chromatic Blink (3/9)' },
+      { value: '0', desc: 'Chromatic Blink (2/9)' },
+      { value: '0', desc: 'Chromatic Blink (1/9)' },
+      { value: '0', desc: 'Chromatic Blink (0/9)' }
     ]
   },
   {

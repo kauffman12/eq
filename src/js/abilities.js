@@ -29,39 +29,39 @@ import {globals as G} from './settings.js';
 //             +N repeat every N 
 //             -999 repeat when activated by some means like proc/cast
 
-export const SPA_483_FOCUS = new Set([483]);
-export const SPA_AFTER_CRIT_ADD = new Set([286]);
-export const SPA_AFTER_CRIT_FOCUS = new Set([]);
-export const SPA_AFTER_SPA_461_ADD = new Set([462, 484]);
-export const SPA_AFTER_SPA_461_FOCUS = new Set([507]);
-export const SPA_BEFORE_CRIT_ADD = new Set([297, 303]);
-export const SPA_BEFORE_CRIT_FOCUS = new Set([296, 302]);
-export const SPA_BEFORE_DOT_CRIT_FOCUS = new Set([124]);
-export const SPA_461_FOCUS = new Set([461]);
-export const SPA_CRIT_DMG_DOT = new Set([375]);
-export const SPA_CRIT_RATE_DOT = new Set([273]);
-export const SPA_CRIT_DMG_NUKE = new Set([170]);
-export const SPA_CRIT_RATE_NUKE = new Set([212, 294]);
-export const SPA_EFFECTIVENESS = new Set([413]);
-export const SPA_FOCUSABLE = new Set([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 483, 484, 507]);
-export const SPA_NO_DMG = new Set([389, 399]);
-export const SPA_TWINCAST = new Set([399]);
+export const SPA_483_FOCUS = SMap([483]);
+export const SPA_AFTER_CRIT_ADD = SMap([286]);
+export const SPA_AFTER_CRIT_FOCUS = SMap([]);
+export const SPA_AFTER_SPA_461_ADD = SMap([462, 484]);
+export const SPA_AFTER_SPA_461_FOCUS = SMap([507]);
+export const SPA_BEFORE_CRIT_ADD = SMap([297, 303]);
+export const SPA_BEFORE_CRIT_FOCUS = SMap([296, 302]);
+export const SPA_BEFORE_DOT_CRIT_FOCUS = SMap([124]);
+export const SPA_461_FOCUS = SMap([461]);
+export const SPA_CRIT_DMG_DOT = SMap([375]);
+export const SPA_CRIT_RATE_DOT = SMap([273]);
+export const SPA_CRIT_DMG_NUKE = SMap([170]);
+export const SPA_CRIT_RATE_NUKE = SMap([212, 294]);
+export const SPA_EFFECTIVENESS = SMap([413]);
+export const SPA_FOCUSABLE = SMap([124, 212, 286, 296, 297, 302, 303, 399, 461, 462, 483, 484, 507]);
+export const SPA_NO_DMG = SMap([389, 399]);
+export const SPA_TWINCAST = SMap([399]);
 
 // Build SPA to key Map
 export const SPA_KEY_MAP = new Map();
-SPA_CRIT_RATE_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritRate'));
-SPA_CRIT_DMG_NUKE.forEach(spa => SPA_KEY_MAP.set(spa, 'addCritDmg'));
-SPA_483_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa483Focus'));
-SPA_AFTER_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritAdd'));
-SPA_AFTER_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterCritFocus'));
-SPA_AFTER_SPA_461_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Add'));
-SPA_AFTER_SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'afterSPA461Focus'));
-SPA_BEFORE_CRIT_ADD.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritAdd'));
-SPA_BEFORE_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeCritFocus'));
-SPA_BEFORE_DOT_CRIT_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'beforeDoTCritFocus'));
-SPA_461_FOCUS.forEach(spa => SPA_KEY_MAP.set(spa, 'spa461Focus'));
-SPA_EFFECTIVENESS.forEach(spa => SPA_KEY_MAP.set(spa, 'effectiveness'));
-SPA_TWINCAST.forEach(spa => SPA_KEY_MAP.set(spa, 'twincast'));
+SPA_CRIT_RATE_NUKE.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'addCritRate'));
+SPA_CRIT_DMG_NUKE.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'addCritDmg'));
+SPA_483_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'spa483Focus'));
+SPA_AFTER_CRIT_ADD.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'afterCritAdd'));
+SPA_AFTER_CRIT_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'afterCritFocus'));
+SPA_AFTER_SPA_461_ADD.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'afterSPA461Add'));
+SPA_AFTER_SPA_461_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'afterSPA461Focus'));
+SPA_BEFORE_CRIT_ADD.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'beforeCritAdd'));
+SPA_BEFORE_CRIT_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'beforeCritFocus'));
+SPA_BEFORE_DOT_CRIT_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'beforeDoTCritFocus'));
+SPA_461_FOCUS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'spa461Focus'));
+SPA_EFFECTIVENESS.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'effectiveness'));
+SPA_TWINCAST.forEach((val, spa) => SPA_KEY_MAP.set(spa, 'twincast'));
 
 export function get(ability) {
   return ABILITIES[ability];
@@ -85,17 +85,6 @@ export function getProcEffectForAbility(ability) {
   if (ability && ability.effects) {
     return ability.effects.find(effect => effect.proc !== undefined);
   }
-}
-
-function abilitySorter(a, b) {
-  let aClass = (G.MODE !== a.class || a.otherCast) ? a.class : '';
-  let bClass = (G.MODE !== b.class || b.otherCast) ? b.class : '';
-  let aName = (aClass || '') + a.name;
-  let bName = (bClass || '') + b.name;
-
-  if (aName > bName) return 1;
-  if (bName > aName) return -1;
-  return 0;
 }
 
 export function getAbilityList(repeating) {
@@ -154,9 +143,26 @@ export function setSPAValue(id, spa, value) {
   }
 }
 
-const COMBAT_SKILLS = new Set([]); // not needed yet
-const TARGET_LOS = new Set(['LOS']);
-const TARGET_SINGLE = new Set(['SINGLE']);
+function abilitySorter(a, b) {
+  let aClass = (G.MODE !== a.class || a.otherCast) ? a.class : '';
+  let bClass = (G.MODE !== b.class || b.otherCast) ? b.class : '';
+  let aName = (aClass || '') + a.name;
+  let bName = (bClass || '') + b.name;
+
+  if (aName > bName) return 1;
+  if (bName > aName) return -1;
+  return 0;
+}
+
+function SMap(list) {
+  let map = new Map();
+  list.forEach(item => map.set(item, true));
+  return map;
+}
+
+const COMBAT_SKILLS = SMap([]); // not needed yet
+const TARGET_LOS = SMap(['LOS']);
+const TARGET_SINGLE = SMap(['SINGLE']);
 const TICK_OFFSET = 3000;
 
 const ABILITIES = {
@@ -174,7 +180,7 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { currentHitPoints: true },
-          { exSpells: new Set(['AB']) },
+          { exSpells: SMap(['AB']) },
           { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
@@ -360,7 +366,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -424,7 +430,7 @@ const ABILITIES = {
           { maxLevel: 110 },
           { type: 'detrimental' },
           { minManaCost: 10 },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -440,7 +446,7 @@ const ABILITIES = {
         type: 'wn',
         value: 500,
         limits: [
-          { resists: new Set(['FIRE']) },
+          { resists: SMap(['FIRE']) },
           { currentHitPoints: true },
           { nonRepeating: true },
           { type: 'detrimental' },
@@ -517,7 +523,7 @@ const ABILITIES = {
         limits: [
           { onSpellUse: true },
           { type: 'detrimental' },
-          { resists: new Set(['COLD']) },
+          { resists: SMap(['COLD']) },
           { minLevel: 91 },
           { maxLevel: 110 },
           { maxDuration: 0 },
@@ -558,7 +564,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exSpells: new Set(['DRS']) },
+          { exSpells: SMap(['DRS']) },
           { minManaCost: 100 }
         ]
       },
@@ -632,7 +638,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
@@ -647,7 +653,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.09,
         limits: [
-          { spells: new Set(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
@@ -666,7 +672,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.40,
         limits: [
-         { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
+         { resists: SMap(['MAGIC', 'FIRE', 'COLD']) },
          { maxLevel: 249 },
          { minDmg: 100 },
          { nonRepeating: true }
@@ -690,46 +696,10 @@ const ABILITIES = {
         type: 'sp',
         value: 0.45,
         limits: [
-         { resists: new Set(['MAGIC', 'FIRE', 'COLD']) },
+         { resists: SMap(['MAGIC', 'FIRE', 'COLD']) },
          { maxLevel: 249 },
          { minDmg: 100 },
          { nonRepeating: true }
-        ]
-      }
-    ]
-  },
-  EU: {
-    adpsDropdown: true,
-    class: 'mag',
-    duration: 180000,
-    level: 254,
-    mode: 'mag',
-    name: 'Elemental Union XVI',
-    effects: [
-      {
-        spa: 212,
-        slot: 1,
-        type: 'sp',
-        value: 0.10,
-        limits: [
-          { maxLevel: 110 },
-          { currentHitPoints: true },
-          { minManaCost: 0 },
-          { type: 'detrimental' },
-          { maxDuration: 0 }
-        ]
-      },
-      {
-        spa: 461,
-        slot: 7,
-        type: 'sp',
-        value: 0.55,
-        limits: [
-          { maxLevel: 110 },
-          { currentHitPoints: true },
-          { minManaCost: 0 },
-          { type: 'detrimental' },
-          { maxDuration: 0 }
         ]
       }
     ]
@@ -772,26 +742,26 @@ const ABILITIES = {
     name: 'Fierce Eye IV',
     effects: [
       {
-        spa: 273,
-        slot: 2,
-        type: 'sp',
-        value: 0.12
-      },
-      {
         spa: 294,
-        slot: 5,
-        type: 'sp',
-        value: 0.13
-      },
-      {
-        spa: 170,
         slot: 6,
         type: 'sp',
         value: 0.13
       },
       {
+        spa: 273,
+        slot: 7,
+        type: 'sp',
+        value: 0.13
+      },
+      {
+        spa: 170,
+        slot: 11,
+        type: 'sp',
+        value: 0.13
+      },
+      {
         spa: 507,
-        slot: 12,
+        slot: 14,
         type: 'sp',
         value: 0.13
       }
@@ -809,9 +779,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -828,9 +798,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -847,9 +817,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -866,9 +836,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -885,9 +855,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -904,9 +874,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -923,9 +893,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -942,9 +912,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -961,9 +931,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -980,9 +950,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -999,9 +969,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -1018,9 +988,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['CHROMATIC']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -1037,9 +1007,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1056,9 +1026,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1075,9 +1045,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1094,9 +1064,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1113,9 +1083,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1132,9 +1102,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1151,9 +1121,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1170,9 +1140,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1189,9 +1159,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1208,9 +1178,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1227,9 +1197,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1246,9 +1216,9 @@ const ABILITIES = {
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -1265,7 +1235,7 @@ const ABILITIES = {
         slot: 1,
         type: 'aa',
         limits: [
-          { exSpells: new Set(['TC']) }
+          { exSpells: SMap(['TC']) }
         ]
       }
     ]
@@ -1285,7 +1255,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { type: 'detrimental' },
           { currentHitPoints: true },
-          { exSpells: new Set(['FW']) },
+          { exSpells: SMap(['FW']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 115 },
           { minManaCost: 10 }
@@ -1309,7 +1279,7 @@ const ABILITIES = {
           { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -1564,10 +1534,10 @@ const ABILITIES = {
           { minLevel: 101 },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -1588,7 +1558,7 @@ const ABILITIES = {
         limits: [
           { minDmg: 100 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
           { maxLevel: 110 } // need to really verify
@@ -1612,7 +1582,7 @@ const ABILITIES = {
         limits: [
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 } // need to really verify
         ]
@@ -1623,17 +1593,23 @@ const ABILITIES = {
     adpsDropdown: true,
     duration: 120000,
     level: 254,
-    name: 'Glyph of the Cataclysm',
+    name: 'Glyph of Destruction IV',
     effects: [
       {
-        spa: 170,
-        slot: 10,
+        spa: 294,
+        slot: 7,
         type: 'sp',
-        value: 0.6
+        value: 0.15
       },
       {
         spa: 375,
         slot: 8,
+        type: 'sp',
+        value: 0.6
+      },
+      {
+        spa: 170,
+        slot: 10,
         type: 'sp',
         value: 0.6
       }
@@ -1656,7 +1632,7 @@ const ABILITIES = {
           { maxLevel: 110 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) }
+          { exTargets: SMap(['TargetAE', 'CasterPB']) }
         ]
       }
     ]
@@ -1691,7 +1667,7 @@ const ABILITIES = {
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
-          { targets: new Set(['SINGLE']) },
+          { targets: SMap(['SINGLE']) },
           { maxLevel: 110 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
@@ -1711,14 +1687,14 @@ const ABILITIES = {
     name: 'Intensity of the Resolute',
     effects: [
       {
-        spa: 273,
-        slot: 2,
+        spa: 294,
+        slot: 7,
         type: 'sp',
         value: 0.50
       },
       {
-        spa: 294,
-        slot: 5,
+        spa: 273,
+        slot: 9,
         type: 'sp',
         value: 0.50
       }
@@ -1755,15 +1731,9 @@ const ABILITIES = {
     effects: [
       {
         spa: 273,
-        slot: 2,
+        slot: 4,
         type: 'sp',
-        value: 0.12
-      },
-      {
-        spa: 375,
-        slot: 3,
-        type: 'sp',
-        value: 1.15
+        value: 0.13
       },
       {
         spa: 294,
@@ -1772,8 +1742,14 @@ const ABILITIES = {
         value: 0.13
       },
       {
-        spa: 170,
+        spa: 375,
         slot: 6,
+        type: 'sp',
+        value: 1.15
+      },
+      {
+        spa: 170,
+        slot: 12,
         type: 'sp',
         value: 1.60
       }
@@ -1792,7 +1768,7 @@ const ABILITIES = {
         type: 'sp',
         value: 85.0,
         limits: [
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1808,9 +1784,9 @@ const ABILITIES = {
         spa: 483,
         slot: 1,
         type: 'sp',
-        value: 105.0,
+        value: 120.75,
         limits: [
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -1850,7 +1826,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { resists: new Set(['MAGIC']) },
+          { resists: SMap(['MAGIC']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -1928,7 +1904,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { exSpells: new Set(['MR']) },
+          { exSpells: SMap(['MR']) },
           { maxLevel: 110 },
           { minManaCost: 10 }
         ]
@@ -1949,7 +1925,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.50,
         limits: [
-          { resists: new Set(['FIRE', 'CHROMATIC']) },
+          { resists: SMap(['FIRE', 'CHROMATIC']) },
           { maxLevel: 250 },
           { minDmg: 100 },
           { nonRepeating: true }
@@ -1973,7 +1949,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.60,
         limits: [
-          { resists: new Set(['FIRE', 'CHROMATIC']) },
+          { resists: SMap(['FIRE', 'CHROMATIC']) },
           { maxLevel: 250 },
           { minDmg: 100 },
           { nonRepeating: true }
@@ -2059,10 +2035,10 @@ const ABILITIES = {
           { minLevel: 101 },
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2082,7 +2058,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.15,
         limits: [
-          { resists: new Set(['FIRE', 'COLD']) }
+          { resists: SMap(['FIRE', 'COLD']) }
         ]
       }
     ]
@@ -2102,7 +2078,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.12,
         limits: [
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -2122,7 +2098,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.12,
         limits: [
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2164,7 +2140,7 @@ const ABILITIES = {
         limits: [
           { maxLevel: 110 },
           { type: 'detrimental' },
-          { resists: new Set(['FIRE']) },
+          { resists: SMap(['FIRE']) },
           { exSkills: COMBAT_SKILLS }
         ]
       }
@@ -2182,8 +2158,7 @@ const ABILITIES = {
         value: 0, // value read from settings/UI choice
         limits: [
           { type: 'detrimental' },
-          { minCastTime: 1 },
-          { minManaCost: 10 },
+          { maxLevel: 254 },
           { maxDuration: 0 }
         ]
       }
@@ -2209,7 +2184,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -2234,7 +2209,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -2259,7 +2234,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['COLD']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -2284,7 +2259,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2309,7 +2284,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2334,7 +2309,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['FIRE']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2359,7 +2334,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -2384,7 +2359,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -2409,7 +2384,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 },
           { minManaCost: 10 },
-          { resists: new Set(['MAGIC']) }
+          { resists: SMap(['MAGIC']) }
         ]
       }
     ]
@@ -2500,7 +2475,7 @@ const ABILITIES = {
         value: 0.195,
         limits: [
           { type: 'detrimental' },
-          { resists: new Set(['FIRE', 'COLD']) }
+          { resists: SMap(['FIRE', 'COLD']) }
         ]
       }
     ]
@@ -2569,6 +2544,46 @@ const ABILITIES = {
       }
     ]
   },
+  TF: {
+    adpsDropdown: true,
+    class: 'mag',
+    duration: 180000,
+    level: 254,
+    mode: 'mag',
+    name: 'Thaumaturge\'s Focus XVI',
+    effects: [
+      {
+        spa: 212,
+        slot: 1,
+        type: 'sp',
+        value: 0.10,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 10 },
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { resists: SMap(['MAGIC']) },
+          { minDmg: 100 }
+        ]
+      },
+      {
+        spa: 461,
+        slot: 8,
+        type: 'sp',
+        value: 0.55,
+        limits: [
+          { maxLevel: 110 },
+          { currentHitPoints: true },
+          { minManaCost: 10 },
+          { type: 'detrimental' },
+          { maxDuration: 0 },
+          { resists: SMap(['MAGIC']) },
+          { minDmg: 100 }
+        ]
+      }
+    ]
+  },
   THPWR: {
     class: 'wiz',
     charges: 1,
@@ -2585,7 +2600,7 @@ const ABILITIES = {
         limits: [
           { minDmg: 100 },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
           { maxLevel: 110 }
@@ -2609,7 +2624,7 @@ const ABILITIES = {
         limits: [
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { exTargets: new Set(['TargetAE', 'CasterPB']) },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { maxLevel: 110 } // need to really verify
         ]
@@ -2626,7 +2641,7 @@ const ABILITIES = {
         type: 'wn',
         value: 1000,
         limits: [
-          { resists: new Set(['MAGIC']) },
+          { resists: SMap(['MAGIC']) },
           { currentHitPoints: true },
           { nonRepeating: true },
           { type: 'detrimental' },
@@ -2718,6 +2733,22 @@ const ABILITIES = {
       }
     ]
   },
+  W1: {
+    adpsDropdown: true,
+    class: 'wiz',
+    duration: 90000,
+    level: 254,
+    mode: 'wiz',
+    name: 'First Spire of Arcanum IV',
+    effects: [
+      {
+        spa: 294,
+        slot: 2,
+        type: 'sp',
+        value: 0.16
+      }
+    ]
+  },
   W2: {
     adpsDropdown: true,
     class: 'wiz',
@@ -2746,7 +2777,7 @@ const ABILITIES = {
         proc: 'WSYN1',
         limits: [
           { onSpellUse: true },
-          { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
+          { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
           { type: 'detrimental' }
         ]
       }
@@ -2766,7 +2797,7 @@ const ABILITIES = {
         proc: 'WSYN2',
         limits: [
           { onSpellUse: true },
-          { resists: new Set(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
+          { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
           { type: 'detrimental' }
         ]
       }

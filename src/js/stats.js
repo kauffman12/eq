@@ -39,11 +39,13 @@ export function getStatisticsSummary(spellStats) {
   let spell = utils.getSpellData(spellStats.get('id'));
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
+  addNumberStatDescription(data, "Level", spell.level, true);
+  data.push({ title: "Time Left", value: spellStats.get('timeLeft') + "s"});
   addDecimalStatDescription(data, "Cast Time(s)", spellStats.get('adjCastTime') / 1000, true, 3);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'), false, 3);
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));
   addNumberStatDescription(data, "Pet Count", spellStats.get('rsCounter'));
-  addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
+  //addNumberStatDescription(data, "Pet DPS", spellStats.get('rsDPS'));
 
     // Only print spellStats for spells that do damage and not WE/WF
   if (spellStats.get('avgBaseDmg') > 0) {
@@ -125,6 +127,7 @@ export function getStatisticsSummary(spellStats) {
     addNumberStatDescription(data, "Sub Total", spellStats.get('avgDmg') + spellStats.get('tcAvgDmg'));
   }
 
+  addNumberStatDescription(data, "Avg 1 Pet Dmg", spellStats.get('est1PetDmg'));
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
   addNumberStatDescription(data, "ABallad Proc", spellStats.get('abAddDmg'));
@@ -154,10 +157,10 @@ export function printStats(output, state) {
   timerange = Math.ceil(timerange / 1000);
 
   let totalAvgDmg = getSpellCastInfo().get('totalAvgDmg') || 0;
-  let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
+  //let totalAvgPetDmg = getSpellCastInfo().get('totalAvgPetDmg') || 0;
   let totalDotDmg = getSpellCastInfo().get('totalDotDmg') || 0;
   let totalProcs = getSpellCastInfo().get('totalProcs') || 0;
-  let avgDPS = (totalAvgDmg + totalAvgPetDmg + totalDotDmg) / timerange;
+  let avgDPS = (totalAvgDmg + totalDotDmg) / timerange;
  
   let maxHit = getSpellCastInfo().get('maxHit') || 0;
   let aggrSpellCount = getSpellCastInfo().get('spellCount') || 0;
@@ -186,13 +189,13 @@ export function printStats(output, state) {
   updateStatSection('#castDamageStats', avgDPS, 'Cast Damage ', utils.numberWithCommas(Math.trunc(totalAvgDmg)), totalAvgDmg, 'totalAvgCastDmg');
 
   // Total Pet Damage
-  updateStatSection('#petDamageStats', avgDPS, 'Pet Damage ', utils.numberWithCommas(Math.trunc(totalAvgPetDmg)), totalAvgPetDmg, 'totalAvgPetDmg');
+  //updateStatSection('#petDamageStats', avgDPS, 'Pet Damage ', utils.numberWithCommas(Math.trunc(totalAvgPetDmg)), totalAvgPetDmg, 'totalAvgPetDmg');
 
-  // Total Pet Damage
+  // Total DoT Damage
   updateStatSection('#dotDamageStats', avgDPS, 'DoT Damage ', utils.numberWithCommas(Math.trunc(totalDotDmg)), totalDotDmg, 'totalDotDmg');
 
   // Total Damage
-  let finalTotal = Math.trunc(totalAvgDmg + totalAvgPetDmg + totalDotDmg);
+  let finalTotal = Math.trunc(totalAvgDmg + totalDotDmg);
   updateStatSection('#totalDamageStats', avgDPS, 'Total Damage ', utils.numberWithCommas(finalTotal), finalTotal, 'totalAvgDmg');
 
   // Avg Crit Rate

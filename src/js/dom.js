@@ -6,6 +6,7 @@ import * as utils from './utils.js';
 const FOCUS_AA_KEYS = {
   enc: {
     'CR': '.aa-chromarift .dropdown-toggle',
+    'CF': '.aa-chromablink .dropdown-toggle',
     'GT': '.aa-gravity-twist .dropdown-toggle',
     'MU': '.aa-mindsunder .dropdown-toggle',
     'MS': '.aa-mindsunder .dropdown-toggle',
@@ -21,7 +22,8 @@ const FOCUS_AA_KEYS = {
     'RK': '.aa-raincut .dropdown-toggle',
     'VM': '.aa-storm .dropdown-toggle',
     'SS': '.aa-spearm .dropdown-toggle',
-    'SA': '.aa-spearm .dropdown-toggle'
+    'SA': '.aa-spearm .dropdown-toggle',
+    'SH': '.aa-shockd .dropdown-toggle'
   },
   wiz: {
     'BB': '.aa-beams .dropdown-toggle',
@@ -56,6 +58,12 @@ const FOCUS_AA_KEYS = {
 export function getAERainHitsValue() {
   return utils.useCache('.ae-rain-hits', () => {
     return utils.getNumberValue($('#aeRainHits').val());
+  });
+}
+
+export function getAEUnitDistanceValue() {
+  return utils.useCache('.ae-unit-distance', () => {
+    return utils.getNumberValue($('#aeUnitDistance').val());
   });
 }
 
@@ -427,7 +435,7 @@ export function getSpellFocusAAValue(id) {
 
       // special case for now to handle some new and old focus
       // levels but not the new one
-      if (['SA', 'ES', 'EI', 'MS'].find(spell => spell === id) && value < 9) {
+      if (['SA', 'ES', 'EI', 'MS', 'SH'].find(spell => spell === id) && value < 9) {
         value = 0;
       } 
 

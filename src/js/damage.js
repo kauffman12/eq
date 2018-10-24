@@ -128,7 +128,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
 
   switch(spell.id) {
     case 'CA':
-      state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      if (dom.getAllianceFulminationValue() > 0) {
+        state[utils.getCounterKeys('CA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      }
       break;
     case 'CD':
       timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
@@ -200,14 +202,23 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       state[keys.timers].push(
         utils.createTimer(state.workingTime + dom.getRemorselessServantTTLValue(), (value) => { return value - 1; })
       );
-      
+       
       stats.updateSpellStatistics(state, 'rsDPS', dom.getRemorselessServantDPSValue() * state[keys.counter]);
       stats.updateSpellStatistics(state, keys.counter, state[keys.counter]);
+
+      let petTime = dom.getRemorselessServantTTLValue() / 1000;
+      petTime = (petTime > state.timeLeft) ? state.timeLeft : petTime;
+
+      let est1PetDmg = dmgU.trunc(dom.getRemorselessServantDPSValue() * petTime);
+      stats.addSpellStatistics(state, 'est1PetDmg', est1PetDmg); 
+      stats.addSpellStatistics(state, 'totalDmg', est1PetDmg);
       
-      state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
+      //state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
     case 'FA':
-      state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      if (dom.getAllianceFulminationValue() > 0) {
+        state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+      }
       break;
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
@@ -253,6 +264,21 @@ function applyPreSpellChecks(state, mod) {
           }
           state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }
+      }
+      break;
+    case 'SC':
+      if (G.MODE === 'wiz') {
+        state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSCDmgMod(dom.getAEUnitDistanceValue()));
+      }
+      break;
+    case 'SP':
+      if (G.MODE === 'wiz') {
+        state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSPDmgMod(dom.getAEUnitDistanceValue()));
+      }
+      break;
+    case 'SH': case 'SR':
+      if (G.MODE === 'wiz') {
+        state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSHDmgMod(dom.getAEUnitDistanceValue()));
       }
       break;
     case 'TW':
@@ -451,9 +477,10 @@ function calcSpellDamage(state) {
   let spell = state.spell;
 
   if ((G.MAX_LEVEL - spell.level) < 10) {
+    // Mana Burn uses this because AA recast time should be separate from the spell data
     // dicho/fuse needs to use an alternative time since it's really 2 spell casts
     // that get applied differently depending on what we're looking for
-    var recastTime = spell.recastTime2 ? spell.recastTime2 : spell.recastTime;
+    var recastTime = (spell.recastTime2 !== undefined) ? spell.recastTime2 : spell.recastTime;
 
     // fix for dicho being a combined proc/spell
     var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +

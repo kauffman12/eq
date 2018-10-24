@@ -437,6 +437,98 @@ export const SPELL_DATA = {
     target: 'SELF',
     timer: 'summonfirebound'
   },
+  SA: {
+    baseDmg: 36056,
+    castTime: 1750,
+    focusable: true,
+    id: 'SA',
+    level: 110,
+    lockoutTime: 1500,
+    manaCost: 5886,
+    name: 'Spear of Molten Arcronite Rk. III',
+    origCastTime: 3500,
+    recastTime: 9000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'LOS',
+    timer: 'spearmolten',
+    type3DmgAug: 2575
+  },
+  SARk1: {
+    name: 'Spear of Molten Arcronite Rk. I',
+    baseDmg: 32704
+  },
+  SARk2: {
+    name: 'Spear of Molten Arcronite Rk. II',
+    baseDmg: 34339
+  },
+  SARk3: {
+    name: 'Spear of Molten Arcronite Rk. III',
+    baseDmg: 36056
+  },
+  SB: {
+    baseDmg: 26967,
+    castTime: 1750,
+    focusable: true,
+    id: 'SB',
+    level: 100,
+    lockoutTime: 1500,
+    manaCost: 4273,
+    name: 'Spear of Blistersteel Rk. III',
+    origCastTime: 3500,
+    recastTime: 9000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'LOS',
+    timer: 'spearblistersteal',
+    type3DmgAug: 1926
+  },
+  SH: {
+    baseDmg: 14468,
+    castTime: 1625,
+    focusable: true,
+    id: 'SH',
+    level: 107,
+    lockoutTime: 1500,
+    manaCost: 1342,
+    name: 'Shock of Arcronite Steel Rk. III',
+    origCastTime: 3250,
+    recastTime: 5250,
+    resist: 'MAGIC',
+    skill: 14,
+    target: 'SINGLE',
+    timer: 'shockofarc',
+    type3DmgAug: 1033
+  },
+  SHRk1: {
+    name: 'Shock of Arcronite Steel Rk. I',
+    baseDmg: 13123
+  },
+  SHRk2: {
+    name: 'Shock of Arcronite Steel Rk. II',
+    baseDmg: 13779
+  },
+  SHRk3: {
+    name: 'Shock of Arcronite Steel Rk. III',
+    baseDmg: 14468
+  },
+  SS: {
+    baseDmg: 29731,
+    castTime: 1750,
+    focusable: true,
+    id: 'SS',
+    level: 105,
+    lockoutTime: 1500,
+    manaCost: 4900,
+    name: 'Spear of Molten Shieldstone Rk. III',
+    origCastTime: 3500,
+    recastTime: 9000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'LOS',
+    timer: 'spearmoltenshield',
+    type3DmgAug: 2124
+  },
   VM: {
     baseDmg: 4974,
     baseDmg1: 4974,
@@ -525,68 +617,5 @@ export const SPELL_DATA = {
     baseDmg13: 29581,
     baseDmg14: 29581,
     baseDmg15: 46650
-  },
-  SA: {
-    baseDmg: 36056,
-    castTime: 1750,
-    focusable: true,
-    id: 'SA',
-    level: 110,
-    lockoutTime: 1500,
-    manaCost: 5886,
-    name: 'Spear of Molten Arcronite Rk. III',
-    origCastTime: 3500,
-    recastTime: 9000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'spearmolten',
-    type3DmgAug: 2575
-  },
-  SARk1: {
-    name: 'Spear of Molten Arcronite Rk. I',
-    baseDmg: 32704
-  },
-  SARk2: {
-    name: 'Spear of Molten Arcronite Rk. II',
-    baseDmg: 34339
-  },
-  SARk3: {
-    name: 'Spear of Molten Arcronite Rk. III',
-    baseDmg: 36056
-  },
-  SS: {
-    baseDmg: 29731,
-    castTime: 1750,
-    focusable: true,
-    id: 'SS',
-    level: 105,
-    lockoutTime: 1500,
-    manaCost: 4900,
-    name: 'Spear of Molten Shieldstone Rk. III',
-    origCastTime: 3500,
-    recastTime: 9000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'spearmoltenshield',
-    type3DmgAug: 2124
-  },
-  SB: {
-    baseDmg: 26967,
-    castTime: 1750,
-    focusable: true,
-    id: 'SB',
-    level: 100,
-    lockoutTime: 1500,
-    manaCost: 4273,
-    name: 'Spear of Blistersteel Rk. III',
-    origCastTime: 3500,
-    recastTime: 9000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'spearblistersteal',
-    type3DmgAug: 1926
   }
 }

@@ -105,6 +105,9 @@ function castSpell(state, spell, adjCastTime) {
     return;
   }
  
+  state.timeLeft = (state.endTime - state.workingTime) / 1000;
+  stats.updateSpellStatistics(state, 'timeLeft', state.timeLeft);
+
   // only compute for spells that do damage
   let avgDmg = damage.execute(state);
 
@@ -659,8 +662,6 @@ export function updateSpellChart() {
     castTimeFirst: 0,
     castTimeLast: 0,
     castQueue: [],
-    castTimeFirst: 0,
-    castTimeLast: 0,
     chartIndex: -1, 
     gcd: dom.getGCDValue() + 75, // PC lag? offset from test
     gcdWaitTime: 0,
@@ -703,7 +704,7 @@ export function updateSpellChart() {
         lockout = false;
 
         if (entry.spell.lockoutTime !== 0) { // some spells like Manaburn dont have one at all
-          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(spell);
+          state.gcdWaitTime = state.workingTime + dom.getLockoutTime(entry.spell);
         }          
           
         return true;

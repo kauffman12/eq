@@ -28,6 +28,19 @@ export const CRYO_PROC_RATE = 100 / (100 * 0.25);
 export const PYRO_PROC_RATE = 100 / (100 * 0.21);
 export const PYRO_DPS = 20400 / 6;
 
+export const SC_MAX_DMG_MOD = 1.0;
+export const SP_MAX_DMG_MOD = 1.2;
+export const SH_MAX_DMG_MOD = 1.2;
+export const SC_MIN_DMG_MOD = 0.1;
+export const SP_MIN_DMG_MOD = 0.6;
+export const SH_MIN_DMG_MOD = 0.6;
+export const SC_MAX_DMG_UNIT = 10;
+export const SP_MAX_DMG_UNIT = 20;
+export const SH_MAX_DMG_UNIT = 5;
+export const SC_DMG_PER_UNIT = (1.0 - 0.1) / (60 - 10);
+export const SP_DMG_PER_UNIT = (1.2 - 0.6) / (60 - 20);
+export const SH_DMG_PER_UNIT = (1.2 - 0.6) / (30 - 5);
+
 // Claw/Chaotic effect proc rates per 100 casts
 export const CLAW_SPELL_PROC_RATES = {
   wiz: {
@@ -123,6 +136,9 @@ function checkLimits(id, spell, effect) {
     } else if (!spell.focusable && abilities.SPA_FOCUSABLE.has(effect.spa)) {
       check = 'not focusable';
       pass = false;
+    } else if (spell.inventory && abilities.SPA_EFFECTIVENESS.has(effect.spa)) {
+      check = 'inventory';
+      pass = false;
     } else if (effect.limits) {
       effect.limits.find(limit => {
         let key = Object.keys(limit)[0]; // each limit has 1 key
@@ -169,17 +185,6 @@ function parseSPAKey(key) {
   };
 }
 
-function blockAbility(spaMap, id) {
-  abilities.get(id).effects.forEach(effect => {
-    let key = buildSPAKey(effect);
-    let existing = spaMap.get(key);
-
-    if (existing && existing.id === id) {
-      spaMap.delete(key);
-    }
-  });
-}
-
 function getChargeCount(state, id, mod) {
   // bug for Dicho using extra counters
   // really should make Dicho have a proc
@@ -208,7 +213,6 @@ export function buildSPAData(ids, spell) {
   let spaMap = new Map();
   let abilitySet = new Set();
   let dontChargeSet = new Set();
-  let blocked = new Set();
   let spaSet = new Set();
   
   ids.forEach(id => {
@@ -220,23 +224,7 @@ export function buildSPAData(ids, spell) {
         let key = buildSPAKey(effect);
         let existing = spaMap.get(key);
 
-        // block whatever was on there before when its SPA 294
-        // as of beta 2017 IoG had special case added that basically only blocks FE
-        // only cases that current matter are intensity > IoG > FE 
-        if (effect.spa === 294) {
-          switch(id) {
-            case 'INTENSE':
-              blockAbility(spaMap, 'IOG');
-              blocked.add('IOG');
-              abilitySet.delete('IOG');
-            case 'IOG':
-              blockAbility(spaMap, 'FIERCE');
-              blocked.add('FIERCE');
-              abilitySet.delete('FIERCE');
-          }
-        }
-
-        if (!blocked.has(id) && (!existing || (effect.value < 0 && effect.value < existing.value) || // negative effects override all
+        if ((!existing || (effect.value < 0 && effect.value < existing.value) || // negative effects override all
           effect.value >= existing.value)) {
 
           // special case for FD/AD stacking
@@ -333,7 +321,7 @@ export function computeSPAs(state, mod, dotMod) {
 }
 
 export function getMultiplier(castTime) {
-  var multiplier = 0.25;
+  var multiplier = 0.2499;
 
   if(castTime >= 2500 && castTime <= 7000) {
     multiplier = .000167 * (castTime - 1000);
@@ -384,6 +372,42 @@ export function getBaseCritRate() {
 
 export function getBaseDoTCritRate() {
   return (dom.getDoNValue() + dom.getCriticalAfflicationValue() + dom.getCritRateValue()) / 100;
+}
+
+// Self-Combustion
+export function getSCDmgMod(units) {
+  return utils.useCache('sc-dmg-mod-' + units, function() {
+    let maxDmgUnit = (units > SC_MAX_DMG_UNIT) ? units - SC_MAX_DMG_UNIT : 0;
+    let dmgMod = SC_MAX_DMG_MOD - (maxDmgUnit * SC_DMG_PER_UNIT);
+    if (dmgMod < SC_MIN_DMG_MOD) {
+      dmgMod = SC_MIN_DMG_MOD;
+    }
+    return dmgMod;  
+  });
+}
+
+// Level 100 splash
+export function getSPDmgMod(units) {
+  return utils.useCache('sp-dmg-mod-' + units, function() {
+    let maxDmgUnit = (units > SP_MAX_DMG_UNIT) ? units - SP_MAX_DMG_UNIT : 0;
+    let dmgMod = SP_MAX_DMG_MOD - (maxDmgUnit * SP_DMG_PER_UNIT);
+    if (dmgMod < SP_MIN_DMG_MOD) {
+      dmgMod = SP_MIN_DMG_MOD;
+    }
+    return dmgMod;  
+  });
+}
+
+// Level 90 and 95 splash
+export function getSHDmgMod(units) {
+  return utils.useCache('sh-dmg-mod-' + units, function() {
+    let maxDmgUnit = (units > SH_MAX_DMG_UNIT) ? units - SH_MAX_DMG_UNIT : 0;
+    let dmgMod = SH_MAX_DMG_MOD - (maxDmgUnit * SH_DMG_PER_UNIT);
+    if (dmgMod < SH_MIN_DMG_MOD) {
+      dmgMod = SH_MIN_DMG_MOD;
+    }
+    return dmgMod;  
+  });
 }
 
 export function getCompoundSpellList(id) {

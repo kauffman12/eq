@@ -163,6 +163,7 @@ export function createTimer(expireTime, updateFunc) {
   return { expireTime: expireTime, update: updateFunc };
 }
 
+
 export function displayPercent(value) {
   return value ? (value * 100).toFixed(2) + "%" : "0%";
 }
@@ -272,6 +273,7 @@ export function getSpellData(id) {
 export function getAllSpellData() {
   return [
     { name: 'gen', spells: GEN_SPELLS },
+    { name: 'enc', spells: ENC_SPELLS },
     { name: 'mag', spells: MAGE_SPELLS },
     { name: 'wiz', spells: WIZ_SPELLS }
   ];
