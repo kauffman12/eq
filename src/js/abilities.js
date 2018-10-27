@@ -1460,23 +1460,23 @@ const ABILITIES = {
     duration: 18000 + TICK_OFFSET,
     level: 101,
     mode: 'mag',
-    name: 'Firebound Alliance Rk. III',
+    name: 'Firebound Covenant Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 36643,
+        value: 42419,
         limits: [
           { targets: TARGET_LOS },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 96 },
-          { maxLevel: 110 },
+          { minLevel: 101 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2500 }
+          { minDmg: 2750 }
         ]
       }
     ]

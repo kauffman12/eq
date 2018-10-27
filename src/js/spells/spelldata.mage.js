@@ -191,14 +191,14 @@ export const SPELL_DATA = {
     name: 'Rain of Molten Rhyolite Rk. III',
     baseDmg: 20765
   },
-  FA: {
+  FBC: {
     castTime: 1980,
     focusable: true,
-    id: 'FA',
-    level: 101,
+    id: 'FBC',
+    level: 110,
     lockoutTime: 1500,
     manaCost: 12214,
-    name: 'Firebound Alliance Rk. III',
+    name: 'Firebound Covenant Rk. III',
     origCastTime: 3000,
     recastTime: 60000,
     resist: 'FIRE',
@@ -206,17 +206,17 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '13'
   },
-  FAF: {
-    baseDmg: 2347439,
+  FAR: {
+    baseDmg: 2717455,
     castTime: 0,
     focusable: false,
-    id: 'FAF',
+    id: 'FAR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    max: 2347439,
+    max: 2717455,
     maxCritRate: 0,
-    name: 'Firebound Fulmination III',
+    name: 'Firebound Resolution III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'FIRE',

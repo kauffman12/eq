@@ -215,9 +215,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       
       //state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
-    case 'FA':
+    case 'FBC':
       if (dom.getAllianceFulminationValue() > 0) {
-        state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+        state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       }
       break;
     case 'SFB':

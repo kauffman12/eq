@@ -380,6 +380,24 @@ export const SPELL_DATA = {
     timer: 'HOMVII',
     type3Dmg: 0
   },
+  HOMVIII: {
+    base1: 100,
+    baseDmg: 12000,
+    castTime: 0,
+    focusable: true,
+    id: 'HOMVIII',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Hammer of Magic VIII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'HOMVIII',
+    type3Dmg: 0
+  },
   MR: {
     baseDmg: 5018,
     castTime: 0,

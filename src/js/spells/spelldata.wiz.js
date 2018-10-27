@@ -367,10 +367,10 @@ export const SPELL_DATA = {
     timer: 'skyblaze',
     type3DmgAug: 2381
   },
-  FA: {
+  FBC: {
     castTime: 1980,
     focusable: true,
-    id: 'FA',
+    id: 'FBC',
     level: 107,
     lockoutTime: 1500,
     manaCost: 13791,
@@ -382,18 +382,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '14'
   },
-  FAF: {
+  FAR: {
     baseDmg: 3121559,
-    castTime: 0,
+    castTime: 1980,
     focusable: false,
-    id: 'FAF',
+    id: 'FAR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
     max: 3121559,
     maxCritRate: 0,
     name: 'Frostbound Resolution III',
-    origCastTime: 0,
+    origCastTime: 3000,
     recastTime: 0,
     resist: 'COLD',
     skill: 5,

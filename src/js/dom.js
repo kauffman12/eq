@@ -441,6 +441,10 @@ export function getSpellFocusAAValue(id) {
 
       if (value === 9) {
         value = 0.16;
+      } else if(value == 10) {
+        value = 0.18;
+      } else if(value == 11) {
+        value = 0.20;
       }
     }
 
