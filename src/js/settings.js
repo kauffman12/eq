@@ -903,13 +903,14 @@ export const encSpellFocusAAContext = [
 export const wizDPSAAContext = [
   {
     id: 'aa-afusion',
-    value: 'AFU3',
-    desc: 'Arcane Fusion (3/3)',
+    value: 'AFU4',
+    desc: 'Arcane Fusion (4/4)',
     data: [
-      { value: 'AFU3', desc: 'Arcane Fusion (3/3)' },
-      { value: 'AFU2', desc: 'Arcane Fusion (2/3)' },
-      { value: 'AFU1', desc: 'Arcane Fusion (1/3)' },
-      { value: 'NONE', desc: 'Arcane Fusion (0/3)' }
+      { value: 'AFU4', desc: 'Arcane Fusion (4/4)' },
+      { value: 'AFU3', desc: 'Arcane Fusion (3/4)' },
+      { value: 'AFU2', desc: 'Arcane Fusion (2/4)' },
+      { value: 'AFU1', desc: 'Arcane Fusion (1/4)' },
+      { value: 'NONE', desc: 'Arcane Fusion (0/4)' }
     ]
   },
   {
@@ -1078,23 +1079,30 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-sveng',
-    value: '2000',
-    desc: 'Sorcerer\'s Vengeance (13/13)',
+    value: '4000',
+    desc: 'Sorcerer\'s Vengeance (20/20)',
     data: [
-      { value: '2000', desc: 'Sorcerer\'s Vengeance (13/13)' },
-      { value: '1800', desc: 'Sorcerer\'s Vengeance (12/13)' },
-      { value: '1600', desc: 'Sorcerer\'s Vengeance (11/13)' },
-      { value: '1400', desc: 'Sorcerer\'s Vengeance (10/13)' },
-      { value: '1200', desc: 'Sorcerer\'s Vengeance (9/13)' },
-      { value: '1100', desc: 'Sorcerer\'s Vengeance (8/13)' },
-      { value: '1000', desc: 'Sorcerer\'s Vengeance (7/13)' },
-      { value: '900', desc: 'Sorcerer\'s Vengeance (6/13)' },
-      { value: '800', desc: 'Sorcerer\'s Vengeance (5/13)' },
-      { value: '700', desc: 'Sorcerer\'s Vengeance (4/13)' },
-      { value: '600', desc: 'Sorcerer\'s Vengeance (3/13)' },
-      { value: '400', desc: 'Sorcerer\'s Vengeance (2/13)' },
-      { value: '200', desc: 'Sorcerer\'s Vengeance (1/13)' },
-      { value: '0', desc: 'Sorcerer\'s Vengeance (0/13)' }
+      { value: '4000', desc: 'Sorcerer\'s Vengeance (20/20)' },
+      { value: '3650', desc: 'Sorcerer\'s Vengeance (19/20)' },
+      { value: '3375', desc: 'Sorcerer\'s Vengeance (18/20)' },
+      { value: '3100', desc: 'Sorcerer\'s Vengeance (17/20)' },
+      { value: '2825', desc: 'Sorcerer\'s Vengeance (16/20)' },
+      { value: '2550', desc: 'Sorcerer\'s Vengeance (15/20)' },
+      { value: '2275', desc: 'Sorcerer\'s Vengeance (14/20)' },
+      { value: '2000', desc: 'Sorcerer\'s Vengeance (13/20)' },
+      { value: '1800', desc: 'Sorcerer\'s Vengeance (12/20)' },
+      { value: '1600', desc: 'Sorcerer\'s Vengeance (11/20)' },
+      { value: '1400', desc: 'Sorcerer\'s Vengeance (10/20)' },
+      { value: '1200', desc: 'Sorcerer\'s Vengeance (9/20)' },
+      { value: '1100', desc: 'Sorcerer\'s Vengeance (8/20)' },
+      { value: '1000', desc: 'Sorcerer\'s Vengeance (7/20)' },
+      { value: '900', desc: 'Sorcerer\'s Vengeance (6/20)' },
+      { value: '800', desc: 'Sorcerer\'s Vengeance (5/20)' },
+      { value: '700', desc: 'Sorcerer\'s Vengeance (4/20)' },
+      { value: '600', desc: 'Sorcerer\'s Vengeance (3/20)' },
+      { value: '400', desc: 'Sorcerer\'s Vengeance (2/20)' },
+      { value: '200', desc: 'Sorcerer\'s Vengeance (1/20)' },
+      { value: '0', desc: 'Sorcerer\'s Vengeance (0/20)' }
     ]
   },
   {

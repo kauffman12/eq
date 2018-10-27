@@ -50,6 +50,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  AFU4: {
+    base1: 10,
+    baseDmg: 200000,
+    castTime: 0,
+    focusable: false,
+    id: 'AFU4',
+    level: 254,
+    manaCost: 0,
+    maxCritRate: 0.15,
+    name: 'Arcane Fusion IV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'afusion'
+  },
   BB: {
     baseDmg: 20299,
     castTime: 0,
