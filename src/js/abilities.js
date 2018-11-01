@@ -2766,6 +2766,43 @@ const ABILITIES = {
       }
     ]
   },
+  TRTAL: {
+    level: 254,
+    name: 'Trophy of Talendor',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 170,
+        slot: 1,
+        type: 'wn',
+        value: 0.10
+      },
+      {
+        spa: 375,
+        slot: 2,
+        type: 'wn',
+        value: 0.10
+      }
+    ]
+  },
+  TRTOR: {
+    level: 254,
+    name: 'Trophy of Tormax',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 399,
+        slot: 1,
+        type: 'wn',
+        value: 0.01,
+        limits: [
+          { exTwincastMarker: true },
+          { minManaCost: 10 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
   VES: {
     adpsDropdown: true,
     class: 'brd',

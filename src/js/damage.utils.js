@@ -576,8 +576,8 @@ export function displaySpellInfo(target, testData) {
   testData.forEach(line => preTest.append(line + '\n'));
 
   // do this and view page source...
-  //let w = window.open('', 'Test Data');
-  //w.document.write(JSON.stringify(lines));
+  let w = window.open('', 'Test Data');
+  w.document.write(JSON.stringify(lines));
 
   $(test).append(preTest);
   $(current).append(preCurrent);
