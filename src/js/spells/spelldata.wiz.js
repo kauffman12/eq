@@ -1012,15 +1012,15 @@ export const SPELL_DATA = {
     target: 'TargetRingAE',
     timer: 'splashproxene'
   },
-  SV: {
+  SJ: {
     baseDmg: 19828,
     castTime: 800,
     focusable: true,
-    id: 'SV',
+    id: 'SJ',
     level: 108,
     lockoutTime: 1500,
     manaCost: 1246,
-    name: 'New Shocking Vortex Rk. III',
+    name: 'Stormjolt Vortex Rk. III',
     origCastTime: 1000,
     recastTime: 24000,
     resist: 'MAGIC',

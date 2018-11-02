@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.43B',
+  VERSION: 'Version 1.44B',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -28,13 +28,13 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'BB', 'CO', 'CQ', 'CT', 'DF', 'EB', 'EI', 'ER', 'EZ', 'ES', 'EV', 'FB',
-  'FBC', 'ME', 'SC', 'SF', 'SR', 'SH', 'SP', 'SV', 'TW', 'WE', 'WF', 'WH'
+  'BB', 'CQ', 'CO', 'CT', 'DF', 'EB', 'ER', 'EI', 'EZ', 'ES', 'EV', 'FB',
+  'FBC', 'ME', 'SC', 'SF', 'SR', 'SH', 'SP', 'SJ', 'TW', 'WE', 'WF', 'WH'
 ];
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RS', 'SH', 'SA', 'SB', 'SS', 'VM'
+  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RS', 'SH', 'SB', 'SS', 'SA', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -69,75 +69,81 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhead',
-    value: 'FMAGIC85',
-    desc: 'Beta Cap',
+    value: 'FMAGIC70120',
+    desc: 'Heavenly/Veiled Cap',
     data: [
-      { value: 'FMAGIC85', desc: 'Beta Cap' },
+      { value: 'FMAGIC70120', desc: 'Heavenly/Veiled Cap' },
       { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
       { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
+      { value: 'FMAGIC6090', desc: 'Adamant/Battleworn Cap' },
+      { value: 'FMAGIC60', desc: 'Weeping Undefeated Cap' },
       { value: 'FMAGIC60', desc: 'Scaled Cap' },
       { value: 'FMAGIC57', desc: 'Scale Touched Cap' },
       { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
-      { value: 'FMAGIC55', desc: 'Cohort\'s Cap' },
       { value: 'NONE', desc: 'No Cap Selected' }
     ]
   },
   {
     id: 'wn-fhand',
-    value: 'FCOLD85',
-    desc: 'Beta Gloves',
+    value: 'FCOLD70120',
+    desc: 'Heavenly/Veiled Gloves',
     data: [
-      { value: 'FCOLD85', desc: 'Beta Gloves' },
+      { value: 'FCOLD70120', desc: 'Heavenly/Veiled Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
       { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
+      { value: 'FCOLD6090', desc: 'Adamant/Battleworn Gloves' },
+      { value: 'FCOLD60', desc: 'Weeping Undefeated Gloves' },
       { value: 'FCOLD60', desc: 'Scaled Gloves' },
       { value: 'FCOLD57', desc: 'Scale Touched Gloves' },
       { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
-      { value: 'FCOLD55', desc: 'Cohort\'s Gloves' },
       { value: 'NONE', desc: 'No Gloves Selected' }
     ]
   },
   {
     id: 'wn-farm',
-    value: 'FFIRE85',
-    desc: 'Beta Sleeves',
+    value: 'FFIRE70120',
+    desc: 'Heavenly/Veiled Sleeves',
     data: [
-      { value: 'FFIRE85', desc: 'Beta Sleeves' },
+      { value: 'FFIRE70120', desc: 'Heavenly/Veiled Sleeves' },
       { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
       { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
+      { value: 'FFIRE6090', desc: 'Adamant/Battleworn Sleeves' },
+      { value: 'FFIRE60', desc: 'Weeping Undefeated Sleeves' },
       { value: 'FFIRE60', desc: 'Scaled Sleeves' },
       { value: 'FFIRE57', desc: 'Scale Touched Sleeves' },
       { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
-      { value: 'FFIRE55', desc: 'Cohort\'s Sleeves' },
       { value: 'NONE', desc: 'No Sleeves Selected' }
     ]
   },
   {
     id: 'wn-fchest',
     value: 'ESD9',
-    desc: 'Scaleborn Robe',
+    desc: 'Heavenly/Veiled Robe',
     data: [
+      { value: 'ESD9', desc: 'Heavenly/Veiled Robe' },
       { value: 'ESD9', desc: 'Scaleborn Robe' },
-      { value: 'ESD7', desc: 'Scaled Robe' },
+      { value: 'ESD7', desc: 'Adamant/Battleworn/Weeping Robe' },
+      { value: 'ESD7', desc: 'Scale Touched/Scaled Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },
   {
     id: 'wn-fwrist',
-    value: 'FCHROM85',
-    desc: 'Beta Wristguard',
+    value: 'FCHROM70120',
+    desc: 'Heavenly/Veiled Wristguard',
     data: [
-      { value: 'FCHROM85', desc: 'Beta Wristguard' },
+      { value: 'FCHROM70120', desc: 'Heavenly/Veiled Wristguard' },
       { value: 'FCHROM70', desc: 'Scaleborn Wristguard' },
       { value: 'FCHROM67', desc: 'Velazul\'s Wristguard' },
       { value: 'FCHROM65', desc: 'Deathseeker\'s Wristguard' },
+      { value: 'FCHROM6090', desc: 'Adamant/Battleworn Wristguard' },
+      { value: 'FCHROM60', desc: 'Weeping Undefeated Wristguard' },
       { value: 'FCHROM60', desc: 'Scaled Wristguard' },
       { value: 'FCHROM57', desc: 'Scale Touched Wristguard' },
       { value: 'FCHROM57', desc: 'Selrach\'s Wristguard' },
-      { value: 'FCHROM55', desc: 'Cohort\'s Wristguard' },
       { value: 'NONE', desc: 'No Wristguard Selected' }
     ]
   },
@@ -149,13 +155,16 @@ export const basicDmgFocusContext = [
       { value: 'HOMVIII', desc: 'Hammer of Magic VIII 2H' },
       { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
+      { value: 'BFVI', desc: 'Bloodstaff' },
+      { value: 'WOCVI', desc: 'Wave of Corruption VI 1H' },
+      { value: 'SOIV', desc: 'Mute Spiral' },
       { value: 'SOIV', desc: 'Fathomless Staff of Warding' },
       { value: 'BFIV', desc: 'Blackened August Warhammer' },
       { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
+      { value: 'BOFVI', desc: 'Crystal Misericorde' },
       { value: 'SOCV', desc: 'Eldritch Misericorde' },
       { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
       { value: 'WOCIV', desc: 'Advisor\'s Guide' },
-      { value: 'HOMIII', desc: 'Bronzewood Mindstaff' },
       { value: 'NONE', desc: 'No Primary Weapon Selected' }
     ]
   },

@@ -35,6 +35,24 @@ export const SPELL_DATA = {
     timer: 'ASVI',
     type3Dmg: 0
   },
+  BOFVI: {
+    base1: 100,
+    baseDmg: 4000,
+    castTime: 0,
+    focusable: true,
+    id: 'BOFVI',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Flames VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'FIRE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'BOFVI',
+    type3Dmg: 0
+  },
   BOFVII: {
     base1: 100,
     baseDmg: 4400,
@@ -648,6 +666,24 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'WOCIV',
+    type3Dmg: 0
+  },
+  WOCVI: {
+    base1: 100,
+    baseDmg: 9000,
+    castTime: 0,
+    focusable: true,
+    id: 'WOCVI',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Wave of Corruption VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'CORRUPTION',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'WOCVI',
     type3Dmg: 0
   },
   WSYN1: {

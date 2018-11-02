@@ -173,7 +173,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
       }
       break;
-    case 'SV':
+    case 'SJ':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
   
       synergy = dom.getEvokersSynergyValue();
@@ -590,7 +590,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -602,7 +602,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (! ['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 

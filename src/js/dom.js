@@ -42,7 +42,7 @@ const FOCUS_AA_KEYS = {
     'IC': '.aa-rimeb .dropdown-toggle',
     'SC': '.aa-selfc .dropdown-toggle',
     'SF': '.aa-pills .dropdown-toggle',
-    'SV': '.aa-vortex .dropdown-toggle',
+    'SJ': '.aa-vortex .dropdown-toggle',
     'TW': '.aa-thrice .dropdown-toggle',
     'WH': '.aa-corona .dropdown-toggle'
   }

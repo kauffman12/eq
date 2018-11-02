@@ -161,6 +161,24 @@ export const SPELL_DATA = {
     name: 'Chaotic Inferno Rk. III',
     baseDmg: 26069
   },
+  DC: {
+    baseDmg: 0,
+    canTwincast: false,
+    castTime: 400,
+    focusable: true,
+    id: 'DC',
+    level: 250,
+    lockoutTime: 1500,
+    manaCost: 100,
+    name: 'Dissident Companion 6',
+    origCastTime: 500,
+    recastTime: 60000,
+    recastTime2: 6000,
+    resist: 'NONE',
+    skill: 4,
+    target: 'SINGLE',
+    timer: 'dicho'
+  },
   RM: {
     baseDmg: 20765,
     castTime: 2000,
