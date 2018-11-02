@@ -161,6 +161,24 @@ export const SPELL_DATA = {
     name: 'Chaotic Inferno Rk. III',
     baseDmg: 26069
   },
+  DC: {
+    baseDmg: 0,
+    canTwincast: false,
+    castTime: 400,
+    focusable: true,
+    id: 'DC',
+    level: 250,
+    lockoutTime: 1500,
+    manaCost: 8624,
+    name: 'Dichotomic Companion 6',
+    origCastTime: 500,
+    recastTime: 60000,
+    recastTime2: 6000,
+    resist: 'NONE',
+    skill: 4,
+    target: 'PET',
+    timer: 'dicho'
+  },
   RM: {
     baseDmg: 20765,
     castTime: 2000,
@@ -208,7 +226,7 @@ export const SPELL_DATA = {
   },
   FAF: {
     baseDmg: 2347439,
-    castTime: 0,
+    castTime: 1980,
     focusable: false,
     id: 'FAF',
     level: 255,
@@ -217,7 +235,7 @@ export const SPELL_DATA = {
     max: 2347439,
     maxCritRate: 0,
     name: 'Firebound Fulmination III',
-    origCastTime: 0,
+    origCastTime: 3000,
     recastTime: 0,
     resist: 'FIRE',
     skill: 5,

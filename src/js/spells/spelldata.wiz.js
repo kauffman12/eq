@@ -384,7 +384,7 @@ export const SPELL_DATA = {
   },
   FAF: {
     baseDmg: 2696520,
-    castTime: 0,
+    castTime: 1980,
     focusable: false,
     id: 'FAF',
     level: 255,
@@ -393,7 +393,7 @@ export const SPELL_DATA = {
     max: 2696520,
     maxCritRate: 0,
     name: 'Frostbound Fulmination III',
-    origCastTime: 0,
+    origCastTime: 3000,
     recastTime: 0,
     resist: 'COLD',
     skill: 5,
