@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.41',
+  VERSION: 'Version 1.42',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -34,7 +34,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BB', 'BS', 'BK', 'BM', 'CI', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SH', 'SA', 'SB', 'SS', 'VM'
+  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FA', 'MB', 'RK', 'RM', 'RS', 'SH', 'SA', 'SS', 'SB', 'VM'
 ];
 
 // enc spells to display in spell drop down

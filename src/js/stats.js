@@ -40,7 +40,7 @@ export function getStatisticsSummary(spellStats) {
 
   addNumberStatDescription(data, "Chart ID", spellStats.get('chartIndex'), true);
   addNumberStatDescription(data, "Level", spell.level, true);
-  data.push({ title: "Time Left", value: spellStats.get('timeLeft') + "s"});
+  data.push({ title: "Time Left(s)", value: spellStats.get('timeLeft')});
   addDecimalStatDescription(data, "Cast Time(s)", spellStats.get('adjCastTime') / 1000, true, 3);
   addDecimalStatDescription(data, "Cast Interval(s)", spellStats.get('castInterval'), false, 3);
   addDecimalStatDescription(data, "Recast Delay(s)", spellStats.get('castInterval') - (spell.castTime / 1000));
