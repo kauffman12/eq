@@ -271,6 +271,18 @@ export function getCritRateValue() {
   return utils.getNumberValue($('#innatCritRate').val());
 }
 
+export function getArmorProc1Value() {
+  return utils.useCache('.armor-proc1', () => {
+    return $('.armor-proc1 .dropdown-toggle').data('value');
+  });
+}
+
+export function getArmorProc2Value() {
+  return utils.useCache('.armor-proc2', () => {
+    return $('.armor-proc2 .dropdown-toggle').data('value');
+  });
+}
+
 export function getDPSAug1AugValue() {
   return utils.useCache('.dps-aug1', () => {
     return $('.dps-aug1 .dropdown-toggle').data('value');

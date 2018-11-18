@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.44B',
+  VERSION: 'Version 1.45B',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -148,11 +148,31 @@ export const basicDmgFocusContext = [
     ]
   },
   {
+    id: 'armor-proc1',
+    value: 'NONE',
+    desc: 'No Evolving Armor Aug1 Selected',
+    data: [
+      { value: 'EBOFVIII', desc: 'Blazing Paradise Casting Fire' },
+      { value: 'ESOMVIII', desc: 'Blazing Paradise Casting Magic' },
+      { value: 'NONE', desc: 'No Evolving Armor Aug Selected' }
+    ]
+  },
+  {
+    id: 'armor-proc2',
+    value: 'NONE',
+    desc: 'No Evolving Armor Aug2 Selected',
+    data: [
+      { value: 'EBOFV', desc: 'Whispering Midnight Casting Fire' },
+      { value: 'ESOMV', desc: 'Whispering Midnight Casting Magic' },
+      { value: 'NONE', desc: 'No Evolving Armor Aug Selected' }
+    ]
+  },
+  {
     id: 'staff-proc',
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
-      { value: 'HOMVIII', desc: 'Hammer of Magic VIII 2H' },
+      { value: 'BOFVIII', desc: 'Blaze of Fire VIII 2H' },
       { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'BFVI', desc: 'Nightfear\'s Halo' },
       { value: 'BFVI', desc: 'Bloodstaff' },

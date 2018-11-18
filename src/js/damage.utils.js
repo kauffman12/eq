@@ -434,14 +434,16 @@ export function getCompoundSpellList(id) {
 
 export function getEqpProcs(spell) {
   // find eqp procs
-  let procList = utils.useCache('get-eqp-procs', () => {
+  let procList = utils.useCache('get-eqp-procs-' + spell.id, () => {
     return [ 
+      dom.getArmorProc1Value(), dom.getArmorProc2Value(),
       dom.getStaffProcValue(), dom.getBeltProcValue(), dom.getRangeAugValue(),
       dom.getDPSAug1AugValue(), dom.getDPSAug2AugValue(), dom.getShieldProcValue() 
     ].filter(id => {
       if (id !== 'NONE') {
         let procSpell = utils.getSpellData(id);
-        return (procSpell && procSpell.id && procSpell.id != spell.id); // check self
+        let limitCheck = procSpell && (!procSpell.limitResists || procSpell.limitResists.get(spell.resist))
+        return (limitCheck && procSpell.id && procSpell.id != spell.id); // check self
       }
     });
   });
@@ -576,8 +578,8 @@ export function displaySpellInfo(target, testData) {
   testData.forEach(line => preTest.append(line + '\n'));
 
   // do this and view page source...
-  let w = window.open('', 'Test Data');
-  w.document.write(JSON.stringify(lines));
+  //let w = window.open('', 'Test Data');
+  //w.document.write(JSON.stringify(lines));
 
   $(test).append(preTest);
   $(current).append(preCurrent);

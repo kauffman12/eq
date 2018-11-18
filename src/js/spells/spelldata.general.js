@@ -1,3 +1,9 @@
+function SMap(list) {
+  let map = new Map();
+  list.forEach(item => map.set(item, true));
+  return map;
+}
+
 export const SPELL_DATA = {
   AB: {
     baseDmg: 1463,
@@ -33,42 +39,6 @@ export const SPELL_DATA = {
     spellDmgCap: 225,
     target: 'SINGLE',
     timer: 'ASVI',
-    type3Dmg: 0
-  },
-  BOFVI: {
-    base1: 100,
-    baseDmg: 4000,
-    castTime: 0,
-    focusable: true,
-    id: 'BOFVI',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    name: 'Burst of Flames VI',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'FIRE',
-    skill: 52,
-    target: 'SINGLE',
-    timer: 'BOFVI',
-    type3Dmg: 0
-  },
-  BOFVII: {
-    base1: 100,
-    baseDmg: 4400,
-    castTime: 0,
-    focusable: true,
-    id: 'BOFVII',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    name: 'Burst of Flames VII',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'FIRE',
-    skill: 52,
-    target: 'SINGLE',
-    timer: 'BOFVII',
     type3Dmg: 0
   },
   BFIV: {
@@ -107,6 +77,42 @@ export const SPELL_DATA = {
     timer: 'BFVI',
     type3Dmg: 0
   },
+  BOFVI: {
+    base1: 100,
+    baseDmg: 4000,
+    castTime: 0,
+    focusable: true,
+    id: 'BOFVI',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Flames VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'FIRE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'BOFVI',
+    type3Dmg: 0
+  },
+  BOFVII: {
+    base1: 100,
+    baseDmg: 4400,
+    castTime: 0,
+    focusable: true,
+    id: 'BOFVII',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Flames VII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'FIRE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'BOFVII',
+    type3Dmg: 0
+  },
   BOIVI: {
     base1: 100,
     baseDmg: 510,
@@ -141,6 +147,82 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'BOIX',
+    type3Dmg: 0
+  },
+  EBOFV: {
+    base1: 0, // always proc
+    baseDmg: 3600,
+    castTime: 0,
+    focusable: true,
+    id: 'EBOFV',
+    level: 255,
+    limitResists: SMap(['FIRE', 'CHROMATIC']),
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Flames V',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'FIRE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'EBOFV',
+    type3Dmg: 0
+  },
+  ESOMV: {
+    base1: 0, // always proc
+    baseDmg: 3600,
+    castTime: 0,
+    focusable: true,
+    id: 'ESOMV',
+    level: 255,
+    limitResists: SMap(['MAGIC', 'CHROMATIC']),
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Spike of Magic V',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'ESOMV',
+    type3Dmg: 0
+  },
+  EBOFVIII: {
+    base1: 0, // always proc
+    baseDmg: 4800,
+    castTime: 0,
+    focusable: true,
+    id: 'EBOFVIII',
+    level: 255,
+    limitResists: SMap(['FIRE', 'CHROMATIC']),
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Burst of Flames VIII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'FIRE',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'EBOFVIII',
+    type3Dmg: 0
+  },
+  ESOMVIII: {
+    base1: 0, // always proc
+    baseDmg: 4800,
+    castTime: 0,
+    focusable: true,
+    id: 'ESOMVIII',
+    level: 255,
+    limitResists: SMap(['MAGIC', 'CHROMATIC']),
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Spike of Magic VIII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 52,
+    target: 'SINGLE',
+    timer: 'ESOMVIII',
     type3Dmg: 0
   },
   DM: {
@@ -398,22 +480,22 @@ export const SPELL_DATA = {
     timer: 'HOMVII',
     type3Dmg: 0
   },
-  HOMVIII: {
+  BOFVIII: {
     base1: 100,
     baseDmg: 12000,
     castTime: 0,
     focusable: true,
-    id: 'HOMVIII',
+    id: 'BOFVIII',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'Hammer of Magic VIII',
+    name: 'Blaze of Fire VIII',
     origCastTime: 0,
     recastTime: 0,
-    resist: 'MAGIC',
+    resist: 'FIRE',
     skill: 52,
     target: 'SINGLE',
-    timer: 'HOMVIII',
+    timer: 'BOFVIII',
     type3Dmg: 0
   },
   MR: {
