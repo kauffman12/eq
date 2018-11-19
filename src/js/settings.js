@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.45B',
+  VERSION: 'Version 1.46B',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -215,14 +215,14 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug1 Selected',
     data: [
+      { value: 'SOCII', desc: 'New 2H Only Corruption Aug' },
+      { value: 'SOCI', desc: 'New 1H Only Corruption Aug' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
-      { value: 'BOIVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -231,14 +231,14 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug2 Selected',
     data: [
+      { value: 'SOCII', desc: 'New 2H Only Corruption Aug' },
+      { value: 'SOCI', desc: 'New 1H Only Corruption Aug' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },
       { value: 'FOMVII', desc: 'Tempest Magic' },
-      { value: 'BOIVI', desc: 'Cracked Shard of Frozen Light' },
       { value: 'FCVII', desc: 'The Heart of Narikor' },
       { value: 'SOFV', desc: 'Spirit of the Gorgon' },
-      { value: 'FSVII', desc: 'Living Golem Heart' },
       { value: 'NONE', desc: 'No Additional Aug2 Selected' }
     ]
   },
@@ -566,14 +566,14 @@ export const wizSpellFocusAAContext = [
     data: [
       { value: '0.20', desc: 'Vortexes (10/10)' },
       { value: '0.18', desc: 'Vortexes (9/10)' },
-      { value: '0.16', desc: 'Vortexes (8/10)' },
-      { value: '0.14', desc: 'Vortexes (7/10)' },
-      { value: '0.12', desc: 'Vortexes (6/10)' },
-      { value: '0.1', desc: 'Vortexes (5/10)' },
-      { value: '0.08', desc: 'Vortexes (4/10)' },
-      { value: '0.06', desc: 'Vortexes (3/10)' },
-      { value: '0.04', desc: 'Vortexes (2/10)' },
-      { value: '0.02', desc: 'Vortexes (1/10)' },
+      { value: '0', desc: 'Vortexes (8/10)' },
+      { value: '0', desc: 'Vortexes (7/10)' },
+      { value: '0', desc: 'Vortexes (6/10)' },
+      { value: '0', desc: 'Vortexes (5/10)' },
+      { value: '0', desc: 'Vortexes (4/10)' },
+      { value: '0', desc: 'Vortexes (3/10)' },
+      { value: '0', desc: 'Vortexes (2/10)' },
+      { value: '0', desc: 'Vortexes (1/10)' },
       { value: '0', desc: 'Vortexes (0/10)' }
     ]
   }

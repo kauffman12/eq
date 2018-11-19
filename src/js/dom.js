@@ -343,6 +343,12 @@ export function getGCDValue() {
   });
 }
 
+export function getLuckValue() {
+  return utils.useCache('.luck', () => {
+    return utils.getNumberValue($('#luck').val());
+  });
+}
+
 export function getDomForCritDGraph() {
   return $('#critDGraph').get(0);
 }

@@ -90,7 +90,9 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "ThriceWeak Effect", spellStats.get('thweakChargesUsed'));
 
     addPercentStatDescription(data, "Crit Dmg Mult", spellStats.get('critDmgMult'), true);
+    addPercentStatDescription(data, "Lucky Crit Dmg Mult", spellStats.get('luckyCritDmgMult'), true);
     addPercentStatDescription(data, "Crit Rate", spellStats.get('critRate'), true);
+    addPercentStatDescription(data, "Lucky Crit Rate", spellStats.get('luckyCritRate'), true);
     addPercentStatDescription(data, "Twincast Rate", spellStats.get('twincastRate'), true);
     
     if (!['WF', 'WE'].find(x => x === spell.id)) {    
@@ -108,6 +110,7 @@ export function getStatisticsSummary(spellStats) {
       addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
       addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));
       addNumberStatDescription(data, "Calc Crit Dmg", spellStats.get('avgCritDmg'));
+      addNumberStatDescription(data, "Calc Lucky Crit Dmg", spellStats.get('avgLuckyCritDmg'));
       addNumberStatDescription(data, "Avg AE Hit1", spellStats.get('aeHit1'));
       addNumberStatDescription(data, "Avg AE Hit2", spellStats.get('aeHit2'));
       addNumberStatDescription(data, "Avg AE Hit3", spellStats.get('aeHit3'));
