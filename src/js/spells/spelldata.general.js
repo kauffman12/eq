@@ -150,7 +150,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   EBOFV: {
-    base1: 0, // always proc
+    base1: 100,
     baseDmg: 3600,
     castTime: 0,
     focusable: true,
@@ -169,7 +169,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   ESOMV: {
-    base1: 0, // always proc
+    base1: 100,
     baseDmg: 3600,
     castTime: 0,
     focusable: true,
@@ -188,7 +188,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   EBOFVIII: {
-    base1: 0, // always proc
+    base1: 100,
     baseDmg: 4800,
     castTime: 0,
     focusable: true,
@@ -207,7 +207,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   ESOMVIII: {
-    base1: 0, // always proc
+    base1: 100,
     baseDmg: 4800,
     castTime: 0,
     focusable: true,

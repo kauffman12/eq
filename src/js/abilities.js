@@ -2735,7 +2735,7 @@ const ABILITIES = {
         spa: 462,
         slot: 1,
         type: 'wn',
-        value: 3000,
+        value: 5000,
         limits: [
           { currentHitPoints: true },
           { nonRepeating: true },
