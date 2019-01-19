@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.47B',
+  VERSION: 'Version 1.5',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -215,8 +215,8 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug1 Selected',
     data: [
-      { value: 'SOCII', desc: 'New 2H Only Corruption Aug' },
-      { value: 'SOCI', desc: 'New 1H Only Corruption Aug' },
+      { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
+      { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },
@@ -231,8 +231,8 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug2 Selected',
     data: [
-      { value: 'SOCII', desc: 'New 2H Only Corruption Aug' },
-      { value: 'SOCI', desc: 'New 1H Only Corruption Aug' },
+      { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
+      { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
       { value: 'FOMIX', desc: 'Ancient Diamond Spellcharm' },
       { value: 'SODIX', desc: 'Exotic Gem' },

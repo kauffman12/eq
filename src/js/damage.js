@@ -356,9 +356,10 @@ function calcAvgDamage(state, mod, dmgKey) {
     let beforeDoTCritDmg = dmgU.trunc(effDmg * beforeDoTCritFocus);
     // damage to appended after crits have been calculated but before SPA 461
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd / dotMod;
+
     // luck
-    let luckyRate = (dom.getLuckValue() >= 10) ? 2 / 3 : 0;
-    let luckyCritDmgMult = critDmgMult + 0.10;
+    let luckyRate = dom.getLuckValue() > 0 ? 0.50 : 0;
+    let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? 0.075 + (parseInt(dom.getLuckValue() / 10) * 0.05) : 0);
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
