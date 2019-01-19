@@ -50,6 +50,23 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  AFU4: {
+    base1: 10,
+    baseDmg: 200000,
+    castTime: 0,
+    focusable: false,
+    id: 'AFU4',
+    level: 254,
+    manaCost: 0,
+    maxCritRate: 0.15,
+    name: 'Arcane Fusion IV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'afusion'
+  },
   BB: {
     baseDmg: 20299,
     castTime: 0,
@@ -229,7 +246,7 @@ export const SPELL_DATA = {
     name: 'Cloudburst Thunderbolt Rk. III'
   },
   DF: {
-    baseDmg: 127710,
+    baseDmg: 140801,
     canTwincast: false,
     castTime: 1980,
     focusable: true,
@@ -237,7 +254,7 @@ export const SPELL_DATA = {
     level: 250,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Dichotomic Fire 6',
+    name: 'Dissident Fire 6',
     origCastTime: 3000,
     recastTime: 60000,
     recastTime2: 6000,
@@ -367,14 +384,14 @@ export const SPELL_DATA = {
     timer: 'skyblaze',
     type3DmgAug: 2381
   },
-  FA: {
+  FBC: {
     castTime: 1980,
     focusable: true,
-    id: 'FA',
-    level: 102,
+    id: 'FBC',
+    level: 107,
     lockoutTime: 1500,
-    manaCost: 13261,
-    name: 'Frostbound Alliance Rk. III',
+    manaCost: 13791,
+    name: 'Frostbound Covenant Rk. III',
     origCastTime: 3000,
     recastTime: 60000,
     resist: 'COLD',
@@ -382,17 +399,17 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '14'
   },
-  FAF: {
-    baseDmg: 2696520,
+  FAR: {
+    baseDmg: 3121559,
     castTime: 1980,
     focusable: false,
-    id: 'FAF',
+    id: 'FAR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    max: 2696520,
+    max: 3121559,
     maxCritRate: 0,
-    name: 'Frostbound Fulmination III',
+    name: 'Frostbound Resolution III',
     origCastTime: 3000,
     recastTime: 0,
     resist: 'COLD',
@@ -995,15 +1012,15 @@ export const SPELL_DATA = {
     target: 'TargetRingAE',
     timer: 'splashproxene'
   },
-  SV: {
-    baseDmg: 14388,
+  SJ: {
+    baseDmg: 19828,
     castTime: 800,
     focusable: true,
-    id: 'SV',
-    level: 103,
+    id: 'SJ',
+    level: 108,
     lockoutTime: 1500,
     manaCost: 1246,
-    name: 'Shocking Vortex Rk. III',
+    name: 'Stormjolt Vortex Rk. III',
     origCastTime: 1000,
     recastTime: 24000,
     resist: 'MAGIC',

@@ -42,7 +42,7 @@ const FOCUS_AA_KEYS = {
     'IC': '.aa-rimeb .dropdown-toggle',
     'SC': '.aa-selfc .dropdown-toggle',
     'SF': '.aa-pills .dropdown-toggle',
-    'SV': '.aa-vortex .dropdown-toggle',
+    'SJ': '.aa-vortex .dropdown-toggle',
     'TW': '.aa-thrice .dropdown-toggle',
     'WH': '.aa-corona .dropdown-toggle'
   }
@@ -271,6 +271,18 @@ export function getCritRateValue() {
   return utils.getNumberValue($('#innatCritRate').val());
 }
 
+export function getArmorProc1Value() {
+  return utils.useCache('.armor-proc1', () => {
+    return $('.armor-proc1 .dropdown-toggle').data('value');
+  });
+}
+
+export function getArmorProc2Value() {
+  return utils.useCache('.armor-proc2', () => {
+    return $('.armor-proc2 .dropdown-toggle').data('value');
+  });
+}
+
 export function getDPSAug1AugValue() {
   return utils.useCache('.dps-aug1', () => {
     return $('.dps-aug1 .dropdown-toggle').data('value');
@@ -328,6 +340,12 @@ export function getForceOfWillValue() {
 export function getGCDValue() {
   return utils.useCache('.gcd-value', () => {
     return 1000 * utils.getNumberValue($('#gcd').val());
+  });
+}
+
+export function getLuckValue() {
+  return utils.useCache('.luck', () => {
+    return utils.getNumberValue($('#luck').val());
   });
 }
 
@@ -441,6 +459,10 @@ export function getSpellFocusAAValue(id) {
 
       if (value === 9) {
         value = 0.16;
+      } else if(value === 10) {
+        value = 0.18;
+      } else if(value === 11) {
+        value = 0.20;
       }
     }
 

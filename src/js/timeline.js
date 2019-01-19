@@ -724,8 +724,8 @@ export function updateSpellChart() {
     // Display/Cast alliance damage when timer expires
     switch(G.MODE) {
       case 'wiz': case 'mag': 
-        if (utils.isAbilityExpired(state, 'FA')) {
-          castSpell(state, utils.getSpellData('FAF'));
+        if (utils.isAbilityExpired(state, 'FBC')) {
+          castSpell(state, utils.getSpellData('FAR'));
           continue;
         }
         break;

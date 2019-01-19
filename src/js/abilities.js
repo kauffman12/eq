@@ -767,25 +767,6 @@ const ABILITIES = {
       }
     ]
   },
-  FCOLD55: {
-    level: 255,
-    name: 'Cold Damage 55-75 L110',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.65,
-        limits: [
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['COLD']) }
-        ]
-      }
-    ]
-  },
   FCOLD57: {
     level: 255,
     name: 'Cold Damage 57-75 L115',
@@ -814,6 +795,25 @@ const ABILITIES = {
         slot: 1,
         type: 'wn',
         value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['COLD']) }
+        ]
+      }
+    ]
+  },
+  FCOLD6090: {
+    level: 255,
+    name: 'Cold Damage 60-90 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.75,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -881,21 +881,21 @@ const ABILITIES = {
       }
     ]
   },
-  FCHROM55: {
+  FCOLD70120: {
     level: 255,
-    name: 'CHROMATIC Damage 55-75 L110',
+    name: 'Cold Damage 70-120 L115',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'wn',
-        value: 0.65,
+        value: 0.95,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['CHROMATIC']) }
+          { resists: SMap(['COLD']) }
         ]
       }
     ]
@@ -928,6 +928,25 @@ const ABILITIES = {
         slot: 1,
         type: 'wn',
         value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },
+  FCHROM6090: {
+    level: 255,
+    name: 'CHROMATIC Damage 60-90 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.75,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -995,21 +1014,21 @@ const ABILITIES = {
       }
     ]
   },
-  FFIRE55: {
+  FCHROM70120: {
     level: 255,
-    name: 'Fire Damage 55-75 L110',
+    name: 'CHROMATIC Damage 70-120 L115',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'wn',
-        value: 0.65,
+        value: 0.95,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['FIRE']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
@@ -1042,6 +1061,25 @@ const ABILITIES = {
         slot: 1,
         type: 'wn',
         value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['FIRE']) }
+        ]
+      }
+    ]
+  },
+  FFIRE6090: {
+    level: 255,
+    name: 'Fire Damage 60-90 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.75,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -1109,21 +1147,21 @@ const ABILITIES = {
       }
     ]
   },
-  FMAGIC55: {
+  FFIRE70120: {
     level: 255,
-    name: 'Magic Damage 55-75 L110',
+    name: 'Fire Damage 70-120 L115',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'wn',
-        value: 0.65,
+        value: 0.95,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['MAGIC']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -1156,6 +1194,25 @@ const ABILITIES = {
         slot: 1,
         type: 'wn',
         value: 0.675,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  FMAGIC6090: {
+    level: 255,
+    name: 'Magic Damage 60-90 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.75,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -1213,6 +1270,25 @@ const ABILITIES = {
         slot: 1,
         type: 'wn',
         value: 0.85,
+        limits: [
+          { maxLevel: 115 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },
+  FMAGIC70120: {
+    level: 255,
+    name: 'Magic Damage 70-120 L115',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.95,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -1384,23 +1460,23 @@ const ABILITIES = {
     duration: 18000 + TICK_OFFSET,
     level: 101,
     mode: 'mag',
-    name: 'Firebound Alliance Rk. III',
+    name: 'Firebound Covenant Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 36643,
+        value: 42419,
         limits: [
           { targets: TARGET_LOS },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 96 },
-          { maxLevel: 110 },
+          { minLevel: 101 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2500 }
+          { minDmg: 2750 }
         ]
       }
     ]
@@ -1410,25 +1486,25 @@ const ABILITIES = {
     class: 'wiz',
     charges: 8,
     duration: 18000 + TICK_OFFSET,
-    level: 102,
+    level: 107,
     mode: 'wiz',
-    name: 'Frostbound Alliance Rk. III',
+    name: 'Frostbound Covenant Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 48115,
+        value: 55699,
         limits: [
           { targets: TARGET_SINGLE },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 96 },
-          { maxLevel: 110 },
+          { minLevel: 101 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2500 }
+          { minDmg: 2750 }
         ]
       }
     ]
@@ -2659,7 +2735,7 @@ const ABILITIES = {
         spa: 462,
         slot: 1,
         type: 'wn',
-        value: 3000,
+        value: 5000,
         limits: [
           { currentHitPoints: true },
           { nonRepeating: true },
@@ -2690,6 +2766,43 @@ const ABILITIES = {
       }
     ]
   },
+  TRTAL: {
+    level: 254,
+    name: 'Trophy of Talendor',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 170,
+        slot: 1,
+        type: 'wn',
+        value: 0.10
+      },
+      {
+        spa: 375,
+        slot: 2,
+        type: 'wn',
+        value: 0.10
+      }
+    ]
+  },
+  TRTOR: {
+    level: 254,
+    name: 'Trophy of Tormax',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 399,
+        slot: 1,
+        type: 'wn',
+        value: 0.01,
+        limits: [
+          { exTwincastMarker: true },
+          { minManaCost: 10 },
+          { exSkills: COMBAT_SKILLS }
+        ]
+      }
+    ]
+  },
   VES: {
     adpsDropdown: true,
     class: 'brd',
@@ -2715,17 +2828,17 @@ const ABILITIES = {
     class: 'wiz',
     charges: 24,
     duration: 18000 + TICK_OFFSET,
-    level: 103,
+    level: 108,
     mode: 'wiz',
-    name: 'Shocking Vortex Effect',
+    name: 'Stormjolt Vortex Effect',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.75,
+        value: 0.825,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { maxDuration: 0 },
           { minManaCost: 100 }
@@ -2771,7 +2884,7 @@ const ABILITIES = {
     duration: 12000 + TICK_OFFSET,
     level: 254,
     name: 'Evoker\'s Synergy I',
-    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Shocking Vortex.',
+    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
     effects: [
       {
         proc: 'WSYN1',
