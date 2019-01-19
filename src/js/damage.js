@@ -173,7 +173,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
       }
       break;
-    case 'SV':
+    case 'SJ':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
   
       synergy = dom.getEvokersSynergyValue();
@@ -215,9 +215,9 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       
       //state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
-    case 'FA':
+    case 'FBC':
       if (dom.getAllianceFulminationValue() > 0) {
-        state[utils.getCounterKeys('FA').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
+        state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       }
       break;
     case 'SFB':
@@ -357,8 +357,13 @@ function calcAvgDamage(state, mod, dmgKey) {
     // damage to appended after crits have been calculated but before SPA 461
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd / dotMod;
 
+    // luck
+    let luckyRate = dom.getLuckValue() > 0 ? 0.50 : 0;
+    let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? 0.075 + (parseInt(dom.getLuckValue() / 10) * 0.05) : 0);
+
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
     let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
+    let avgLuckyCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * luckyCritDmgMult);
 
     // damage to append after SPA 461
     // need to add 483 separate or damage is off by 1 plus its the messed up SPA so it's 
@@ -368,6 +373,10 @@ function calcAvgDamage(state, mod, dmgKey) {
     // add SPA 461
     avgBaseDmg += dmgU.trunc(avgBaseDmg * spa461Focus) + afterSPA461Dmg;
     avgCritDmg += dmgU.trunc(avgCritDmg * spa461Focus) + afterSPA461Dmg;
+    avgLuckyCritDmg += dmgU.trunc(avgLuckyCritDmg * spa461Focus) + afterSPA461Dmg;
+
+    // adjust for luck
+    avgCritDmg = (1 - luckyRate) * avgCritDmg + luckyRate * avgLuckyCritDmg;
 
     // find average damage overall before additional twincasts
     avgDmg = (avgBaseDmg * (1.0 - critRate)) + avgCritDmg * critRate;
@@ -383,7 +392,9 @@ function calcAvgDamage(state, mod, dmgKey) {
 
       // update core stats in main spell cast
       stats.updateSpellStatistics(state, 'critRate', critRate);
+      stats.updateSpellStatistics(state, 'luckyCritRate', critRate * luckyRate);
       stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
+      stats.updateSpellStatistics(state, 'luckyCritDmgMult', luckyCritDmgMult);
       stats.updateSpellStatistics(state, 'spellDmg', spellDmg);
       stats.updateSpellStatistics(state, 'effectiveness', effectiveness);
       stats.updateSpellStatistics(state, 'beforeCritFocus', beforeCritFocus);
@@ -396,6 +407,7 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.updateSpellStatistics(state, 'afterSPA461Add', afterSPA461Add);
       stats.updateSpellStatistics(state, 'avgBaseDmg', avgBaseDmg);
       stats.updateSpellStatistics(state, 'avgCritDmg', avgCritDmg);
+      stats.updateSpellStatistics(state, 'avgLuckyCritDmg', avgLuckyCritDmg);
 
       if (!state.aeWave && critRate > 0) { // dont want Frostbound Fulmination showing up as 0
         // Update graph
@@ -590,7 +602,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -602,7 +614,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SV', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (! ['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 

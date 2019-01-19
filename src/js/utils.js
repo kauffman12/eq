@@ -185,8 +185,8 @@ export function getCastTime(state, spell) {
       castTime = origCastTime - origCastTime * 0.30; 
     } else if (origCastTime >= 3000) {
       origCastTime -= adjust;
-      if (['DF', 'FA'].find(id => id === spell.id)) {
-        // DF and FA don't receive benefit from AA quicker damage
+      if (['DF', 'FBC'].find(id => id === spell.id)) {
+        // DF and FBC don't receive benefit from AA quicker damage
         castTime = origCastTime - origCastTime * 0.34; 
       } else {
         // most spells hit 50% cap with piety + legs + AA (11 + 23 + 20)
