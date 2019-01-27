@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.5',
+  VERSION: 'Version 1.51',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -1274,6 +1274,17 @@ export const magDPSAAContext = [
       { value: '4', desc: 'Fury of Magic (2/30)' },
       { value: '2', desc: 'Fury of Magic (1/30)' },
       { value: '0', desc: 'Fury of Magic (0/30)' }
+    ]
+  },
+  {
+    id: 'aa-steelveng',
+    value: '12',
+    desc: 'Steel Vengeance (12/12)',
+    data: [
+      { value: '12', desc: 'Steel Vengeance (12/12)' },
+      { value: '11', desc: 'Steel Vengeance (11/12)' },
+      { value: '10', desc: 'Steel Vengeance (10/12)' },
+      { value: '0', desc: 'Steel Vengeance (0/12)' }
     ]
   },
   {

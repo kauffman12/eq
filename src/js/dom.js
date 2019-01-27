@@ -349,6 +349,12 @@ export function getLuckValue() {
   });
 }
 
+export function getSteelVengeanceValue() {
+  return utils.useCache('.aa-steelveng', () => {
+    return $('.aa-steelveng .dropdown-toggle').data('value');
+  });
+}
+
 export function getDomForCritDGraph() {
   return $('#critDGraph').get(0);
 }

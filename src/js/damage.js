@@ -173,6 +173,22 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
       }
       break;
+    case 'SH': case 'SR':
+      if (G.MODE === 'mag') {
+        let steelVeng = dom.getSteelVengeanceValue();
+        switch(steelVeng) {
+          case 12:
+            executeProc(state, 'SV12', mod * 0.30, 'steelveng');
+            break;
+          case 11:
+            executeProc(state, 'SV11', mod * 0.25, 'steelveng');
+            break;
+          case 10:
+            executeProc(state, 'SV10', mod * 0.25, 'steelveng');
+            break;
+        }
+      }
+      break;
     case 'SJ':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
   
@@ -358,7 +374,8 @@ function calcAvgDamage(state, mod, dmgKey) {
     let afterCritDmg = dmgU.trunc(effDmg * afterCritFocus) + afterCritAdd / dotMod;
 
     // luck
-    let luckyRate = dom.getLuckValue() > 0 ? 0.50 : 0;
+    let luckyRate = dom.getLuckValue() > 0 ? 0.45 : 0;
+    luckyRate = dom.getLuckValue() >= 10 ? 0.50 : luckyRate; // From devs and parses its around 0.50 >= 10
     let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? 0.075 + (parseInt(dom.getLuckValue() / 10) * 0.05) : 0);
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
