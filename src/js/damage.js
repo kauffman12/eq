@@ -233,11 +233,12 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       break;
     case 'RU':
       if (G.MODE === 'mag') {
-          // proc adds debuf that prevents another proc for 12 seconds
-          if (!state.lastRUProc || (state.workingTime - state.lastRUProc) >= 12000) {
-           executeProc(state, 'RD', mod * 0.12, 'repudiatedest');
-            state.lastRUProc = state.workingTime;
-          }
+        // proc adds debuf that prevents another proc for 12 seconds (unless we're a twincast then increase proc chance)
+        if (!state.lastRUProc || (state.workingTime === state.lastRUProc) || (state.workingTime - state.lastRUProc) >= 12000) {
+          let rate = (state.workingTime !== state.lastRUProc) ? 0.12 : 0.1056; // 88% chance of not procing x 12%
+          executeProc(state, 'RD', mod * rate, 'repudiatedest');
+          state.lastRUProc = state.workingTime;
+        }
       }
       break;
     case 'FBC':
