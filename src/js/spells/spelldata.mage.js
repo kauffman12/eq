@@ -438,6 +438,52 @@ export const SPELL_DATA = {
   RSRk3: {
     name: 'Reckless Servant Rk. III'
   },
+  RD: {
+    baseDmg: 120000,
+    castTime: 0,
+    focusable: false,
+    id: 'RD',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Repudiate Destruction',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'UNRESISTABLE',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'repudiateDest',
+    type3DmgAug: 0
+  },
+  RU: {
+    baseDmg: 19334,
+    castTime: 1200,
+    focusable: true,
+    id: 'RU',
+    level: 108,
+    lockoutTime: 1500,
+    manaCost: 1708,
+    name: 'Repudiate the Unnatural Rk. III',
+    origCastTime: 1500,
+    recastTime: 5750,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'repudiateUnnatural',
+    type3DmgAug: 1381
+  },
+  RURk1: {
+    name: 'Repudiate the Unnatural Rk. I',
+    baseDmg: 17536
+  },
+  RURk2: {
+    name: 'Repudiate the Unnatural Rk. II',
+    baseDmg: 18413
+  },
+  RURk3: {
+    name: 'Repudiate the Unnatural Rk. III',
+    baseDmg: 19334
+  },
   SFB: {
     baseDmg: 0,
     beneficial: true,

@@ -18,6 +18,7 @@ const FOCUS_AA_KEYS = {
     'BK': '.aa-beam-scythes .dropdown-toggle',
     'BS': '.aa-boltm .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
+    'RU': '.aa-eradun .dropdown-toggle',
     'FC': '.aa-fickle .dropdown-toggle',
     'RK': '.aa-raincut .dropdown-toggle',
     'VM': '.aa-storm .dropdown-toggle',

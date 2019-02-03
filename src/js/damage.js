@@ -231,6 +231,15 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       
       //state.dotGenerator = genDamageOverTime(state, dmgU.getRSDPS, 6000, 'totalAvgPetDmg');
       break;
+    case 'RU':
+      if (G.MODE === 'mag') {
+          // proc adds debuf that prevents another proc for 12 seconds
+          if (!state.lastRUProc || (state.workingTime - state.lastRUProc) >= 12000) {
+           executeProc(state, 'RD', mod * 0.12, 'repudiatedest');
+            state.lastRUProc = state.workingTime;
+          }
+      }
+      break;
     case 'FBC':
       if (dom.getAllianceFulminationValue() > 0) {
         state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();

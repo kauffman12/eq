@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.51',
+  VERSION: 'Version 1.52',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -34,7 +34,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RS', 'SH', 'SB', 'SS', 'SA', 'VM'
+  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RU', 'RS', 'SH', 'SB', 'SS', 'SA', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -673,6 +673,25 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Coronal Rain (2/11)' },
       { value: '0', desc: 'Coronal Rain (1/11)' },
       { value: '0', desc: 'Coronal Rain (0/11)' }
+    ]
+  },
+  {
+    id: 'aa-eradun',
+    value: '0.20',
+    desc: 'Eradicate the Unnatural (11/11)',
+    data: [
+      { value: '0.20', desc: 'Eradicate the Unnatural (11/11)' },
+      { value: '0.18', desc: 'Eradicate the Unnatural (10/11)' },
+      { value: '0.16', desc: 'Eradicate the Unnatural (9/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (8/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (7/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (6/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (5/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (4/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (3/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (2/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (1/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (0/11)' }
     ]
   },
   {
