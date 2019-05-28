@@ -900,6 +900,25 @@ const ABILITIES = {
       }
     ]
   },
+  FCOLD85123: {
+    level: 255,
+    name: 'Cold Damage 85-123 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['COLD']) }
+        ]
+      }
+    ]
+  },  
   FCHROM57: {
     level: 255,
     name: 'CHROMATIC Damage 57-75 L115',

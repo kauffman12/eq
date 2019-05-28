@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.53',
+  VERSION: 'Version 1.54',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -89,6 +89,7 @@ export const basicDmgFocusContext = [
     value: 'FCOLD70120',
     desc: 'Heavenly/Veiled Gloves',
     data: [
+      { value: 'FCOLD85123', desc: 'White Platinum Threaded Satin Gloves' },
       { value: 'FCOLD70120', desc: 'Heavenly/Veiled Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },

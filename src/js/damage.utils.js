@@ -579,7 +579,10 @@ export function displaySpellInfo(target, testData) {
 
   // do this and view page source...
   //let w = window.open('', 'Test Data');
-  //w.document.write(JSON.stringify(lines));
+  //w.document.clear();
+  //w.document.write('<xmp>');
+  //lines.forEach(line => w.document.writeln(line));
+  //w.document.write('</xmp>');
 
   $(test).append(preTest);
   $(current).append(preCurrent);
@@ -587,7 +590,9 @@ export function displaySpellInfo(target, testData) {
   // check for errors
   let error = -1;
   for (let i=0; i<lines.length; i++) {
-    if (lines[i] !== testData[i]) {
+    if (!lines[i].includes(testData[i])) {
+      console.debug(lines[i]);
+      console.debug(testData[i]);
       error = i + 1;
       break;
     }
