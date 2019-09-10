@@ -170,8 +170,8 @@ const ABILITIES = {
     charges: 4,
     class: 'brd',
     duration: 24000 + TICK_OFFSET, // about 4 ticks
-    level: 110,
-    name: 'Arcane Ballad Rk. III',
+    level: 115,
+    name: 'New Arcane Ballad Rk. III',
     refreshTime: 12000, // varies depending on bard melody set
     repeatEvery: -1,
     effects: [
@@ -181,7 +181,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { currentHitPoints: true },
           { exSpells: SMap(['AB']) },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 }
@@ -230,7 +230,7 @@ const ABILITIES = {
           { maxDuration: 0 },
           { type: 'detrimental' },
           { minManaCost: 10 },
-          { maxLevel: 110 }
+          { maxLevel: 115 }
         ]
       }
     ]
@@ -247,7 +247,7 @@ const ABILITIES = {
           { onSpellUse: true },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minLevel: 95 },
+          { minLevel: 100 },
           { minCastTime: 3000 }
         ]
       }
@@ -258,9 +258,9 @@ const ABILITIES = {
     class: 'enc',
     charges: 6,
     duration: 18000 + TICK_OFFSET,
-    level: 101,
+    level: 108,
     mode: 'enc',
-    name: 'Chromatic Alliance Rk. III',
+    name: 'Chromatic Covenant Rk. III',
     otherCast: true,
     effects: [
       {
@@ -272,8 +272,8 @@ const ABILITIES = {
           { targets: TARGET_SINGLE },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 96 },
-          { maxLevel: 110 },
+          { minLevel: 101 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 },
           { minDmg: 2500 }
@@ -344,8 +344,8 @@ const ABILITIES = {
         spa: 297,
         value: 3500,
         limits: [
-          { maxLevel: 110 },
-          { minLevel: 96 },
+          { maxLevel: 115 },
+          { minLevel: 91 },
           { minManaCost: 10 }
         ]
       }
@@ -353,8 +353,8 @@ const ABILITIES = {
   },
   ARIA: {
     class: 'brd',
-    level: 106,
-    name: 'Aria of Begalru Rk. III',
+    level: 111,
+    name: 'New Aria of Begalru Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -364,7 +364,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.45,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS }
@@ -416,8 +416,8 @@ const ABILITIES = {
     charges: 24, // game only uses half of spell data?
     class: 'enc',
     duration: 50000,
-    level: 108,
-    name: 'Bolstering Aura Rk. III',
+    level: 113,
+    name: 'New Bolstering Aura Rk. III',
     refreshTime: 30000,
     repeatEvery: -1,
     effects: [
@@ -427,7 +427,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.04,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { minManaCost: 10 },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
@@ -473,7 +473,7 @@ const ABILITIES = {
           { minManaCost: 10 },
           { exSkills: COMBAT_SKILLS },
           { type: 'detrimental' },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { exTwincastMarker: true }
         ]
       }
@@ -496,7 +496,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minDmg: 100 },
           { nonRepeating: true }
         ]
@@ -525,7 +525,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { resists: SMap(['COLD']) },
           { minLevel: 91 },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { maxDuration: 0 },
           { minManaCost: 10 }
         ]
@@ -562,7 +562,7 @@ const ABILITIES = {
         proc: 'DRS',
         limits: [
           { onSpellUse: true },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exSpells: SMap(['DRS']) },
           { minManaCost: 100 }
@@ -574,7 +574,7 @@ const ABILITIES = {
         type: 'sp',
         value: 3959,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { minManaCost: 100 }
         ]
@@ -738,7 +738,7 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'brd',
     duration: 120000,
-    level: 110,
+    level: 115,
     name: 'Fierce Eye IV',
     effects: [
       {
@@ -1361,8 +1361,8 @@ const ABILITIES = {
   FRB: {
     class: 'dru',
     debuff: true,
-    level: 107,
-    name: 'Frostreave Breath Rk. III',
+    level: 123,
+    name: 'New Frostreave Breath Rk. III',
     repeatEvery: -1,
     effects: [
       {
@@ -1371,7 +1371,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.06,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { resists: SMap(['COLD']) }
@@ -1585,7 +1585,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minDmg: 100 },
           { nonRepeating: true }
         ]
@@ -1615,8 +1615,8 @@ const ABILITIES = {
   },
   FATE: {
     class: 'brd',
-    level: 107,
-    name: 'Fatesong of Dekloaz Rk. III',
+    level: 112,
+    name: 'New Fatesong of Dekloaz Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -1626,8 +1626,8 @@ const ABILITIES = {
         type: 'sp',
         value: 2781,
         limits: [
-          { minLevel: 101 },
-          { maxLevel: 110 },
+          { minLevel: 106 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
@@ -1656,7 +1656,7 @@ const ABILITIES = {
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
-          { maxLevel: 110 } // need to really verify
+          { maxLevel: 115 } // need to really verify
         ]
       }
     ]
@@ -1679,7 +1679,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 } // need to really verify
+          { maxLevel: 115 } // need to really verify
         ]
       }
     ]
@@ -1724,7 +1724,7 @@ const ABILITIES = {
         type: 'sp',
         value: 1.15,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exTargets: SMap(['TargetAE', 'CasterPB']) }
@@ -1763,7 +1763,7 @@ const ABILITIES = {
           { maxDuration: 0 },
           { type: 'detrimental' },
           { targets: SMap(['SINGLE']) },
-          { maxLevel: 110 }, // from testing
+          { maxLevel: 115 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
       },
@@ -1890,7 +1890,7 @@ const ABILITIES = {
     class: 'enc',
     debuff: true,
     level: 255,
-    name: 'Tashan\'s Lingering Cry V',
+    name: 'New Tashan\'s Lingering Cry',
     repeatEvery: -1,
     effects: [
       {
@@ -1899,7 +1899,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.09,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -1908,8 +1908,8 @@ const ABILITIES = {
   MALO: {
     class: 'mag',
     debuff: true,
-    level: 106,
-    name: 'Malosinata Rk. III',
+    level: 111,
+    name: 'New Malosinata Rk. III',
     otherCast: true,
     repeatEvery: -1,
     effects: [
@@ -1919,7 +1919,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.06,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { resists: SMap(['MAGIC']) },
           { exSkills: COMBAT_SKILLS }
@@ -1988,8 +1988,8 @@ const ABILITIES = {
     charges: 6,
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
-    level: 110,
-    name: 'Mana Repetition Aura Rk. III',
+    level: 115,
+    name: 'New Mana Repetition Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -2000,7 +2000,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
           { exSpells: SMap(['MR']) },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -2110,14 +2110,14 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'brd',
     duration: 240000,
-    level: 110,
+    level: 115,
     name: 'Quick Time VIII',
     effects: []
   },
   QUNARD: {
     class: 'brd',
-    level: 108,
-    name: 'Qunard\'s Aria Rk. III',
+    level: 113,
+    name: 'New Qunard\'s Aria Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -2127,8 +2127,8 @@ const ABILITIES = {
         type: 'sp',
         value: 1987,
         limits: [
-          { minLevel: 101 },
-          { maxLevel: 110 },
+          { minLevel: 106 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { maxDuration: 0 },
@@ -2223,8 +2223,8 @@ const ABILITIES = {
   SUMAC: {
     class: 'dru',
     debuff: true,
-    level: 108,
-    name: 'Skin to Sumac Rk. III',
+    level: 113,
+    name: 'New Skin to Sumac Rk. III',
     repeatEvery: -1,
     effects: [
       {
@@ -2233,7 +2233,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.07,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { resists: SMap(['FIRE']) },
           { exSkills: COMBAT_SKILLS }
@@ -2265,7 +2265,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Ice I',
+    name: 'New Syllable of Ice I',
     effects: [
       {
         spa: 303,
@@ -2277,7 +2277,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['COLD']) }
         ]
@@ -2290,7 +2290,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Ice II',
+    name: 'New Syllable of Ice II',
     effects: [
       {
         spa: 303,
@@ -2302,7 +2302,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['COLD']) }
         ]
@@ -2315,7 +2315,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Ice III',
+    name: 'New Syllable of Ice III',
     effects: [
       {
         spa: 303,
@@ -2327,7 +2327,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['COLD']) }
         ]
@@ -2340,7 +2340,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Fire I',
+    name: 'New Syllable of Fire I',
     effects: [
       {
         spa: 303,
@@ -2352,7 +2352,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['FIRE']) }
         ]
@@ -2365,7 +2365,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Fire II',
+    name: 'New Syllable of Fire II',
     effects: [
       {
         spa: 303,
@@ -2377,7 +2377,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['FIRE']) }
         ]
@@ -2390,7 +2390,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Fire III',
+    name: 'New Syllable of Fire III',
     effects: [
       {
         spa: 303,
@@ -2402,7 +2402,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['FIRE']) }
         ]
@@ -2415,7 +2415,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Magic I',
+    name: 'New Syllable of Magic I',
     effects: [
       {
         spa: 303,
@@ -2427,7 +2427,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['MAGIC']) }
         ]
@@ -2440,7 +2440,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Magic II',
+    name: 'New Syllable of Magic II',
     effects: [
       {
         spa: 303,
@@ -2452,7 +2452,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['MAGIC']) }
         ]
@@ -2465,7 +2465,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Magic III',
+    name: 'New Syllable of Magic III',
     effects: [
       {
         spa: 303,
@@ -2477,7 +2477,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 },
           { resists: SMap(['MAGIC']) }
         ]
@@ -2490,7 +2490,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Mastery I',
+    name: 'New Syllable of Mastery I',
     effects: [
       {
         spa: 303,
@@ -2502,7 +2502,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -2514,7 +2514,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Mastery II',
+    name: 'New Syllable of Mastery II',
     effects: [
       {
         spa: 303,
@@ -2526,7 +2526,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -2538,7 +2538,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Syllable of Mastery III',
+    name: 'New Syllable of Mastery III',
     effects: [
       {
         spa: 303,
@@ -2550,7 +2550,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { type: 'detrimental' },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { minManaCost: 10 }
         ]
       }
@@ -2698,7 +2698,7 @@ const ABILITIES = {
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
           { minManaCost: 10 },
-          { maxLevel: 110 }
+          { maxLevel: 115 }
         ]
       }
     ]
@@ -2721,7 +2721,7 @@ const ABILITIES = {
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 110 } // need to really verify
+          { maxLevel: 115 } // need to really verify
         ]
       }
     ]

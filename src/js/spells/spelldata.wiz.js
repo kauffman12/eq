@@ -7,7 +7,7 @@ export const SPELL_DATA = {
     id: 'AFU1',
     level: 254,
     manaCost: 0,
-    maxCritRate: 0.15,
+    minCritRate: 1.0,
     name: 'Arcane Fusion I',
     origCastTime: 0,
     recastTime: 0,
@@ -24,7 +24,7 @@ export const SPELL_DATA = {
     id: 'AFU2',
     level: 254,
     manaCost: 0,
-    maxCritRate: 0.15,
+    minCritRate: 1.0,
     name: 'Arcane Fusion II',
     origCastTime: 0,
     recastTime: 0,
@@ -41,7 +41,7 @@ export const SPELL_DATA = {
     id: 'AFU3',
     level: 254,
     manaCost: 0,
-    maxCritRate: 0.15,
+    minCritRate: 1.0,
     name: 'Arcane Fusion III',
     origCastTime: 0,
     recastTime: 0,
@@ -58,7 +58,7 @@ export const SPELL_DATA = {
     id: 'AFU4',
     level: 254,
     manaCost: 0,
-    maxCritRate: 0.15,
+    minCritRate: 1.0,
     name: 'Arcane Fusion IV',
     origCastTime: 0,
     recastTime: 0,
@@ -68,15 +68,15 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   BB: {
-    baseDmg: 20299,
+    baseDmg: 24618,
     castTime: 0,
     focusable: true,
     id: 'BB',
-    level: 106,
+    level: 111,
     lockoutTime: 1500,
     manaCost: 2484 ,
     maxHits: 12,
-    name: 'Burning Beam Rk. III',
+    name: 'New Burning Beam Rk. III',
     origCastTime: 0,
     recastTime: 12000,
     resist: 'FIRE',
@@ -85,16 +85,16 @@ export const SPELL_DATA = {
     timer: '2'
   },
   BBRk1: {
-    baseDmg: 18411,
-    name: 'Burning Beam Rk. I'
+    baseDmg: 22328,
+    name: 'New Burning Beam Rk. I'
   },
   BBRk2: {
-    baseDmg: 19332,
-    name: 'Burning Beam Rk. II'
+    baseDmg: 23445,
+    name: 'New Burning Beam Rk. II'
   },
   BBRk3: {
-    baseDmg: 20299,
-    name: 'Burning Beam Rk. III'
+    baseDmg: 24618,
+    name: 'New Burning Beam Rk. III'
   },
   CRYO: {
     baseDmg: 25000,
@@ -112,33 +112,33 @@ export const SPELL_DATA = {
     timer: 'cryo'
   },
   CQ: {
-    baseDmg: 26276,
+    baseDmg: 31866,
     castTime: 1500,
     focusable: true,
     id: 'CQ',
-    level: 108,
+    level: 113,
     lockoutTime: 1500,
     manaCost: 2014,
-    name: 'Claw of Qunard Rk. III',
+    name: 'New Claw of Qunard Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: '11',
-    type3DmgAug: 1688
+    type3DmgAug: 2047
   },
   CQRk1: {
-    baseDmg: 23833,
-    name: 'Claw of Qunard Rk. I'
+    baseDmg: 28903,
+    name: 'New Claw of Qunard Rk. I'
   },
   CQRk2: {
-    baseDmg: 25025,
-    name: 'Claw of Qunard Rk. II'
+    baseDmg: 30349,
+    name: 'New Claw of Qunard Rk. II'
   },
   CQRk3: {
-    baseDmg: 26276,
-    name: 'Claw of Qunard Rk. III'
+    baseDmg: 31866,
+    name: 'New Claw of Qunard Rk. III'
   },
   CI: {
     baseDmg: 7237,
@@ -264,62 +264,62 @@ export const SPELL_DATA = {
     timer: 'dicho'
   },
   EI: {
-    baseDmg: 36353,
+    baseDmg: 44087,
     castTime: 1875,
     focusable: true,
     id: 'EI',
-    level: 109,
+    level: 114,
     lockoutTime: 1500,
     manaCost: 5573,
-    name: 'Ethereal Icefloe Rk. III',
+    name: 'New Ethereal Icefloe Rk. III',
     origCastTime: 3750,
     recastTime: 5250,
     resist: 'COLD',
     skill: 24,
     target: 'SINGLE',
-    timer: 'eiceflow',
-    type3DmgAug: 2887
+    timer: 'neweiceflow',
+    type3DmgAug: 3501
   },
   EIRk1: {
-    baseDmg: 32973,
-    name: 'Ethereal Icefloe Rk. I'
+    baseDmg: 39988,
+    name: 'New Ethereal Icefloe Rk. I'
   },
   EIRk2: {
-    baseDmg: 34622,
-    name: 'Ethereal Icefloe Rk. II'
+    baseDmg: 41988,
+    name: 'New Ethereal Icefloe Rk. II'
   },
   EIRk3: {
-    baseDmg: 36353,
-    name: 'Ethereal Icefloe Rk. III'
+    baseDmg: 44087,
+    name: 'New Ethereal Icefloe Rk. III'
   },
   ES: {
-    baseDmg: 40421,
+    baseDmg: 49021,
     castTime: 1875,
     focusable: true,
     id: 'ES',
     level: 110,
     lockoutTime: 1500,
     manaCost: 6196,
-    name: 'Ethereal Skyfire Rk. III',
+    name: 'New Ethereal Skyfire Rk. III',
     origCastTime: 3750,
     recastTime: 5500,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'skyfire',
-    type3DmgAug: 2887
+    timer: 'newskyfire',
+    type3DmgAug: 3501
   },
   ESRk1: {
-    baseDmg: 36663,
-    name: 'Ethereal Skyfire Rk. I'
+    baseDmg: 44463,
+    name: 'New Ethereal Skyfire Rk. I'
   },
   ESRk2: {
-    baseDmg: 38496,
-    name: 'Ethereal Skyfire Rk. II'
+    baseDmg: 46686,
+    name: 'New Ethereal Skyfire Rk. II'
   },
   ESRk3: {
-    baseDmg: 40421,
-    name: 'Ethereal Skyfire Rk. III'
+    baseDmg: 49021,
+    name: 'New Ethereal Skyfire Rk. III'
   },
   EV: {
     baseDmg: 34201,
@@ -368,21 +368,21 @@ export const SPELL_DATA = {
     type3DmgAug: 2381
   },
   EZ: {
-    baseDmg: 33330,
+    baseDmg: 40421,
     castTime: 1875,
     focusable: true,
     id: 'EZ',
-    level: 105,
+    level: 110,
     lockoutTime: 1500,
-    manaCost: 5158,
-    name: 'Ethereal Skyblaze Rk. III',
+    manaCost: 6196,
+    name: 'Ethereal Skyfire Rk. III',
     origCastTime: 3750,
     recastTime: 5500,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'skyblaze',
-    type3DmgAug: 2381
+    timer: 'skyfire',
+    type3DmgAug: 2887
   },
   FBC: {
     castTime: 1980,

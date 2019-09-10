@@ -347,10 +347,12 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Crit Rate
     let critRate = dmgU.getBaseCritRate() + spaValues.addCritRate;
     // Check for spells with max crit rate
-    critRate = (state.spell.maxCritRate != undefined) ? state.spell.maxCritRate : critRate;
+    critRate = ((state.spell.maxCritRate != undefined) && critRate > state.spell.maxCritRate) ? state.spell.maxCritRate : critRate;
+    // Check for spells with min crit rate
+    critRate = ((state.spell.minCritRate != undefined) && state.spell.minCritRate > critRate) ? state.spell.minCritRate : critRate;
     // Check if we've gone over 100%
     critRate = (critRate > 1.0) ? 1.0 : critRate;
-
+    
     // Get Spell Damage
     let spellDmg = calcSpellDamage(state);
     // Get Effectiveness
