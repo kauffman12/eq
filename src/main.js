@@ -3,7 +3,7 @@ import './css/generated/bootstrap.css';
 import './css/generated/vis-timeline-graph2d.css';
 import 'bootstrap-multiselect/dist/css/bootstrap-multiselect.css';
 import './css/main.css';
-import testData from './data/spell-validation.json';
+import testData from './data/spell-validation.txt';
 
 // Library References
 import {globals as G} from './js/settings.js';
@@ -234,7 +234,7 @@ $('.custom-collapse').each((i, p) => {
 });
 
 $('#myModal').on('shown.bs.modal', () => {
-  $.get(testData, (data) => dmgU.displaySpellInfo($('#myModal .modal-body'), data));
+  $.get(testData, (data) => dmgU.displaySpellInfo($('#myModal .modal-body'), data.split(/\r?\n/)));
 })
 
 $('#pageLink').on('click', () => {

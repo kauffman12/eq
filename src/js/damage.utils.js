@@ -471,7 +471,18 @@ export function getSpellProcs(abilities, spell) {
 }
 
 export function getProcRate(spell, proc) {
-  return (proc.base1) ? proc.base1 / 100 * getNormalizer(spell) : 1.0;
+  let rate = 1.0;
+  
+  if (proc.base1)
+  {
+    rate = proc.base1 / 100 * getNormalizer(spell);
+  }
+  else if (proc.fixedRate)
+  {
+    rate = proc.fixedRate / 100;
+  }
+  
+  return rate;
 }
 
 export function getNormalizer(spell) {
@@ -579,7 +590,10 @@ export function displaySpellInfo(target, testData) {
 
   // do this and view page source...
   //let w = window.open('', 'Test Data');
-  //w.document.write(JSON.stringify(lines));
+  //w.document.clear();
+  //w.document.write('<xmp>');
+  //lines.forEach(line => w.document.writeln(line));
+  //w.document.write('</xmp>');
 
   $(test).append(preTest);
   $(current).append(preCurrent);
@@ -587,7 +601,9 @@ export function displaySpellInfo(target, testData) {
   // check for errors
   let error = -1;
   for (let i=0; i<lines.length; i++) {
-    if (lines[i] !== testData[i]) {
+    if (!lines[i].includes(testData[i])) {
+      console.debug(lines[i]);
+      console.debug(testData[i]);
       error = i + 1;
       break;
     }

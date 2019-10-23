@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.5',
+  VERSION: 'Version 1.55',
   MAX_LEVEL: 110,
   CLASSES: {
     enc: {
@@ -34,7 +34,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RS', 'SH', 'SB', 'SS', 'SA', 'VM'
+  'BK', 'BM', 'BS', 'BB', 'CI', 'DC', 'FC', 'FBC', 'MB', 'RK', 'RM', 'RU', 'RS', 'SH', 'SB', 'SS', 'SA', 'VM'
 ];
 
 // enc spells to display in spell drop down
@@ -89,6 +89,7 @@ export const basicDmgFocusContext = [
     value: 'FCOLD70120',
     desc: 'Heavenly/Veiled Gloves',
     data: [
+      { value: 'FCOLD85123', desc: 'White Platinum Threaded Satin Gloves' },
       { value: 'FCOLD70120', desc: 'Heavenly/Veiled Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
@@ -673,6 +674,25 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Coronal Rain (2/11)' },
       { value: '0', desc: 'Coronal Rain (1/11)' },
       { value: '0', desc: 'Coronal Rain (0/11)' }
+    ]
+  },
+  {
+    id: 'aa-eradun',
+    value: '0.20',
+    desc: 'Eradicate the Unnatural (11/11)',
+    data: [
+      { value: '0.20', desc: 'Eradicate the Unnatural (11/11)' },
+      { value: '0.18', desc: 'Eradicate the Unnatural (10/11)' },
+      { value: '0.16', desc: 'Eradicate the Unnatural (9/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (8/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (7/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (6/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (5/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (4/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (3/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (2/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (1/11)' },
+      { value: '0', desc: 'Eradicate the Unnatural (0/11)' }
     ]
   },
   {
@@ -1274,6 +1294,17 @@ export const magDPSAAContext = [
       { value: '4', desc: 'Fury of Magic (2/30)' },
       { value: '2', desc: 'Fury of Magic (1/30)' },
       { value: '0', desc: 'Fury of Magic (0/30)' }
+    ]
+  },
+  {
+    id: 'aa-steelveng',
+    value: '12',
+    desc: 'Steel Vengeance (12/12)',
+    data: [
+      { value: '12', desc: 'Steel Vengeance (12/12)' },
+      { value: '11', desc: 'Steel Vengeance (11/12)' },
+      { value: '10', desc: 'Steel Vengeance (10/12)' },
+      { value: '0', desc: 'Steel Vengeance (0/12)' }
     ]
   },
   {

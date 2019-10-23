@@ -438,6 +438,52 @@ export const SPELL_DATA = {
   RSRk3: {
     name: 'Reckless Servant Rk. III'
   },
+  RD: {
+    baseDmg: 120000,
+    castTime: 0,
+    focusable: false,
+    id: 'RD',
+    level: 255,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Repudiate Destruction',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'UNRESISTABLE',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'repudiateDest',
+    type3DmgAug: 0
+  },
+  RU: {
+    baseDmg: 19334,
+    castTime: 1200,
+    focusable: true,
+    id: 'RU',
+    level: 108,
+    lockoutTime: 1500,
+    manaCost: 1708,
+    name: 'Repudiate the Unnatural Rk. III',
+    origCastTime: 1500,
+    recastTime: 5750,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'repudiateUnnatural',
+    type3DmgAug: 1381
+  },
+  RURk1: {
+    name: 'Repudiate the Unnatural Rk. I',
+    baseDmg: 17536
+  },
+  RURk2: {
+    name: 'Repudiate the Unnatural Rk. II',
+    baseDmg: 18413
+  },
+  RURk3: {
+    name: 'Repudiate the Unnatural Rk. III',
+    baseDmg: 19334
+  },
   SFB: {
     baseDmg: 0,
     beneficial: true,
@@ -546,6 +592,57 @@ export const SPELL_DATA = {
     target: 'LOS',
     timer: 'spearmoltenshield',
     type3DmgAug: 2124
+  },
+  SV10: {
+    baseDmg: 40000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV10',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance X',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },
+  SV11: {
+    baseDmg: 50000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV11',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },
+  SV12: {
+    baseDmg: 60000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV12',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
   },
   VM: {
     baseDmg: 4974,
