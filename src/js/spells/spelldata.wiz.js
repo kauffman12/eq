@@ -1,8 +1,9 @@
 export const SPELL_DATA = {
   AFU1: {
-    base1: 10,
     baseDmg: 73450,
     castTime: 0,
+    fixedRate: 3,
+    spa497: true,
     focusable: false,
     id: 'AFU1',
     level: 254,
@@ -17,9 +18,10 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU2: {
-    base1: 10,
     baseDmg: 100000,
     castTime: 0,
+    fixedRate: 3,
+    spa497: true,
     focusable: false,
     id: 'AFU2',
     level: 254,
@@ -34,9 +36,10 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU3: {
-    base1: 10,
     baseDmg: 150000,
     castTime: 0,
+    fixedRate: 3,
+    spa497: true,
     focusable: false,
     id: 'AFU3',
     level: 254,
@@ -51,9 +54,10 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU4: {
-    base1: 10,
     baseDmg: 200000,
     castTime: 0,
+    fixedRate: 3,
+    spa497: true,
     focusable: false,
     id: 'AFU4',
     level: 254,
