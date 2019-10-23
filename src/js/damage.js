@@ -347,7 +347,9 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Crit Rate
     let critRate = dmgU.getBaseCritRate() + spaValues.addCritRate;
     // Check for spells with max crit rate
-    critRate = (state.spell.maxCritRate != undefined) ? state.spell.maxCritRate : critRate;
+    critRate = ((state.spell.maxCritRate != undefined) && critRate > state.spell.maxCritRate) ? state.spell.maxCritRate : critRate;
+    // Check for spells with min crit rate
+    critRate = ((state.spell.minCritRate != undefined) && state.spell.minCritRate > critRate) ? state.spell.minCritRate : critRate;
     // Check if we've gone over 100%
     critRate = (critRate > 1.0) ? 1.0 : critRate;
 
@@ -549,7 +551,7 @@ function executeProc(state, id, mod, statId) {
   if (ability && ability.charges) {
     if (utils.isAbilityActive(state, key)) {
       let chargesPer = (statId != 'DR') ? 1 : 1 + dmgU.getProcRate(state.spell, proc); // fix for DR issue
-      let charge = mod * chargesPer;
+      let charge = mod * chargesPer;    
       partUsed = dmgU.processCounter(state, key, charge);
     } else {
       // inactive
@@ -557,7 +559,7 @@ function executeProc(state, id, mod, statId) {
     }
   }
 
-  if (partUsed > 0) { // if charges were consumed for abilities that need them
+  if (partUsed > 0 && !(proc.spa497 && state.inTwincast)) { // if charges were consumed for abilities that need them
     partUsed = partUsed * mod;
     (id != 'MR') ? calcAvgProcDamage(state, proc, partUsed, keys.addDmg) : calcAvgMRProcDamage(state, partUsed, keys.addDmg);
   }
