@@ -1,6 +1,6 @@
 export const globals = {
-  VERSION: 'Version 1.54',
-  MAX_LEVEL: 110,
+  VERSION: 'Version 1.65',
+  MAX_LEVEL: 115,
   CLASSES: {
     enc: {
       title: 'EQ Enchanter DPS Tool',

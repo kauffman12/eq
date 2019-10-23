@@ -471,7 +471,18 @@ export function getSpellProcs(abilities, spell) {
 }
 
 export function getProcRate(spell, proc) {
-  return (proc.base1) ? proc.base1 / 100 * getNormalizer(spell) : 1.0;
+  let rate = 1.0;
+  
+  if (proc.base1)
+  {
+    rate = proc.base1 / 100 * getNormalizer(spell);
+  }
+  else if (proc.fixedRate)
+  {
+    rate = proc.fixedRate / 100;
+  }
+  
+  return rate;
 }
 
 export function getNormalizer(spell) {
