@@ -329,28 +329,26 @@ const ABILITIES = {
     ]
   },
   ARCO: {
-    charges: 5,
     class: 'wiz',
-    debuff: true,
+    charges: 5,
     duration: 30000 + TICK_OFFSET,
-    level: 254,
+    level: 255,
     mode: 'wiz',
     name: 'Arcomancy XXVII',
-    repeatEvery: -999,
-    type: 'sp',
     effects: [
       {
+        spa: 462,
         slot: 1,
-        spa: 297,
-        value: 3500,
+        type: 'sp',
+        value: 10000,
         limits: [
-          { maxLevel: 115 },
-          { minLevel: 91 },
-          { minManaCost: 10 }
+          { minManaCost: 10 },
+          { maxDuration: 0 },
+          { maxLevel: 115 }
         ]
       }
     ]
-  },
+  },  
   ARIA: {
     class: 'brd',
     level: 111,
@@ -362,7 +360,7 @@ const ABILITIES = {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 0.45,
+        value: 0.46,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -506,29 +504,6 @@ const ABILITIES = {
         slot: 10,
         type: 'sp',
         value: 1.0
-      }
-    ]
-  },
-  CRYO: {
-    charges: 1,
-    class: 'wiz',
-    debuff: true,
-    level: 254,
-    mode: 'wiz',
-    name: 'Cryomancy XXVII',
-    repeatEvery: -999,
-    effects: [
-      {
-        proc: 'CRYO',
-        limits: [
-          { onSpellUse: true },
-          { type: 'detrimental' },
-          { resists: SMap(['COLD']) },
-          { minLevel: 91 },
-          { maxLevel: 115 },
-          { maxDuration: 0 },
-          { minManaCost: 10 }
-        ]
       }
     ]
   },
@@ -1339,8 +1314,8 @@ const ABILITIES = {
     charges: 6,
     class: 'dru',
     duration: 18000 + TICK_OFFSET,
-    level: 108,
-    name: 'Frostreave Aura Rk. III',
+    level: 113,
+    name: 'New Frostreave Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1352,7 +1327,7 @@ const ABILITIES = {
           { currentHitPoints: true },
           { exSpells: SMap(['FW']) },
           { exSkills: COMBAT_SKILLS },
-          { maxLevel: 115 },
+          { maxLevel: 120 },
           { minManaCost: 10 }
         ]
       }
@@ -1450,6 +1425,75 @@ const ABILITIES = {
         proc: 'BJ',
         limits: [
           { activated: true }
+        ]
+      }
+    ]
+  },
+  FBSINGERk1: {
+    class: 'wiz',
+    charges: 1,
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    name: 'New Flashburn Singe I',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4374,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },          
+          { maxLevel: 115 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },    
+  FBSINGERk2: {
+    class: 'wiz',
+    charges: 1,
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    name: 'New Flashburn Singe II',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4593,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },          
+          { maxLevel: 115 },
+          { minManaCost: 10 }
+        ]
+      }
+    ]
+  },    
+  FBSINGERk3: {
+    class: 'wiz',
+    charges: 1,
+    duration: 12000 + TICK_OFFSET,
+    level: 255,
+    name: 'New Flashburn Singe III',
+    effects: [
+      {
+        spa: 303,
+        slot: 1,
+        type: 'sp',
+        value: 4823,
+        limits: [
+          { minCastTime: 3000 }, 
+          { currentHitPoints: true },
+          { type: 'detrimental' },
+          { exSkills: COMBAT_SKILLS },          
+          { maxLevel: 115 },
+          { minManaCost: 10 }
         ]
       }
     ]
@@ -1716,7 +1760,7 @@ const ABILITIES = {
     duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Flames XIII',
+    name: 'New Heart of Flames And Vapor',
     effects: [
       {
         spa: 124,
@@ -1729,17 +1773,7 @@ const ABILITIES = {
           { exSkills: COMBAT_SKILLS },
           { exTargets: SMap(['TargetAE', 'CasterPB']) }
         ]
-      }
-    ]
-  },
-  HOV: {
-    adpsDropdown: true,
-    class: 'mag',
-    duration: 360000,
-    level: 254,
-    mode: 'mag',
-    name: 'Heart of Vapor XV',
-    effects: [
+      },
       {
         spa: 170,
         slot: 6,
@@ -2096,16 +2130,6 @@ const ABILITIES = {
       }
     ]
   },
-  PYRO: {
-    class: 'wiz',
-    debuff: true,
-    duration: 36000, // dot does 5 ticks of damage plus 1 at the end
-    level: 254,
-    mode: 'wiz',
-    name: 'Pyromancy XXVII',
-    repeatEvery: -999,
-    effects: [] // handled by DOT generator and constants in dmgU ++ should have level 91
-  },
   QT: {
     adpsDropdown: true,
     class: 'brd',
@@ -2125,7 +2149,7 @@ const ABILITIES = {
         spa: 286,
         slot: 1,
         type: 'sp',
-        value: 1987,
+        value: 2519,
         limits: [
           { minLevel: 106 },
           { maxLevel: 115 },
@@ -2142,8 +2166,8 @@ const ABILITIES = {
     adpsDropdown: true,
     class: 'rng',
     debuff: true,
-    duration: 18000 + TICK_OFFSET,
-    level: 110,
+    duration: 60000,
+    level: 115,
     name: 'Elemental Arrow II',
     otherCast: true,
     effects: [
@@ -2154,46 +2178,6 @@ const ABILITIES = {
         value: 0.15,
         limits: [
           { resists: SMap(['FIRE', 'COLD']) }
-        ]
-      }
-    ]
-  },
-  RGA: {
-    adpsDropdown: true,
-    class: 'rng',
-    debuff: true,
-    duration: 18000 + TICK_OFFSET,
-    level: 110,
-    name: 'Glacial Arrow IV',
-    otherCast: true,
-    effects: [
-      {
-        spa: 296,
-        slot: 1,
-        type: 'sp',
-        value: 0.12,
-        limits: [
-          { resists: SMap(['COLD']) }
-        ]
-      }
-    ]
-  },
-  RVA: {
-    adpsDropdown: true,
-    class: 'rng',
-    debuff: true,
-    duration: 18000 + TICK_OFFSET,
-    level: 110,
-    name: 'Volatile Arrow IV',
-    otherCast: true,
-    effects: [
-      {
-        spa: 296,
-        slot: 1,
-        type: 'sp',
-        value: 0.12,
-        limits: [
-          { resists: SMap(['FIRE']) }
         ]
       }
     ]
@@ -2223,8 +2207,8 @@ const ABILITIES = {
   SUMAC: {
     class: 'dru',
     debuff: true,
-    level: 113,
-    name: 'New Skin to Sumac Rk. III',
+    level: 110,
+    name: 'Skin to Sumac Rk. III',
     repeatEvery: -1,
     effects: [
       {
@@ -2233,7 +2217,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.07,
         limits: [
-          { maxLevel: 115 },
+          { maxLevel: 110 },
           { type: 'detrimental' },
           { resists: SMap(['FIRE']) },
           { exSkills: COMBAT_SKILLS }
@@ -2271,7 +2255,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3816,
+        value: 4838,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2296,7 +2280,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4007,
+        value: 5080,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2321,7 +2305,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4207,
+        value: 5334,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2346,7 +2330,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3816,
+        value: 4838,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2371,7 +2355,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4007,
+        value: 5080,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2396,7 +2380,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4207,
+        value: 5334,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2421,7 +2405,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3816,
+        value: 4838,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2446,7 +2430,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4007,
+        value: 5080,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2471,7 +2455,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4207,
+        value: 5334,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2496,7 +2480,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4655,
+        value: 5902,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2520,7 +2504,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 4888,
+        value: 6197,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2544,7 +2528,7 @@ const ABILITIES = {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 5132,
+        value: 6507,
         limits: [
           { minCastTime: 3000 }, 
           { currentHitPoints: true },
@@ -2559,7 +2543,7 @@ const ABILITIES = {
   SW: {
     adpsDropdown: true,
     class: 'dru',
-    duration: 30000 + TICK_OFFSET,
+    duration: 60000,
     level: 254,
     name: 'Season\'s Wrath VII',
     effects: [
@@ -2685,13 +2669,13 @@ const ABILITIES = {
     duration: 60000,
     level: 255,
     mode: 'wiz',
-    name: 'Thricewoven Power VI',
+    name: 'New Thricewoven Power VI',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 1.125,
+        value: 1.325,
         limits: [
           { minDmg: 100 },
           { type: 'detrimental' },
@@ -2709,7 +2693,7 @@ const ABILITIES = {
     duration: 12000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Thricewoven Weakness',
+    name: 'New Thricewoven Weakness',
     effects: [
       {
         spa: 124,
@@ -2765,6 +2749,14 @@ const ABILITIES = {
       }
     ]
   },
+  TRIF: {
+    class: 'wiz',
+    debuff: true,
+    level: 115,
+    name: 'Trifurcating Magic XXVII',
+    repeatEvery: -1,
+    effects: [] // handle in damage.js
+  },    
   TP: {
     name: 'Twinproc AA',
     effects: [

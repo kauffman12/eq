@@ -428,14 +428,14 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   FW: {
-    baseDmg: 4081,
+    baseDmg: 5624,
     castTime: 0,
     focusable: true,
     id: 'FW',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'New Frostweave Strike III',
+    name: 'New Frostreave Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'COLD',
@@ -499,7 +499,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MR: {
-    baseDmg: 5018,
+    baseDmg: 6086,
     castTime: 0,
     focusable: true,
     id: 'MR',
@@ -507,7 +507,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Repetition Strike III',
+    name: 'New Mana Repetition Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -517,7 +517,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRR: {
-    baseDmg: 9203,
+    baseDmg: 11160,
     castTime: 0,
     focusable: true,
     id: 'MRR',
@@ -525,7 +525,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Repetition Strike III',
+    name: 'New Mana Re-Repetition Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -535,7 +535,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRRR: {
-    baseDmg: 9663,
+    baseDmg: 11718,
     castTime: 0,
     focusable: true,
     id: 'MRRR',
@@ -543,7 +543,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Re-Repetition Strike III',
+    name: 'New Mana Re-Re-Repetition Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',
@@ -553,7 +553,7 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   MRRRR: {
-    baseDmg: 10146,
+    baseDmg: 12304,
     castTime: 0,
     focusable: true,
     id: 'MRRRR',
@@ -561,7 +561,7 @@ export const SPELL_DATA = {
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Mana Re-Re-Re-Repetition Strike III',
+    name: 'New Mana Re-Re-Re-Repetition Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'CHROMATIC',

@@ -80,44 +80,28 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   }
 
   switch(spell.resist) {
-    case 'COLD':
-      if (dmgU.isCastDetSpell(spell)) {
-        state.coldSpells = mod + (state.coldSpells || 0);
-
-        if (G.MODE === 'wiz' && state.enabledButInActive.has('CRYO') && state.coldSpells >= dmgU.CRYO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'CRYO', 1, true);
-          if (!executeProc(state, 'CRYO', mod, 'CRYO')) {
-            state.spellProcAbilities.delete('CRYO');
-          }
-
-          state.coldSpells = state.coldSpells - dmgU.CRYO_PROC_RATE;
-        }
-      }
-      break;
+    //case 'COLD':
+    //  if (dmgU.isCastDetSpell(spell)) {
+    //    state.coldSpells = mod + (state.coldSpells || 0);
+    //  }
+    //  break;
     case 'FIRE':
       if (dmgU.isCastDetSpell(spell)) {
-        state.fireSpells = mod + (state.fireSpells || 0);
+        //state.fireSpells = mod + (state.fireSpells || 0);
 
-        if (G.MODE === 'wiz' && state.enabledButInActive.has('PYRO') && state.fireSpells >= dmgU.PYRO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'PYRO', 1, true);
-          state.dotGenerator = genDamageOverTime(state, dmgU.getPyroDPS, 6000, 'totalDotDmg');
-          state.fireSpells = state.fireSpells - dmgU.PYRO_PROC_RATE;
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          executeProc(state, 'PYRO', mod * dmgU.PYRO_PROC_RATE, 'PYRO');
+          //state.fireSpells = state.fireSpells - dmgU.PYRO_PROC_RATE;
         }
       }      
       break;
     case 'MAGIC':
       if (dmgU.isCastDetSpell(spell)) {
-        state.magicSpells = mod + (state.magicSpells || 0);
+        //state.magicSpells = mod + (state.magicSpells || 0);
 
-        // keep track of a counter based on main spell cast + twincast
-        // average DPS sometimes goes down when it shouldnt because some gains
-        // are lost during a small twincast. Check mod > 50% ? worth testing anyway
-        // Same as with Fickle. I think this matters less for damage procs.
-        // MSYN and others dont have as big an issue because they always start on main spell cast
-        // VFX procs another one when it twincasts, etc
-        if (mod >= 0.50 && G.MODE === 'wiz' && state.enabledButInActive.has('ARCO') && state.magicSpells >= dmgU.ARCO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'ARCO', 1, true);
-          state.magicSpells = 0;
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          timeline.addSpellProcAbility(state, 'ARCO', dmgU.ARCO_PROC_RATE, true);
+          //state.magicSpells = 0;
         }
       }
       break;
@@ -245,6 +229,14 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       if (dom.getAllianceFulminationValue() > 0) {
         state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       }
+      break;
+    case 'FB':
+      state.fbSpells = mod + (state.fbSpells || 0);
+
+      if (G.MODE === 'wiz' && state.fbSpells >= dmgU.FBSINGE_PROC_RATE) {
+        timeline.addSpellProcAbility(state, 'FBSINGE' + utils.getRank(), 1, true);
+        state.fbSpells = 0;
+      }    
       break;
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;

@@ -23,10 +23,9 @@ export const ENC_INNATE_CRIT_DMG = 100;
 export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
 
-export const ARCO_PROC_RATE = 100 / (100 * 0.30);
-export const CRYO_PROC_RATE = 100 / (100 * 0.25);
-export const PYRO_PROC_RATE = 100 / (100 * 0.21);
-export const PYRO_DPS = 20400 / 6;
+export const ARCO_PROC_RATE = 0.30; //100 / (100 * 0.30);
+export const PYRO_PROC_RATE = 0.30; // 100 / (100 * 0.30);
+export const FBSINGE_PROC_RATE = 100 / (100 * 0.25);
 
 export const SC_MAX_DMG_MOD = 1.0;
 export const SP_MAX_DMG_MOD = 1.2;
@@ -83,10 +82,10 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'CDG', 'CRYO', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'PYRO', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRERk1',
+  'ARCO', 'CDG', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRERk1',
   'SYLLFIRERk2', 'SYLLFIRERk3', 'SYLLMAGICRk1', 'SYLLMAGICRk2', 'SYLLMAGICRk3', 'SYLLICERk1', 'SYLLICERk2',
   'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK',
-  'GCH'
+  'GCH', 'FBSINGERk1', 'FBSINGERk2', 'FBSINGERk3'
 ];
 
 // Spell/Abilities that exist on both spell timeline and adps (they can overlap)
@@ -330,10 +329,6 @@ export function getMultiplier(castTime) {
   }
 
   return multiplier;
-}
-
-export function getPyroDPS(state) {
-  return utils.isAbilityActive(state, 'PYRO') ? PYRO_DPS : 0;
 }
 
 export function getRSDPS(state) {

@@ -60,6 +60,9 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "FReave Charges", spellStats.get('fraChargesUsed'));
     addDecimalStatDescription(data, "Firebound Charges", spellStats.get('firebaChargesUsed'));
     addDecimalStatDescription(data, "Frostbound Charges", spellStats.get('frostbaChargesUsed'));
+    addDecimalStatDescription(data, "FB Singe I", spellStats.get('fbsingerk1ChargesUsed'));
+    addDecimalStatDescription(data, "FB Singe II", spellStats.get('fbsingerk2ChargesUsed'));
+    addDecimalStatDescription(data, "FB Singe III", spellStats.get('fbsingerk3ChargesUsed'));    
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
     addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
     addDecimalStatDescription(data, "Fire Syllable I", spellStats.get('syllfirerk1ChargesUsed'));
@@ -134,7 +137,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "Aug/Eqp Procs", spellStats.get('eqpAddDmg'));
   addNumberStatDescription(data, "Arcane Fusion", spellStats.get('afuAddDmg'));
   addNumberStatDescription(data, "ABallad Proc", spellStats.get('abAddDmg'));
-  addNumberStatDescription(data, "Cryo Proc", spellStats.get('cryoAddDmg'));
+  addNumberStatDescription(data, "Pyro Proc", spellStats.get('pyroAddDmg'));
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FReave Proc", spellStats.get('fraAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
@@ -145,7 +148,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn1AddDmg'));
   addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn2AddDmg'));
 
-  addNumberStatDescription(data, "Est Fuse Proc", spellStats.get('fuseProcDmg'));
+  addNumberStatDescription(data, "Est Braid Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));
 
   let dps = Math.trunc((spellStats.get('totalDmg') || 0) / (spellStats.get('adjCastTime') + dom.getLockoutTime(spell)) * 1000);
