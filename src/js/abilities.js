@@ -556,13 +556,13 @@ const ABILITIES = {
     class: 'enc',
     duration: 18000 + TICK_OFFSET, // Test similar to MR
     level: 250,
-    name: 'Dichotomic Reinforcement 6',
+    name: 'Dissident Reinforcement 6',
     effects: [
       {
         proc: 'DRS',
         limits: [
           { onSpellUse: true },
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { exSpells: SMap(['DRS']) },
           { minManaCost: 100 }
@@ -572,9 +572,9 @@ const ABILITIES = {
         spa: 303,
         slot: 8,
         type: 'sp',
-        value: 3959,
+        value: 4365,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { type: 'detrimental' },
           { minManaCost: 100 }
         ]
