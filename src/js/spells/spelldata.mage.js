@@ -515,7 +515,7 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
-    timer: 'spearmolten',
+    timer: 'newspeararconite',
     type3DmgAug: 3470
   },
   SARk1: {
@@ -534,7 +534,7 @@ export const SPELL_DATA = {
     baseDmg: 29731,
     castTime: 1750,
     focusable: true,
-    id: 'SS',
+    id: 'SB',
     level: 105,
     lockoutTime: 1500,
     manaCost: 4900,
@@ -551,7 +551,7 @@ export const SPELL_DATA = {
     baseDmg: 36056,
     castTime: 1750,
     focusable: true,
-    id: 'SA',
+    id: 'SS',
     level: 110,
     lockoutTime: 1500,
     manaCost: 5886,
@@ -561,7 +561,7 @@ export const SPELL_DATA = {
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
-    timer: 'spearmolten',
+    timer: 'speararconite',
     type3DmgAug: 2575
   },
   SH: {
