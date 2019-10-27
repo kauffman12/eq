@@ -2712,6 +2712,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.01,
         limits: [
+          { currentHitPoints: true },
           { exTwincastMarker: true },
           { minManaCost: 10 },
           { exSkills: COMBAT_SKILLS }

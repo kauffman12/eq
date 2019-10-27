@@ -9,6 +9,7 @@ const FOCUS_AA_KEYS = {
     'CF': '.aa-chromablink .dropdown-toggle',
     'GT': '.aa-gravity-twist .dropdown-toggle',
     'MU': '.aa-mindsunder .dropdown-toggle',
+    'MC': '.aa-mindsunder .dropdown-toggle',    
     'MS': '.aa-mindsunder .dropdown-toggle',
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
@@ -20,8 +21,10 @@ const FOCUS_AA_KEYS = {
     'RM': '.aa-coronal .dropdown-toggle',
     'RU': '.aa-eradun .dropdown-toggle',
     'FC': '.aa-fickle .dropdown-toggle',
+    'CI': '.aa-fickle .dropdown-toggle',    
     'RK': '.aa-raincut .dropdown-toggle',
     'VM': '.aa-storm .dropdown-toggle',
+    'SB': '.aa-spearm .dropdown-toggle',    
     'SS': '.aa-spearm .dropdown-toggle',
     'SA': '.aa-spearm .dropdown-toggle',
     'SH': '.aa-shockd .dropdown-toggle'
@@ -460,7 +463,7 @@ export function getSpellFocusAAValue(id) {
 
       // special case for now to handle some new and old focus
       // levels but not the new one
-      if (['SA', 'ES', 'EI', 'MS', 'SH'].find(spell => spell === id) && value < 9) {
+      if (['SA', 'SS', 'ES', 'EI', 'EZ', 'ER', 'MS', 'MU', 'SH'].find(spell => spell === id) && value < 9) {
         value = 0;
       } 
 
