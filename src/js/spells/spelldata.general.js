@@ -6,14 +6,14 @@ function SMap(list) {
 
 export const SPELL_DATA = {
   AB: {
-    baseDmg: 1463,
+    baseDmg: 1773,
     castTime: 0,
     focusable: true,
     id: 'AB',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'Arcane Ballad Effect III',
+    name: 'New Arcane Ballad Effect III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',
@@ -246,14 +246,14 @@ export const SPELL_DATA = {
   },
   DRS: {
     base1: 160,
-    baseDmg: 21944,
+    baseDmg: 24193,
     castTime: 0,
     focusable: true,
     id: 'DR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'Dichotomic Reinforced Strike 6',
+    name: 'Dissident Reinforced Strike 6',
     origCastTime: 0,
     recastTime: 6000,
     resist: 'CHROMATIC',

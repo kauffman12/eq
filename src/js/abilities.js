@@ -531,7 +531,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 18000 + TICK_OFFSET, // Test similar to MR
     level: 250,
-    name: 'Dichotomic Reinforcement 6',
+    name: 'Dissident Reinforcement 6',
     effects: [
       {
         proc: 'DRS',
@@ -547,7 +547,7 @@ const ABILITIES = {
         spa: 303,
         slot: 8,
         type: 'sp',
-        value: 3959,
+        value: 4365,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -742,44 +742,6 @@ const ABILITIES = {
       }
     ]
   },
-  FCOLD57: {
-    level: 255,
-    name: 'Cold Damage 57-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.66,
-        limits: [
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['COLD']) }
-        ]
-      }
-    ]
-  },
-  FCOLD60: {
-    level: 255,
-    name: 'Cold Damage 60-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.675,
-        limits: [
-          { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['COLD']) }
-        ]
-      }
-    ]
-  },
   FCOLD6090: {
     level: 255,
     name: 'Cold Damage 60-90 L115',
@@ -791,25 +753,6 @@ const ABILITIES = {
         value: 0.75,
         limits: [
           { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['COLD']) }
-        ]
-      }
-    ]
-  },
-  FCOLD65: {
-    level: 255,
-    name: 'Cold Damage 65-100 L110',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.825,
-        limits: [
-          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
@@ -856,6 +799,25 @@ const ABILITIES = {
       }
     ]
   },
+  FCOLD75: {
+    level: 255,
+    name: 'Cold Damage 75-90 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.825,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['COLD']) }
+        ]
+      }
+    ]
+  },  
   FCOLD70120: {
     level: 255,
     name: 'Cold Damage 70-120 L115',
@@ -894,47 +856,9 @@ const ABILITIES = {
       }
     ]
   },  
-  FCHROM57: {
-    level: 255,
-    name: 'CHROMATIC Damage 57-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.66,
-        limits: [
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['CHROMATIC']) }
-        ]
-      }
-    ]
-  },
-  FCHROM60: {
-    level: 255,
-    name: 'CHROMATIC Damage 60-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.675,
-        limits: [
-          { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['CHROMATIC']) }
-        ]
-      }
-    ]
-  },
   FCHROM6090: {
     level: 255,
-    name: 'CHROMATIC Damage 60-90 L115',
+    name: 'Chromatic Damage 60-90 L115',
     effects: [
       {
         spa: 124,
@@ -951,28 +875,9 @@ const ABILITIES = {
       }
     ]
   },
-  FCHROM65: {
-    level: 255,
-    name: 'CHROMATIC Damage 65-100 L110',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.825,
-        limits: [
-          { maxLevel: 110 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['CHROMATIC']) }
-        ]
-      }
-    ]
-  },
   FCHROM67: {
     level: 255,
-    name: 'CHROMATIC Damage 67-100 L115',
+    name: 'Chromatic Damage 67-100 L115',
     effects: [
       {
         spa: 124,
@@ -991,7 +896,7 @@ const ABILITIES = {
   },
   FCHROM70: {
     level: 255,
-    name: 'CHROMATIC Damage 70-100 L115',
+    name: 'Chromatic Damage 70-100 L115',
     effects: [
       {
         spa: 124,
@@ -1008,9 +913,28 @@ const ABILITIES = {
       }
     ]
   },
+  FCHROM75: {
+    level: 255,
+    name: 'Chromatic Damage 75-90 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.825,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['CHROMATIC']) }
+        ]
+      }
+    ]
+  },   
   FCHROM70120: {
     level: 255,
-    name: 'CHROMATIC Damage 70-120 L115',
+    name: 'Chromatic Damage 70-120 L115',
     effects: [
       {
         spa: 124,
@@ -1027,44 +951,25 @@ const ABILITIES = {
       }
     ]
   },
-  FFIRE57: {
+  FCHROM85123: {
     level: 255,
-    name: 'Fire Damage 57-75 L115',
+    name: 'Chromatic Damage 85-123 L120',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'wn',
-        value: 0.66,
+        value: 1.04,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 120 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['FIRE']) }
+          { resists: SMap(['CHROMATIC']) }
         ]
       }
     ]
-  },
-  FFIRE60: {
-    level: 255,
-    name: 'Fire Damage 60-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.675,
-        limits: [
-          { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['FIRE']) }
-        ]
-      }
-    ]
-  },
+  },  
   FFIRE6090: {
     level: 255,
     name: 'Fire Damage 60-90 L115',
@@ -1076,25 +981,6 @@ const ABILITIES = {
         value: 0.75,
         limits: [
           { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['FIRE']) }
-        ]
-      }
-    ]
-  },
-  FFIRE65: {
-    level: 255,
-    name: 'Fire Damage 65-100 L110',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.825,
-        limits: [
-          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
@@ -1141,6 +1027,25 @@ const ABILITIES = {
       }
     ]
   },
+  FFIRE75: {
+    level: 255,
+    name: 'Fire Damage 75-90 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.825,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['FIRE']) }
+        ]
+      }
+    ]
+  },    
   FFIRE70120: {
     level: 255,
     name: 'Fire Damage 70-120 L115',
@@ -1160,44 +1065,25 @@ const ABILITIES = {
       }
     ]
   },
-  FMAGIC57: {
+  FFIRE85123: {
     level: 255,
-    name: 'Magic Damage 57-75 L115',
+    name: 'Fire Damage 85-123 L120',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'wn',
-        value: 0.66,
+        value: 1.04,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 120 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['MAGIC']) }
+          { resists: SMap(['FIRE']) }
         ]
       }
     ]
-  },
-  FMAGIC60: {
-    level: 255,
-    name: 'Magic Damage 60-75 L115',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.675,
-        limits: [
-          { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['MAGIC']) }
-        ]
-      }
-    ]
-  },
+  },   
   FMAGIC6090: {
     level: 255,
     name: 'Magic Damage 60-90 L115',
@@ -1209,25 +1095,6 @@ const ABILITIES = {
         value: 0.75,
         limits: [
           { maxLevel: 115 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { resists: SMap(['MAGIC']) }
-        ]
-      }
-    ]
-  },
-  FMAGIC65: {
-    level: 255,
-    name: 'Magic Damage 65-100 L110',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'wn',
-        value: 0.825,
-        limits: [
-          { maxLevel: 110 },
           { type: 'detrimental' },
           { exTargets: SMap(['TargetAE', 'CasterPB']) },
           { exSkills: COMBAT_SKILLS },
@@ -1274,6 +1141,25 @@ const ABILITIES = {
       }
     ]
   },
+  FMAGIC75: {
+    level: 255,
+    name: 'Magic Damage 75-90 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 0.825,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },  
   FMAGIC70120: {
     level: 255,
     name: 'Magic Damage 70-120 L115',
@@ -1293,6 +1179,25 @@ const ABILITIES = {
       }
     ]
   },
+  FMAGIC85123: {
+    level: 255,
+    name: 'Magic Damage 85-123 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.04,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },     
   FR: {
     adpsDropdown: true,
     duration: 20000,
@@ -1668,7 +1573,7 @@ const ABILITIES = {
         spa: 286,
         slot: 1,
         type: 'sp',
-        value: 2781,
+        value: 3526,
         limits: [
           { minLevel: 106 },
           { maxLevel: 115 },
@@ -2168,7 +2073,7 @@ const ABILITIES = {
     debuff: true,
     duration: 60000,
     level: 115,
-    name: 'Elemental Arrow II',
+    name: 'New Elemental Arrow II',
     otherCast: true,
     effects: [
       {
@@ -2545,7 +2450,7 @@ const ABILITIES = {
     class: 'dru',
     duration: 60000,
     level: 254,
-    name: 'Season\'s Wrath VII',
+    name: 'New Season\'s Wrath VII',
     effects: [
       {
         spa: 296,
@@ -2629,7 +2534,7 @@ const ABILITIES = {
     duration: 180000,
     level: 254,
     mode: 'mag',
-    name: 'Thaumaturge\'s Focus XVI',
+    name: 'New Thaumaturge\'s Focus XVI',
     effects: [
       {
         spa: 212,
@@ -2637,7 +2542,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.10,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { currentHitPoints: true },
           { minManaCost: 10 },
           { type: 'detrimental' },
@@ -2652,7 +2557,7 @@ const ABILITIES = {
         type: 'sp',
         value: 0.55,
         limits: [
-          { maxLevel: 110 },
+          { maxLevel: 115 },
           { currentHitPoints: true },
           { minManaCost: 10 },
           { type: 'detrimental' },

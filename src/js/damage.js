@@ -229,15 +229,16 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       if (dom.getAllianceFulminationValue() > 0) {
         state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       }
-      break;
+      break;     
     case 'FB':
       state.fbSpells = mod + (state.fbSpells || 0);
 
       if (G.MODE === 'wiz' && state.fbSpells >= dmgU.FBSINGE_PROC_RATE) {
         timeline.addSpellProcAbility(state, 'FBSINGE' + utils.getRank(), 1, true);
-        state.fbSpells = 0;
+        state.fbSpells = state.fbSpells - dmgU.FBSINGE_PROC_RATE;
       }    
-      break;
+
+      break;      
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;

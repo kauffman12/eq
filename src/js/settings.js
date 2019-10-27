@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.65',
+  VERSION: 'Version 1.67',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -69,82 +69,70 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhead',
-    value: 'FMAGIC70120',
-    desc: 'Heavenly/Veiled Cap',
+    value: 'FMAGIC85123',
+    desc: 'Ice Woven/Velium Emp Cap',
     data: [
+      { value: 'FMAGIC85123', desc: 'Ice Woven/Velium Emp Cap' },
       { value: 'FMAGIC70120', desc: 'Heavenly/Veiled Cap' },
       { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
       { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
-      { value: 'FMAGIC65', desc: 'Deathseeker\'s Cap' },
-      { value: 'FMAGIC6090', desc: 'Adamant/Battleworn Cap' },
-      { value: 'FMAGIC60', desc: 'Weeping Undefeated Cap' },
-      { value: 'FMAGIC60', desc: 'Scaled Cap' },
-      { value: 'FMAGIC57', desc: 'Scale Touched Cap' },
-      { value: 'FMAGIC57', desc: 'Selrach\'s Cap' },
+      { value: 'FMAGIC75', desc: 'Icebound/Velium Infused Cap' },      
+      { value: 'FMAGIC6090', desc: 'Snowbound/Adamant/Battle Cap' },
       { value: 'NONE', desc: 'No Cap Selected' }
     ]
   },
   {
     id: 'wn-fhand',
-    value: 'FCOLD70120',
-    desc: 'Heavenly/Veiled Gloves',
+    value: 'FCOLD85123',
+    desc: 'Ice Woven/Velium Emp Gloves',
     data: [
+      { value: 'FCOLD85123', desc: 'Ice Woven/Velium Emp Gloves' },    
       { value: 'FCOLD85123', desc: 'White Platinum Threaded Satin Gloves' },
       { value: 'FCOLD70120', desc: 'Heavenly/Veiled Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
       { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
-      { value: 'FCOLD65', desc: 'Deathseeker\'s Gloves' },
-      { value: 'FCOLD6090', desc: 'Adamant/Battleworn Gloves' },
-      { value: 'FCOLD60', desc: 'Weeping Undefeated Gloves' },
-      { value: 'FCOLD60', desc: 'Scaled Gloves' },
-      { value: 'FCOLD57', desc: 'Scale Touched Gloves' },
-      { value: 'FCOLD57', desc: 'Selrach\'s Gloves' },
+      { value: 'FCOLD75', desc: 'Icebound/Velium Infused Cap' },          
+      { value: 'FCOLD6090', desc: 'Snowbound/Adamant/Battle Gloves' },
       { value: 'NONE', desc: 'No Gloves Selected' }
     ]
   },
   {
     id: 'wn-farm',
-    value: 'FFIRE70120',
-    desc: 'Heavenly/Veiled Sleeves',
+    value: 'FFIRE85123',
+    desc: 'Ice Woven/Velium Emp Sleeves',
     data: [
+      { value: 'FFIRE85123', desc: 'Ice Woven/Velium Emp Sleeves' },
       { value: 'FFIRE70120', desc: 'Heavenly/Veiled Sleeves' },
       { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
       { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
-      { value: 'FFIRE65', desc: 'Deathseeker\'s Sleeves' },
-      { value: 'FFIRE6090', desc: 'Adamant/Battleworn Sleeves' },
-      { value: 'FFIRE60', desc: 'Weeping Undefeated Sleeves' },
-      { value: 'FFIRE60', desc: 'Scaled Sleeves' },
-      { value: 'FFIRE57', desc: 'Scale Touched Sleeves' },
-      { value: 'FFIRE57', desc: 'Selrach\'s Sleeves' },
+      { value: 'FFIRE75', desc: 'Icebound/Velium Infused Cap' },          
+      { value: 'FFIRE6090', desc: 'Snowbound/Adamant/Battle Sleeves' },
       { value: 'NONE', desc: 'No Sleeves Selected' }
     ]
   },
   {
     id: 'wn-fchest',
     value: 'ESD9',
-    desc: 'Heavenly/Veiled Robe',
+    desc: 'Ice Woven/Velium Emp Robe',
     data: [
+      { value: 'ESD9', desc: 'Ice Woven/Velium Emp Robe' },    
       { value: 'ESD9', desc: 'Heavenly/Veiled Robe' },
       { value: 'ESD9', desc: 'Scaleborn Robe' },
-      { value: 'ESD7', desc: 'Adamant/Battleworn/Weeping Robe' },
-      { value: 'ESD7', desc: 'Scale Touched/Scaled Robe' },
+      { value: 'ESD7', desc: 'Snowbound/Adamant/Battle Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },
   {
     id: 'wn-fwrist',
-    value: 'FCHROM70120',
-    desc: 'Heavenly/Veiled Wristguard',
+    value: 'FCHROM85123',
+    desc: 'Ice Woven/Velium Emp Wristguard',
     data: [
+      { value: 'FCHROM85123', desc: 'Ice Woven/Velium Emp Wristguard' },   
       { value: 'FCHROM70120', desc: 'Heavenly/Veiled Wristguard' },
       { value: 'FCHROM70', desc: 'Scaleborn Wristguard' },
       { value: 'FCHROM67', desc: 'Velazul\'s Wristguard' },
-      { value: 'FCHROM65', desc: 'Deathseeker\'s Wristguard' },
-      { value: 'FCHROM6090', desc: 'Adamant/Battleworn Wristguard' },
-      { value: 'FCHROM60', desc: 'Weeping Undefeated Wristguard' },
-      { value: 'FCHROM60', desc: 'Scaled Wristguard' },
-      { value: 'FCHROM57', desc: 'Scale Touched Wristguard' },
-      { value: 'FCHROM57', desc: 'Selrach\'s Wristguard' },
+      { value: 'FCHROM75', desc: 'Icebound/Velium Infused Cap' },          
+      { value: 'FCHROM6090', desc: 'Snowbound/Adamant/Battle Wristguard' },
       { value: 'NONE', desc: 'No Wristguard Selected' }
     ]
   },
