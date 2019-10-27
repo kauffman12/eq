@@ -127,7 +127,7 @@ export const SPELL_DATA = {
     level: 101,
     lockoutTime: 1500,
     manaCost: 10458,
-    name: 'Dichotomic Reinforcement 6',
+    name: 'Dissident Reinforcement 6',
     origCastTime: 3000,
     recastTime: 60000,
     resist: 'NONE',
