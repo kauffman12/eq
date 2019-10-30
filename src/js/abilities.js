@@ -686,7 +686,7 @@ const ABILITIES = {
     duration: 410000,
     level: 254,
     mode: 'wiz',
-    name: 'Frenzied Devastation XXX',
+    name: 'Frenzied Devastation XXXI',
     effects: [
       {
         spa: 212,
@@ -705,7 +705,7 @@ const ABILITIES = {
         spa: 170,
         slot: 8,
         type: 'sp',
-        value: 0.85
+        value: 0.90
       }
     ]
   },
@@ -1265,13 +1265,13 @@ const ABILITIES = {
     duration: 240000,
     level: 254,
     mode: 'wiz',
-    name: 'Fury of the Gods LI',
+    name: 'Fury of the Gods LIV',
     effects: [
       {
         spa: 303,
         slot: 1,
         type: 'sp',
-        value: 3900,
+        value: 4500,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 }
@@ -1691,13 +1691,13 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'Improved Familiar XXX',
+    name: 'Improved Familiar XXXIII',
     effects: [
       {
         spa: 124,
         slot: 1,
         type: 'sp',
-        value: 0.525,
+        value: 0.575,
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
@@ -1710,7 +1710,7 @@ const ABILITIES = {
         spa: 170, // moved rules up from testing
         slot: 5,
         type: 'sp',
-        value: 0.29,
+        value: 0.35,
       }
     ]
   },
