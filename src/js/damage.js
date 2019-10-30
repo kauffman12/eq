@@ -80,18 +80,23 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   }
 
   switch(spell.resist) {
-    //case 'COLD':
-    //  if (dmgU.isCastDetSpell(spell)) {
-    //    state.coldSpells = mod + (state.coldSpells || 0);
-    //  }
-    //  break;
+    case 'COLD':
+      if (dmgU.isCastDetSpell(spell)) {
+        //state.coldSpells = mod + (state.coldSpells || 0);
+
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          executeProc(state, 'CRYO', mod * dmgU.MANCY_PROC_RATE, 'CRYO');
+          //state.coldSpells = state.coldSpells - dmgU.MANCY_PROC_RATE;
+        }
+      }      
+      break;
     case 'FIRE':
       if (dmgU.isCastDetSpell(spell)) {
         //state.fireSpells = mod + (state.fireSpells || 0);
 
         if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
-          executeProc(state, 'PYRO', mod * dmgU.PYRO_PROC_RATE, 'PYRO');
-          //state.fireSpells = state.fireSpells - dmgU.PYRO_PROC_RATE;
+          executeProc(state, 'PYRO', mod * dmgU.MANCY_PROC_RATE, 'PYRO');
+          //state.fireSpells = state.fireSpells - dmgU.MANCY_PROC_RATE;
         }
       }      
       break;
@@ -100,7 +105,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         //state.magicSpells = mod + (state.magicSpells || 0);
 
         if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
-          timeline.addSpellProcAbility(state, 'ARCO', dmgU.ARCO_PROC_RATE, true);
+          timeline.addSpellProcAbility(state, 'ARCO', mod * dmgU.MANCY_PROC_RATE, true);
           //state.magicSpells = 0;
         }
       }

@@ -100,6 +100,21 @@ export const SPELL_DATA = {
     baseDmg: 24617,
     name: 'New Burning Beam Rk. III'
   },
+  CRYO: {
+    baseDmg: 25000,
+    castTime: 0,
+    focusable: false,
+    id: 'CRYO',
+    level: 254,
+    manaCost: 0,
+    name: 'Cryomancy XXVII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'COLD',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'cryo'
+  },  
   PYRO: {
     baseDmg: 20400,
     castTime: 0,

@@ -23,8 +23,7 @@ export const ENC_INNATE_CRIT_DMG = 100;
 export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
 
-export const ARCO_PROC_RATE = 0.30; //100 / (100 * 0.30);
-export const PYRO_PROC_RATE = 0.30; // 100 / (100 * 0.30);
+export const MANCY_PROC_RATE = 0.30; //100 / (100 * 0.30);
 export const FBSINGE_PROC_RATE = 100 / (100 * 0.25);
 
 export const SC_MAX_DMG_MOD = 1.0;
