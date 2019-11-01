@@ -2769,30 +2769,20 @@ const ABILITIES = {
     duration: 90000,
     level: 254,
     mode: 'wiz',
-    name: 'First Spire of Arcanum IV',
+    name: 'Spire of Arcanum XII',
     effects: [
       {
         spa: 294,
         slot: 2,
         type: 'sp',
         value: 0.16
-      }
-    ]
-  },
-  W2: {
-    adpsDropdown: true,
-    class: 'wiz',
-    duration: 90000,
-    level: 254,
-    mode: 'wiz',
-    name: 'Second Spire of Arcanum IV',
-    effects: [
+      },
       {
         spa: 170,
         slot: 3,
         type: 'sp',
         value: 1.6
-      }
+      }      
     ]
   },
   WSYN1: {
