@@ -1891,7 +1891,7 @@ const ABILITIES = {
     duration: 90000,
     level: 254,
     mode: 'mag',
-    name: 'First Spire of Elements IV',
+    name: 'Spire of the Elements XII',
     effects: [
       {
         spa: 294,

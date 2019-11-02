@@ -206,34 +206,34 @@ export const SPELL_DATA = {
     name: 'New Claw of Travenro Rk. III'
   },
   CB: {
-    baseDmg: 10577,
+    baseDmg: 12885,
     canTwincast: false,
     castTime: 0,
     focusable: true,
     id: 'CB',
-    level: 106,
+    level: 111,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Chaos Burn III',
+    name: 'New Chaos Burn III',
     origCastTime: 0,
     recastTime: 4750,
     resist: 'FIRE',
     skill: 24,
     target: 'SINGLE',
     timer: 'chaosburn',
-    type3DmgAug: 1005
+    type3DmgAug: 1219
   },
   CBRk1: {
-    baseDmg: 9594,
-    name: 'Chaos Burn I'
+    baseDmg: 11686,
+    name: 'New Chaos Burn I'
   },
   CBRk2: {
-    baseDmg: 10073 ,
-    name: 'Chaos Burn II'
+    baseDmg: 12271,
+    name: 'New Chaos Burn II'
   },
   CBRk3: {
-    baseDmg: 10577,
-    name: 'Chaos Burn III'
+    baseDmg: 12885,
+    name: 'New Chaos Burn III'
   },
   CT: {
     baseDmg: 26396,
@@ -957,34 +957,34 @@ export const SPELL_DATA = {
     type3DmgAug: 1345
   },
   IC: {
-    baseDmg: 25542,
+    baseDmg: 30976,
     canTwincast: false,
     castTime: 0,
     focusable: true,
     id: 'IC',
-    level: 106,
+    level: 111,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Icefloe Cascade III',
+    name: 'New Icefloe Cascade III',
     origCastTime: 0,
     recastTime: 9000,
     resist: 'COLD',
     skill: 24,
     target: 'SINGLE',
     timer: 'iceflowcas',
-    type3DmgAug: 1824
+    type3DmgAug: 2212
   },
   ICRk1: {
-    baseDmg: 23168,
-    name: 'Icefloe Cascade I'
+    baseDmg: 28096,
+    name: 'New Icefloe Cascade I'
   },
   ICRk2: {
-    baseDmg: 24326,
-    name: 'Icefloe Cascade II'
+    baseDmg: 29501,
+    name: 'New Icefloe Cascade II'
   },
   ICRk3: {
-    baseDmg: 25542,
-    name: 'Icefloe Cascade III'
+    baseDmg: 30976,
+    name: 'New Icefloe Cascade III'
   },
   ME: {
     baseDmg: 19760,
@@ -1053,15 +1053,15 @@ export const SPELL_DATA = {
     type3DmgAug: 794
   },
   PF: {
-    baseDmg: 15826,
+    baseDmg: 19193,
     canTwincast: false,
     castTime: 600,
     focusable: true,
     id: 'PF',
-    level: 105,
+    level: 115,
     lockoutTime: 1500,
     manaCost: 50,
-    name: 'Pure Wildflash Caza',
+    name: 'New Pure Wildflash Caza',
     origCastTime: 750,
     recastTime: 4000,
     resist: 'MAGIC',
@@ -1071,16 +1071,16 @@ export const SPELL_DATA = {
     type3DmgAug: 1130
   },
   PFRk1: {
-    baseDmg: 14345,
-    name: 'Pure Wildflash Azia'
+    baseDmg: 17409,
+    name: 'New Pure Wildflash Azia'
   },
   PFRk2: {
-    baseDmg: 15072,
-    name: 'Pure Wildflash Beza'
+    baseDmg: 18279,
+    name: 'New Pure Wildflash Beza'
   },
   PFRk3: {
-    baseDmg: 15826,
-    name: 'Pure Wildflash Caza'
+    baseDmg: 19193,
+    name: 'New Pure Wildflash Caza'
   },
   SC: {
     baseDmg: 20972,
@@ -1250,10 +1250,10 @@ export const SPELL_DATA = {
     castTime: 600,
     focusable: true,
     id: 'WF',
-    level: 106,
+    level: 111,
     lockoutTime: 1500,
-    manaCost: 669,
-    name: 'Wildflash Strike Rk. III',
+    manaCost: 923,
+    name: 'New Wildflash Strike Rk. III',
     origCastTime: 750,
     recastTime: 4000,
     resist: 'MAGIC',
@@ -1262,13 +1262,13 @@ export const SPELL_DATA = {
     timer: 'wildflash'
   },
   WFRk1: {
-    name: 'Wildflash Strike Rk. I'
+    name: 'New Wildflash Strike Rk. I'
   },
   WFRk2: {
-    name: 'Wildflash Strike Rk. II'
+    name: 'New Wildflash Strike Rk. II'
   },
   WFRk3: {
-    name: 'Wildflash Strike Rk. III'
+    name: 'New Wildflash Strike Rk. III'
   },
   WH: {
     baseDmg: 10627,
