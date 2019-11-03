@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.73',
+  VERSION: 'Version 1.735',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -161,19 +161,20 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
-      { value: 'BOFVIII', desc: 'Blaze of Fire VIII 2H' },
+      { value: 'SOI129', desc: 'Velium Enhanced Arcane Staff / T1 Raid' },
+      { value: 'BOFVIII', desc: 'Ascending Sun Arcane Staff / Heavy Onyx' },
       { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
-      { value: 'BFVI', desc: 'Nightfear\'s Halo' },
-      { value: 'BFVI', desc: 'Bloodstaff' },
-      { value: 'WOCVI', desc: 'Wave of Corruption VI 1H' },
-      { value: 'SOIV', desc: 'Mute Spiral' },
-      { value: 'SOIV', desc: 'Fathomless Staff of Warding' },
-      { value: 'BFIV', desc: 'Blackened August Warhammer' },
+      { value: 'SOI109', desc: 'Velium Infused Arcane Staff / T2 Group' },      
+      { value: 'SOI99', desc: 'ToV T1 Group' },
+      { value: 'POP99', desc: 'Premier Staff' },
+      { value: 'BFVI', desc: 'Nightfear\'s Halo / Bloodstaff' },
+      { value: 'SOIV', desc: 'Mute Spiral / Fathomless Staff' },
+      { value: 'SOM51', desc: 'Velium Enhanced Wand / T1 Raid' },      
+      { value: 'SOC47', desc: 'Ascending Sun Bodkin / Deep Cavern' },
+      { value: 'SOM43', desc: 'Velium Infused Wand / T2 Group' },        
       { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
       { value: 'BOFVI', desc: 'Crystal Misericorde' },
       { value: 'SOCV', desc: 'Eldritch Misericorde' },
-      { value: 'VOSIV', desc: 'Darkened Trakanon\'s Tooth' },
-      { value: 'WOCIV', desc: 'Advisor\'s Guide' },
       { value: 'NONE', desc: 'No Primary Weapon Selected' }
     ]
   },
