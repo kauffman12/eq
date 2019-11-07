@@ -1665,23 +1665,22 @@ const ABILITIES = {
     duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'New Heart of Flames And Vapor',
+    name: 'Heart of Skyfire XXVIII',
     effects: [
       {
         spa: 124,
-        slot: 1,
+        slot: 3,
         type: 'sp',
         value: 1.15,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) }
+          { exSkills: COMBAT_SKILLS }
         ]
       },
       {
         spa: 170,
-        slot: 6,
+        slot: 5,
         type: 'sp',
         value: 0.45
       }
