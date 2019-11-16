@@ -354,23 +354,23 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Spell Damage
     let spellDmg = calcSpellDamage(state);
     // Get Effectiveness
-    let effectiveness = getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue();
+    let effectiveness = dmgU.round(getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue());
     // Get Before Crit Focus
-    let beforeCritFocus = getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue();
+    let beforeCritFocus = dmgU.round(getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue());
     // Get Before Crit Add -- type3 dmg is SPA 303, should move to computeSPA eventually --
     let beforeCritAdd = dmgU.trunc(dom.getType3DmdAugValue(state.spell) / dotMod) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
     // Get Before DoT Crit Focus
-    let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
+    let beforeDoTCritFocus = dmgU.round(spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue());
     // Get After Crit Focus
-    let afterCritFocus = (spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue(); // or 0 since non defined atm
+    let afterCritFocus = dmgU.round((spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue()); // or 0 since non defined atm
     // Get After Crit Add
     let afterCritAdd = spaValues.afterCritAdd + dom.getAddAfterCritAddValue();
     // Get AfterCrit Add (SPA 484) (not modifiable)
     let afterSPA461Add = spaValues.afterSPA461Add + dom.getAddAfterSPA461AddValue();
     // Get AfterCrit Focus (not modifiable)
-    let afterSPA461Focus = spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue();
+    let afterSPA461Focus = dmgU.round(spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue());
     // Get New SPA 461 Focus
-    let spa461Focus = spaValues.spa461Focus + dom.getAddSPA461FocusValue();
+    let spa461Focus = dmgU.round(spaValues.spa461Focus + dom.getAddSPA461FocusValue());
     // Get New semi-broken SPA 483 Focus
     let spa483Focus = spaValues.spa483Focus;
 
@@ -389,13 +389,13 @@ function calcAvgDamage(state, mod, dmgKey) {
     let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? 0.075 + (parseInt(dom.getLuckValue() / 10) * 0.05) : 0);
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
-    let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
-    let avgLuckyCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * luckyCritDmgMult);
+    let avgCritDmg = avgBaseDmg + Math.round(beforeCritDmg * critDmgMult);
+    let avgLuckyCritDmg = avgBaseDmg + Math.round(beforeCritDmg * luckyCritDmgMult);
 
     // damage to append after SPA 461
     // need to add 483 separate or damage is off by 1 plus its the messed up SPA so it's 
     // probably calculated on its own
-    let afterSPA461Dmg = dmgU.trunc(effDmg * afterSPA461Focus) + afterSPA461Add + dmgU.trunc(effDmg * spa483Focus);
+    let afterSPA461Dmg = Math.round(effDmg * afterSPA461Focus) + afterSPA461Add + Math.round(effDmg * spa483Focus);
 
     // add SPA 461
     avgBaseDmg += dmgU.trunc(avgBaseDmg * spa461Focus) + afterSPA461Dmg;

@@ -524,6 +524,11 @@ export function processCounter(state, id, mod) {
   return partUsed;
 }
 
+export function round(value)
+{
+  return utils.asDecimal32Precision(value);
+}
+
 export function trunc(value) {
   return Math.trunc(utils.asDecimal32Precision(value));
 }

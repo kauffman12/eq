@@ -207,23 +207,23 @@ export const SPELL_DATA = {
     timer: 'ESOMVIII',
     type3Dmg: 0
   },
-  DM: {
+  RF: {
     base1: 100,
-    baseDmg: 10000,
+    baseDmg: 12000,
     castTime: 0,
     focusable: false,
-    id: 'DM',
+    id: 'RF',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
     max: 0,
-    name: 'Dragonmagic Spell',
+    name: 'Restless Focus Spell',
     origCastTime: 0,
     recastTime: 0,
     resist: 'DISEASE',
     skill: 24,
     target: 'SINGLE',
-    timer: 'DM',
+    timer: 'RF',
     type3Dmg: 0
   },
   DRS: {

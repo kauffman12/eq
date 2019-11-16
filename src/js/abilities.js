@@ -311,13 +311,13 @@ const ABILITIES = {
       }
     ]
   },
-  DM: {
+  RF: {
     level: 255,
-    name: 'Dragonmagic Focus',
+    name: 'Restless Focus',
     repeatEvery: -1,
     effects: [
       {
-        proc: 'DM',
+        proc: 'RF',
         limits: [
           { onSpellUse: true },
           { minManaCost: 10 },
@@ -712,7 +712,7 @@ const ABILITIES = {
   FIERCE: {
     adpsDropdown: true,
     class: 'brd',
-    duration: 120000,
+    duration: 132000,
     level: 115,
     name: 'Fierce Eye IV',
     effects: [
@@ -2013,27 +2013,6 @@ const ABILITIES = {
       }
     ]
   },
-  PRECISION: {
-    adpsDropdown: true,
-    class: 'war',
-    debuff: true,
-    duration: 60000,
-    level: 25,
-    name: 'Imperator\'s Precision IV',
-    effects: [
-      {
-        spa: 483,
-        slot: 1,
-        type: 'sp',
-        value: 0.185,
-        limits: [
-          { type: 'detrimental' },
-          { maxDuration: 0 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },
   QT: {
     adpsDropdown: true,
     class: 'brd',
@@ -2072,14 +2051,14 @@ const ABILITIES = {
     debuff: true,
     duration: 60000,
     level: 115,
-    name: 'New Elemental Arrow II',
+    name: 'Elemental Arrow X',
     otherCast: true,
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.15,
+        value: 0.125,
         limits: [
           { resists: SMap(['FIRE', 'COLD']) }
         ]
@@ -2449,13 +2428,13 @@ const ABILITIES = {
     class: 'dru',
     duration: 60000,
     level: 254,
-    name: 'New Season\'s Wrath VII',
+    name: 'Season\'s Wrath VII',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.195,
+        value: 0.20,
         limits: [
           { type: 'detrimental' },
           { resists: SMap(['FIRE', 'COLD']) }

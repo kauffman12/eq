@@ -142,7 +142,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "DR Proc", spellStats.get('drAddDmg'));
   addNumberStatDescription(data, "FReave Proc", spellStats.get('fraAddDmg'));
   addNumberStatDescription(data, "MR Proc", spellStats.get('mraAddDmg'));
-  addNumberStatDescription(data, "DragonMagic", spellStats.get('dmAddDmg'));
+  addNumberStatDescription(data, "RestlessFocus", spellStats.get('rfAddDmg'));
   addNumberStatDescription(data, "Steel Vengeance", spellStats.get('steelvengAddDmg'));
   addNumberStatDescription(data, "Repudiate Destruction", spellStats.get('repudiatedestAddDmg'));
 

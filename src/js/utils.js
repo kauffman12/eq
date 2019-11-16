@@ -86,7 +86,7 @@ export function appendHtml(context, html, count) {
 }
 
 export function asDecimal32Precision(value) {
-  return Number(value.toFixed(7));
+  return +(value.toFixed(7));
 }
 
 export function checkTimerList(state, counterKey, timerKey) {
