@@ -42,7 +42,7 @@ export const SH_DMG_PER_UNIT = (1.2 - 0.6) / (30 - 5);
 // Claw/Chaotic effect proc rates per 100 casts
 export const CLAW_SPELL_PROC_RATES = {
   wiz: {
-    CO: {
+    CG: {
       SYLLMAGIC: 100 / (100 * 0.05),
       SYLLICE: 100 / (100 * 0.35),
       SYLLFIRE: 100 / (100 * 0.05),
@@ -50,7 +50,7 @@ export const CLAW_SPELL_PROC_RATES = {
       TC: 100 / (100 * 0.10),
       REFRESH: 100 / (100 * 0.06)
     },
-    CQ: {
+    CS: {
       SYLLMAGIC: 100 / (100 * 0.05),
       SYLLICE: 100 / (100 * 0.05),
       SYLLFIRE: 100 / (100 * 0.35),
@@ -407,9 +407,9 @@ export function getSHDmgMod(units) {
 export function getCompoundSpellList(id) {
   return utils.useCache('compound-spell-list-' + id, function() {
     return {
-      'WF': [
-        { id: 'PF', chance: WILDMAGIC_PURE_CHANCE },
-        { id: 'IC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
+      'WS': [
+        { id: 'PS', chance: WILDMAGIC_PURE_CHANCE },
+        { id: 'RC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CB', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
       'WE': [
@@ -417,10 +417,10 @@ export function getCompoundSpellList(id) {
         { id: 'HC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
-      'EB': [
-        { id: 'ES', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EI', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EV', chance: FUSE_PROC_SPELL_CHANCE }
+      'EC': [
+        { id: 'EB', chance: FUSE_PROC_SPELL_CHANCE },
+        { id: 'RI', chance: FUSE_PROC_SPELL_CHANCE },
+        { id: 'ET', chance: FUSE_PROC_SPELL_CHANCE }
       ]
     }[id];
   });

@@ -70,7 +70,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         state.cfickleSpells = 0;
       }
       break;
-    case 'CI': case 'CO': case 'CQ':
+    case 'CI': case 'CG': case 'CS':
       state.clawSpells = mod + (state.clawSpells || 0);
       if (state.clawSpells > 0.50) {
         clawSpells = state.clawSpells;
@@ -125,7 +125,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
       break;
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
-    case 'CI': case 'CO': case 'CQ':
+    case 'CI': case 'CG': case 'CS':
       // generate proc effects
       state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         switch(id) {
@@ -247,17 +247,17 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
-    case 'EB':
-      // Fuse is really just a Skyblaze
+    case 'EC':
+      // Brand is really just Skyfire
       let origSpell = spell;
-      state.spell = utils.getSpellData('ES');
+      state.spell = utils.getSpellData('EB');
       execute(state);
       state.spell = origSpell;
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
-      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EC'), 'fuseProcDmg');
       break;
-    case 'WF': case 'WE':
+    case 'WS': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
       break;
   }
@@ -268,7 +268,7 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CQ': case 'CI': case 'CO':
+    case 'CS': case 'CI': case 'CG':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
@@ -629,7 +629,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (['ET', 'SJ', 'CG', 'CS'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -641,7 +641,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
+  if (! ['ET', 'SJ', 'CG', 'CS'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 

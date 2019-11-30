@@ -613,7 +613,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-          { spells: SMap(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['EB', 'ES', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
@@ -628,7 +628,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.09,
         limits: [
-          { spells: SMap(['ES', 'EZ', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['EB', 'ES', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
         ]
       }
     ]
@@ -736,7 +736,7 @@ const ABILITIES = {
       },
       {
         spa: 507,
-        slot: 14,
+        slot: 12,
         type: 'sp',
         value: 0.13
       }

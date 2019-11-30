@@ -28,8 +28,8 @@ export const globals = {
 
 // wizard spells to display in spell drop down
 export const wizSpellList = [
-  'BB', 'CQ', 'CO', 'CT', 'DF', 'EB', 'ER', 'EI', 'EZ', 'ES', 'EV', 'FB',
-  'FBC', 'ME', 'SC', 'SF', 'SR', 'SH', 'SP', 'SJ', 'TW', 'WE', 'WF', 'WH'
+  'CG', 'CS', 'CT', 'DF', 'ET', 'EB', 'EC', 'EI', 'ES', 'FP', 'FB', 'FBC', 'LF', 'RI', 'SB', 'SC', 
+  'SH', 'SP', 'SR', 'SJ', 'TW', 'VD', 'WE', 'WS'
 ];
 
 // mage spells to display in spell drop down
@@ -267,249 +267,138 @@ export const wizSpellFocusAAContext = [
   },
   {
     id: 'aa-beams',
-    value: '0.20',
-    desc: 'Beams (11/11)',
+    value: '13',
+    desc: 'Beams (13/13)',
     data: [
-      { value: '0.20', desc: 'Beams (11/11)' },
-      { value: '0.18', desc: 'Beams (10/11)' },
-      { value: '0.16', desc: 'Beams (9/11)' },
-      { value: '0', desc: 'Beams (8/11)' },
-      { value: '0', desc: 'Beams (7/11)' },
-      { value: '0', desc: 'Beams (6/11)' },
-      { value: '0', desc: 'Beams (5/11)' },
-      { value: '0', desc: 'Beams (4/11)' },
-      { value: '0', desc: 'Beams (3/11)' },
-      { value: '0', desc: 'Beams (2/11)' },
-      { value: '0', desc: 'Beams (1/11)' },
-      { value: '0', desc: 'Beams (0/11)' }
+      { value: '13', desc: 'Beams (13/13)' },
+      { value: '12', desc: 'Beams (12/13)' },
+      { value: '0', desc: 'Beams (0/13)' }
     ]
   },
   {
     id: 'aa-chaos',
-    value: '0.20',
-    desc: 'Chaos Scintillation (11/11)',
+    value: '13',
+    desc: 'Chaos Scintillation (13/13)',
     data: [
-      { value: '0.20', desc: 'Chaos Scintillation (11/11)' },
-      { value: '0.18', desc: 'Chaos Scintillation (10/11)' },
-      { value: '0.16', desc: 'Chaos Scintillation (9/11)' },
-      { value: '0', desc: 'Chaos Scintillation (8/11)' },
-      { value: '0', desc: 'Chaos Scintillation (7/11)' },
-      { value: '0', desc: 'Chaos Scintillation (6/11)' },
-      { value: '0', desc: 'Chaos Scintillation (5/11)' },
-      { value: '0', desc: 'Chaos Scintillation (4/11)' },
-      { value: '0', desc: 'Chaos Scintillation (3/11)' },
-      { value: '0', desc: 'Chaos Scintillation (2/11)' },
-      { value: '0', desc: 'Chaos Scintillation (1/11)' },
-      { value: '0', desc: 'Chaos Scintillation (0/11)' }
+      { value: '13', desc: 'Chaos Scintillation (13/13)' },
+      { value: '12', desc: 'Chaos Scintillation (12/13)' },
+      { value: '0', desc: 'Chaos Scintillation (0/13)' }
     ]
   },
   {
     id: 'aa-claws',
-    value: '0.20',
-    desc: 'Claws (11/11)',
+    value: '13',
+    desc: 'Claws (13/13)',
     data: [
-      { value: '0.20', desc: 'Claws (11/11)' },
-      { value: '0.18', desc: 'Claws (10/11)' },
-      { value: '0.16', desc: 'Claws (9/11)' },
-      { value: '0', desc: 'Claws (8/11)' },
-      { value: '0', desc: 'Claws (7/11)' },
-      { value: '0', desc: 'Claws (6/11)' },
-      { value: '0', desc: 'Claws (5/11)' },
-      { value: '0', desc: 'Claws (4/11)' },
-      { value: '0', desc: 'Claws (3/11)' },
-      { value: '0', desc: 'Claws (2/11)' },
-      { value: '0', desc: 'Claws (1/11)' },
-      { value: '0', desc: 'Claws (0/11)' }
+      { value: '13', desc: 'Claws (13/13)' },
+      { value: '12', desc: 'Claws (12/13)' },
+      { value: '0', desc: 'Claws (0/13)' }
     ]
   },
   {
     id: 'aa-cloudb',
-    value: '0.20',
-    desc: 'Cloudburst Stormstrike (11/11)',
+    value: '13',
+    desc: 'Cloudburst Stormstrike (13/13)',
     data: [
-      { value: '0.20', desc: 'Cloudburst Stormstrike (11/11)' },
-      { value: '0.18', desc: 'Cloudburst Stormstrike (10/11)' },
-      { value: '0.16', desc: 'Cloudburst Stormstrike (9/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (8/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (7/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (6/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (5/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (4/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (3/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (2/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (1/11)' },
-      { value: '0', desc: 'Cloudburst Stormstrike (0/11)' }
+      { value: '13', desc: 'Cloudburst Stormstrike (13/13)' },
+      { value: '12', desc: 'Cloudburst Stormstrike (12/13)' },
+      { value: '0', desc: 'Cloudburst Stormstrike (0/13)' }
     ]
   },
   {
     id: 'aa-corona',
-    value: '0.20',
-    desc: 'Corona of Flame (11/11)',
+    value: '13',
+    desc: 'Corona of Flame (13/13)',
     data: [
-      { value: '0.20', desc: 'Corona of Flame (11/11)' },
-      { value: '0.18', desc: 'Corona of Flame (10/11)' },
-      { value: '0.16', desc: 'Corona of Flame (9/11)' },
-      { value: '0', desc: 'Corona of Flame (8/11)' },
-      { value: '0', desc: 'Corona of Flame (7/11)' },
-      { value: '0', desc: 'Corona of Flame (6/11)' },
-      { value: '0', desc: 'Corona of Flame (5/11)' },
-      { value: '0', desc: 'Corona of Flame (4/11)' },
-      { value: '0', desc: 'Corona of Flame (3/11)' },
-      { value: '0', desc: 'Corona of Flame (2/11)' },
-      { value: '0', desc: 'Corona of Flame (1/11)' },
-      { value: '0', desc: 'Corona of Flame (0/11)' }
+      { value: '13', desc: 'Corona of Flame (13/13)' },
+      { value: '12', desc: 'Corona of Flame (12/13)' },
+      { value: '0', desc: 'Corona of Flame (0/13)' }
     ]
   },
   {
     id: 'aa-eflash',
-    value: '0.20',
-    desc: 'Ethereal Flash (11/11)',
+    value: '13',
+    desc: 'Ethereal Flash (13/13)',
     data: [
-      { value: '0.20', desc: 'Ethereal Flash (11/11)' },
-      { value: '0.18', desc: 'Ethereal Flash (10/11)' },
-      { value: '0.16', desc: 'Ethereal Flash (9/11)' },
-      { value: '0', desc: 'Ethereal Flash (8/11)' },
-      { value: '0', desc: 'Ethereal Flash (7/11)' },
-      { value: '0', desc: 'Ethereal Flash (6/11)' },
-      { value: '0', desc: 'Ethereal Flash (5/11)' },
-      { value: '0', desc: 'Ethereal Flash (4/11)' },
-      { value: '0', desc: 'Ethereal Flash (3/11)' },
-      { value: '0', desc: 'Ethereal Flash (2/11)' },
-      { value: '0', desc: 'Ethereal Flash (1/11)' },
-      { value: '0', desc: 'Ethereal Flash (0/11)' }
+      { value: '13', desc: 'Ethereal Flash (13/13)' },
+      { value: '12', desc: 'Ethereal Flash (12/13)' },
+      { value: '0', desc: 'Ethereal Flash (0/13)' }
     ]
   },
   {
     id: 'aa-erime',
-    value: '11',
-    desc: 'Ethereal Rimeblast (11/11)',
+    value: '13',
+    desc: 'Ethereal Rimeblast (13/13)',
     data: [
-      { value: '11', desc: 'Ethereal Rimeblast (11/11)' },
-      { value: '10', desc: 'Ethereal Rimeblast (10/11)' },
-      { value: '9', desc: 'Ethereal Rimeblast (9/11)' },
-      { value: '0.16', desc: 'Ethereal Rimeblast (8/11)' },
-      { value: '0.14', desc: 'Ethereal Rimeblast (7/11)' },
-      { value: '0.12', desc: 'Ethereal Rimeblast (6/11)' },
-      { value: '0.10', desc: 'Ethereal Rimeblast (5/11)' },
-      { value: '0.08', desc: 'Ethereal Rimeblast (4/11)' },
-      { value: '0.06', desc: 'Ethereal Rimeblast (3/11)' },
-      { value: '0.04', desc: 'Ethereal Rimeblast (2/11)' },
-      { value: '0.02', desc: 'Ethereal Rimeblast (1/11)' },
-      { value: '0', desc: 'Ethereal Rimeblast (0/11)' }
+      { value: '13', desc: 'Ethereal Rimeblast (13/13)' },
+      { value: '12', desc: 'Ethereal Rimeblast (12/13)' },
+      { value: '11', desc: 'Ethereal Rimeblast (11/13)' },
+      { value: '10', desc: 'Ethereal Rimeblast (10/13)' },
+      { value: '9', desc: 'Ethereal Rimeblast (9/13)' },
+      { value: '0', desc: 'Ethereal Rimeblast (0/13)' }
     ]
   },
   {
     id: 'aa-eblaze',
-    value: '11',
-    desc: 'Ethereal Skyblaze (11/11)',
+    value: '13',
+    desc: 'Ethereal Skyblaze (13/13)',
     data: [
-      { value: '11', desc: 'Ethereal Skyblaze (11/11)' },
-      { value: '10', desc: 'Ethereal Skyblaze (10/11)' },
-      { value: '9', desc: 'Ethereal Skyblaze (9/11)' },
-      { value: '0.16', desc: 'Ethereal Skyblaze (8/11)' },
-      { value: '0.14', desc: 'Ethereal Skyblaze (7/11)' },
-      { value: '0.12', desc: 'Ethereal Skyblaze (6/11)' },
-      { value: '0.10', desc: 'Ethereal Skyblaze (5/11)' },
-      { value: '0.08', desc: 'Ethereal Skyblaze (4/11)' },
-      { value: '0.06', desc: 'Ethereal Skyblaze (3/11)' },
-      { value: '0.04', desc: 'Ethereal Skyblaze (2/11)' },
-      { value: '0.02', desc: 'Ethereal Skyblaze (1/11)' },
-      { value: '0', desc: 'Ethereal Skyblaze (0/11)' }
+      { value: '13', desc: 'Ethereal Skyblaze (13/13)' },
+      { value: '12', desc: 'Ethereal Skyblaze (12/13)' },
+      { value: '11', desc: 'Ethereal Skyblaze (11/13)' },
+      { value: '10', desc: 'Ethereal Skyblaze (10/13)' },
+      { value: '9', desc: 'Ethereal Skyblaze (9/13)' },
+      { value: '0', desc: 'Ethereal Skyblaze (0/13)' }
     ]
   },
   {
     id: 'aa-flashchar',
-    value: '0.20',
-    desc: 'Flashchar (11/11)',
+    value: '13',
+    desc: 'Flashchar (13/13)',
     data: [
-      { value: '0.20', desc: 'Flashchar (11/11)' },
-      { value: '0.18', desc: 'Flashchar (10/11)' },
-      { value: '0.16', desc: 'Flashchar (9/11)' },
-      { value: '0', desc: 'Flashchar (8/11)' },
-      { value: '0', desc: 'Flashchar (7/11)' },
-      { value: '0', desc: 'Flashchar (6/11)' },
-      { value: '0', desc: 'Flashchar (5/11)' },
-      { value: '0', desc: 'Flashchar (4/11)' },
-      { value: '0', desc: 'Flashchare (3/11)' },
-      { value: '0', desc: 'Flashchar (2/11)' },
-      { value: '0', desc: 'Flashchar (1/11)' },
-      { value: '0', desc: 'Flashchar (0/11)' }
+      { value: '13', desc: 'Flashchar (13/13)' },
+      { value: '12', desc: 'Flashchar (12/13)' },
+      { value: '0', desc: 'Flashchar (0/13)' }
     ]
   },
   {
     id: 'aa-pills',
-    value: '0.20',
-    desc: 'Pillars (11/11)',
+    value: '13',
+    desc: 'Pillars (13/13)',
     data: [
-      { value: '0.20', desc: 'Pillars (11/11)' },
-      { value: '0.18', desc: 'Pillars (10/11)' },
-      { value: '0.16', desc: 'Pillars (9/11)' },
-      { value: '0', desc: 'Pillars (8/11)' },
-      { value: '0', desc: 'Pillars (7/11)' },
-      { value: '0', desc: 'Pillars (6/11)' },
-      { value: '0', desc: 'Pillars (5/11)' },
-      { value: '0', desc: 'Pillars (4/11)' },
-      { value: '0', desc: 'Pillars (3/11)' },
-      { value: '0', desc: 'Pillars (2/11)' },
-      { value: '0', desc: 'Pillars (1/11)' },
-      { value: '0', desc: 'Pillars (0/11)' }
+      { value: '13', desc: 'Pillars (13/13)' },
+      { value: '12', desc: 'Pillars (12/13)' },
+      { value: '0', desc: 'Pillars (0/13)' },
     ]
   },
   {
     id: 'aa-pure',
-    value: '0.20',
-    desc: 'Pure Wildflash (11/11)',
+    value: '13',
+    desc: 'Pure Wildflash (13/13)',
     data: [
-      { value: '0.20', desc: 'Pure Wildflash (11/11)' },
-      { value: '0.18', desc: 'Pure Wildflash (10/11)' },
-      { value: '0.16', desc: 'Pure Wildflash (9/11)' },
-      { value: '0', desc: 'Pure Wildflash (8/11)' },
-      { value: '0', desc: 'Pure Wildflash (7/11)' },
-      { value: '0', desc: 'Pure Wildflash (6/11)' },
-      { value: '0', desc: 'Pure Wildflash (5/11)' },
-      { value: '0', desc: 'Pure Wildflash (4/11)' },
-      { value: '0', desc: 'Pure Wildflash (3/11)' },
-      { value: '0', desc: 'Pure Wildflash (2/11)' },
-      { value: '0', desc: 'Pure Wildflash (1/11)' },
-      { value: '0', desc: 'Pure Wildflash (0/11)' }
+      { value: '13', desc: 'Pure Wildflash (13/13)' },
+      { value: '12', desc: 'Pure Wildflash (12/13)' },
+      { value: '0', desc: 'Pure Wildflash (0/13)' }
     ]
   },
   {
     id: 'aa-rains',
-    value: '0.20',
-    desc: 'Rains (11/11)',
+    value: '13',
+    desc: 'Rains (13/13)',
     data: [
-      { value: '0.20', desc: 'Rains (11/11)' },
-      { value: '0.18', desc: 'Rains (10/11)' },
-      { value: '0.16', desc: 'Rains (9/11)' },
-      { value: '0', desc: 'Rains (8/11)' },
-      { value: '0', desc: 'Rains (7/11)' },
-      { value: '0', desc: 'Rains (6/11)' },
-      { value: '0', desc: 'Rains (5/11)' },
-      { value: '0', desc: 'Rains (4/11)' },
-      { value: '0', desc: 'Rains (3/11)' },
-      { value: '0', desc: 'Rains (2/11)' },
-      { value: '0', desc: 'Rains (1/11)' },
-      { value: '0', desc: 'Rains (0/11)' }
+      { value: '13', desc: 'Rains (13/13)' },
+      { value: '12', desc: 'Rains (12/13)' },
+      { value: '0', desc: 'Rains (0/13)' }
     ]
   },
   {
     id: 'aa-rimeb',
-    value: '0.20',
-    desc: 'Rimeblast Cascade (11/11)',
+    value: '13',
+    desc: 'Rimeblast Cascade (13/13)',
     data: [
-      { value: '0.20', desc: 'Rimeblast Cascade (11/11)' },
-      { value: '0.18', desc: 'Rimeblast Cascade (10/11)' },
-      { value: '0.16', desc: 'Rimeblast Cascade (9/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (8/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (7/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (6/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (5/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (4/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (3/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (2/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (1/11)' },
-      { value: '0', desc: 'Rimeblast Cascade (0/11)' }
+      { value: '13', desc: 'Rimeblast Cascade (13/13)' },
+      { value: '12', desc: 'Rimeblast Cascade (12/13)' },
+      { value: '0', desc: 'Rimeblast Cascade (0/13)' }
     ]
   },
   {
@@ -1177,18 +1066,19 @@ export const wizDPSAAContext = [
   },
   {
     id: 'aa-twinproc',
-    value: '0.20',
-    desc: 'Twinproc (8/8)',
+    value: '0.21',
+    desc: 'Twinproc (9/9)',
     data: [
-      { value: '0.20', desc: 'Twinproc (8/8)' },
-      { value: '0.19', desc: 'Twinproc (7/8)' },
-      { value: '0.18', desc: 'Twinproc (6/8)' },
-      { value: '0.15', desc: 'Twinproc (5/8)' },
-      { value: '0.12', desc: 'Twinproc (4/8)' },
-      { value: '0.09', desc: 'Twinproc (3/8)' },
-      { value: '0.06', desc: 'Twinproc (2/8)' },
-      { value: '0.03', desc: 'Twinproc (1/8)' },
-      { value: '0', desc: 'Twinproc (0/8)' }
+      { value: '0.21', desc: 'Twinproc (9/9)' },
+      { value: '0.20', desc: 'Twinproc (8/9)' },
+      { value: '0.19', desc: 'Twinproc (7/9)' },
+      { value: '0.18', desc: 'Twinproc (6/9)' },
+      { value: '0.15', desc: 'Twinproc (5/9)' },
+      { value: '0.12', desc: 'Twinproc (4/9)' },
+      { value: '0.09', desc: 'Twinproc (3/9)' },
+      { value: '0.06', desc: 'Twinproc (2/9)' },
+      { value: '0.03', desc: 'Twinproc (1/9)' },
+      { value: '0', desc: 'Twinproc (0/9)' }
     ]
   }
 ];

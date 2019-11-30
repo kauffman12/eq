@@ -30,25 +30,25 @@ const FOCUS_AA_KEYS = {
     'SH': '.aa-shockd .dropdown-toggle'
   },
   wiz: {
-    'BB': '.aa-beams .dropdown-toggle',
-    'CQ': '.aa-claws .dropdown-toggle',
-    'CO': '.aa-claws .dropdown-toggle',
+    'SB': '.aa-beams .dropdown-toggle',
+    'CS': '.aa-claws .dropdown-toggle',
+    'CG': '.aa-claws .dropdown-toggle',
     'CT': '.aa-cloudb .dropdown-toggle',
     'CB': '.aa-chaos .dropdown-toggle',
-    'EV': '.aa-eflash .dropdown-toggle',
+    'ET': '.aa-eflash .dropdown-toggle',
     'ES': '.aa-eblaze .dropdown-toggle',
-    'EZ': '.aa-eblaze .dropdown-toggle',
+    'EB': '.aa-eblaze .dropdown-toggle',
     'EI': '.aa-erime .dropdown-toggle',
-    'ER': '.aa-erime .dropdown-toggle',
+    'RI': '.aa-erime .dropdown-toggle',
     'FB': '.aa-flashchar .dropdown-toggle',
-    'ME': '.aa-rains .dropdown-toggle',
-    'PF': '.aa-pure .dropdown-toggle',
-    'IC': '.aa-rimeb .dropdown-toggle',
+    'VD': '.aa-rains .dropdown-toggle',
+    'PS': '.aa-pure .dropdown-toggle',
+    'RC': '.aa-rimeb .dropdown-toggle',
     'SC': '.aa-selfc .dropdown-toggle',
-    'SF': '.aa-pills .dropdown-toggle',
+    'FP': '.aa-pills .dropdown-toggle',
     'SJ': '.aa-vortex .dropdown-toggle',
     'TW': '.aa-thrice .dropdown-toggle',
-    'WH': '.aa-corona .dropdown-toggle'
+    'LF': '.aa-corona .dropdown-toggle'
   }
 };
 
@@ -460,6 +460,36 @@ export function getSpellFocusAAValue(id) {
     let keys = FOCUS_AA_KEYS[G.MODE];
     if (keys && keys[id]) {
       value = utils.getNumberValue($(keys[id]).data('value'));
+      let spell = utils.getSpellData(id);
+
+      if (value === 9 && spell && spell.level <= 110) {
+        value = 0.16;
+      } else if(value === 10 && spell && spell.level <= 110) {
+        value = 0.18;
+      } else if(value === 11 && spell && spell.level <= 110) {
+        value = 0.20;
+      } else if (value === 12) {
+        value = 0.20;
+      } else if ( value === 13) {
+        value = 0.25;
+      }
+      else {
+        value = 0.0;
+      }
+    }
+
+    return value;
+  });
+}
+
+/*
+export function getSpellFocusAAValue(id) {
+  return utils.useCache('.spell-focus-aa-' + id, () => {
+    let value = 0;
+
+    let keys = FOCUS_AA_KEYS[G.MODE];
+    if (keys && keys[id]) {
+      value = utils.getNumberValue($(keys[id]).data('value'));
 
       // special case for now to handle some new and old focus
       // levels but not the new one
@@ -479,6 +509,7 @@ export function getSpellFocusAAValue(id) {
     return value ? value : 0;
   });
 }
+*/
 
 export function getSpellTimeRangeControl() {
   return $('#spellTimeRange');

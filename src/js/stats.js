@@ -98,7 +98,7 @@ export function getStatisticsSummary(spellStats) {
     addPercentStatDescription(data, "Lucky Crit Rate", spellStats.get('luckyCritRate'), true);
     addPercentStatDescription(data, "Twincast Rate", spellStats.get('twincastRate'), true);
     
-    if (!['WF', 'WE'].find(x => x === spell.id)) {    
+    if (!['WS', 'WE'].find(x => x === spell.id)) {    
       addNumberStatDescription(data, "Spell Damage", spellStats.get('spellDmg'));
       addPercentStatDescription(data, "Effectiveness", spellStats.get('effectiveness'));
       addPercentStatDescription(data, "Before Crit Focus", spellStats.get('beforeCritFocus'));
