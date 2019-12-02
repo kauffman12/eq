@@ -6,9 +6,9 @@ import * as utils from './utils.js';
 const FOCUS_AA_KEYS = {
   enc: {
     'CR': '.aa-chromarift .dropdown-toggle',
-    'CF': '.aa-chromablink .dropdown-toggle',
+    'CS': '.aa-chromablink .dropdown-toggle',
     'GT': '.aa-gravity-twist .dropdown-toggle',
-    'MU': '.aa-mindsunder .dropdown-toggle',
+    'MT': '.aa-mindsunder .dropdown-toggle',
     'MC': '.aa-mindsunder .dropdown-toggle',    
     'MS': '.aa-mindsunder .dropdown-toggle',
     'PA': '.aa-poly-ass .dropdown-toggle'
@@ -16,18 +16,18 @@ const FOCUS_AA_KEYS = {
   mag: {
     'BB': '.aa-sear .dropdown-toggle',
     'BM': '.aa-beam-molten .dropdown-toggle',
-    'BK': '.aa-beam-scythes .dropdown-toggle',
-    'BS': '.aa-boltm .dropdown-toggle',
+    'BS': '.aa-beam-scythes .dropdown-toggle',
+    'BK': '.aa-boltm .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
     'RU': '.aa-eradun .dropdown-toggle',
-    'FC': '.aa-fickle .dropdown-toggle',
-    'CI': '.aa-fickle .dropdown-toggle',    
+    'FC': '.aa-capricious .dropdown-toggle',
+    'CP': '.aa-capricious .dropdown-toggle',    
     'RK': '.aa-raincut .dropdown-toggle',
-    'VM': '.aa-storm .dropdown-toggle',
-    'SB': '.aa-spearm .dropdown-toggle',    
-    'SS': '.aa-spearm .dropdown-toggle',
+    'SM': '.aa-storm .dropdown-toggle',
+    'SK': '.aa-spearm .dropdown-toggle',
     'SA': '.aa-spearm .dropdown-toggle',
-    'SH': '.aa-shockd .dropdown-toggle'
+    'SH': '.aa-shockd .dropdown-toggle',
+    'KB': '.aa-meteor .dropdown-toggle'
   },
   wiz: {
     'SB': '.aa-beams .dropdown-toggle',
@@ -47,7 +47,6 @@ const FOCUS_AA_KEYS = {
     'SC': '.aa-selfc .dropdown-toggle',
     'FP': '.aa-pills .dropdown-toggle',
     'SJ': '.aa-vortex .dropdown-toggle',
-    'TW': '.aa-thrice .dropdown-toggle',
     'LF': '.aa-corona .dropdown-toggle'
   }
 };
@@ -462,14 +461,24 @@ export function getSpellFocusAAValue(id) {
       value = utils.getNumberValue($(keys[id]).data('value'));
       let spell = utils.getSpellData(id);
 
-      if (value === 9 && spell && spell.level <= 110) {
+      if (id === 'SM') {
+        if (value === 13) {
+          value = 0.6;
+        } else if (value === 12) {
+          value = 0.55;
+        }
+        else {
+          value = 0;
+        }
+      }
+      else if (value === 9 && spell && spell.level <= 110) {
         value = 0.16;
       } else if(value === 10 && spell && spell.level <= 110) {
         value = 0.18;
       } else if(value === 11 && spell && spell.level <= 110) {
         value = 0.20;
       } else if (value === 12) {
-        value = 0.20;
+        value = 0.22;
       } else if ( value === 13) {
         value = 0.25;
       }
@@ -481,35 +490,6 @@ export function getSpellFocusAAValue(id) {
     return value;
   });
 }
-
-/*
-export function getSpellFocusAAValue(id) {
-  return utils.useCache('.spell-focus-aa-' + id, () => {
-    let value = 0;
-
-    let keys = FOCUS_AA_KEYS[G.MODE];
-    if (keys && keys[id]) {
-      value = utils.getNumberValue($(keys[id]).data('value'));
-
-      // special case for now to handle some new and old focus
-      // levels but not the new one
-      if (['SA', 'SS', 'ES', 'EI', 'EZ', 'ER', 'MS', 'MU', 'SH'].find(spell => spell === id) && value < 9) {
-        value = 0;
-      } 
-
-      if (value === 9) {
-        value = 0.16;
-      } else if(value === 10) {
-        value = 0.18;
-      } else if(value === 11) {
-        value = 0.20;
-      }
-    }
-
-    return value ? value : 0;
-  });
-}
-*/
 
 export function getSpellTimeRangeControl() {
   return $('#spellTimeRange');

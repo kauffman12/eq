@@ -16,18 +16,6 @@ export const SPELL_DATA = {
     target: 'CasterPB',
     timer: '2'
   },
-  BBRk1: {
-    name: 'Burning Blast Rk. I',
-    baseDmg: 11716
-  },
-  BBRk2: {
-    name: 'Burning Blast Rk. II',
-    baseDmg: 12302
-  },
-  BBRk3: {
-    name: 'Burning Blast Rk. III',
-    baseDmg: 12917
-  },
   BJ: {
     baseDmg: 28769,
     castTime: 0,
@@ -45,33 +33,33 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'recast-5' // from clickie
   },
-  BK: {
+  BS: {
     baseDmg: 14335,
     castTime: 1500,
     focusable: true,
-    id: 'BK',
+    id: 'BS',
     level: 113,
     lockoutTime: 1500,
     manaCost: 1687,
     maxHits: 12,
-    name: 'New Beam of Knives Rk. III',
+    name: 'Beam of Scimitars Rk. III',
     origCastTime: 3000,
     recastTime: 1500,
     resist: 'MAGIC',
     skill: 14,
     target: 'FrontalAE',
-    timer: 'beam-knives'
+    timer: 'beam-scimitars'
   },
-  BKRk1: {
-    name: 'New Beam of Knives Rk. I',
+  BSRk1: {
+    name: 'Beam of Scimitars Rk. I',
     baseDmg: 13002
   },
-  BKRk2: {
-    name: 'New Beam of Knives Rk. II',
+  BSRk2: {
+    name: 'Beam of Scimitars Rk. II',
     baseDmg: 13652
   },
-  BKRk3: {
-    name: 'New Beam of Knives Rk. III',
+  BSRk3: {
+    name: 'Beam of Scimitars Rk. III',
     baseDmg: 14335
   },
   BM: {
@@ -83,7 +71,7 @@ export const SPELL_DATA = {
     lockoutTime: 1500,
     manaCost: 2015,
     maxHits: 12,
-    name: 'New Beam of Molten Rhyolite Rk. III',
+    name: 'Beam of Molten Komatiite Rk. III',
     origCastTime: 3000,
     recastTime: 1500,
     resist: 'FIRE',
@@ -92,55 +80,55 @@ export const SPELL_DATA = {
     timer: 'beam-molten'
   },
   BMRk1: {
-    name: 'New Beam of Molten Rhyolite Rk. I',
+    name: 'Beam of Molten Komatiite Rk. I',
     baseDmg: 15516
   },
   BMRk2: {
-    name: 'New Beam of Molten Rhyolite Rk. II',
+    name: 'Beam of Molten Komatiite Rk. II',
     baseDmg: 16292
   },
   BMRk3: {
-    name: 'New Beam of Molten Rhyolite Rk. III',
+    name: 'Beam of Molten Komatiite Rk. III',
     baseDmg: 17107
   },
-  BS: {
+  BK: {
     baseDmg: 25415,
     castTime: 1500,
     focusable: true,
-    id: 'BS',
+    id: 'BK',
     level: 111,
     lockoutTime: 1500,
     manaCost: 2701,
-    name: 'New Bolt of Skyfire Rk. III',
+    name: 'Bolt of Molten Komatiite Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
-    timer: 'boltofsky',
+    timer: 'boltofkom',
     type3DmgAug: 1815
   },
-  BSRk1: {
-    name: 'New Bolt of Skyfire Rk. I',
+  BKRk1: {
+    name: 'Bolt of Molten Komatiite Rk. I',
     baseDmg: 23052
   },
-  BSRk2: {
-    name: 'New Bolt of Skyfire Rk. II',
+  BKRk2: {
+    name: 'Bolt of Molten Komatiite Rk. II',
     baseDmg: 24205
   },
-  BSRk3: {
-    name: 'New Bolt of Skyfire Rk. III',
+  BKRk3: {
+    name: 'Bolt of Molten Komatiite Rk. III',
     baseDmg: 25415
   },
-  CI: {
+  CP: {
     baseDmg: 31616,
     castTime: 1200,
     focusable: true,
-    id: 'CI',
+    id: 'CP',
     level: 115,
     lockoutTime: 1500,
     manaCost: 3782,
-    name: 'New Chaotic Inferno Rk. III',
+    name: 'Chaotic Pyroclasm Rk. III',
     origCastTime: 1500,
     recastTime: 5250,
     resist: 'FIRE',
@@ -149,16 +137,16 @@ export const SPELL_DATA = {
     timer: '4',
     type3DmgAug: 2258
   },
-  CIRk1: {
-    name: 'New Chaotic Inferno Rk. I',
+  CPRk1: {
+    name: 'Chaotic Pyroclasm Rk. I',
     baseDmg: 28676
   },
-  CIRk2: {
-    name: 'New Chaotic Inferno Rk. II',
+  CPRk2: {
+    name: 'Chaotic Pyroclasm Rk. II',
     baseDmg: 30110
   },
-  CIRk3: {
-    name: 'New Chaotic Inferno Rk. III',
+  CPRk3: {
+    name: 'Chaotic Pyroclasm Rk. III',
     baseDmg: 31616
   },
   DC: {
@@ -189,7 +177,7 @@ export const SPELL_DATA = {
     manaCost: 2845,
     maxCritRate: 0.40,
     maxHits: 4,
-    name: 'New Rain of Molten Rhyolite Rk. III',
+    name: 'Rain of Molten Komatiite Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'FIRE',
@@ -198,15 +186,15 @@ export const SPELL_DATA = {
     timer: '3'
   },
   RMRk1: {
-    name: 'New Rain of Molten Rhyolite Rk. I',
+    name: 'Rain of Molten Komatiite Rk. I',
     baseDmg: 22842
   },
   RMRk2: {
-    name: 'New Rain of Molten Rhyolite Rk. II',
+    name: 'Rain of Molten Komatiite Rk. II',
     baseDmg: 23984
   },
   RMRk3: {
-    name: 'New Rain of Molten Rhyolite Rk. III',
+    name: 'Rain of Molten Komatiite Rk. III',
     baseDmg: 25183
   },
   FBC: {
@@ -362,21 +350,21 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '73'
   },
-  MB: {
-    baseDmg: 18549,
+  KB: {
+    baseDmg: 22495,
     castTime: 1500,
     focusable: true,
-    id: 'MB',
-    level: 103,
+    id: 'KB',
+    level: 108,
     lockoutTime: 1500,
-    manaCost: 1618,
-    name: 'Meteoric Bolt Rk. III',
+    manaCost: 2000,
+    name: 'Korascian Bolt Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'MAGIC',
     skill: 24,
     target: 'LOS',
-    timer: 'meteorbolt',
+    timer: 'korbolt',
     type3DmgAug: 0
   },
   RK: {
@@ -389,7 +377,7 @@ export const SPELL_DATA = {
     manaCost: 2737,
     maxCritRate: 0.40,
     maxHits: 4,
-    name: 'New Rain of Knives Rk. III',
+    name: 'Rain of Scimitars Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'MAGIC',
@@ -399,15 +387,15 @@ export const SPELL_DATA = {
     type3DmgAug: 1755
   },
   RKRk1: {
-    name: 'New Rain of Knives Rk. I',
+    name: 'Rain of Scimitars Rk. I',
     baseDmg: 22289
   },
   RKRk2: {
-    name: 'New Rain of Knives Rk. II',
+    name: 'Rain of Scimitars Rk. II',
     baseDmg: 23403
   },
   RKRk3: {
-    name: 'New Rain of Knives Rk. III',
+    name: 'Rain of Scimitars Rk. III',
     baseDmg: 24573
   },
   RS: {
@@ -419,24 +407,24 @@ export const SPELL_DATA = {
     level: 115,
     lockoutTime: 1500,
     manaCost: 6050,
-    name: 'New Reckless Servant Rk. III',
+    name: 'Riotous Servant Rk. III',
     origCastTime: 1000,
     recastTime: 19000,
     resist: 'NONE',
     skill: 14,
     spellDmgCap: 0,
     target: 'SINGLE',
-    timer: 'recklessserv',
+    timer: 'riotousserv',
     type3Aug: 1000
   },
   RSRk1: {
-    name: 'New Reckless Servant Rk. I'
+    name: 'Riotous Servant Rk. I'
   },
   RSRk2: {
-    name: 'New Reckless Servant Rk. II'
+    name: 'Riotous Servant Rk. II'
   },
   RSRk3: {
-    name: 'New Reckless Servant Rk. III'
+    name: 'Riotous Servant Rk. III'
   },
   RD: {
     baseDmg: 400000,
@@ -501,57 +489,40 @@ export const SPELL_DATA = {
     target: 'SELF',
     timer: 'summonfirebound'
   },
-  SA: {
+  SK: {
     baseDmg: 46358,
     castTime: 1750,
     focusable: true,
-    id: 'SA',
+    id: 'SK',
     level: 115,
     lockoutTime: 1500,
     manaCost: 7358,
-    name: 'New Spear of Molten Arcronite Rk. III',
+    name: 'Spear of Molten Komatiite Rk. III',
     origCastTime: 3500,
     recastTime: 9000,
     resist: 'FIRE',
     skill: 24,
     target: 'LOS',
-    timer: 'newspeararconite',
+    timer: 'spearkom',
     type3DmgAug: 3470
   },
-  SARk1: {
-    name: 'New Spear of Molten Arcronite Rk. I',
+  SKRk1: {
+    name: 'Spear of Molten Komatiite Rk. I',
     baseDmg: 44150
   },
-  SARk2: {
-    name: 'New Spear of Molten Arcronite Rk. II',
+  SKRk2: {
+    name: 'Spear of Molten Komatiite Rk. II',
     baseDmg: 46358
   },
-  SARk3: {
-    name: 'New Spear of Molten Arcronite Rk. III',
+  SKRk3: {
+    name: 'Spear of Molten Komatiite Rk. III',
     baseDmg: 48676
   },
-  SB: {
-    baseDmg: 29731,
-    castTime: 1750,
-    focusable: true,
-    id: 'SB',
-    level: 105,
-    lockoutTime: 1500,
-    manaCost: 4900,
-    name: 'Spear of Molten Shieldstone Rk. III',
-    origCastTime: 3500,
-    recastTime: 9000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'spearmoltenshield',
-    type3DmgAug: 2124
-  },  
-  SS: {
+  SA: {
     baseDmg: 36056,
     castTime: 1750,
     focusable: true,
-    id: 'SS',
+    id: 'SA',
     level: 110,
     lockoutTime: 1500,
     manaCost: 5886,
@@ -569,28 +540,28 @@ export const SPELL_DATA = {
     castTime: 1625,
     focusable: true,
     id: 'SH',
-    level: 107,
+    level: 112,
     lockoutTime: 1500,
     manaCost: 1610,
-    name: 'New Shock of Arcronite Steel Rk. III',
+    name: 'Shock of Burning Steel Rk. III',
     origCastTime: 3250,
     recastTime: 5250,
     resist: 'MAGIC',
     skill: 14,
     target: 'SINGLE',
-    timer: 'shockofarc',
+    timer: 'shockofburn',
     type3DmgAug: 1253
   },
   SHRk1: {
-    name: 'New Shock of Arcronite Steel Rk. I',
+    name: 'Shock of Burning Steel Rk. I',
     baseDmg: 15915
   },
   SHRk2: {
-    name: 'New Shock of Arcronite Steel Rk. II',
+    name: 'Shock of Burning Steel Rk. II',
     baseDmg: 16711
   },
   SHRk3: {
-    name: 'New Shock of Arcronite Steel Rk. III',
+    name: 'Shock of Burning Steel Rk. III',
     baseDmg: 17547
   },
   SV10: {
@@ -644,7 +615,7 @@ export const SPELL_DATA = {
     timer: 'steelveng',
     type3DmgAug: 0
   },
-  VM: {
+  SM: {
     baseDmg: 6032,
     baseDmg1: 6032,
     baseDmg2: 6032,
@@ -663,11 +634,11 @@ export const SPELL_DATA = {
     baseDmg15: 56574,
     castTime: 600,
     focusable: true,
-    id: 'VM',
+    id: 'SM',
     level: 112,
     lockoutTime: 1500,
     manaCost: 2681,
-    name: 'New Volley of Many Rk. III',
+    name: 'Strike of Many Rk. III',
     origCastTime: 750,
     recastTime: 9000,
     resist: 'FIRE',
@@ -676,8 +647,8 @@ export const SPELL_DATA = {
     timer: '6',
     type3DmgAug: 341
   },
-  VMRk1: {
-    name: 'New Volley of Many Rk. I',
+  SMRk1: {
+    name: 'Strike of Many Rk. I',
     baseDmg: 5471,
     baseDmg1: 5471,
     baseDmg2: 5471,
@@ -695,8 +666,8 @@ export const SPELL_DATA = {
     baseDmg14: 32539,
     baseDmg15: 51315
   },
-  VMRk2: {
-    name: 'New Volley of Many Rk. II',
+  SMRk2: {
+    name: 'Strike of Many Rk. II',
     baseDmg: 5745,
     baseDmg1: 5745,
     baseDmg2: 5745,
@@ -714,8 +685,8 @@ export const SPELL_DATA = {
     baseDmg14: 34166,
     baseDmg15: 53881
   },
-  VMRk3: {
-    name: 'New Volley of Many Rk. III',
+  SMRk3: {
+    name: 'Strike of Many Rk. III',
     baseDmg: 6032,
     baseDmg1: 6032,
     baseDmg2: 6032,

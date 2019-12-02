@@ -613,7 +613,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.07,
         limits: [
-          { spells: SMap(['EB', 'ES', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['EB', 'ES', 'SK', 'SA', 'MT', 'MS', 'MC']) }
         ]
       }
     ]
@@ -628,7 +628,7 @@ const ABILITIES = {
         type: 'wn',
         value: 0.09,
         limits: [
-          { spells: SMap(['EB', 'ES', 'SA', 'SS', 'SB', 'MU', 'MS', 'MC']) }
+          { spells: SMap(['EB', 'ES', 'SK', 'SA', 'MT', 'MS', 'MC']) }
         ]
       }
     ]
@@ -1927,7 +1927,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 18000 + TICK_OFFSET,
     level: 115,
-    name: 'New Mana Repetition Aura Rk. III',
+    name: 'Mana Replication Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -2542,53 +2542,6 @@ const ABILITIES = {
           { maxDuration: 0 },
           { resists: SMap(['MAGIC']) },
           { minDmg: 100 }
-        ]
-      }
-    ]
-  },
-  THPWR: {
-    class: 'wiz',
-    charges: 1,
-    duration: 60000,
-    level: 255,
-    mode: 'wiz',
-    name: 'New Thricewoven Power VI',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'sp',
-        value: 1.325,
-        limits: [
-          { minDmg: 100 },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { minManaCost: 10 },
-          { maxLevel: 115 }
-        ]
-      }
-    ]
-  },
-  THWEAK: {
-    class: 'wiz',
-    charges: 1000, // workaround to see count in stats
-    duration: 12000 + TICK_OFFSET,
-    level: 255,
-    mode: 'wiz',
-    name: 'New Thricewoven Weakness',
-    effects: [
-      {
-        spa: 124,
-        slot: 1,
-        type: 'sp',
-        value: -0.20,
-        limits: [
-          { currentHitPoints: true },
-          { type: 'detrimental' },
-          { exTargets: SMap(['TargetAE', 'CasterPB']) },
-          { exSkills: COMBAT_SKILLS },
-          { maxLevel: 115 } // need to really verify
         ]
       }
     ]

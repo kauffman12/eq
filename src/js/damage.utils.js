@@ -60,7 +60,7 @@ export const CLAW_SPELL_PROC_RATES = {
     }
   },
   mag: {
-    CI: {
+    CP: {
       FPWR: 100 / (100 * 0.28),
       FWEAK: 100 / (100 * 0.01),
       TC: 100 / (100 * 0.10),
@@ -68,11 +68,6 @@ export const CLAW_SPELL_PROC_RATES = {
     }
   }
 };
-
-export const TW_SPELL_PROC_RATES = {
-  THPWR: 100 / (100 * 0.25),
-  THWEAK: 100 / (100 * 0.01)
-}
 
 export const FC_SPELL_PROC_RATES = {
   FPWR: 100 / (100 * 0.25),
@@ -83,7 +78,7 @@ export const FC_SPELL_PROC_RATES = {
 export const SPELL_PROC_ABILITIES = [
   'ARCO', 'CDG', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRERk1',
   'SYLLFIRERk2', 'SYLLFIRERk3', 'SYLLMAGICRk1', 'SYLLMAGICRk2', 'SYLLMAGICRk3', 'SYLLICERk1', 'SYLLICERk2',
-  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK',
+  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK',
   'GCH', 'FBSINGERk1', 'FBSINGERk2', 'FBSINGERk3'
 ];
 

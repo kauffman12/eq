@@ -42,7 +42,7 @@ export const SPELL_DATA = {
     lockoutTime: 1500,
     manaCost: 1794,
     mez: true,
-    name: 'New Chaotic Delusion Rk. III',
+    name: 'Chaotic Deception Rk. III',
     origCastTime: 2500,
     recastTime: 1500,
     resist: 'MAGIC',
@@ -52,23 +52,23 @@ export const SPELL_DATA = {
     type3Dmg: 0
   },
   CDRk1: {
-    name: 'New Chaotic Delusion Rk. I'
+    name: 'Chaotic Deception Rk. I'
   },
   CDRk2: {
-    name: 'New Chaotic Delusion Rk. II'
+    name: 'Chaotic Deception Rk. II'
   },
   CDRk3: {
-    name: 'New Chaotic Delusion Rk. III'
+    name: 'Chaotic Deception Rk. III'
   },
-  CF: {
+  CS: {
     baseDmg: 10086,
     castTime: 1200,
     focusable: true,
-    id: 'CF',
+    id: 'CS',
     level: 111,
     lockoutTime: 1500,
     manaCost: 1328,
-    name: 'New Chromatic Flicker Rk. III',
+    name: 'Chromatic Stab Rk. III',
     origCastTime: 1500,
     recastTime: 6000,
     resist: 'CHROMATIC',
@@ -77,16 +77,16 @@ export const SPELL_DATA = {
     timer: 'chromaticflicker',
     type3DmgAug: 720
   },
-  CFRk1: {
-    name: 'New Chromatic Flicker Rk. I',
+  CSRk1: {
+    name: 'Chromatic Stab Rk. I',
     baseDmg: 9149
   },
-  CFRk2: {
-    name: 'New Chromatic Flicker Rk. II',
+  CSRk2: {
+    name: 'Chromatic Stab Rk. II',
     baseDmg: 9606
   },
-  CFRk3: {
-    name: 'New Chromatic Flicker Rk. III',
+  CSRk3: {
+    name: 'Chromatic Stab Rk. III',
     baseDmg: 10086
   },
   CR: {
@@ -97,25 +97,25 @@ export const SPELL_DATA = {
     level: 112,
     lockoutTime: 1500,
     manaCost: 1712,
-    name: 'Chromareave Rk. III',
+    name: 'Chromashock Rk. III',
     origCastTime: 3000,
     recastTime: 4500,
     resist: 'CHROMATIC',
     skill: 24,
     target: 'SINGLE',
-    timer: 'chromareave',
+    timer: 'Chromashock',
     type3DmgAug: 1121
   },
   CRRk1: {
-    name: 'Chromareave Rk. I',
+    name: 'Chromashock Rk. I',
     baseDmg: 14234
   },
   CRRk2: {
-    name: 'Chromareave Rk. II',
+    name: 'Chromashock Rk. II',
     baseDmg: 14946
   },
   CRRk3: {
-    name: 'Chromareave Rk. III',
+    name: 'Chromashock Rk. III',
     baseDmg: 15693
   },
   DR: {
@@ -170,11 +170,11 @@ export const SPELL_DATA = {
     timer: 'mindsunder',
     type3DmgAug: 1804
   },  
-  MU: {
+  MS: {
     baseDmg: 30647,
     castTime: 2000,
     focusable: true,
-    id: 'MU',
+    id: 'MS',
     level: 110,
     lockoutTime: 1500,
     manaCost: 4930,
@@ -187,33 +187,33 @@ export const SPELL_DATA = {
     timer: 'mindslash',
     type3DmgAug: 2189
   },
-  MS: {
+  MT: {
     baseDmg: 42235,
     castTime: 2000,
     focusable: true,
-    id: 'MS',
+    id: 'MT',
     level: 115,
     lockoutTime: 1500,
     manaCost: 5928,
-    name: 'New Mindslash Rk. III',
+    name: 'Mindrift Rk. III',
     origCastTime: 4000,
     recastTime: 9000,
     resist: 'CHROMATIC',
     skill: 24,
     target: 'SINGLE',
-    timer: 'newmindslash',
+    timer: 'mindrift',
     type3DmgAug: 3017
   },
-  MSRk1: {
-    name: 'New Mindslash Rk. I',
+  MTRk1: {
+    name: 'Mindrift Rk. I',
     baseDmg: 38309
   },
-  MSRk2: {
-    name: 'New Mindslash Rk. II',
+  MTRk2: {
+    name: 'Mindrift Rk. II',
     baseDmg: 40224
   },
-  MSRk3: {
-    name: 'New Mindslash Rk. III',
+  MTRk3: {
+    name: 'Mindrift Rk. III',
     baseDmg: 42235
   },
   PA: {
@@ -224,7 +224,7 @@ export const SPELL_DATA = {
     level: 113,
     lockoutTime: 1500,
     manaCost: 1956,
-    name: 'New Polyfluorescent Assault Rk. III',
+    name: 'Polycascading Assault Rk. III',
     origCastTime: 3000,
     recastTime: 4500,
     resist: 'CHROMATIC',
@@ -234,15 +234,15 @@ export const SPELL_DATA = {
     type3DmgAug: 1309
   },
   PARk1: {
-    name: 'New Polyfluorescent Assault Rk. I',
+    name: 'Polycascading Assault Rk. I',
     baseDmg: 16613
   },
   PARk2: {
-    name: 'New Polyfluorescent Assault Rk. II',
+    name: 'Polycascading Assault Rk. II',
     baseDmg: 17444
   },
   PARk3: {
-    name: 'New Polyfluorescent Assault Rk. III',
+    name: 'Polycascading Assault Rk. III',
     baseDmg: 18316
   },
   ST: {

@@ -63,14 +63,14 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   let cfickleSpells = 0;
   let clawSpells = 0;
   switch(spell.id) {
-    case 'FC': case 'TW':
+    case 'FC':
       state.cfickleSpells = mod + (state.cfickleSpells || 0);
       if (state.cfickleSpells > 0.50 && !state.inTwincast) {
         cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
       }
       break;
-    case 'CI': case 'CG': case 'CS':
+    case 'CP': case 'CG': case 'CS':
       state.clawSpells = mod + (state.clawSpells || 0);
       if (state.clawSpells > 0.50) {
         clawSpells = state.clawSpells;
@@ -125,7 +125,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
       break;
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
-    case 'CI': case 'CG': case 'CS':
+    case 'CP': case 'CG': case 'CS':
       // generate proc effects
       state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         switch(id) {
@@ -144,11 +144,6 @@ function applyPostSpellEffects(state, mod, dmgKey) {
     case 'FC':
       if (G.MODE === 'mag') {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
-      }
-      break;
-    case 'TW':
-      if (G.MODE === 'wiz') {
-        state.twSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
     case 'MS':
@@ -268,7 +263,7 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CS': case 'CI': case 'CG':
+    case 'CP': case 'CS': case 'CG':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
@@ -305,14 +300,7 @@ function applyPreSpellChecks(state, mod) {
         state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSHDmgMod(dom.getAEUnitDistanceValue()));
       }
       break;
-    case 'TW':
-      if (G.MODE === 'wiz') {
-        if (!state.twSpellProcGenerator) {
-          state.twSpellProcGenerator = genSpellProc(dmgU.TW_SPELL_PROC_RATES);
-        }
-      }
-      break;
-    case 'VM':
+    case 'SM':
       let baseDmg = state.spell['baseDmg' + dom.getVolleyOfManyCountValue()];
       state.spell.baseDmg = baseDmg || state.spell.baseDmg;
       break;
@@ -629,7 +617,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['ET', 'SJ', 'CG', 'CS'].find(id => id === spell.id)) {
+  if (['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
   }
 
@@ -641,7 +629,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['ET', 'SJ', 'CG', 'CS'].find(id => id === spell.id)) {
+  if (! ['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(spell.id);
   }
 
