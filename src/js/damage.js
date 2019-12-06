@@ -161,6 +161,15 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       if (G.MODE === 'mag') {
         let steelVeng = dom.getSteelVengeanceValue();
         switch(steelVeng) {
+          case 15:
+            executeProc(state, 'SV15', mod * 0.30, 'steelveng');
+            break;
+          case 14:
+            executeProc(state, 'SV14', mod * 0.30, 'steelveng');
+            break;
+          case 13:
+            executeProc(state, 'SV13', mod * 0.30, 'steelveng');
+            break;
           case 12:
             executeProc(state, 'SV12', mod * 0.30, 'steelveng');
             break;
@@ -406,6 +415,7 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.addAggregateStatistics('spellCount', mod);
 
       // update core stats in main spell cast
+      stats.updateSpellStatistics(state, 'origBaseDmg', state.spell.baseDmg);
       stats.updateSpellStatistics(state, 'critRate', critRate);
       stats.updateSpellStatistics(state, 'luckyCritRate', critRate * luckyRate);
       stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
@@ -618,7 +628,7 @@ function getBeforeCritFocus(state, spaValues) {
 
   // Before Crit Focus AA (SPA 302) only for some spells
   if (['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
-    beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
+    beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(state.spell);
   }
 
   return beforeCritFocus;
@@ -630,7 +640,7 @@ function getEffectiveness(state, spaValues) {
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
   if (! ['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
-    effectiveness += dom.getSpellFocusAAValue(spell.id);
+    effectiveness += dom.getSpellFocusAAValue(state.spell);
   }
 
   return effectiveness;

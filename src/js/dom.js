@@ -452,16 +452,15 @@ export function getSpellDamageValue() {
   });
 }
 
-export function getSpellFocusAAValue(id) {
-  return utils.useCache('.spell-focus-aa-' + id, () => {
+export function getSpellFocusAAValue(spell) {
+  return utils.useCache('.spell-focus-aa-' + spell.id, () => {
     let value = 0;
 
     let keys = FOCUS_AA_KEYS[G.MODE];
-    if (keys && keys[id]) {
-      value = utils.getNumberValue($(keys[id]).data('value'));
-      let spell = utils.getSpellData(id);
+    if (keys && keys[spell.id]) {
+      value = utils.getNumberValue($(keys[spell.id]).data('value'));
 
-      if (id === 'SM') {
+      if (spell.id === 'SM') {
         if (value === 13) {
           value = 0.6;
         } else if (value === 12) {

@@ -1,6 +1,6 @@
 export const SPELL_DATA = {
   AFU1: {
-    baseDmg: 73450,
+    baseDmg: 75000,
     castTime: 0,
     fixedRate: 3,
     spa497: true,
@@ -18,7 +18,7 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU2: {
-    baseDmg: 100000,
+    baseDmg: 150000,
     castTime: 0,
     fixedRate: 3,
     spa497: true,
@@ -36,7 +36,7 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU3: {
-    baseDmg: 150000,
+    baseDmg: 200000,
     castTime: 0,
     fixedRate: 3,
     spa497: true,
@@ -54,7 +54,7 @@ export const SPELL_DATA = {
     timer: 'afusion'
   },
   AFU4: {
-    baseDmg: 200000,
+    baseDmg: 250000,
     castTime: 0,
     fixedRate: 3,
     spa497: true,
@@ -71,6 +71,24 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'afusion'
   },
+  AFU5: {
+    baseDmg: 300000,
+    castTime: 0,
+    fixedRate: 3,
+    spa497: true,
+    focusable: false,
+    id: 'AFU5',
+    level: 254,
+    manaCost: 0,
+    minCritRate: 1.0,
+    name: 'Arcane Fusion V',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'afusion'
+  },  
   SB: {
     baseDmg: 24617,
     castTime: 0,
@@ -101,13 +119,13 @@ export const SPELL_DATA = {
     name: 'Scorching Beam Rk. III'
   },
   CRYO: {
-    baseDmg: 25000,
+    baseDmg: 35000,
     castTime: 0,
     focusable: false,
     id: 'CRYO',
     level: 254,
     manaCost: 0,
-    name: 'Cryomancy XXVII',
+    name: 'Cryomancy XXX',
     origCastTime: 0,
     recastTime: 0,
     resist: 'COLD',
@@ -116,13 +134,13 @@ export const SPELL_DATA = {
     timer: 'cryo'
   },  
   PYRO: {
-    baseDmg: 20400,
+    baseDmg: 30000,
     castTime: 0,
     focusable: false,
     id: 'PYRO',
     level: 254,
     manaCost: 0,
-    name: 'Pyromancy XXVII',
+    name: 'Pyromancy XXX',
     origCastTime: 0,
     recastTime: 0,
     resist: 'FIRE',

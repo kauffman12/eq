@@ -434,7 +434,7 @@ export const SPELL_DATA = {
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'New Repudiate Destruction',
+    name: 'Obliterate Destruction',
     origCastTime: 0,
     recastTime: 0,
     resist: 'UNRESISTABLE',
@@ -451,7 +451,7 @@ export const SPELL_DATA = {
     level: 113,
     lockoutTime: 1500,
     manaCost: 2050,
-    name: 'New Repudiate the Unnatural Rk. III',
+    name: 'Obliterate the Unnatural Rk. III',
     origCastTime: 1500,
     recastTime: 5750,
     resist: 'MAGIC',
@@ -461,15 +461,15 @@ export const SPELL_DATA = {
     type3DmgAug: 1903
   },
   RURk1: {
-    name: 'New Repudiate the Unnatural Rk. I',
+    name: 'Obliterate the Unnatural Rk. I',
     baseDmg: 24168
   },
   RURk2: {
-    name: 'New Repudiate the Unnatural Rk. II',
+    name: 'Obliterate the Unnatural Rk. II',
     baseDmg: 25376
   },
   RURk3: {
-    name: 'New Repudiate the Unnatural Rk. III',
+    name: 'Obliterate the Unnatural Rk. III',
     baseDmg: 26645
   },
   SFB: {
@@ -615,6 +615,58 @@ export const SPELL_DATA = {
     timer: 'steelveng',
     type3DmgAug: 0
   },
+  SV13: {
+    baseDmg: 63000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV13',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XIII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },
+  SV14: {
+    baseDmg: 66000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV14',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XIV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },
+  SV15: {
+    baseDmg: 70000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV15',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XV',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },  
+  
   SM: {
     baseDmg: 6032,
     baseDmg1: 6032,

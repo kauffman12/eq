@@ -5,21 +5,21 @@ function SMap(list) {
 }
 
 export const SPELL_DATA = {
-  AB: {
+  AS: {
     baseDmg: 1773,
     castTime: 0,
     focusable: true,
-    id: 'AB',
+    id: 'AS',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'New Arcane Ballad Effect III',
+    name: 'Arcane Symphony Effect III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',
     skill: 98,
     target: 'SINGLE',
-    timer: 'AB',
+    timer: 'AS',
     type3Dmg: 0
   },
   ASVI: {
@@ -417,7 +417,7 @@ export const SPELL_DATA = {
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    name: 'New Frostreave Strike III',
+    name: 'Icerend Strike III',
     origCastTime: 0,
     recastTime: 0,
     resist: 'COLD',

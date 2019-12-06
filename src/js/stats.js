@@ -108,7 +108,7 @@ export function getStatisticsSummary(spellStats) {
       addPercentStatDescription(data, "After SPA 461 Focus", spellStats.get('afterSPA461Focus'));
       addNumberStatDescription(data, "After SPA 461 Add", spellStats.get('afterSPA461Add'));
 
-      addNumberStatDescription(data, "Orig Base Dmg", spell.baseDmg);
+      addNumberStatDescription(data, "Orig Base Dmg", spellStats.get('origBaseDmg'));
       addNumberStatDescription(data, "Calc Base Dmg", spellStats.get('avgBaseDmg'));
       addNumberStatDescription(data, "Calc Crit Dmg", spellStats.get('avgCritDmg'));
       addNumberStatDescription(data, "Calc Lucky Crit Dmg", spellStats.get('avgLuckyCritDmg'));

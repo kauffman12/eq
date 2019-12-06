@@ -171,12 +171,12 @@ const ABILITIES = {
     class: 'brd',
     duration: 24000 + TICK_OFFSET, // about 4 ticks
     level: 115,
-    name: 'New Arcane Ballad Rk. III',
+    name: 'Arcane Symphony Rk. III',
     refreshTime: 12000, // varies depending on bard melody set
     repeatEvery: -1,
     effects: [
       {
-        proc: 'AB',
+        proc: 'AS',
         limits: [
           { onSpellUse: true },
           { currentHitPoints: true },
@@ -334,13 +334,13 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'Arcomancy XXVII',
+    name: 'Arcomancy XXX',
     effects: [
       {
         spa: 462,
         slot: 1,
         type: 'sp',
-        value: 10000,
+        value: 13000,
         limits: [
           { minManaCost: 10 },
           { maxDuration: 0 },
@@ -352,7 +352,7 @@ const ABILITIES = {
   ARIA: {
     class: 'brd',
     level: 111,
-    name: 'New Aria of Begalru Rk. III',
+    name: 'Aria of Margidor Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -415,7 +415,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 50000,
     level: 113,
-    name: 'New Bolstering Aura Rk. III',
+    name: 'Fortifying Aura Rk. III',
     refreshTime: 30000,
     repeatEvery: -1,
     effects: [
@@ -1220,7 +1220,7 @@ const ABILITIES = {
     class: 'dru',
     duration: 18000 + TICK_OFFSET,
     level: 113,
-    name: 'New Frostreave Aura Rk. III',
+    name: 'Icerend Aura Rk. III',
     refreshTime: 18000,
     repeatEvery: -1,
     effects: [
@@ -1242,7 +1242,7 @@ const ABILITIES = {
     class: 'dru',
     debuff: true,
     level: 123,
-    name: 'New Frostreave Breath Rk. III',
+    name: 'Icerend Breath Rk. III',
     repeatEvery: -1,
     effects: [
       {
@@ -1565,7 +1565,7 @@ const ABILITIES = {
   FATE: {
     class: 'brd',
     level: 112,
-    name: 'New Fatesong of Dekloaz Rk. III',
+    name: 'Fatesong of Radiwol Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -1828,14 +1828,14 @@ const ABILITIES = {
     class: 'enc',
     debuff: true,
     level: 255,
-    name: 'New Tashan\'s Lingering Cry',
+    name: 'Tashan\'s Lingering Cry VI',
     repeatEvery: -1,
     effects: [
       {
         spa: 483,
         slot: 1,
         type: 'sp',
-        value: 0.09,
+        value: 0.105,
         limits: [
           { maxLevel: 115 },
           { minManaCost: 10 }
@@ -1847,7 +1847,7 @@ const ABILITIES = {
     class: 'mag',
     debuff: true,
     level: 111,
-    name: 'New Malosinata Rk. III',
+    name: 'Malosinara Rk. III',
     otherCast: true,
     repeatEvery: -1,
     effects: [
@@ -2024,7 +2024,7 @@ const ABILITIES = {
   QUNARD: {
     class: 'brd',
     level: 113,
-    name: 'New Qunard\'s Aria Rk. III',
+    name: 'Sontalak\'s Aria Rk. III',
     refreshTime: 12000,
     repeatEvery: -1,
     effects: [
@@ -2589,7 +2589,7 @@ const ABILITIES = {
     class: 'wiz',
     debuff: true,
     level: 115,
-    name: 'Trifurcating Magic XXVII',
+    name: 'Trifurcating Magic XXX',
     repeatEvery: -1,
     effects: [] // handle in damage.js
   },    
