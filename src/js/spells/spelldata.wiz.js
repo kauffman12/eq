@@ -1036,15 +1036,15 @@ export const SPELL_DATA = {
     name: 'Volcanic Downpour Rk. III'
   },
   MBRN: {
-    baseDmg: 2800000,
+    baseDmg: 3500000,
     castTime: 3000,
     focusable: false,
     id: 'MBRN',
     level: 254,
     lockoutTime: 0,
-    manaCost: 70000,
+    manaCost: 80000,
     maxCritRate: 0,
-    name: 'Mana Burn XVI',
+    name: 'Mana Burn XVIII',
     origCastTime: 3000,
     recastTime: 1800,
     recastTime2: 0,

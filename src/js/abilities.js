@@ -328,6 +328,31 @@ const ABILITIES = {
       }
     ]
   },
+  SD: {
+    level: 255,
+    name: 'Standard of the Drybone Skeleton',
+    repeatEvery: -1,
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'sp',
+        value: 0.105,
+        limits: [
+          { maxDuration: 0 },
+          { type: 'detrimental' },
+          { maxLevel: 253 }, // from testing
+          { exSkills: COMBAT_SKILLS }, // from testing
+        ]
+      },
+      {
+        spa: 170, // moved rules up from testing
+        slot: 5,
+        type: 'sp',
+        value: 0.35,
+      }
+    ]
+  },  
   ARCO: {
     class: 'wiz',
     charges: 5,
@@ -603,6 +628,23 @@ const ABILITIES = {
       }
     ]
   },
+  RFOCUS: {
+    level: 255,
+    name: 'Restless Focus',
+    effects: [
+      {
+        spa: 413,
+        slot: 1,
+        type: 'wn',
+        value: 0.0, // value read from settings/UI choice
+        limits: [
+          { maxLevel: 120 },
+          { currentHitPoints: true }
+          // others not sure how to handle and prob dont need to
+        ]
+      }
+    ]
+  },  
   ESD7: {
     level: 255,
     name: 'Ethereal/Spear Damage 7',
@@ -1529,7 +1571,7 @@ const ABILITIES = {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 0.40,
+        value: 0.50,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 },
@@ -1588,7 +1630,7 @@ const ABILITIES = {
   },
   FPWR: {
     class: 'mag',
-    charges: 2,
+    charges: 3,
     duration: 60000,
     level: 255,
     mode: 'mag',
@@ -1665,13 +1707,13 @@ const ABILITIES = {
     duration: 360000,
     level: 254,
     mode: 'mag',
-    name: 'Heart of Skyfire XXVIII',
+    name: 'Heart of Skyfire XXIX',
     effects: [
       {
         spa: 124,
         slot: 3,
         type: 'sp',
-        value: 1.15,
+        value: 1.20,
         limits: [
           { maxLevel: 115 },
           { type: 'detrimental' },
@@ -1682,7 +1724,7 @@ const ABILITIES = {
         spa: 170,
         slot: 5,
         type: 'sp',
-        value: 0.45
+        value: 0.50
       }
     ]
   },
@@ -1690,7 +1732,7 @@ const ABILITIES = {
     class: 'wiz',
     level: 254,
     mode: 'wiz',
-    name: 'Improved Familiar XXXIII',
+    name: 'Improved Familiar XXXII',
     effects: [
       {
         spa: 124,
@@ -1871,13 +1913,13 @@ const ABILITIES = {
     charges: 500,
     duration: 120000,
     level: 254,
-    name: 'Mana Burn XVII',
+    name: 'Mana Burn XVIII',
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 20400,
+        value: 25000,
         limits: [
           { maxDuration: 0 }
         ]
@@ -2051,14 +2093,14 @@ const ABILITIES = {
     debuff: true,
     duration: 60000,
     level: 115,
-    name: 'Elemental Arrow X',
+    name: 'Elemental Arrow XI',
     otherCast: true,
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.125,
+        value: 0.15,
         limits: [
           { resists: SMap(['FIRE', 'COLD']) }
         ]
@@ -2428,13 +2470,13 @@ const ABILITIES = {
     class: 'dru',
     duration: 60000,
     level: 254,
-    name: 'Season\'s Wrath VII',
+    name: 'Season\'s Wrath VIII',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.20,
+        value: 0.25,
         limits: [
           { type: 'detrimental' },
           { resists: SMap(['FIRE', 'COLD']) }

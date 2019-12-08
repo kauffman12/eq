@@ -286,9 +286,8 @@ function applyPreSpellChecks(state, mod) {
           // AA modifies the proc chance
           let offset = 0;
           switch(dom.getFlamesOfPowerValue()) {
-            case 1: offset = 0.27; break;
-            case 2: offset = 0.30; break;
-            case 3: case 4: offset = 0.34; break; 
+            case 4: case 5: offset = 0.34; break;
+            case 6: offset = 0.35; break;            
           }
           state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.76',
+  VERSION: 'Version 1.77',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -44,6 +44,20 @@ export const encSpellList = [
 
 // values need to be strings for HTML dom nodes
 export const basicDmgFocusContext = [
+  {
+    id: 'restless-focus',
+    value: '0',
+    desc: 'Restless Focus (0/6)',
+    data: [
+      { value: '0.1', desc: 'Restless Focus (6/6)' },
+      { value: '0.09', desc: 'Restless Focus (5/6)' },
+      { value: '0.07', desc: 'Restless Focus (4/6)' },
+      { value: '0.05', desc: 'Restless Focus (3/6)' },
+      { value: '0.03', desc: 'Restless Focus (2/6)' },
+      { value: '0.01', desc: 'Restless Focus (1/6)' },
+      { value: '0', desc: 'No Restless Focus Selected' }
+    ]
+  },
   {
     id: 'eye-decay',
     value: '0.1',
@@ -513,14 +527,13 @@ export const magSpellFocusAAContext = [
   },
   {
     id: 'aa-flames-pwr',
-    value: '4',
-    desc: 'Flames of Power (4/4)',
+    value: '6',
+    desc: 'Flames of Power (6/6)',
     data: [
-      { value: '4', desc: 'Flames of Power (4/4)' },
-      { value: '3', desc: 'Flames of Power (3/4)' },
-      { value: '2', desc: 'Flames of Power (2/4)' },
-      { value: '1', desc: 'Flames of Power (1/4)' },
-      { value: '0', desc: 'Flames of Power (0/4)' }
+      { value: '6', desc: 'Flames of Power (6/6)' },
+      { value: '5', desc: 'Flames of Power (5/6)' },
+      { value: '4', desc: 'Flames of Power (4/6)' },
+      { value: '0', desc: 'Flames of Power (0/6)' }
     ]
   },
   {
@@ -896,12 +909,6 @@ export const wizDPSAAContext = [
       { value: '1200', desc: 'Sorcerer\'s Vengeance (9/25)' },
       { value: '1100', desc: 'Sorcerer\'s Vengeance (8/25)' },
       { value: '1000', desc: 'Sorcerer\'s Vengeance (7/25)' },
-      { value: '900', desc: 'Sorcerer\'s Vengeance (6/25)' },
-      { value: '800', desc: 'Sorcerer\'s Vengeance (5/25)' },
-      { value: '700', desc: 'Sorcerer\'s Vengeance (4/25)' },
-      { value: '600', desc: 'Sorcerer\'s Vengeance (3/25)' },
-      { value: '400', desc: 'Sorcerer\'s Vengeance (2/25)' },
-      { value: '200', desc: 'Sorcerer\'s Vengeance (1/25)' },
       { value: '0', desc: 'Sorcerer\'s Vengeance (0/25)' }
     ]
   },
@@ -1002,15 +1009,18 @@ export const magDPSAAContext = [
   },
   {
     id: 'aa-force-of-elements',
-    value: 'FE18',
-    desc: 'Force of Elements (18/18)',
+    value: 'FE21',
+    desc: 'Force of Elements (21/21)',
     data: [
-      { value: 'FE18', desc: 'Force of Elements (18/18)' },
-      { value: 'FE17', desc: 'Force of Elements (17/18)' },
-      { value: 'FE16', desc: 'Force of Elements (16/18)' },
-      { value: 'FE15', desc: 'Force of Elements (15/18)' },
-      { value: 'FE14', desc: 'Force of Elements (14/18)' },
-      { value: 'FE13', desc: 'Force of Elements (13/18)' }
+      { value: 'FE21', desc: 'Force of Elements (21/21)' },
+      { value: 'FE20', desc: 'Force of Elements (20/21)' },
+      { value: 'FE19', desc: 'Force of Elements (19/21)' },
+      { value: 'FE18', desc: 'Force of Elements (18/21)' },
+      { value: 'FE17', desc: 'Force of Elements (17/21)' },
+      { value: 'FE16', desc: 'Force of Elements (16/21)' },
+      { value: 'FE15', desc: 'Force of Elements (15/21)' },
+      { value: 'FE14', desc: 'Force of Elements (14/21)' },
+      { value: 'FE13', desc: 'Force of Elements (13/21)' }
     ]
   },
   {

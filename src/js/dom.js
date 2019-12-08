@@ -127,13 +127,14 @@ export function getConfiguredAbilities(state) {
         setSpellProc('FE', getForceOfElementsValue());
 
         // Setup Flames of Power
-        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 4) ? 2 : 1);
+        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 6) ? 3 : 2);
         break;
     }
 
     addAbility(getRobeValue());
     addAbility(getBeltProcValue());
     addAbility('EDECAY', getEyeOfDecayValue(), 413);
+    addAbility('RFOCUS', getRestlessFocusValue(), 413);
     addAbility('TCAA', getTwincastAAValue(), 399);
     addAbility('TP', getTwinprocAAValue(), 399);
     getWornDamageFocusList().forEach(id => addAbility(id));
@@ -307,6 +308,12 @@ export function getDestructiveAdeptValue() {
 export function getEyeOfDecayValue() {
   return utils.useCache('.eye-decay', () => {
     return utils.getNumberValue($('.eye-decay .dropdown-toggle').data('value'));
+  });
+}
+
+export function getRestlessFocusValue() {
+  return utils.useCache('.restless-focus', () => {
+    return utils.getNumberValue($('.restless-focus .dropdown-toggle').data('value'));
   });
 }
 
