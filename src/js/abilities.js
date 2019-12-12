@@ -196,7 +196,7 @@ const ABILITIES = {
     duration: 280000,
     level: 254,
     mode: 'wiz',
-    name: 'Arcane Destruction V',
+    name: 'Arcane Destruction VII',
     effects: [
       {
         spa: 212,
@@ -219,13 +219,13 @@ const ABILITIES = {
     duration: 240000,
     level: 254,
     mode: 'wiz',
-    name: 'Arcane Fury III',
+    name: 'Arcane Fury V',
     effects: [
       {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 0.15,
+        value: 0.25,
         limits: [
           { maxDuration: 0 },
           { type: 'detrimental' },
@@ -288,7 +288,7 @@ const ABILITIES = {
     duration: 240000,
     level: 254,
     mode: 'enc',
-    name: 'Calculated Insanity XV',
+    name: 'Calculated Insanity XVII',
     effects: [
       {
         spa: 212,
@@ -307,7 +307,7 @@ const ABILITIES = {
         spa: 170,
         slot: 8,
         type: 'sp',
-        value: 0.03
+        value: 0.10
       }
     ]
   },
@@ -400,7 +400,7 @@ const ABILITIES = {
     class: 'rng',
     duration: 96000,
     level: 254,
-    name: 'Auspice of the Hunter XXVIII',
+    name: 'Auspice of the Hunter XXX',
     effects: [
       {
         spa: 294,
@@ -421,7 +421,7 @@ const ABILITIES = {
     class: 'brd',
     duration: 90000,
     level: 254,
-    name: 'Second Spire of the Minstrels IV',
+    name: 'Spire of the Minstrels XII',
     effects: [
       {
         spa: 286,
@@ -459,26 +459,6 @@ const ABILITIES = {
       }
     ]
   },
-  BONDF: {
-    level: 255,
-    name: 'Bond of the Flame',
-    effects: [
-      {
-        spa: 286,
-        slot: 1,
-        type: 'wn',
-        value: 500,
-        limits: [
-          { resists: SMap(['FIRE']) },
-          { currentHitPoints: true },
-          { nonRepeating: true },
-          { type: 'detrimental' },
-          { minManaCost: 100 },
-          { exSkills: COMBAT_SKILLS }
-        ]
-      }
-    ]
-  },
   CDG: {
     charges: 2,
     duration: 18000 + TICK_OFFSET,
@@ -508,13 +488,13 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Chromatic Haze VIII',
+    name: 'Chromatic Haze IX',
     effects: [
       {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 3.80,
+        value: 3.85,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 },
@@ -601,7 +581,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 90000,
     level: 254,
-    name: 'Third Spire of Enchantment IV',
+    name: 'Spire of Enchantment XII',
     effects: [
       {
         spa: 294,
@@ -630,7 +610,7 @@ const ABILITIES = {
   },
   RFOCUS: {
     level: 255,
-    name: 'Restless Focus',
+    name: 'Luminous Restless Ice',
     effects: [
       {
         spa: 413,
@@ -641,6 +621,21 @@ const ABILITIES = {
           { maxLevel: 120 },
           { currentHitPoints: true }
           // others not sure how to handle and prob dont need to
+        ]
+      }
+    ]
+  },
+  OESD7: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 7',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.07,
+        limits: [
+          { spells: SMap(['ES', 'SA', 'MS', 'MC']) }
         ]
       }
     ]
@@ -660,6 +655,21 @@ const ABILITIES = {
       }
     ]
   },
+  OESD9: {
+    level: 255,
+    name: 'Ethereal/Spear Damage 9',
+    effects: [
+      {
+        spa: 302,
+        slot: 1,
+        type: 'wn',
+        value: 0.09,
+        limits: [
+          { spells: SMap(['ES', 'SA', 'MS', 'MC']) }
+        ]
+      }
+    ]
+  },  
   ESD9: {
     level: 255,
     name: 'Ethereal/Spear Damage 9',
@@ -675,28 +685,6 @@ const ABILITIES = {
       }
     ]
   },
-  ESYN1: {
-    charges: 1,
-    class: 'enc',
-    duration: 12000 + TICK_OFFSET,
-    level: 254,
-    name: 'Beguiler\'s Synergy I',
-    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
-    effects: [
-      {
-        spa: 461,
-        slot: 1,
-        type: 'sp',
-        value: 0.40,
-        limits: [
-         { resists: SMap(['MAGIC', 'FIRE', 'COLD']) },
-         { maxLevel: 249 },
-         { minDmg: 100 },
-         { nonRepeating: true }
-        ]
-      }
-    ]
-  },
   ESYN2: {
     charges: 1,
     class: 'enc',
@@ -704,8 +692,7 @@ const ABILITIES = {
     level: 254,
     name: 'Beguiler\'s Synergy II',
     otherCast: true,
-    repeatEvery: 11000,
-    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindslash.',
+    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindrift.',
     effects: [
       {
         spa: 461,
@@ -721,9 +708,33 @@ const ABILITIES = {
       }
     ]
   },
+  ESYN3: {
+    charges: 1,
+    class: 'enc',
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Beguiler\'s Synergy III',
+    otherCast: true,
+    repeatEvery: 11000,
+    tooltip: 'How often to proc a single Beguiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Mindrift.',
+    effects: [
+      {
+        spa: 461,
+        slot: 1,
+        type: 'sp',
+        value: 0.55,
+        limits: [
+         { resists: SMap(['MAGIC', 'FIRE', 'COLD']) },
+         { maxLevel: 249 },
+         { minDmg: 100 },
+         { nonRepeating: true }
+        ]
+      }
+    ]
+  },  
   FD: {
     adpsDropdown: true,
-    charges: 45,
+    charges: 55,
     class: 'wiz',
     duration: 410000,
     level: 254,
@@ -756,25 +767,25 @@ const ABILITIES = {
     class: 'brd',
     duration: 132000,
     level: 115,
-    name: 'Fierce Eye IV',
+    name: 'Fierce Eye VI',
     effects: [
       {
         spa: 294,
         slot: 6,
         type: 'sp',
-        value: 0.13
+        value: 0.15
       },
       {
         spa: 273,
         slot: 7,
         type: 'sp',
-        value: 0.13
+        value: 0.15
       },
       {
         spa: 170,
         slot: 11,
         type: 'sp',
-        value: 0.13
+        value: 0.15
       },
       {
         spa: 507,
@@ -1381,7 +1392,7 @@ const ABILITIES = {
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 255,
-    name: 'New Flashburn Singe I',
+    name: 'Flashbrand Singe I',
     effects: [
       {
         spa: 303,
@@ -1404,7 +1415,7 @@ const ABILITIES = {
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 255,
-    name: 'New Flashburn Singe II',
+    name: 'Flashbrand Singe II',
     effects: [
       {
         spa: 303,
@@ -1427,7 +1438,7 @@ const ABILITIES = {
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 255,
-    name: 'New Flashburn Singe III',
+    name: 'Flashbrand Singe III',
     effects: [
       {
         spa: 303,
@@ -1542,19 +1553,19 @@ const ABILITIES = {
     class: 'dru',
     duration: 225000,
     level: 254,
-    name: 'Group Spirit of the Black Wolf VII',
+    name: 'Group Spirit of the Great Wolf XV',
     effects: [
       {
         spa: 294,
         slot: 8,
         type: 'sp',
-        value: 0.1
+        value: 0.12
       },
       {
         spa: 170,
         slot: 9,
         type: 'sp',
-        value: 1.0
+        value: 1.1
       }
     ]
   },
@@ -1777,10 +1788,10 @@ const ABILITIES = {
   },
   ITC: {
     adpsDropdown: true,
-    charges: 19,
+    charges: 20,
     duration: 150000,
     level: 254,
-    name: 'Improved Twincast VII',
+    name: 'Improved Twincast VIII',
     effects: [
       {
         spa: 399,
@@ -1802,7 +1813,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 120000,
     level: 105,
-    name: 'Illusions of Grandeur III',
+    name: 'Illusions of Grandeur IV',
     effects: [
       {
         spa: 273,
@@ -1820,13 +1831,13 @@ const ABILITIES = {
         spa: 375,
         slot: 6,
         type: 'sp',
-        value: 1.15
+        value: 1.30
       },
       {
         spa: 170,
         slot: 12,
         type: 'sp',
-        value: 1.60
+        value: 1.70
       }
     ]
   },
@@ -1986,43 +1997,21 @@ const ABILITIES = {
       }
     ]
   },
-  MSYN1: {
+  MSYN3: {
     class: 'mag',
     charges: 1,
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Conjurer\'s Synergy I',
-    tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless Servant.',
-    effects: [
-      {
-        spa: 302,
-        slot: 1,
-        type: 'sp',
-        value: 0.50,
-        limits: [
-          { resists: SMap(['FIRE', 'CHROMATIC']) },
-          { maxLevel: 250 },
-          { minDmg: 100 },
-          { nonRepeating: true }
-        ]
-      }
-    ]
-  },
-  MSYN2: {
-    class: 'mag',
-    charges: 1,
-    duration: 12000 + TICK_OFFSET,
-    level: 254,
-    name: 'Conjurer\'s Synergy II',
+    name: 'Conjurer\'s Synergy III',
     otherCast: true,
     repeatEvery: 13000,
-    tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Remorseless or Reckless Servant.',
+    tooltip: 'How often to proc a single Conjurer\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Riotous Servant.',
     effects: [
       {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 0.60,
+        value: 0.75,
         limits: [
           { resists: SMap(['FIRE', 'CHROMATIC']) },
           { maxLevel: 250 },
@@ -2031,27 +2020,27 @@ const ABILITIES = {
         ]
       }
     ]
-  },
+  },  
   NSYN: {
-    charges: 1,
+    charges: 999,
     class: 'nec',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Defiler\'s Synergy II',
+    name: 'Defiler\'s Synergy III',
     repeatEvery: 7000,
-    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Refute for Blood.',
+    tooltip: 'How often to proc a single Defiler\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Assert for Blood.',
     effects: [
       {
         spa: 170,
         slot: 1,
         type: 'sp',
-        value: 0.20
+        value: 0.30
       },
       {
         spa: 375,
         slot: 2,
         type: 'sp',
-        value: 0.15
+        value: 0.30
       }
     ]
   },
@@ -2060,7 +2049,7 @@ const ABILITIES = {
     class: 'brd',
     duration: 240000,
     level: 115,
-    name: 'Quick Time VIII',
+    name: 'Quick Time IX',
     effects: []
   },
   QUNARD: {
@@ -2174,7 +2163,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Ice I',
+    name: 'Syllable of Ice Azia IX',
     effects: [
       {
         spa: 303,
@@ -2199,7 +2188,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Ice II',
+    name: 'Syllable of Ice Beza IX',
     effects: [
       {
         spa: 303,
@@ -2224,7 +2213,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Ice III',
+    name: 'Syllable of Ice Caza IX',
     effects: [
       {
         spa: 303,
@@ -2249,7 +2238,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Fire I',
+    name: 'Syllable of Fire Azia IX',
     effects: [
       {
         spa: 303,
@@ -2274,7 +2263,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Fire II',
+    name: 'Syllable of Fire Beza IX',
     effects: [
       {
         spa: 303,
@@ -2299,7 +2288,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Fire III',
+    name: 'Syllable of Fire Caza IX',
     effects: [
       {
         spa: 303,
@@ -2324,7 +2313,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Magic I',
+    name: 'Syllable of Magic IX Azia',
     effects: [
       {
         spa: 303,
@@ -2349,7 +2338,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Magic II',
+    name: 'Syllable of Magic IX Beza',
     effects: [
       {
         spa: 303,
@@ -2374,7 +2363,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Magic III',
+    name: 'Syllable of Magic IX Caza',
     effects: [
       {
         spa: 303,
@@ -2399,7 +2388,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Mastery I',
+    name: 'Syllable of Mastery Azia IX',
     effects: [
       {
         spa: 303,
@@ -2423,7 +2412,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Mastery II',
+    name: 'Syllable of Mastery Beza IX',
     effects: [
       {
         spa: 303,
@@ -2447,7 +2436,7 @@ const ABILITIES = {
     duration: 30000 + TICK_OFFSET,
     level: 255,
     mode: 'wiz',
-    name: 'New Syllable of Mastery III',
+    name: 'Syllable of Mastery Caza IX',
     effects: [
       {
         spa: 303,
@@ -2554,7 +2543,7 @@ const ABILITIES = {
     duration: 180000,
     level: 254,
     mode: 'mag',
-    name: 'New Thaumaturge\'s Focus XVI',
+    name: 'Thaumaturge\'s Focus XIX',
     effects: [
       {
         spa: 212,
@@ -2575,7 +2564,7 @@ const ABILITIES = {
         spa: 461,
         slot: 8,
         type: 'sp',
-        value: 0.55,
+        value: 0.65,
         limits: [
           { maxLevel: 115 },
           { currentHitPoints: true },
@@ -2584,26 +2573,6 @@ const ABILITIES = {
           { maxDuration: 0 },
           { resists: SMap(['MAGIC']) },
           { minDmg: 100 }
-        ]
-      }
-    ]
-  },
-  THREADSM: {
-    level: 255,
-    name: 'Threads of Mana',
-    effects: [
-      {
-        spa: 286,
-        slot: 1,
-        type: 'wn',
-        value: 1000,
-        limits: [
-          { resists: SMap(['MAGIC']) },
-          { currentHitPoints: true },
-          { nonRepeating: true },
-          { type: 'detrimental' },
-          { minManaCost: 100 },
-          { exSkills: COMBAT_SKILLS }
         ]
       }
     ]
@@ -2758,24 +2727,6 @@ const ABILITIES = {
       }      
     ]
   },
-  WSYN1: {
-    charges: 1,
-    class: 'wiz',
-    duration: 12000 + TICK_OFFSET,
-    level: 254,
-    name: 'Evoker\'s Synergy I',
-    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
-    effects: [
-      {
-        proc: 'WSYN1',
-        limits: [
-          { onSpellUse: true },
-          { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
-          { type: 'detrimental' }
-        ]
-      }
-    ]
-  },
   WSYN2: {
     charges: 1,
     class: 'wiz',
@@ -2783,8 +2734,7 @@ const ABILITIES = {
     level: 254,
     name: 'Evoker\'s Synergy II',
     otherCast: true,
-    repeatEvery: 38000,
-    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Ethereal Braid.',
+    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
     effects: [
       {
         proc: 'WSYN2',
@@ -2795,5 +2745,25 @@ const ABILITIES = {
         ]
       }
     ]
-  }
+  },
+  WSYN3: {
+    charges: 1,
+    class: 'wiz',
+    duration: 12000 + TICK_OFFSET,
+    level: 254,
+    name: 'Evoker\'s Synergy III',
+    otherCast: true,
+    repeatEvery: 38000,
+    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
+    effects: [
+      {
+        proc: 'WSYN3',
+        limits: [
+          { onSpellUse: true },
+          { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
+          { type: 'detrimental' }
+        ]
+      }
+    ]
+  }  
 };

@@ -741,7 +741,7 @@ export const SPELL_DATA = {
     level: 112,
     lockoutTime: 1500,
     manaCost: 2681,
-    name: 'Strike of Many Rk. III',
+    name: 'Shockwave of Many Rk. III',
     origCastTime: 750,
     recastTime: 9000,
     resist: 'FIRE',
@@ -751,7 +751,7 @@ export const SPELL_DATA = {
     type3DmgAug: 341
   },
   SMRk1: {
-    name: 'Strike of Many Rk. I',
+    name: 'Shockwave of Many Rk. I',
     baseDmg: 5471,
     baseDmg1: 5471,
     baseDmg2: 5471,
@@ -770,7 +770,7 @@ export const SPELL_DATA = {
     baseDmg15: 51315
   },
   SMRk2: {
-    name: 'Strike of Many Rk. II',
+    name: 'Shockwave of Many Rk. II',
     baseDmg: 5745,
     baseDmg1: 5745,
     baseDmg2: 5745,
@@ -789,7 +789,7 @@ export const SPELL_DATA = {
     baseDmg15: 53881
   },
   SMRk3: {
-    name: 'Strike of Many Rk. III',
+    name: 'Shockwave of Many Rk. III',
     baseDmg: 6032,
     baseDmg1: 6032,
     baseDmg2: 6032,

@@ -146,16 +146,15 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
+    case 'MT':
+      if (dom.getBeguilersSynergyValue() === 12) {
+        timeline.addSpellProcAbility(state, 'ESYN3', 1, true);
+      } 
+      break;
     case 'MS':
       if (dom.getBeguilersSynergyValue() === 11) {
         timeline.addSpellProcAbility(state, 'ESYN2', 1, true);
       } 
-      break;
-    case 'MU':
-      synergy = dom.getBeguilersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
-      }
       break;
     case 'SH': case 'SR':
       if (G.MODE === 'mag') {
@@ -184,22 +183,16 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       break;
     case 'SJ':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
-  
       synergy = dom.getEvokersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'WSYN1', synergy / 10, true);
-      }
-      else if (synergy === 11) {
+      if (synergy === 11) {
         timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
+      } else if (synergy === 12) {
+        timeline.addSpellProcAbility(state, 'WSYN3', 1, true);
       }
-
       break;
     case 'RS':
-      synergy = dom.getConjurersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'MSYN1', synergy / 10, true);
-      } else if (synergy === 11) {
-        timeline.addSpellProcAbility(state, 'MSYN2', 1, true);
+      if (dom.getConjurersSynergyValue() === 12) {
+        timeline.addSpellProcAbility(state, 'MSYN3', 1, true);
       }
 
       let keys = utils.getCounterKeys('RS');

@@ -245,16 +245,16 @@ export const SPELL_DATA = {
     name: 'Polycascading Assault Rk. III',
     baseDmg: 18316
   },
-  ST: {
+  PG: {
     baseDmg: 34337,
     castTime: 1980,
     duration: 4800, // 8 ticks
     focusable: true,
-    id: 'ST',
+    id: 'PG',
     level: 113,
     lockoutTime: 1500,
     manaCost: 12146,
-    name: 'New Strangulate Rk. III',
+    name: 'Pulmonary Grip Rk. III',
     origCastTime: 3000,
     recastTime: 1500,
     resist: 'CHROMATIC',
@@ -265,16 +265,16 @@ export const SPELL_DATA = {
     ticks: 8,
     type3DmgAug: 2360
   },
-  STRk1: {
+  PGRk1: {
     baseDmg: 31145,
-    name: 'New Strangulate Rk. I'
+    name: 'Pulmonary Grip Rk. I'
   },
-  STRk2: {
+  PGRk2: {
     baseDmg: 32702,
-    name: 'New Strangulate Rk. II'
+    name: 'Pulmonary Grip Rk. II'
   },
-  STRk3: {
+  PGRk3: {
     baseDmg: 34337,
-    name: 'New Strangulate Rk. III'
+    name: 'Pulmonary Grip Rk. III'
   }
 };

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.77',
+  VERSION: 'Version 1.81',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -39,7 +39,7 @@ export const magSpellList = [
 
 // enc spells to display in spell drop down
 export const encSpellList = [
-  'CA', 'CD', 'CS', 'CR', 'GT', 'MT', 'MS', 'MC', 'PA', //'ST'
+  'CA', 'CD', 'CS', 'CR', 'GT', 'MT', 'MS', 'MC', 'PA', //'PG'
 ];
 
 // values need to be strings for HTML dom nodes
@@ -47,15 +47,15 @@ export const basicDmgFocusContext = [
   {
     id: 'restless-focus',
     value: '0',
-    desc: 'Restless Focus (0/6)',
+    desc: 'Luminous Restless Ice (0/6)',
     data: [
-      { value: '0.1', desc: 'Restless Focus (6/6)' },
-      { value: '0.09', desc: 'Restless Focus (5/6)' },
-      { value: '0.07', desc: 'Restless Focus (4/6)' },
-      { value: '0.05', desc: 'Restless Focus (3/6)' },
-      { value: '0.03', desc: 'Restless Focus (2/6)' },
-      { value: '0.01', desc: 'Restless Focus (1/6)' },
-      { value: '0', desc: 'No Restless Focus Selected' }
+      { value: '0.1', desc: 'Luminous Restless Ice (6/6)' },
+      { value: '0.09', desc: 'Luminous Restless Ice (5/6)' },
+      { value: '0.07', desc: 'Luminous Restless Ice (4/6)' },
+      { value: '0.05', desc: 'Luminous Restless Ice (3/6)' },
+      { value: '0.03', desc: 'Luminous Restless Ice (2/6)' },
+      { value: '0.01', desc: 'Luminous Restless Ice (1/6)' },
+      { value: '0', desc: 'No Luminous Restless Ice Selected' }
     ]
   },
   {
@@ -130,9 +130,10 @@ export const basicDmgFocusContext = [
     desc: 'Ice Woven/Velium Emp Robe',
     data: [
       { value: 'ESD9', desc: 'Ice Woven/Velium Emp Robe' },    
-      { value: 'ESD9', desc: 'Heavenly/Veiled Robe' },
-      { value: 'ESD9', desc: 'Scaleborn Robe' },
-      { value: 'ESD7', desc: 'Snowbound/Adamant/Battle Robe' },
+      { value: 'OESD9', desc: 'Heavenly/Veiled Robe' },
+      { value: 'OESD9', desc: 'Scaleborn Robe' },
+      { value: 'ESD7', desc: 'Snowbound Robe' },
+      { value: 'OESD7', desc: 'Adamant/Battle Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
     ]
   },
@@ -209,8 +210,6 @@ export const basicDmgFocusContext = [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
       { value: 'THREADSP', desc: 'Skywing Threaded Sash (Threads)' },
       { value: 'SEERS', desc: 'Sash of the Dar Brood (Seers)' },
-      { value: 'THREADSM', desc: 'Parogressio' },
-      { value: 'BONDF', desc: 'Burning Sash of Ro' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
   },
@@ -262,20 +261,11 @@ export const basicDmgFocusContext = [
 export const wizSpellFocusAAContext = [
   {
     id: 'aa-wsyn',
-    value: '11',
-    desc: 'Evoker\'s Synergy (11/11)',
+    value: '12',
+    desc: 'Evoker\'s Synergy (12/12)',
     data: [
-      { value: '11', desc: 'Evoker\'s Synergy (11/11)' },
-      { value: '10', desc: 'Evoker\'s Synergy (10/11)' },
-      { value: '9', desc: 'Evoker\'s Synergy (9/11)' },
-      { value: '8', desc: 'Evoker\'s Synergy (8/11)' },
-      { value: '7', desc: 'Evoker\'s Synergy (7/11)' },
-      { value: '6', desc: 'Evoker\'s Synergy (6/11)' },
-      { value: '5', desc: 'Evoker\'s Synergy (5/11)' },
-      { value: '4', desc: 'Evoker\'s Synergy (4/11)' },
-      { value: '3', desc: 'Evoker\'s Synergy (3/11)' },
-      { value: '2', desc: 'Evoker\'s Synergy (2/11)' },
-      { value: '1', desc: 'Evoker\'s Synergy (1/11)' },
+      { value: '12', desc: 'Evoker\'s Synergy (12/12)' },
+      { value: '11', desc: 'Evoker\'s Synergy (11/12)' },
       { value: '0', desc: 'Evoker\'s Synergy (0/11)' }
     ]
   },
@@ -445,21 +435,11 @@ export const wizSpellFocusAAContext = [
 export const magSpellFocusAAContext = [
   {
     id: 'aa-msyn',
-    value: '11',
-    desc: 'Conjurer\'s Synergy (11/11)',
+    value: '12',
+    desc: 'Conjurer\'s Synergy (12/12)',
     data: [
-      { value: '11', desc: 'Conjurer\'s Synergy (11/11)' },
-      { value: '10', desc: 'Conjurer\'s Synergy (10/11)' },
-      { value: '9', desc: 'Conjurer\'s Synergy (9/11)' },
-      { value: '8', desc: 'Conjurer\'s Synergy (8/11)' },
-      { value: '7', desc: 'Conjurer\'s Synergy (7/11)' },
-      { value: '6', desc: 'Conjurer\'s Synergy (6/11)' },
-      { value: '5', desc: 'Conjurer\'s Synergy (5/11)' },
-      { value: '4', desc: 'Conjurer\'s Synergy (4/11)' },
-      { value: '3', desc: 'Conjurer\'s Synergy (3/11)' },
-      { value: '2', desc: 'Conjurer\'s Synergy (2/11)' },
-      { value: '1', desc: 'Conjurer\'s Synergy (1/11)' },
-      { value: '0', desc: 'Conjurer\'s Synergy (0/11)' }
+      { value: '12', desc: 'Conjurer\'s Synergy (12/12)' },
+      { value: '0', desc: 'Conjurer\'s Synergy (0/12)' }
     ]
   },
   {
@@ -618,21 +598,12 @@ export const magSpellFocusAAContext = [
 export const encSpellFocusAAContext = [
   {
     id: 'aa-esyn',
-    value: '11',
-    desc: 'Beguiler\'s Synergy (11/11)',
+    value: '12',
+    desc: 'Beguiler\'s Synergy (12/12)',
     data: [
-      { value: '11', desc: 'Beguiler\'s Synergy (11/11)' },
-      { value: '10', desc: 'Beguiler\'s Synergy (10/11)' },
-      { value: '9', desc: 'Beguiler\'s Synergy (9/11)' },
-      { value: '8', desc: 'Beguiler\'s Synergy (8/11)' },
-      { value: '7', desc: 'Beguiler\'s Synergy (7/11)' },
-      { value: '6', desc: 'Beguiler\'s Synergy (6/11)' },
-      { value: '5', desc: 'Beguiler\'s Synergy (5/11)' },
-      { value: '4', desc: 'Beguiler\'s Synergy (4/11)' },
-      { value: '3', desc: 'Beguiler\'s Synergy (3/11)' },
-      { value: '2', desc: 'Beguiler\'s Synergy (2/11)' },
-      { value: '1', desc: 'Beguiler\'s Synergy (1/11)' },
-      { value: '0', desc: 'Beguiler\'s Synergy (0/11)' }
+      { value: '12', desc: 'Beguiler\'s Synergy (12/12)' },
+      { value: '11', desc: 'Beguiler\'s Synergy (11/12)' },
+      { value: '0', desc: 'Beguiler\'s Synergy (0/12)' }
     ]
   },
   {

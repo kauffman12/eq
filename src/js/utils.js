@@ -176,7 +176,7 @@ export function getCastTime(state, spell) {
   if (spell.level <= 250 && spell.castTime > 0) {
     let adjust = 0;
     if (state && state.activeAbilities.has('QT')) {
-      adjust = 250;
+      adjust = 500;
     }
 
     let origCastTime = spell.origCastTime;
