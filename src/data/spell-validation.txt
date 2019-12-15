@@ -7614,7 +7614,7 @@
 7614:   <em style="color: red;">Fail</em> SPA 399 Twinproc AA (minLevel)
 7615:   <em style="color: red;">Fail</em> SPA 170 Trophy of Talendor (no damage)
 7616:   <em style="color: red;">Fail</em> SPA 375 Trophy of Talendor (no damage)
-7617:   <em style="color: green;">Pass</em> SPA 399 Trophy of Tormax
+7617:   <em style="color: red;">Fail</em> SPA 399 Trophy of Tormax (currentHitPoints)
 7618:   <em style="color: red;">Fail</em> SPA 294 Spirit of Vesagran (no damage)
 7619:   <em style="color: red;">Fail</em> SPA 273 Spirit of Vesagran (no damage)
 7620:   <em style="color: red;">Fail</em> Proc Evoker's Synergy I (no damage)
@@ -9693,7 +9693,7 @@
 9693:   <em style="color: red;">Fail</em> SPA 399 Twinproc AA (minLevel)
 9694:   <em style="color: red;">Fail</em> SPA 170 Trophy of Talendor (no damage)
 9695:   <em style="color: red;">Fail</em> SPA 375 Trophy of Talendor (no damage)
-9696:   <em style="color: green;">Pass</em> SPA 399 Trophy of Tormax
+9696:   <em style="color: red;">Fail</em> SPA 399 Trophy of Tormax (currentHitPoints)
 9697:   <em style="color: red;">Fail</em> SPA 294 Spirit of Vesagran (no damage)
 9698:   <em style="color: red;">Fail</em> SPA 273 Spirit of Vesagran (no damage)
 9699:   <em style="color: red;">Fail</em> Proc Evoker's Synergy I (no damage)
@@ -14154,7 +14154,7 @@
 14154:   <em style="color: red;">Fail</em> SPA 399 Twinproc AA (minLevel)
 14155:   <em style="color: red;">Fail</em> SPA 170 Trophy of Talendor (no damage)
 14156:   <em style="color: red;">Fail</em> SPA 375 Trophy of Talendor (no damage)
-14157:   <em style="color: green;">Pass</em> SPA 399 Trophy of Tormax
+14157:   <em style="color: red;">Fail</em> SPA 399 Trophy of Tormax (currentHitPoints)
 14158:   <em style="color: red;">Fail</em> SPA 294 Spirit of Vesagran (no damage)
 14159:   <em style="color: red;">Fail</em> SPA 273 Spirit of Vesagran (no damage)
 14160:   <em style="color: red;">Fail</em> SPA 296 Stormjolt Vortex Effect (no damage)
@@ -17704,7 +17704,7 @@
 17704:   <em style="color: red;">Fail</em> SPA 399 Twinproc AA (minLevel)
 17705:   <em style="color: red;">Fail</em> SPA 170 Trophy of Talendor (no damage)
 17706:   <em style="color: red;">Fail</em> SPA 375 Trophy of Talendor (no damage)
-17707:   <em style="color: green;">Pass</em> SPA 399 Trophy of Tormax
+17707:   <em style="color: red;">Fail</em> SPA 399 Trophy of Tormax (currentHitPoints)
 17708:   <em style="color: red;">Fail</em> SPA 294 Spirit of Vesagran (no damage)
 17709:   <em style="color: red;">Fail</em> SPA 273 Spirit of Vesagran (no damage)
 17710:   <em style="color: red;">Fail</em> SPA 296 Stormjolt Vortex Effect (no damage)
