@@ -64,15 +64,15 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   let clawSpells = 0;
   switch(spell.id) {
     case 'FC':
-      state.cfickleSpells = mod + (state.cfickleSpells || 0);
+      state.cfickleSpells = (state.inTwincast ? (mod / 2) : mod) + (state.cfickleSpells || 0);
       if (state.cfickleSpells > 0.50 && !state.inTwincast) {
         cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
       }
       break;
     case 'CP': case 'CG': case 'CS':
-      state.clawSpells = mod + (state.clawSpells || 0);
-      if (state.clawSpells > 0.50) {
+      state.clawSpells = (state.inTwincast ? (mod / 2) : mod) + (state.clawSpells || 0);
+      if (state.clawSpells > 0.50 && !state.inTwincast) {
         clawSpells = state.clawSpells;
         state.clawSpells = 0;
       }

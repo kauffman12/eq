@@ -139,15 +139,15 @@ export const SPELL_DATA = {
   },
   CPRk1: {
     name: 'Chaotic Pyroclasm Rk. I',
-    baseDmg: 28676
+    baseDmg: 32586
   },
   CPRk2: {
     name: 'Chaotic Pyroclasm Rk. II',
-    baseDmg: 30110
+    baseDmg: 34215
   },
   CPRk3: {
     name: 'Chaotic Pyroclasm Rk. III',
-    baseDmg: 31616
+    baseDmg: 35926
   },
   DC: {
     baseDmg: 0,

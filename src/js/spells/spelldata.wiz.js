@@ -224,7 +224,7 @@ export const SPELL_DATA = {
     name: 'Claw of Gozzrem Rk. III'
   },
   CB: {
-    baseDmg: 12885,
+    baseDmg: 19181,
     canTwincast: false,
     castTime: 0,
     focusable: true,
@@ -242,15 +242,15 @@ export const SPELL_DATA = {
     type3DmgAug: 1219
   },
   CBRk1: {
-    baseDmg: 11686,
+    baseDmg: 17398,
     name: 'Chaos Scorch I'
   },
   CBRk2: {
-    baseDmg: 12271,
+    baseDmg: 18268,
     name: 'Chaos Scorch II'
   },
   CBRk3: {
-    baseDmg: 12885,
+    baseDmg: 19181,
     name: 'Chaos Scorch III'
   },
   CT: {
@@ -1089,16 +1089,16 @@ export const SPELL_DATA = {
     type3DmgAug: 1130
   },
   PSRk1: {
-    baseDmg: 17409,
-    name: 'Pure Wildscorch Caza Azia'
+    baseDmg: 18991,
+    name: 'Pure Wildscorch Azia'
   },
   PSRk2: {
-    baseDmg: 18279,
-    name: 'Pure Wildscorch Caza Beza'
+    baseDmg: 19941,
+    name: 'Pure Wildscorch Beza'
   },
   PSRk3: {
-    baseDmg: 19193,
-    name: 'Pure Wildscorch Caza Caza'
+    baseDmg: 20938,
+    name: 'Pure Wildscorch Caza'
   },
   SC: {
     baseDmg: 20972,
