@@ -2475,7 +2475,7 @@ const ABILITIES = {
   },
   TC: {
     adpsDropdown: true,
-    duration: 18000 + TICK_OFFSET,
+    duration: 18000,
     level: 85,
     name: 'Twincast Rk. III',
     noClass: ['enc'],
