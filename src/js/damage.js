@@ -693,13 +693,16 @@ export function execute(state, mod, dmgKey, isProc) {
 
   // now twincast the spell
   if (twincastRate > 0 && !state.aeWave) {
-    state.inTwincast = true;
-
     // add any pre spell cast checks required
     let tcMod = mod * twincastRate;
+
+    state.inTwincast = true;
     applyPreSpellChecks(state, tcMod);
+
     calcAvgDamage(state, tcMod, dmgKey);
-    // handle post checks
+
+    // handle post checks and reset twincast since it's broken by procs
+    state.inTwincast = true;
     applyPostSpellEffects(state, tcMod, dmgKey);
 
     state.inTwincast = false;
