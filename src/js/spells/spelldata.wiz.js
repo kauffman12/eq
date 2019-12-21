@@ -1004,6 +1004,37 @@ export const SPELL_DATA = {
     baseDmg: 30976,
     name: 'Restless Ice Cascade III'
   },
+  TW: {
+    baseDmg: 20273,
+    castTime: 1500,
+    focusable: true,
+    id: 'TW',
+    level: 111,
+    lockoutTime: 1500,
+    manaCost: 1985,
+    maxCritRate: 0.40,
+    maxHits: 4,
+    name: 'Tears of Wildfire Rk. III',
+    origCastTime: 3000,
+    recastTime: 10000,
+    resist: 'FIRE',
+    skill: 24,
+    target: 'TargetAE',
+    timer: '6',
+    type3DmgAug: 1328
+  },
+  TWRk1: {
+    baseDmg: 18389,
+    name: 'Tears of Wildfire Rk. I'
+  },
+  TWRk2: {
+    baseDmg: 19308,
+    name: 'Tears of Wildfire Rk. II'
+  },
+  TWRk3: {
+    baseDmg: 20273,
+    name: 'Tears of Wildfire Rk. III'
+  },  
   VD: {
     baseDmg: 19760,
     castTime: 1500,

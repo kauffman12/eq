@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.84',
+  VERSION: 'Version 1.85',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -29,7 +29,7 @@ export const globals = {
 // wizard spells to display in spell drop down
 export const wizSpellList = [
   'CG', 'CS', 'CT', 'DF', 'ET', 'EB', 'EC', 'EI', 'ES', 'FP', 'FB', 'FBC', 'LF', 'RI', 'SB', 'SC', 
-  'SH', 'SP', 'SR', 'SJ', 'VD', 'WE', 'WS'
+  'SH', 'SP', 'SR', 'SJ', 'TW', 'VD', 'WE', 'WS'
 ];
 
 // mage spells to display in spell drop down
@@ -47,7 +47,7 @@ export const basicDmgFocusContext = [
   {
     id: 'restless-focus',
     value: '0',
-    desc: 'Luminous Restless Ice (0/6)',
+    desc: 'No Luminous Restless Ice Selected',
     data: [
       { value: '0.1', desc: 'Luminous Restless Ice (6/6)' },
       { value: '0.09', desc: 'Luminous Restless Ice (5/6)' },

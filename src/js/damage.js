@@ -9,8 +9,6 @@ import * as utils from './utils.js';
 function addAEWaves(state, mod, current) {
   stats.updateSpellStatistics(state, 'aeHit1', current);
 
-  // Only support AE rain spells right now. Add two more waves but
-  // without procs
   state.aeWave = true;
 
   let hits = dom.getAERainHitsValue();

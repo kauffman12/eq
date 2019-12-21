@@ -41,6 +41,7 @@ const FOCUS_AA_KEYS = {
     'EI': '.aa-erime .dropdown-toggle',
     'RI': '.aa-erime .dropdown-toggle',
     'FB': '.aa-flashchar .dropdown-toggle',
+    'TW': '.aa-rains .dropdown-toggle',    
     'VD': '.aa-rains .dropdown-toggle',
     'PS': '.aa-pure .dropdown-toggle',
     'RC': '.aa-rimeb .dropdown-toggle',
