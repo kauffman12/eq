@@ -1456,7 +1456,6 @@ const ABILITIES = {
       }
     ]
   },
-
   FF: { // generated
     class: 'wiz',
     level: 254,

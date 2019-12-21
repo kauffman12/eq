@@ -7828,7 +7828,7 @@
 7828:   <em style="color: green;">Pass</em> SPA 273 Spirit of Vesagran
 7829:   <em style="color: green;">Pass</em> Proc Evoker's Synergy II
 7830:   <em style="color: green;">Pass</em> Proc Evoker's Synergy III
-7831: <strong style="font-size: 15px;">Dichotomic Reinforcement 6</strong>
+7831: <strong style="font-size: 15px;">Dissident Reinforcement 6</strong>
 7832:   <em style="color: red;">Fail</em> Proc Arcane Symphony Rk. III (maxLevel)
 7833:   <em style="color: red;">Fail</em> SPA 484 Chromatic Covenant Rk. III (maxLevel)
 7834:   <em style="color: red;">Fail</em> SPA 212 Calculated Insanity XVII (minManaCost)
