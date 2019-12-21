@@ -6,46 +6,49 @@ import * as utils from './utils.js';
 const FOCUS_AA_KEYS = {
   enc: {
     'CR': '.aa-chromarift .dropdown-toggle',
-    'CF': '.aa-chromablink .dropdown-toggle',
+    'CS': '.aa-chromablink .dropdown-toggle',
     'GT': '.aa-gravity-twist .dropdown-toggle',
-    'MU': '.aa-mindsunder .dropdown-toggle',
+    'MT': '.aa-mindsunder .dropdown-toggle',
+    'MC': '.aa-mindsunder .dropdown-toggle',    
     'MS': '.aa-mindsunder .dropdown-toggle',
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
     'BB': '.aa-sear .dropdown-toggle',
     'BM': '.aa-beam-molten .dropdown-toggle',
-    'BK': '.aa-beam-scythes .dropdown-toggle',
-    'BS': '.aa-boltm .dropdown-toggle',
+    'BS': '.aa-beam-scythes .dropdown-toggle',
+    'BK': '.aa-boltm .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
     'RU': '.aa-eradun .dropdown-toggle',
-    'FC': '.aa-fickle .dropdown-toggle',
+    'FC': '.aa-capricious .dropdown-toggle',
+    'CP': '.aa-capricious .dropdown-toggle',    
     'RK': '.aa-raincut .dropdown-toggle',
-    'VM': '.aa-storm .dropdown-toggle',
-    'SS': '.aa-spearm .dropdown-toggle',
+    'SM': '.aa-storm .dropdown-toggle',
+    'SK': '.aa-spearm .dropdown-toggle',
     'SA': '.aa-spearm .dropdown-toggle',
-    'SH': '.aa-shockd .dropdown-toggle'
+    'SH': '.aa-shockd .dropdown-toggle',
+    'KB': '.aa-meteor .dropdown-toggle'
   },
   wiz: {
-    'BB': '.aa-beams .dropdown-toggle',
-    'CQ': '.aa-claws .dropdown-toggle',
-    'CO': '.aa-claws .dropdown-toggle',
+    'SB': '.aa-beams .dropdown-toggle',
+    'CS': '.aa-claws .dropdown-toggle',
+    'CG': '.aa-claws .dropdown-toggle',
     'CT': '.aa-cloudb .dropdown-toggle',
     'CB': '.aa-chaos .dropdown-toggle',
-    'EV': '.aa-eflash .dropdown-toggle',
+    'ET': '.aa-eflash .dropdown-toggle',
     'ES': '.aa-eblaze .dropdown-toggle',
-    'EZ': '.aa-eblaze .dropdown-toggle',
+    'EB': '.aa-eblaze .dropdown-toggle',
     'EI': '.aa-erime .dropdown-toggle',
-    'ER': '.aa-erime .dropdown-toggle',
+    'RI': '.aa-erime .dropdown-toggle',
     'FB': '.aa-flashchar .dropdown-toggle',
-    'ME': '.aa-rains .dropdown-toggle',
-    'PF': '.aa-pure .dropdown-toggle',
-    'IC': '.aa-rimeb .dropdown-toggle',
+    'TW': '.aa-rains .dropdown-toggle',    
+    'VD': '.aa-rains .dropdown-toggle',
+    'PS': '.aa-pure .dropdown-toggle',
+    'RC': '.aa-rimeb .dropdown-toggle',
     'SC': '.aa-selfc .dropdown-toggle',
-    'SF': '.aa-pills .dropdown-toggle',
+    'FP': '.aa-pills .dropdown-toggle',
     'SJ': '.aa-vortex .dropdown-toggle',
-    'TW': '.aa-thrice .dropdown-toggle',
-    'WH': '.aa-corona .dropdown-toggle'
+    'LF': '.aa-corona .dropdown-toggle'
   }
 };
 
@@ -125,13 +128,14 @@ export function getConfiguredAbilities(state) {
         setSpellProc('FE', getForceOfElementsValue());
 
         // Setup Flames of Power
-        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 4) ? 2 : 1);
+        abilities.setCharges('FPWR', (getFlamesOfPowerValue() === 6) ? 3 : 2);
         break;
     }
 
     addAbility(getRobeValue());
     addAbility(getBeltProcValue());
     addAbility('EDECAY', getEyeOfDecayValue(), 413);
+    addAbility('RFOCUS', getRestlessFocusValue(), 413);
     addAbility('TCAA', getTwincastAAValue(), 399);
     addAbility('TP', getTwinprocAAValue(), 399);
     getWornDamageFocusList().forEach(id => addAbility(id));
@@ -308,6 +312,12 @@ export function getEyeOfDecayValue() {
   });
 }
 
+export function getRestlessFocusValue() {
+  return utils.useCache('.restless-focus', () => {
+    return utils.getNumberValue($('.restless-focus .dropdown-toggle').data('value'));
+  });
+}
+
 export function getFlamesOfPowerValue() {
   return utils.useCache('.aa-flames-pwr', () => {
     return utils.getNumberValue($('.aa-flames-pwr .dropdown-toggle').data('value'));
@@ -450,30 +460,41 @@ export function getSpellDamageValue() {
   });
 }
 
-export function getSpellFocusAAValue(id) {
-  return utils.useCache('.spell-focus-aa-' + id, () => {
+export function getSpellFocusAAValue(spell) {
+  return utils.useCache('.spell-focus-aa-' + spell.id, () => {
     let value = 0;
 
     let keys = FOCUS_AA_KEYS[G.MODE];
-    if (keys && keys[id]) {
-      value = utils.getNumberValue($(keys[id]).data('value'));
+    if (keys && keys[spell.id]) {
+      value = utils.getNumberValue($(keys[spell.id]).data('value'));
 
-      // special case for now to handle some new and old focus
-      // levels but not the new one
-      if (['SA', 'ES', 'EI', 'MS', 'SH'].find(spell => spell === id) && value < 9) {
-        value = 0;
-      } 
-
-      if (value === 9) {
+      if (spell.id === 'SM') {
+        if (value === 13) {
+          value = 0.6;
+        } else if (value === 12) {
+          value = 0.55;
+        }
+        else {
+          value = 0;
+        }
+      }
+      else if (value === 9 && spell && spell.level <= 110) {
         value = 0.16;
-      } else if(value === 10) {
+      } else if(value === 10 && spell && spell.level <= 110) {
         value = 0.18;
-      } else if(value === 11) {
+      } else if(value === 11 && spell && spell.level <= 110) {
         value = 0.20;
+      } else if (value === 12) {
+        value = 0.22;
+      } else if ( value === 13) {
+        value = 0.25;
+      }
+      else {
+        value = 0.0;
       }
     }
 
-    return value ? value : 0;
+    return value;
   });
 }
 
