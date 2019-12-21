@@ -23,10 +23,7 @@ export const ENC_INNATE_CRIT_DMG = 100;
 export const MAGE_INNATE_CRIT_RATE = 0;
 export const MAGE_INNATE_CRIT_DMG = 100;
 
-export const ARCO_PROC_RATE = 100 / (100 * 0.30);
-export const CRYO_PROC_RATE = 100 / (100 * 0.25);
-export const PYRO_PROC_RATE = 100 / (100 * 0.21);
-export const PYRO_DPS = 20400 / 6;
+export const MANCY_PROC_RATE = 0.30; //100 / (100 * 0.30);
 export const FBSINGE_PROC_RATE = 100 / (100 * 0.25);
 
 export const SC_MAX_DMG_MOD = 1.0;
@@ -45,7 +42,7 @@ export const SH_DMG_PER_UNIT = (1.2 - 0.6) / (30 - 5);
 // Claw/Chaotic effect proc rates per 100 casts
 export const CLAW_SPELL_PROC_RATES = {
   wiz: {
-    CO: {
+    CG: {
       SYLLMAGIC: 100 / (100 * 0.05),
       SYLLICE: 100 / (100 * 0.35),
       SYLLFIRE: 100 / (100 * 0.05),
@@ -53,7 +50,7 @@ export const CLAW_SPELL_PROC_RATES = {
       TC: 100 / (100 * 0.10),
       REFRESH: 100 / (100 * 0.06)
     },
-    CQ: {
+    CS: {
       SYLLMAGIC: 100 / (100 * 0.05),
       SYLLICE: 100 / (100 * 0.05),
       SYLLFIRE: 100 / (100 * 0.35),
@@ -63,7 +60,7 @@ export const CLAW_SPELL_PROC_RATES = {
     }
   },
   mag: {
-    CI: {
+    CP: {
       FPWR: 100 / (100 * 0.28),
       FWEAK: 100 / (100 * 0.01),
       TC: 100 / (100 * 0.10),
@@ -72,11 +69,6 @@ export const CLAW_SPELL_PROC_RATES = {
   }
 };
 
-export const TW_SPELL_PROC_RATES = {
-  THPWR: 100 / (100 * 0.25),
-  THWEAK: 100 / (100 * 0.01)
-}
-
 export const FC_SPELL_PROC_RATES = {
   FPWR: 100 / (100 * 0.25),
   FWEAK: 100 / (100 * 0.01)
@@ -84,9 +76,9 @@ export const FC_SPELL_PROC_RATES = {
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'CDG', 'CRYO', 'ESYN1', 'ESYN2', 'MSYN1', 'MSYN2', 'PYRO', 'VFX', 'WSYN1', 'WSYN2', 'SYLLFIRERk1',
+  'ARCO', 'CDG', 'ESYN2', 'ESYN3', 'MSYN3', 'VFX', 'WSYN2', 'WSYN3', 'SYLLFIRERk1',
   'SYLLFIRERk2', 'SYLLFIRERk3', 'SYLLMAGICRk1', 'SYLLMAGICRk2', 'SYLLMAGICRk3', 'SYLLICERk1', 'SYLLICERk2',
-  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK', 'THPWR', 'THWEAK',
+  'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK',
   'GCH', 'FBSINGERk1', 'FBSINGERk2', 'FBSINGERk3'
 ];
 
@@ -333,10 +325,6 @@ export function getMultiplier(castTime) {
   return multiplier;
 }
 
-export function getPyroDPS(state) {
-  return utils.isAbilityActive(state, 'PYRO') ? PYRO_DPS : 0;
-}
-
 export function getRSDPS(state) {
   return dom.getRemorselessServantDPSValue() * (state[utils.getCounterKeys('RS').counter] || 0);
 }
@@ -414,9 +402,9 @@ export function getSHDmgMod(units) {
 export function getCompoundSpellList(id) {
   return utils.useCache('compound-spell-list-' + id, function() {
     return {
-      'WF': [
-        { id: 'PF', chance: WILDMAGIC_PURE_CHANCE },
-        { id: 'IC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
+      'WS': [
+        { id: 'PS', chance: WILDMAGIC_PURE_CHANCE },
+        { id: 'RC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CB', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
       'WE': [
@@ -424,10 +412,10 @@ export function getCompoundSpellList(id) {
         { id: 'HC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CI', chance: WILDMAGIC_CHAOS_CHANCE }
       ],
-      'EB': [
-        { id: 'ES', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EI', chance: FUSE_PROC_SPELL_CHANCE },
-        { id: 'EV', chance: FUSE_PROC_SPELL_CHANCE }
+      'EC': [
+        { id: 'EB', chance: FUSE_PROC_SPELL_CHANCE },
+        { id: 'RI', chance: FUSE_PROC_SPELL_CHANCE },
+        { id: 'ET', chance: FUSE_PROC_SPELL_CHANCE }
       ]
     }[id];
   });
@@ -529,6 +517,11 @@ export function processCounter(state, id, mod) {
   // Why x start? So, 1 charge is normally required. mod that for twincast. Easy.
   // But if there's only 0.5 total left then it's really only half strength. ie think proc damage
   return partUsed;
+}
+
+export function round(value)
+{
+  return utils.asDecimal32Precision(value);
 }
 
 export function trunc(value) {

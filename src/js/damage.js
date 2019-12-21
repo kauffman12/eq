@@ -9,8 +9,6 @@ import * as utils from './utils.js';
 function addAEWaves(state, mod, current) {
   stats.updateSpellStatistics(state, 'aeHit1', current);
 
-  // Only support AE rain spells right now. Add two more waves but
-  // without procs
   state.aeWave = true;
 
   let hits = dom.getAERainHitsValue();
@@ -63,14 +61,14 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   let cfickleSpells = 0;
   let clawSpells = 0;
   switch(spell.id) {
-    case 'FC': case 'TW':
+    case 'FC':
       state.cfickleSpells = (state.inTwincast ? (mod / 2) : mod) + (state.cfickleSpells || 0);
       if (state.cfickleSpells > 0.50 && !state.inTwincast) {
         cfickleSpells = state.cfickleSpells;
         state.cfickleSpells = 0;
       }
       break;
-    case 'CI': case 'CO': case 'CQ':
+    case 'CP': case 'CG': case 'CS':
       state.clawSpells = (state.inTwincast ? (mod / 2) : mod) + (state.clawSpells || 0);
       if (state.clawSpells > 0.50 && !state.inTwincast) {
         clawSpells = state.clawSpells;
@@ -82,42 +80,31 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   switch(spell.resist) {
     case 'COLD':
       if (dmgU.isCastDetSpell(spell)) {
-        state.coldSpells = mod + (state.coldSpells || 0);
+        //state.coldSpells = mod + (state.coldSpells || 0);
 
-        if (G.MODE === 'wiz' && state.enabledButInActive.has('CRYO') && state.coldSpells >= dmgU.CRYO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'CRYO', 1, true);
-          if (!executeProc(state, 'CRYO', mod, 'CRYO')) {
-            state.spellProcAbilities.delete('CRYO');
-          }
-
-          state.coldSpells = state.coldSpells - dmgU.CRYO_PROC_RATE;
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          executeProc(state, 'CRYO', mod * dmgU.MANCY_PROC_RATE, 'CRYO');
+          //state.coldSpells = state.coldSpells - dmgU.MANCY_PROC_RATE;
         }
-      }
+      }      
       break;
     case 'FIRE':
       if (dmgU.isCastDetSpell(spell)) {
-        state.fireSpells = mod + (state.fireSpells || 0);
+        //state.fireSpells = mod + (state.fireSpells || 0);
 
-        if (G.MODE === 'wiz' && state.enabledButInActive.has('PYRO') && state.fireSpells >= dmgU.PYRO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'PYRO', 1, true);
-          state.dotGenerator = genDamageOverTime(state, dmgU.getPyroDPS, 6000, 'totalDotDmg');
-          state.fireSpells = state.fireSpells - dmgU.PYRO_PROC_RATE;
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          executeProc(state, 'PYRO', mod * dmgU.MANCY_PROC_RATE, 'PYRO');
+          //state.fireSpells = state.fireSpells - dmgU.MANCY_PROC_RATE;
         }
       }      
       break;
     case 'MAGIC':
       if (dmgU.isCastDetSpell(spell)) {
-        state.magicSpells = mod + (state.magicSpells || 0);
+        //state.magicSpells = mod + (state.magicSpells || 0);
 
-        // keep track of a counter based on main spell cast + twincast
-        // average DPS sometimes goes down when it shouldnt because some gains
-        // are lost during a small twincast. Check mod > 50% ? worth testing anyway
-        // Same as with Fickle. I think this matters less for damage procs.
-        // MSYN and others dont have as big an issue because they always start on main spell cast
-        // VFX procs another one when it twincasts, etc
-        if (mod >= 0.50 && G.MODE === 'wiz' && state.enabledButInActive.has('ARCO') && state.magicSpells >= dmgU.ARCO_PROC_RATE) {
-          timeline.addSpellProcAbility(state, 'ARCO', 1, true);
-          state.magicSpells = 0;
+        if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
+          timeline.addSpellProcAbility(state, 'ARCO', mod * dmgU.MANCY_PROC_RATE, true);
+          //state.magicSpells = 0;
         }
       }
       break;
@@ -136,7 +123,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       timeline.addSpellProcAbility(state, 'CDG', abilities.get('CDG').charges, true);
       break;
     // Claw of the Flameweaver/Oceanlord + Mage Chaotic Fire
-    case 'CI': case 'CO': case 'CQ':
+    case 'CP': case 'CG': case 'CS':
       // generate proc effects
       state.cfSpellProcGenerator.next(clawSpells).value.forEach(id => {
         switch(id) {
@@ -157,26 +144,29 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
       break;
-    case 'TW':
-      if (G.MODE === 'wiz') {
-        state.twSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
-      }
+    case 'MT':
+      if (dom.getBeguilersSynergyValue() === 12) {
+        timeline.addSpellProcAbility(state, 'ESYN3', 1, true);
+      } 
       break;
     case 'MS':
       if (dom.getBeguilersSynergyValue() === 11) {
         timeline.addSpellProcAbility(state, 'ESYN2', 1, true);
       } 
       break;
-    case 'MU':
-      synergy = dom.getBeguilersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'ESYN1', synergy / 10, true);
-      }
-      break;
     case 'SH': case 'SR':
       if (G.MODE === 'mag') {
         let steelVeng = dom.getSteelVengeanceValue();
         switch(steelVeng) {
+          case 15:
+            executeProc(state, 'SV15', mod * 0.30, 'steelveng');
+            break;
+          case 14:
+            executeProc(state, 'SV14', mod * 0.30, 'steelveng');
+            break;
+          case 13:
+            executeProc(state, 'SV13', mod * 0.30, 'steelveng');
+            break;
           case 12:
             executeProc(state, 'SV12', mod * 0.30, 'steelveng');
             break;
@@ -191,22 +181,16 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       break;
     case 'SJ':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
-  
       synergy = dom.getEvokersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'WSYN1', synergy / 10, true);
-      }
-      else if (synergy === 11) {
+      if (synergy === 11) {
         timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
+      } else if (synergy === 12) {
+        timeline.addSpellProcAbility(state, 'WSYN3', 1, true);
       }
-
       break;
     case 'RS':
-      synergy = dom.getConjurersSynergyValue();
-      if (synergy > 0 && synergy < 11) {
-        timeline.addSpellProcAbility(state, 'MSYN1', synergy / 10, true);
-      } else if (synergy === 11) {
-        timeline.addSpellProcAbility(state, 'MSYN2', 1, true);
+      if (dom.getConjurersSynergyValue() === 12) {
+        timeline.addSpellProcAbility(state, 'MSYN3', 1, true);
       }
 
       let keys = utils.getCounterKeys('RS');
@@ -254,21 +238,30 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       if (dom.getAllianceFulminationValue() > 0) {
         state[utils.getCounterKeys('FBC').expireTime] = state.workingTime + dom.getAllianceFulminationValue();
       }
-      break;
+      break;     
+    case 'FB':
+      state.fbSpells = mod + (state.fbSpells || 0);
+
+      if (G.MODE === 'wiz' && state.fbSpells >= dmgU.FBSINGE_PROC_RATE) {
+        timeline.addSpellProcAbility(state, 'FBSINGE' + utils.getRank(), 1, true);
+        state.fbSpells = state.fbSpells - dmgU.FBSINGE_PROC_RATE;
+      }    
+
+      break;      
     case 'SFB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
-    case 'EB':
-      // Fuse is really just a Skyblaze
+    case 'EC':
+      // Brand is really just Skyfire
       let origSpell = spell;
-      state.spell = utils.getSpellData('ES');
+      state.spell = utils.getSpellData('EB');
       execute(state);
       state.spell = origSpell;
 
       // Only add one fuse proc since Fuse itself doesn't twincast (the way im implementing it)
-      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EB'), 'fuseProcDmg');
+      calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList('EC'), 'fuseProcDmg');
       break;
-    case 'WF': case 'WE':
+    case 'WS': case 'WE':
       calcCompoundSpellProcDamage(state, mod, dmgU.getCompoundSpellList(spell.id), state.inTwincast ? 'tcAvgDmg' : dmgKey);
       break;
   }
@@ -279,7 +272,7 @@ function applyPreSpellChecks(state, mod) {
   // Start handling spell recast timer mods, etc here instead of in run or
   // using origRecastTimer or anything like that
   switch(state.spell.id) {
-    case 'CQ': case 'CI': case 'CO':
+    case 'CP': case 'CS': case 'CG':
       if (!state.cfSpellProcGenerator) {
         // Mage Chaotic Fire seems to twinproc its chaotic fire chance
         // so increase the counter by that amount
@@ -293,9 +286,8 @@ function applyPreSpellChecks(state, mod) {
           // AA modifies the proc chance
           let offset = 0;
           switch(dom.getFlamesOfPowerValue()) {
-            case 1: offset = 0.27; break;
-            case 2: offset = 0.30; break;
-            case 3: case 4: offset = 0.34; break; 
+            case 4: case 5: offset = 0.34; break;
+            case 6: offset = 0.35; break;            
           }
           state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }
@@ -316,14 +308,7 @@ function applyPreSpellChecks(state, mod) {
         state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSHDmgMod(dom.getAEUnitDistanceValue()));
       }
       break;
-    case 'TW':
-      if (G.MODE === 'wiz') {
-        if (!state.twSpellProcGenerator) {
-          state.twSpellProcGenerator = genSpellProc(dmgU.TW_SPELL_PROC_RATES);
-        }
-      }
-      break;
-    case 'VM':
+    case 'SM':
       let baseDmg = state.spell['baseDmg' + dom.getVolleyOfManyCountValue()];
       state.spell.baseDmg = baseDmg || state.spell.baseDmg;
       break;
@@ -365,23 +350,23 @@ function calcAvgDamage(state, mod, dmgKey) {
     // Get Spell Damage
     let spellDmg = calcSpellDamage(state);
     // Get Effectiveness
-    let effectiveness = getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue();
+    let effectiveness = dmgU.round(getEffectiveness(state, spaValues) + dom.getAddEffectivenessValue());
     // Get Before Crit Focus
-    let beforeCritFocus = getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue();
+    let beforeCritFocus = dmgU.round(getBeforeCritFocus(state, spaValues) + dom.getAddBeforeCritFocusValue());
     // Get Before Crit Add -- type3 dmg is SPA 303, should move to computeSPA eventually --
     let beforeCritAdd = dmgU.trunc(dom.getType3DmdAugValue(state.spell) / dotMod) + spaValues.beforeCritAdd + dom.getAddBeforeCritAddValue();
     // Get Before DoT Crit Focus
-    let beforeDoTCritFocus = spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue();
+    let beforeDoTCritFocus = dmgU.round(spaValues.beforeDoTCritFocus + dom.getAddBeforeDoTCritFocusValue());
     // Get After Crit Focus
-    let afterCritFocus = (spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue(); // or 0 since non defined atm
+    let afterCritFocus = dmgU.round((spaValues.afterCritFocus||0) + dom.getAddAfterCritFocusValue()); // or 0 since non defined atm
     // Get After Crit Add
     let afterCritAdd = spaValues.afterCritAdd + dom.getAddAfterCritAddValue();
     // Get AfterCrit Add (SPA 484) (not modifiable)
     let afterSPA461Add = spaValues.afterSPA461Add + dom.getAddAfterSPA461AddValue();
     // Get AfterCrit Focus (not modifiable)
-    let afterSPA461Focus = spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue();
+    let afterSPA461Focus = dmgU.round(spaValues.afterSPA461Focus + dom.getAddAfterSPA461FocusValue());
     // Get New SPA 461 Focus
-    let spa461Focus = spaValues.spa461Focus + dom.getAddSPA461FocusValue();
+    let spa461Focus = dmgU.round(spaValues.spa461Focus + dom.getAddSPA461FocusValue());
     // Get New semi-broken SPA 483 Focus
     let spa483Focus = spaValues.spa483Focus;
 
@@ -400,13 +385,13 @@ function calcAvgDamage(state, mod, dmgKey) {
     let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? 0.075 + (parseInt(dom.getLuckValue() / 10) * 0.05) : 0);
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;
-    let avgCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * critDmgMult);
-    let avgLuckyCritDmg = avgBaseDmg + dmgU.trunc(beforeCritDmg * luckyCritDmgMult);
+    let avgCritDmg = avgBaseDmg + Math.round(beforeCritDmg * critDmgMult);
+    let avgLuckyCritDmg = avgBaseDmg + Math.round(beforeCritDmg * luckyCritDmgMult);
 
     // damage to append after SPA 461
     // need to add 483 separate or damage is off by 1 plus its the messed up SPA so it's 
     // probably calculated on its own
-    let afterSPA461Dmg = dmgU.trunc(effDmg * afterSPA461Focus) + afterSPA461Add + dmgU.trunc(effDmg * spa483Focus);
+    let afterSPA461Dmg = Math.round(effDmg * afterSPA461Focus) + afterSPA461Add + Math.round(effDmg * spa483Focus);
 
     // add SPA 461
     avgBaseDmg += dmgU.trunc(avgBaseDmg * spa461Focus) + afterSPA461Dmg;
@@ -429,6 +414,7 @@ function calcAvgDamage(state, mod, dmgKey) {
       stats.addAggregateStatistics('spellCount', mod);
 
       // update core stats in main spell cast
+      stats.updateSpellStatistics(state, 'origBaseDmg', state.spell.baseDmg);
       stats.updateSpellStatistics(state, 'critRate', critRate);
       stats.updateSpellStatistics(state, 'luckyCritRate', critRate * luckyRate);
       stats.updateSpellStatistics(state, 'critDmgMult', critDmgMult);
@@ -640,8 +626,8 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
-    beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(spell.id);
+  if (['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
+    beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(state.spell);
   }
 
   return beforeCritFocus;
@@ -652,8 +638,8 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['EF', 'SJ', 'CO', 'CQ'].find(id => id === spell.id)) {
-    effectiveness += dom.getSpellFocusAAValue(spell.id);
+  if (! ['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
+    effectiveness += dom.getSpellFocusAAValue(state.spell);
   }
 
   return effectiveness;
@@ -701,7 +687,7 @@ export function execute(state, mod, dmgKey, isProc) {
 
     calcAvgDamage(state, tcMod, dmgKey);
 
-    // handle post checks and reset twincast since it's broken by procs
+    // handle post checks and reset twincast state if it was broken by calcAvgDamage or post procs running
     state.inTwincast = true;
     applyPostSpellEffects(state, tcMod, dmgKey);
 

@@ -475,10 +475,23 @@ export function addSpellProcAbility(state, id, mod, initialize) {
       if (charges == undefined) {
         charges = ability.charges;
       }
-
-      state[keys.counter] = mod * charges;
+      
+      let update = mod * charges;
+      
+      if (!state[keys.counter])
+      {
+        state[keys.counter] = update;
+      }
+      else if (state[keys.counter] < 1.0 && update < 1.0)
+      {
+        state[keys.counter] += update;
+      }
+      else if (state[keys.counter] < update)
+      {
+         state[keys.counter] = update;
+      }
     }
-
+    
     if (ability.duration) {
       state[keys.expireTime] = state.workingTime + ability.duration;
     }
