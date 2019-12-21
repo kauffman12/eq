@@ -1456,75 +1456,7 @@ const ABILITIES = {
       }
     ]
   },
-  FBSINGERk1: {
-    class: 'wiz',
-    charges: 1,
-    duration: 12000 + TICK_OFFSET,
-    level: 255,
-    name: 'Flashburn Singe I',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 3607,
-        limits: [
-          { minCastTime: 3000 }, 
-          { currentHitPoints: true },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },          
-          { maxLevel: 110 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },    
-  FBSINGERk2: {
-    class: 'wiz',
-    charges: 1,
-    duration: 12000 + TICK_OFFSET,
-    level: 255,
-    name: 'Flashburn Singe II',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 3787,
-        limits: [
-          { minCastTime: 3000 }, 
-          { currentHitPoints: true },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },          
-          { maxLevel: 110 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },    
-  FBSINGERk3: {
-    class: 'wiz',
-    charges: 1,
-    duration: 12000 + TICK_OFFSET,
-    level: 255,
-    name: 'Flashburn Singe III',
-    effects: [
-      {
-        spa: 303,
-        slot: 1,
-        type: 'sp',
-        value: 3976,
-        limits: [
-          { minCastTime: 3000 }, 
-          { currentHitPoints: true },
-          { type: 'detrimental' },
-          { exSkills: COMBAT_SKILLS },          
-          { maxLevel: 110 },
-          { minManaCost: 10 }
-        ]
-      }
-    ]
-  },  
+
   FF: { // generated
     class: 'wiz',
     level: 254,

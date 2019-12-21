@@ -65,9 +65,6 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "FB Singe III", spellStats.get('fbsingerk3ChargesUsed'));    
     addDecimalStatDescription(data, "MR Charges", spellStats.get('mraChargesUsed'));
     addDecimalStatDescription(data, "MBRN Charges", spellStats.get('mbrnChargesUsed'));
-    addDecimalStatDescription(data, "FB Singe I", spellStats.get('fbsingerk1ChargesUsed'));
-    addDecimalStatDescription(data, "FB Singe II", spellStats.get('fbsingerk2ChargesUsed'));
-    addDecimalStatDescription(data, "FB Singe III", spellStats.get('fbsingerk3ChargesUsed'));    
     addDecimalStatDescription(data, "Fire Syllable I", spellStats.get('syllfirerk1ChargesUsed'));
     addDecimalStatDescription(data, "Fire Syllable II", spellStats.get('syllfirerk2ChargesUsed'));
     addDecimalStatDescription(data, "Fire Syllable III", spellStats.get('syllfirerk3ChargesUsed'));
