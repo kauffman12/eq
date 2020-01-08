@@ -288,6 +288,12 @@ export function getArmorProc2Value() {
   });
 }
 
+export function getArmorProc3Value() {
+  return utils.useCache('.armor-proc3', () => {
+    return $('.armor-proc3 .dropdown-toggle').data('value');
+  });
+}
+
 export function getDPSAug1AugValue() {
   return utils.useCache('.dps-aug1', () => {
     return $('.dps-aug1 .dropdown-toggle').data('value');

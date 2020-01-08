@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.85',
+  VERSION: 'Version 1.86',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -172,6 +172,15 @@ export const basicDmgFocusContext = [
     ]
   },
   {
+    id: 'armor-proc3',
+    value: 'NONE',
+    desc: 'No Tradeskill Armor Aug Selected',
+    data: [
+      { value: 'SOI19', desc: 'Velium Empowered Gem of Freezing' },
+      { value: 'NONE', desc: 'No Tradeskill Armor Aug Selected' }
+    ]
+  },  
+  {
     id: 'staff-proc',
     value: 'NONE',
     desc: 'No Weapon Selected',
@@ -218,6 +227,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug1 Selected',
     data: [
+      { value: 'SOI29', desc: 'Comp Velium Infd Gem of Devestation' },
       { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
       { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
@@ -234,6 +244,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug2 Selected',
     data: [
+      { value: 'SOI29', desc: 'Comp Velium Infd Gem of Devestation' },
       { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
       { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
@@ -250,6 +261,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Range Aug Selected',
     data: [
+      { value: 'SOI21', desc: 'Comp Velium Infd Gem of Striking' },
       { value: 'FSVI', desc: 'Sodkee\'s Sympathetic Stone' },
       { value: 'FZVI', desc: 'Nra`Vruu\'s Sympathetic Stone' },
       { value: 'ASVI', desc: 'SaNril\'s Sympathetic Stone' },

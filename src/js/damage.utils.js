@@ -425,7 +425,7 @@ export function getEqpProcs(spell) {
   // find eqp procs
   let procList = utils.useCache('get-eqp-procs-' + spell.id, () => {
     return [ 
-      dom.getArmorProc1Value(), dom.getArmorProc2Value(),
+      dom.getArmorProc1Value(), dom.getArmorProc2Value(), dom.getArmorProc3Value(),
       dom.getStaffProcValue(), dom.getBeltProcValue(), dom.getRangeAugValue(),
       dom.getDPSAug1AugValue(), dom.getDPSAug2AugValue(), dom.getShieldProcValue() 
     ].filter(id => {
