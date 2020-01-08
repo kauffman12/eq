@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.86',
+  VERSION: 'Version 1.87',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -46,8 +46,8 @@ export const encSpellList = [
 export const basicDmgFocusContext = [
   {
     id: 'restless-focus',
-    value: '0',
-    desc: 'No Luminous Restless Ice Selected',
+    value: '0.1',
+    desc: 'Luminous Restless Ice (6/6)',
     data: [
       { value: '0.1', desc: 'Luminous Restless Ice (6/6)' },
       { value: '0.09', desc: 'Luminous Restless Ice (5/6)' },

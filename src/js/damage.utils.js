@@ -72,7 +72,11 @@ export const CLAW_SPELL_PROC_RATES = {
 export const FC_SPELL_PROC_RATES = {
   FPWR: 100 / (100 * 0.25),
   FWEAK: 100 / (100 * 0.01)
-}
+};
+
+export const LUCK_VALUES = [
+  0.075, 0.125, 0.175, 0.225, 0.245, 0.275, 0.295, 0.305, 0.315, 0.325, 0.335, 0.345
+];
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
