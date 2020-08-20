@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.94',
+  VERSION: 'Version 1.945',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {

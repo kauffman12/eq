@@ -344,12 +344,6 @@ const ABILITIES = {
           { maxLevel: 253 }, // from testing
           { exSkills: COMBAT_SKILLS }, // from testing
         ]
-      },
-      {
-        spa: 170, // moved rules up from testing
-        slot: 5,
-        type: 'sp',
-        value: 0.35,
       }
     ]
   },  
