@@ -122,6 +122,7 @@ export function getConfiguredAbilities(state) {
         setSpellProc('FW', getForceOfWillValue());
         addAbility('DADEPT', getDestructiveAdeptValue(), 124);
         addAbility('SVENG', getSorcererVengeananceValue(), 286);
+        addAbility(getTrifucatingValue());
         break;
 
       case 'mag':
@@ -291,6 +292,18 @@ export function getArmorProc2Value() {
 export function getArmorProc3Value() {
   return utils.useCache('.armor-proc3', () => {
     return $('.armor-proc3 .dropdown-toggle').data('value');
+  });
+}
+
+export function getArmorProc4Value() {
+  return utils.useCache('.armor-proc4', () => {
+    return $('.armor-proc4 .dropdown-toggle').data('value');
+  });
+}
+
+export function getArmorProc5Value() {
+  return utils.useCache('.armor-proc5', () => {
+    return $('.armor-proc5 .dropdown-toggle').data('value');
   });
 }
 
@@ -580,6 +593,10 @@ export function getFuryOfMagicValue() {
 
 export function getFamiliarValue() {
   return $('.spell-pet-focus .dropdown-toggle').data('value');
+}
+
+export function getTrifucatingValue() {
+  return $('.aa-trif .dropdown-toggle').data('value');
 }
 
 export function getGiftOfHazyValue() {

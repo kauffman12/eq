@@ -374,7 +374,7 @@ function calcAvgDamage(state, mod, dmgKey) {
     let luckyRate = (dom.getLuckValue() > 0) ? 0.45 : dom.getLuckValue() >= 10 ? 0.50 : 0;
     
     let luckIndex = parseInt(dom.getLuckValue() / 10);
-    luckIndex = (luckIndex < dmgU.LUCK_VALUES.length) ? luckIndex : dmgU.LUCK_VALUES.length;
+    luckIndex = (luckIndex < dmgU.LUCK_VALUES.length) ? luckIndex : dmgU.LUCK_VALUES.length - 1;
     let luckyCritDmgMult = critDmgMult + (dom.getLuckValue() > 0 ? dmgU.LUCK_VALUES[luckIndex] : 0);
 
     let avgBaseDmg = beforeCritDmg + beforeDoTCritDmg + afterCritDmg;

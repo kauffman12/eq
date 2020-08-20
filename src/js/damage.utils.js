@@ -75,7 +75,7 @@ export const FC_SPELL_PROC_RATES = {
 };
 
 export const LUCK_VALUES = [
-  0.075, 0.125, 0.175, 0.225, 0.245, 0.275, 0.295, 0.305, 0.315, 0.325, 0.335, 0.345
+  0.075, 0.125, 0.175, 0.225, 0.245, 0.275, 0.295, 0.305, 0.315, 0.325, 0.335, 0.345, 0.355
 ];
 
 // Spell/Abilities the proc from the result of a spell cast
@@ -407,6 +407,7 @@ export function getCompoundSpellList(id) {
   return utils.useCache('compound-spell-list-' + id, function() {
     return {
       'WS': [
+        { id: 'WX', chance: 1.0 },
         { id: 'PS', chance: WILDMAGIC_PURE_CHANCE },
         { id: 'RC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CB', chance: WILDMAGIC_CHAOS_CHANCE }
@@ -430,13 +431,15 @@ export function getEqpProcs(spell) {
   let procList = utils.useCache('get-eqp-procs-' + spell.id, () => {
     return [ 
       dom.getArmorProc1Value(), dom.getArmorProc2Value(), dom.getArmorProc3Value(),
-      dom.getStaffProcValue(), dom.getBeltProcValue(), dom.getRangeAugValue(),
-      dom.getDPSAug1AugValue(), dom.getDPSAug2AugValue(), dom.getShieldProcValue() 
+      dom.getArmorProc4Value(), dom.getArmorProc5Value(), dom.getStaffProcValue(),
+      dom.getBeltProcValue(), dom.getRangeAugValue(), dom.getDPSAug1AugValue(),
+      dom.getDPSAug2AugValue(), dom.getShieldProcValue() 
     ].filter(id => {
       if (id !== 'NONE') {
         let procSpell = utils.getSpellData(id);
-        let limitCheck = procSpell && (!procSpell.limitResists || procSpell.limitResists.get(spell.resist))
-        return (limitCheck && procSpell.id && procSpell.id != spell.id); // check self
+        let limitCheck1 = procSpell && (!procSpell.limitResists || procSpell.limitResists.get(spell.resist))
+        let limitCheck2 = procSpell && (!procSpell.limitMana || spell.manaCost >= procSpell.limitMana)
+        return (limitCheck1 && limitCheck2 && procSpell.id && procSpell.id != spell.id); // check self
       }
     });
   });

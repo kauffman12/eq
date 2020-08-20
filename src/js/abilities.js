@@ -1722,7 +1722,7 @@ const ABILITIES = {
     effects: [
       {
         spa: 124,
-        slot: 3,
+        slot: 1, // workaround so it dont stack with other spells
         type: 'sp',
         value: 1.20,
         limits: [
@@ -2598,10 +2598,8 @@ const ABILITIES = {
   },
   TRIF: {
     class: 'wiz',
-    debuff: true,
     level: 115,
     name: 'Trifurcating Magic XXX',
-    repeatEvery: -1,
     effects: [] // handle in damage.js
   },    
   TP: {

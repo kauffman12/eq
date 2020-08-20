@@ -209,6 +209,10 @@ function initAbility(state, id, ability) {
           }
         }
       }
+      else if (state[keys.counter] !== undefined)
+      {
+        delete state[keys.counter];
+      }
     }
   } else {
     let item = TIMELINE_DATA.get(id);
@@ -307,7 +311,10 @@ function executeManualAbilities(state) {
 
       let effect = abilities.getProcEffectForAbility(ability);
       spell = utils.getSpellData(effect.proc);
-      return (!state.gcdWaitTime || (state.workingTime + spell.castTime < state.gcdWaitTime)) &&
+      
+      let mageCheck = spell.level < 254 && (state.msyn3Counter > 0 || state.chCounter > 0);
+      
+      return !mageCheck && (!state.gcdWaitTime || (state.workingTime + spell.castTime < state.gcdWaitTime)) &&
         (!state.spellTimerMap[ability.timer] || ((state.spellTimerMap[ability.timer] + ability.refreshTime) < state.workingTime));
     });
 

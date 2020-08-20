@@ -239,7 +239,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'chaosscorch',
-    type3DmgAug: 1219
+    type3DmgAug: 2009
   },
   CBRk1: {
     baseDmg: 17398,
@@ -268,7 +268,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: '2',
-    type3DmgAug: 1886
+    type3DmgAug: 1885
   },
   CTRk1: {
     baseDmg: 23942,
@@ -315,7 +315,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'restlessicecomet',
-    type3DmgAug: 3978
+    type3DmgAug: 3979
   },
   RIRk1: {
     baseDmg: 45441,
@@ -344,7 +344,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'brand',
-    type3DmgAug: 3978
+    type3DmgAug: 3979
   },
   EBRk1: {
     baseDmg: 50526,
@@ -373,7 +373,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'blast',
-    type3DmgAug: 3978
+    type3DmgAug: 3979
   },
   ETRk1: {
     baseDmg: 42751,
@@ -990,7 +990,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'riceflowcas',
-    type3DmgAug: 2212
+    type3DmgAug: 2213
   },
   RCRk1: {
     baseDmg: 28096,
@@ -1021,7 +1021,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'TargetAE',
     timer: '6',
-    type3DmgAug: 1328
+    type3DmgAug: 1448
   },
   TWRk1: {
     baseDmg: 18389,
@@ -1117,7 +1117,7 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'pwildscorch',
-    type3DmgAug: 1130
+    type3DmgAug: 1496
   },
   PSRk1: {
     baseDmg: 18991,
@@ -1260,7 +1260,7 @@ export const SPELL_DATA = {
     name: 'Wildether Barrage Rk. III',
     origCastTime: 750,
     recastTime: 4000,
-    resist: 'MAGIC',
+    resist: 'PRISMATIC',
     skill: 24,
     target: 'SINGLE',
     timer: 'wildether'
@@ -1276,7 +1276,7 @@ export const SPELL_DATA = {
     name: 'Wildscorch Strike Rk. III',
     origCastTime: 750,
     recastTime: 4000,
-    resist: 'MAGIC',
+    resist: 'PRISMATIC',
     skill: 24,
     target: 'SINGLE',
     timer: 'wildflash'
@@ -1290,6 +1290,23 @@ export const SPELL_DATA = {
   WSRk3: {
     name: 'Wildscorch Strike Rk. III'
   },
+  WX: {
+    baseDmg: 1,
+    castTime: 600,
+    focusable: true,
+    canTwincast: false,
+    id: 'WX',
+    level: 111,
+    lockoutTime: 1500,
+    manaCost: 923,
+    name: 'Wildscorch Strike',
+    origCastTime: 750,
+    recastTime: 4000,
+    resist: 'PRISMATIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'wildflash'
+  },  
   LF: {
     baseDmg: 10627,
     castTime: 1600,

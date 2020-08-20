@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.87',
+  VERSION: 'Version 1.94',
   MAX_LEVEL: 115,
   CLASSES: {
     enc: {
@@ -154,30 +154,48 @@ export const basicDmgFocusContext = [
   {
     id: 'armor-proc1',
     value: 'NONE',
-    desc: 'No Evolving Armor Aug1 Selected',
+    desc: 'No TBL Type 19 Aug Selected',
     data: [
-      { value: 'EBOFVIII', desc: 'Blazing Paradise Casting Fire' },
-      { value: 'ESOMVIII', desc: 'Blazing Paradise Casting Magic' },
-      { value: 'NONE', desc: 'No Evolving Armor Aug Selected' }
+      { value: 'EBOFVIII', desc: 'Blazing Euphoria Casting Fire' },
+      { value: 'ESOMVIII', desc: 'Blazing Euphoria Casting Magic' },
+      { value: 'NONE', desc: 'No TBL Type 19 Aug Selected' }
     ]
   },
   {
     id: 'armor-proc2',
     value: 'NONE',
-    desc: 'No Evolving Armor Aug2 Selected',
+    desc: 'No TBL Type 18 Aug Selected',
     data: [
       { value: 'EBOFV', desc: 'Whispering Midnight Casting Fire' },
       { value: 'ESOMV', desc: 'Whispering Midnight Casting Magic' },
-      { value: 'NONE', desc: 'No Evolving Armor Aug Selected' }
+      { value: 'NONE', desc: 'No TBL Type 18 Aug Selected' }
     ]
   },
   {
     id: 'armor-proc3',
     value: 'NONE',
-    desc: 'No Tradeskill Armor Aug Selected',
+    desc: 'No ToV Type 19 Aug Selected',
+    data: [
+      { value: 'SOIII', desc: 'Rallos Zek Devotee\'s Casting Ice' },
+      { value: 'NONE', desc: 'No ToV Type 19 Aug Selected' }
+    ]
+  },
+  {
+    id: 'armor-proc4',
+    value: 'NONE',
+    desc: 'No ToV Type 18 Aug Selected',
+    data: [
+      { value: 'SOII', desc: 'Rallos Zek Acolyte\'s Casting Ice' },
+      { value: 'NONE', desc: 'No ToV Type 18 Aug Selected' }
+    ]
+  },  
+  {
+    id: 'armor-proc5',
+    value: 'NONE',
+    desc: 'No ToV Type 7 Armor Aug Selected',
     data: [
       { value: 'SOI19', desc: 'Velium Empowered Gem of Freezing' },
-      { value: 'NONE', desc: 'No Tradeskill Armor Aug Selected' }
+      { value: 'NONE', desc: 'No ToV Type 7 Armor Aug Selected' }
     ]
   },  
   {
@@ -227,7 +245,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug1 Selected',
     data: [
-      { value: 'SOI29', desc: 'Comp Velium Infd Gem of Devestation' },
+      { value: 'SOI29', desc: 'Complimentary Gem of Devestation' },
       { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
       { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
@@ -244,7 +262,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Additional Aug2 Selected',
     data: [
-      { value: 'SOI29', desc: 'Comp Velium Infd Gem of Devestation' },
+      { value: 'SOI29', desc: 'Complimentary Gem of Devestation' },
       { value: 'SOCII', desc: 'Elemental Curio of Ondine Force' },
       { value: 'SOCI', desc: 'Elemental Gem of Stone' },
       { value: 'BOIX', desc: 'Bone Shards of Frozen Marrow' },
@@ -261,7 +279,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Range Aug Selected',
     data: [
-      { value: 'SOI21', desc: 'Comp Velium Infd Gem of Striking' },
+      { value: 'SOI21', desc: 'Complimentary Velium Gem of Striking' },
       { value: 'FSVI', desc: 'Sodkee\'s Sympathetic Stone' },
       { value: 'FZVI', desc: 'Nra`Vruu\'s Sympathetic Stone' },
       { value: 'ASVI', desc: 'SaNril\'s Sympathetic Stone' },
@@ -895,6 +913,15 @@ export const wizDPSAAContext = [
       { value: '0', desc: 'Sorcerer\'s Vengeance (0/25)' }
     ]
   },
+  {
+    id: 'aa-trif',
+    value: 'TRIF',
+    desc: 'Trifurcating Magic XXX (60)',
+    data: [
+      { value: 'TRIF', desc: 'Trifurcating Magic XXX (60)' },
+      { value: '', desc: 'Trifurcating Magic (0/60)' }
+    ]
+  },  
   {
     id: 'aa-twincast',
     value: '0.05',

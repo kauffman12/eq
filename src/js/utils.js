@@ -52,7 +52,7 @@ function getActiveState(state, key) {
   let keys = getCounterKeys(key);
   let activeTimer;
 
-  if (state[keys.expireTime] !== undefined &&state[keys.expireTime] !== -1) {
+  if (state[keys.expireTime] !== undefined && state[keys.expireTime] !== -1) {
     if (state[keys.expireTime] < state.workingTime) {
       state[keys.expireTime] = -1;
 
