@@ -45,9 +45,9 @@ const FOCUS_AA_KEYS = {
     'VD': '.aa-rains .dropdown-toggle',
     'PS': '.aa-pure .dropdown-toggle',
     'RC': '.aa-rimeb .dropdown-toggle',
-    'SC': '.aa-selfc .dropdown-toggle',
+    'SI': '.aa-selfc .dropdown-toggle',
     'FP': '.aa-pills .dropdown-toggle',
-    'SJ': '.aa-vortex .dropdown-toggle',
+    'TV': '.aa-vortex .dropdown-toggle',
     'LF': '.aa-corona .dropdown-toggle'
   }
 };
@@ -499,15 +499,19 @@ export function getSpellFocusAAValue(spell) {
       }
       else if (value === 9 && spell && spell.level <= 110) {
         value = 0.16;
-      } else if(value === 10 && spell && spell.level <= 110) {
+      } else if (value === 10 && spell && spell.level <= 110) {
         value = 0.18;
-      } else if(value === 11 && spell && spell.level <= 110) {
+      } else if (value === 11 && spell && spell.level <= 110) {
         value = 0.20;
       } else if (value === 12) {
         value = 0.22;
-      } else if ( value === 13) {
+      } else if (value === 13) {
         value = 0.25;
-      }
+      } else if (value === 14) {
+        value = 0.28;
+      } else if (value === 15) {
+        value = 0.31;
+      }     
       else {
         value = 0.0;
       }

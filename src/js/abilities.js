@@ -1501,25 +1501,25 @@ const ABILITIES = {
     class: 'wiz',
     charges: 8,
     duration: 18000 + TICK_OFFSET,
-    level: 107,
+    level: 112,
     mode: 'wiz',
-    name: 'Frostbound Covenant Rk. III',
+    name: 'Frostbound Coalition Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 55699,
+        value: 67549,
         limits: [
           { targets: TARGET_SINGLE },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 101 },
-          { maxLevel: 115 },
+          { minLevel: 106 },
+          { maxLevel: 120 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2750 }
+          { minDmg: 3050 }
         ]
       }
     ]
@@ -2679,17 +2679,17 @@ const ABILITIES = {
     class: 'wiz',
     charges: 24,
     duration: 18000 + TICK_OFFSET,
-    level: 108,
+    level: 113,
     mode: 'wiz',
-    name: 'Stormjolt Vortex Effect',
+    name: 'Thaumaturgic Vortex Effect',
     effects: [
       {
         spa: 296,
         slot: 1,
         type: 'sp',
-        value: 0.825,
+        value: 0.875,
         limits: [
-          { maxLevel: 115 },
+          { maxLevel: 120 },
           { type: 'detrimental' },
           { maxDuration: 0 },
           { minManaCost: 100 }
@@ -2719,37 +2719,18 @@ const ABILITIES = {
       }      
     ]
   },
-  WSYN2: {
+  WSYN4: {
     charges: 1,
     class: 'wiz',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Evoker\'s Synergy II',
-    otherCast: true,
-    tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
-    effects: [
-      {
-        proc: 'WSYN2',
-        limits: [
-          { onSpellUse: true },
-          { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },
-          { type: 'detrimental' }
-        ]
-      }
-    ]
-  },
-  WSYN3: {
-    charges: 1,
-    class: 'wiz',
-    duration: 12000 + TICK_OFFSET,
-    level: 254,
-    name: 'Evoker\'s Synergy III',
+    name: 'Evoker\'s Synergy IV',
     otherCast: true,
     repeatEvery: 38000,
     tooltip: 'How often to proc a single Evoker\'s Synergy (in seconds).\rDefaults to minimum time for chain casting Stormjolt Vortex.',
     effects: [
       {
-        proc: 'WSYN3',
+        proc: 'WSYN4',
         limits: [
           { onSpellUse: true },
           { resists: SMap(['MAGIC', 'COLD', 'POISON', 'DISEASE', 'CORRUPTION', 'CHROMATIC']) },

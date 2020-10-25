@@ -85,8 +85,7 @@ export function getStatisticsSummary(spellStats) {
     addDecimalStatDescription(data, "Enc Synergy", spellStats.get('esyn2ChargesUsed'));
     addDecimalStatDescription(data, "Mag Synergy", spellStats.get('msyn3ChargesUsed'));
     addDecimalStatDescription(data, "Nec Synergy", spellStats.get('nsynChargesUsed'));
-    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn1ChargesUsed'));
-    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn2ChargesUsed'));
+    addDecimalStatDescription(data, "Wiz Synergy", spellStats.get('wsyn4ChargesUsed'));
     addDecimalStatDescription(data, "FlamesPwr Charges", spellStats.get('fpwrChargesUsed'));
     addDecimalStatDescription(data, "FlamesWeak Effect", spellStats.get('fweakChargesUsed'));
 
@@ -144,8 +143,7 @@ export function getStatisticsSummary(spellStats) {
   addNumberStatDescription(data, "Steel Vengeance", spellStats.get('steelvengAddDmg'));
   addNumberStatDescription(data, "Repudiate Destruction", spellStats.get('repudiatedestAddDmg'));
 
-  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn3AddDmg'));
-  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn2AddDmg'));
+  addNumberStatDescription(data, "Wiz Synergy Dmg", spellStats.get('wsyn4AddDmg'));
 
   addNumberStatDescription(data, "Est Braid Proc", spellStats.get('fuseProcDmg'));
   addNumberStatDescription(data, "Total Dmg", spellStats.get('totalDmg'));

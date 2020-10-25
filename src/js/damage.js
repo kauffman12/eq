@@ -179,13 +179,11 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         }
       }
       break;
-    case 'SJ':
+    case 'TV':
       timeline.addSpellProcAbility(state, 'VFX', 1, true);
       synergy = dom.getEvokersSynergyValue();
-      if (synergy === 11) {
-        timeline.addSpellProcAbility(state, 'WSYN2', 1, true);
-      } else if (synergy === 12) {
-        timeline.addSpellProcAbility(state, 'WSYN3', 1, true);
+      if (synergy === 13) {
+        timeline.addSpellProcAbility(state, 'WSYN4', 1, true);
       }
       break;
     case 'RS':
@@ -512,7 +510,7 @@ function calcSpellDamage(state) {
     var recastTime = (spell.recastTime2 !== undefined) ? spell.recastTime2 : spell.recastTime;
 
     // fix for dicho being a combined proc/spell
-    var totalCastTime = (spell.id === 'DF' ? 0 : spell.origCastTime) +
+    var totalCastTime = (spell.id === 'CF' ? 0 : spell.origCastTime) +
       ((recastTime > spell.lockoutTime) ? recastTime : spell.lockoutTime);
 
     var multiplier = dmgU.getMultiplier(totalCastTime);
@@ -619,7 +617,7 @@ function getBeforeCritFocus(state, spaValues) {
   let beforeCritFocus = spaValues.beforeCritFocus;
 
   // Before Crit Focus AA (SPA 302) only for some spells
-  if (['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
+  if (['ET', 'TV', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
     beforeCritFocus = beforeCritFocus + dom.getSpellFocusAAValue(state.spell);
   }
 
@@ -631,7 +629,7 @@ function getEffectiveness(state, spaValues) {
   let effectiveness = spaValues.effectiveness;
 
     // Effectiveness AA (SPA 413) Focus: Skyblaze, Rimeblast, etc
-  if (! ['ET', 'SJ', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
+  if (! ['ET', 'TV', 'CG', 'CS', 'RU'].find(id => id === spell.id)) {
     effectiveness += dom.getSpellFocusAAValue(state.spell);
   }
 

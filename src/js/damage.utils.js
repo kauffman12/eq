@@ -80,7 +80,7 @@ export const LUCK_VALUES = [
 
 // Spell/Abilities the proc from the result of a spell cast
 export const SPELL_PROC_ABILITIES = [
-  'ARCO', 'CDG', 'ESYN2', 'ESYN3', 'MSYN3', 'VFX', 'WSYN2', 'WSYN3', 'SYLLFIRERk1',
+  'ARCO', 'CDG', 'ESYN2', 'ESYN3', 'MSYN3', 'VFX', 'WSYN4', 'SYLLFIRERk1',
   'SYLLFIRERk2', 'SYLLFIRERk3', 'SYLLMAGICRk1', 'SYLLMAGICRk2', 'SYLLMAGICRk3', 'SYLLICERk1', 'SYLLICERk2',
   'SYLLICERk3', 'SYLLMASTERRk1', 'SYLLMASTERRk2', 'SYLLMASTERRk3', 'TC', 'FPWR', 'FWEAK',
   'GCH', 'FBSINGERk1', 'FBSINGERk2', 'FBSINGERk3'
@@ -185,7 +185,7 @@ function parseSPAKey(key) {
 function getChargeCount(state, id, mod) {
   // bug for Dicho using extra counters
   // really should make Dicho have a proc
-  if (state.spell.id === 'DF' && (id === 'AD' || id === 'FD')) {
+  if (state.spell.id === 'CF' && (id === 'AD' || id === 'FD')) {
     return mod * 2;
   }
 
@@ -351,7 +351,7 @@ export function getProcEffect(spell, id) {
 
 export function getBaseCritDmg() {
   // Wiz Pet is Crit DMG Focus Spell (SPA 170)
-  // Definitely stacks with FD and works with DF and AA Nukes
+  // Definitely stacks with FD and works with CF and AA Nukes
   return (dom.getDestructiveFuryValue() + dom.getCritDmgValue()) / 100;
 }
 

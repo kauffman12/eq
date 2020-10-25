@@ -88,6 +88,24 @@ export const SPELL_DATA = {
     skill: 24,
     target: 'SINGLE',
     timer: 'afusion'
+  },
+  AFU6: {
+    baseDmg: 350000,
+    castTime: 0,
+    fixedRate: 3,
+    spa497: true,
+    focusable: false,
+    id: 'AFU6',
+    level: 254,
+    manaCost: 0,
+    minCritRate: 1.0,
+    name: 'Arcane Fusion VI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 24,
+    target: 'SINGLE',
+    timer: 'afusion'
   },  
   SB: {
     baseDmg: 24617,
@@ -282,16 +300,16 @@ export const SPELL_DATA = {
     baseDmg: 26396,
     name: 'Cloudburst Stormbolt Rk. III'
   },
-  DF: {
-    baseDmg: 140801,
+  CF: {
+    baseDmg: 155233,
     canTwincast: false,
     castTime: 1980,
     focusable: true,
-    id: 'DF',
+    id: 'CF',
     level: 250,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Dissident Fire 6',
+    name: 'Composite Fire 6',
     origCastTime: 3000,
     recastTime: 60000,
     recastTime2: 6000,
@@ -422,13 +440,13 @@ export const SPELL_DATA = {
     type3DmgAug: 2887
   },
   FBC: {
-    castTime: 1980,
+    castTime: 2,
     focusable: true,
     id: 'FBC',
-    level: 107,
+    level: 112,
     lockoutTime: 1500,
-    manaCost: 13791,
-    name: 'Frostbound Covenant Rk. III',
+    manaCost: 20587,
+    name: 'Frostbound Coalition Rk. III',
     origCastTime: 3000,
     recastTime: 60000,
     resist: 'COLD',
@@ -436,15 +454,24 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '14'
   },
+  FBCRk1: {
+    name: 'Frostbound Coalition Rk. I',
+  },
+  FBCRk2: {
+    name: 'Frostbound Coalition Rk. II',
+  },
+  FBCRk3: {
+    name: 'Frostbound Coalition Rk. III',
+  },
   FAR: {
-    baseDmg: 3121559,
+    baseDmg: 4129823,
     castTime: 1980,
     focusable: false,
     id: 'FAR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    max: 3121559,
+    max: 4129823,
     maxCritRate: 0,
     name: 'Frostbound Resolution III',
     origCastTime: 3000,
@@ -454,6 +481,18 @@ export const SPELL_DATA = {
     spellDmgCap: 0,
     target: 'SINGLE',
     timer: 'ff'
+  },
+  FARRk1: {
+    baseDmg: 3745871,
+    name: 'Frostbound Resolution I1',
+  },
+  FARRk2: {
+    baseDmg: 3933165,
+    name: 'Frostbound Resolution II',
+  },
+  FARRk2: {
+    baseDmg: 4129823,
+    name: 'Frostbound Resolution III',
   },
   FB: {
     baseDmg: 22493,
@@ -1131,17 +1170,17 @@ export const SPELL_DATA = {
     baseDmg: 20938,
     name: 'Pure Wildscorch Caza'
   },
-  SC: {
-    baseDmg: 20972,
-    baseDmgUnMod: 20972,
+  SI: {
+    baseDmg: 37041,
+    baseDmgUnMod: 37041,
     castTime: 1500,
     focusable: true,
-    id: 'SC',
-    level: 105,
+    id: 'SI',
+    level: 114,
     lockoutTime: 3000,
-    manaCost: 2929,
+    manaCost: 3306,
     maxHits: 5,
-    name: 'Self-Combustion Rk. III',
+    name: 'Self-Incineration Rk. III',
     origCastTime: 3000,
     recastTime: 15000,
     resist: 'FIRE',
@@ -1149,6 +1188,18 @@ export const SPELL_DATA = {
     target: 'CasterPB',
     timer: '10'
   },
+  SIRk1: {
+    baseDmg: 33597,
+    name: 'Self-Incineration Rk. I'
+  },
+  SIRk2: {
+    baseDmg: 35277,
+    name: 'Self-Incineration Rk. II'
+  },
+  SIRk3: {
+    baseDmg: 37041,
+    name: 'Self-Incineration Rk. III'
+  },  
   FP: {
     baseDmg: 17464,
     castTime: 2000,
@@ -1233,15 +1284,15 @@ export const SPELL_DATA = {
     target: 'TargetRingAE',
     timer: 'splashproxene'
   },
-  SJ: {
-    baseDmg: 19828,
+  TV: {
+    baseDmg: 36070,
     castTime: 800,
     focusable: true,
-    id: 'SJ',
-    level: 108,
+    id: 'TV',
+    level: 113,
     lockoutTime: 1500,
-    manaCost: 1246,
-    name: 'Stormjolt Vortex Rk. III',
+    manaCost: 1656,
+    name: 'Thaumaturgic Vortex Rk. III',
     origCastTime: 1000,
     recastTime: 24000,
     resist: 'MAGIC',
@@ -1249,6 +1300,18 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'vortex'
   },
+  TVRk1: {
+    baseDmg: 32716,
+    name: 'Thaumaturgic Vortex Rk. I'
+  },
+  TVRk2: {
+    baseDmg: 34352,
+    name: 'Thaumaturgic Vortex Rk. II'
+  },
+  TVRk3: {
+    baseDmg: 36070,
+    name: 'Thaumaturgic Vortex Rk. III'
+  },  
   WE: {
     baseDmg: 0,
     castTime: 600,
