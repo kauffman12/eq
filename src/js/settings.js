@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.95',
+  VERSION: 'Version 1.951',
   MAX_LEVEL: 115,
   CLASSES: {
     mag: {
@@ -27,7 +27,7 @@ export const wizSpellList = [
 
 // mage spells to display in spell drop down
 export const magSpellList = [
-  'BM', 'BS', 'BK','BB', 'CP', 'DC', 'FC', 'FBC', 'KB', 'RU', 'RM', 'RK', 'RS', 'SH', 'SA', 'SK', 'SM'
+  'BM', 'BS', 'CC', 'CP', 'FB', 'FBC', 'IS', 'KB', 'RU', 'RM', 'RK', 'RS', 'SH', 'SA', 'SK', 'SM'
 ];
 
 // enc spells to display in spell drop down
@@ -487,62 +487,61 @@ export const magSpellFocusAAContext = [
   },
   {
     id: 'aa-beam-molten',
-    value: '13',
-    desc: 'Beam of Molten Shieldstone (13/13)',
+    value: '15',
+    desc: 'Beam of Molten Shieldstone (15/15)',
     data: [
-      { value: '13', desc: 'Beam of Molten Shieldstone (13/13)' },
-      { value: '12', desc: 'Beam of Molten Shieldstone (12/13)' },
-      { value: '0', desc: 'Beam of Molten Shieldstone (0/13)' },
+      { value: '15', desc: 'Beam of Molten Shieldstone (15/15)' },
+      { value: '14', desc: 'Beam of Molten Shieldstone (14/15)' },
+      { value: '13', desc: 'Beam of Molten Shieldstone (13/15)' },
+      { value: '12', desc: 'Beam of Molten Shieldstone (12/15)' },
+      { value: '0', desc: 'Beam of Molten Shieldstone (0/15)' },
     ]
   },
   {
     id: 'aa-beam-scythes',
-    value: '13',
-    desc: 'Beam of Scythes (13/13)',
+    value: '15',
+    desc: 'Beam of Scythes (15/15)',
     data: [
-      { value: '13', desc: 'Beam of Scythes (13/13)' },
-      { value: '12', desc: 'Beam of Scythes (12/13)' },
-      { value: '0', desc: 'Beam of Scythes (0/13)' },
-    ]
-  },
-  {
-    id: 'aa-boltm',
-    value: '13',
-    desc: 'Bolt of Molten Shieldstone (13/13)',
-    data: [
-      { value: '13', desc: 'Bolt of Molten Shieldstone (13/13)' },
-      { value: '12', desc: 'Bolt of Molten Shieldstone (12/13)' },
-      { value: '0', desc: 'Bolt of Molten Shieldstone (0/13)' },
+      { value: '15', desc: 'Beam of Scythes (15/15)' },
+      { value: '14', desc: 'Beam of Scythes (14/15)' },
+      { value: '13', desc: 'Beam of Scythes (13/15)' },
+      { value: '12', desc: 'Beam of Scythes (12/15)' },
+      { value: '0', desc: 'Beam of Scythes (0/15)' },
     ]
   },
   {
     id: 'aa-capricious',
-    value: '13',
-    desc: 'Capricious Fire (13/13)',
+    value: '15',
+    desc: 'Capricious Fire (14/14)',
     data: [
-      { value: '13', desc: 'Capricious Fire (13/13)' },
-      { value: '12', desc: 'Capricious Fire (12/13)' },
-      { value: '11', desc: 'Capricious Fire (11/13)' },
-      { value: '10', desc: 'Capricious Fire (10/13)' },
-      { value: '9', desc: 'Capricious Fire (9/13)' },
-      { value: '0', desc: 'Capricious Fire (0/13)' },
+      { value: '15', desc: 'Capricious Fire (14/14)' },
+      { value: '14', desc: 'Capricious Fire (13/14)' },
+      { value: '13', desc: 'Capricious Fire (12/14)' },
+      { value: '12', desc: 'Capricious Fire (11/14)' },
+      { value: '11', desc: 'Capricious Fire (10/14)' },
+      { value: '10', desc: 'Capricious Fire (9/14)' },
+      { value: '0', desc: 'Capricious Fire (0/14)' },
     ]
   },
   {
     id: 'aa-coronal',
-    value: '13',
-    desc: 'Coronal Rain (13/13)',
+    value: '15',
+    desc: 'Coronal Rain (15/15)',
     data: [
-      { value: '13', desc: 'Coronal Rain (13/13)' },
-      { value: '12', desc: 'Coronal Rain (12/13)' },
-      { value: '0', desc: 'Coronal Rain (0/13)' }
+      { value: '15', desc: 'Coronal Rain (15/15)' },
+      { value: '14', desc: 'Coronal Rain (14/15)' },
+      { value: '13', desc: 'Coronal Rain (13/15)' },
+      { value: '12', desc: 'Coronal Rain (12/15)' },
+      { value: '0', desc: 'Coronal Rain (0/15)' }
     ]
   },
   {
     id: 'aa-eradun',
-    value: '13',
-    desc: 'Eradicate the Unnatural (13/13)',
+    value: '15',
+    desc: 'Eradicate the Unnatural (15/15)',
     data: [
+      { value: '15', desc: 'Eradicate the Unnatural (15/15)' },
+      { value: '14', desc: 'Eradicate the Unnatural (14/15)' },
       { value: '13', desc: 'Eradicate the Unnatural (13/13)' },
       { value: '12', desc: 'Eradicate the Unnatural (12/13)' },
       { value: '0', desc: 'Eradicate the Unnatural (0/13)' }
@@ -550,13 +549,14 @@ export const magSpellFocusAAContext = [
   },
   {
     id: 'aa-flames-pwr',
-    value: '6',
-    desc: 'Flames of Power (6/6)',
+    value: '7',
+    desc: 'Flames of Power (7/7)',
     data: [
-      { value: '6', desc: 'Flames of Power (6/6)' },
-      { value: '5', desc: 'Flames of Power (5/6)' },
-      { value: '4', desc: 'Flames of Power (4/6)' },
-      { value: '0', desc: 'Flames of Power (0/6)' }
+      { value: '7', desc: 'Flames of Power (7/7)' },
+      { value: '6', desc: 'Flames of Power (6/7)' },
+      { value: '5', desc: 'Flames of Power (5/7)' },
+      { value: '4', desc: 'Flames of Power (4/7)' },
+      { value: '0', desc: 'Flames of Power (0/7)' }
     ]
   },
   {
@@ -572,68 +572,91 @@ export const magSpellFocusAAContext = [
   },
   {
     id: 'aa-meteor',
-    value: '13',
-    desc: 'Meteoric Bolt (13/13)',
+    value: '15',
+    desc: 'Meteoric Bolt (14/14)',
     data: [
-      { value: '13', desc: 'Meteoric Bolt (13/13)' },
-      { value: '12', desc: 'Meteoric Bolt (12/13)' },
-      { value: '11', desc: 'Meteoric Bolt (11/13)' },
-      { value: '10', desc: 'Meteoric Bolt (10/13)' },
-      { value: '9', desc: 'Meteoric Bolt (9/13)' },
+      { value: '15', desc: 'Meteoric Bolt (14/14)' },
+      { value: '14', desc: 'Meteoric Bolt (13/14)' },
+      { value: '13', desc: 'Meteoric Bolt (12/14)' },
+      { value: '12', desc: 'Meteoric Bolt (11/14)' },
+      { value: '11', desc: 'Meteoric Bolt (10/14)' },
+      { value: '10', desc: 'Meteoric Bolt (9/14)' },
       { value: '0', desc: 'Meteoric Bolt (0/13)' },
     ]
   },  
   {
     id: 'aa-raincut',
-    value: '13',
-    desc: 'Rain of Cutlasses (13/13)',
+    value: '15',
+    desc: 'Rain of Cutlasses (15/15)',
     data: [
-      { value: '13', desc: 'Rain of Cutlasses (13/13)' },
-      { value: '12', desc: 'Rain of Cutlasses (12/13)' },
-      { value: '0', desc: 'Rain of Cutlasses (0/13)' },
+      { value: '15', desc: 'Rain of Cutlasses (15/15)' },
+      { value: '14', desc: 'Rain of Cutlasses (14/15)' },
+      { value: '13', desc: 'Rain of Cutlasses (13/15)' },
+      { value: '12', desc: 'Rain of Cutlasses (12/15)' },
+      { value: '0', desc: 'Rain of Cutlasses (0/15)' },
     ]
   },  
   {
     id: 'aa-sear',
-    value: '13',
-    desc: 'Searing Blast (13/13)',
+    value: '15',
+    desc: 'Searing Blast (15/15)',
     data: [
-      { value: '13', desc: 'Searing Blast (13/13)' },
-      { value: '12', desc: 'Searing Blast (12/13)' },
-      { value: '0', desc: 'Searing Blast (0/13)' }
+      { value: '15', desc: 'Searing Blast (15/15)' },
+      { value: '14', desc: 'Searing Blast (14/15)' },
+      { value: '13', desc: 'Searing Blast (13/15)' },
+      { value: '12', desc: 'Searing Blast (12/15)' },
+      { value: '0', desc: 'Searing Blast (0/15)' }
     ]
   },
   {
-    id: 'aa-shockd',
-    value: '13',
-    desc: 'Shock of Darksteel  (13/13)',
+    id: 'aa-sands',
+    value: '15',
+    desc: 'Searing Sands (15/15)',
     data: [
-      { value: '13', desc: 'Shock of Darksteel (13/13)' },
-      { value: '12', desc: 'Shock of Darksteel (12/13)' },
-      { value: '0', desc: 'Shock of Darksteel (0/13)' },
+      { value: '15', desc: 'Searing Sands (15/15)' },
+      { value: '14', desc: 'Searing Sands (14/15)' },
+      { value: '13', desc: 'Searing Sands (13/15)' },
+      { value: '12', desc: 'Searing Sands (12/15)' },
+      { value: '0', desc: 'Searing Sands (0/15)' }
+    ]
+  },  
+  {
+    id: 'aa-shockd',
+    value: '15',
+    desc: 'Shock of Darksteel  (15/15)',
+    data: [
+      { value: '15', desc: 'Shock of Darksteel (15/15)' },
+      { value: '14', desc: 'Shock of Darksteel (14/15)' },
+      { value: '13', desc: 'Shock of Darksteel (13/15)' },
+      { value: '12', desc: 'Shock of Darksteel (12/15)' },
+      { value: '0', desc: 'Shock of Darksteel (0/15)' },
     ]
   },
   {
     id: 'aa-spearm',
-    value: '13',
-    desc: 'Spear of Molten Shieldstone (13/13)',
+    value: '15',
+    desc: 'Spear of Molten Shieldstone (15/15)',
     data: [
-      { value: '13', desc: 'Spear of Molten Shieldstone (13/13)' },
-      { value: '12', desc: 'Spear of Molten Shieldstone (12/13)' },
-      { value: '11', desc: 'Spear of Molten Shieldstone (11/13)' },
-      { value: '10', desc: 'Spear of Molten Shieldstone (10/13)' },
-      { value: '9', desc: 'Spear of Molten Shieldstone (9/13)' },
-      { value: '0', desc: 'Spear of Molten Shieldstone (0/13)' }
+      { value: '15', desc: 'Spear of Molten Shieldstone (15/15)' },
+      { value: '14', desc: 'Spear of Molten Shieldstone (14/15)' },
+      { value: '13', desc: 'Spear of Molten Shieldstone (13/15)' },
+      { value: '12', desc: 'Spear of Molten Shieldstone (12/15)' },
+      { value: '11', desc: 'Spear of Molten Shieldstone (11/15)' },
+      { value: '10', desc: 'Spear of Molten Shieldstone (10/15)' },
+      { value: '9', desc: 'Spear of Molten Shieldstone (9/15)' },
+      { value: '0', desc: 'Spear of Molten Shieldstone (0/15)' }
     ]
   },
   {
     id: 'aa-storm',
-    value: '13',
-    desc: 'Storm of Many (13/13)',
+    value: '15',
+    desc: 'Storm of Many (15/15)',
     data: [
-      { value: '13', desc: 'Storm of Many (13/13)' },
-      { value: '12', desc: 'Storm of Many (12/13)' },
-      { value: '0', desc: 'Storm of Many (0/13)' }
+      { value: '15', desc: 'Storm of Many (15/15)' },
+      { value: '14', desc: 'Storm of Many (14/15)' },
+      { value: '13', desc: 'Storm of Many (13/15)' },
+      { value: '12', desc: 'Storm of Many (12/15)' },
+      { value: '0', desc: 'Storm of Many (0/15)' }
     ]
   }
 ];
@@ -1089,16 +1112,18 @@ export const magDPSAAContext = [
   },
   {
     id: 'aa-steelveng',
-    value: '15',
-    desc: 'Steel Vengeance (15/15)',
+    value: '17',
+    desc: 'Steel Vengeance (17/17)',
     data: [
-      { value: '15', desc: 'Steel Vengeance (15/15)' },
-      { value: '14', desc: 'Steel Vengeance (14/15)' },
-      { value: '13', desc: 'Steel Vengeance (13/15)' },
-      { value: '12', desc: 'Steel Vengeance (12/15)' },
-      { value: '11', desc: 'Steel Vengeance (11/15)' },
-      { value: '10', desc: 'Steel Vengeance (10/15)' },
-      { value: '0', desc: 'Steel Vengeance (0/15)' }
+      { value: '17', desc: 'Steel Vengeance (17/17)' },
+      { value: '16', desc: 'Steel Vengeance (16/17)' },
+      { value: '15', desc: 'Steel Vengeance (15/17)' },
+      { value: '14', desc: 'Steel Vengeance (14/17)' },
+      { value: '13', desc: 'Steel Vengeance (13/17)' },
+      { value: '12', desc: 'Steel Vengeance (12/17)' },
+      { value: '11', desc: 'Steel Vengeance (11/17)' },
+      { value: '10', desc: 'Steel Vengeance (10/17)' },
+      { value: '0', desc: 'Steel Vengeance (0/17)' }
     ]
   },
   {

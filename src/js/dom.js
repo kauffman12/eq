@@ -14,14 +14,13 @@ const FOCUS_AA_KEYS = {
     'PA': '.aa-poly-ass .dropdown-toggle'
   },
   mag: {
-    'BB': '.aa-sear .dropdown-toggle',
     'BM': '.aa-beam-molten .dropdown-toggle',
     'BS': '.aa-beam-scythes .dropdown-toggle',
-    'BK': '.aa-boltm .dropdown-toggle',
+    'CP': '.aa-capricious .dropdown-toggle',
+    'FB': '.aa-sear .dropdown-toggle',
+    'IS': '.aa-sands .dropdown-toggle',
     'RM': '.aa-coronal .dropdown-toggle',
     'RU': '.aa-eradun .dropdown-toggle',
-    'FC': '.aa-capricious .dropdown-toggle',
-    'CP': '.aa-capricious .dropdown-toggle',    
     'RK': '.aa-raincut .dropdown-toggle',
     'SM': '.aa-storm .dropdown-toggle',
     'SK': '.aa-spearm .dropdown-toggle',
@@ -488,12 +487,15 @@ export function getSpellFocusAAValue(spell) {
       value = utils.getNumberValue($(keys[spell.id]).data('value'));
 
       if (spell.id === 'SM') {
-        if (value === 13) {
+        if (value === 15) {
+          value = 0.70;
+        } else if (value === 14) {
+          value = 0.65;
+        } else if (value === 13) {
           value = 0.6;
         } else if (value === 12) {
           value = 0.55;
-        }
-        else {
+        } else {
           value = 0;
         }
       }

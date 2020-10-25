@@ -61,19 +61,21 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   let cfickleSpells = 0;
   let clawSpells = 0;
   switch(spell.id) {
-    case 'FC':
-      state.cfickleSpells = (state.inTwincast ? (mod / 2) : mod) + (state.cfickleSpells || 0);
-      if (state.cfickleSpells > 0.50 && !state.inTwincast) {
-        cfickleSpells = state.cfickleSpells;
-        state.cfickleSpells = 0;
-      }
-      break;
     case 'CP': case 'CG': case 'CS':
       state.clawSpells = (state.inTwincast ? (mod / 2) : mod) + (state.clawSpells || 0);
       if (state.clawSpells > 0.50 && !state.inTwincast) {
         clawSpells = state.clawSpells;
         state.clawSpells = 0;
       }
+      
+      // handles Flames of Power giving CP its own additional proc
+      if (G.MODE === 'mag') {
+        state.cfickleSpells = (state.inTwincast ? (mod / 2) : mod) + (state.cfickleSpells || 0);
+        if (state.cfickleSpells > 0.50 && !state.inTwincast) {
+          cfickleSpells = state.cfickleSpells;
+          state.cfickleSpells = 0;
+        }
+      }        
       break;
   }
 
@@ -137,9 +139,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
             timeline.addSpellProcAbility(state, id, 1, true);
         }
       });
-    
-      break;
-    case 'FC':
+      
       if (G.MODE === 'mag') {
         state.fcSpellProcGenerator.next(cfickleSpells).value.forEach(id => timeline.addSpellProcAbility(state, id, 1, true));
       }
@@ -154,10 +154,16 @@ function applyPostSpellEffects(state, mod, dmgKey) {
         timeline.addSpellProcAbility(state, 'ESYN2', 1, true);
       } 
       break;
-    case 'SH': case 'SR':
+    case 'SH':
       if (G.MODE === 'mag') {
         let steelVeng = dom.getSteelVengeanceValue();
         switch(steelVeng) {
+          case 17:
+            executeProc(state, 'SV17', mod * 0.35, 'steelveng');
+            break;
+          case 16:
+            executeProc(state, 'SV16', mod * 0.35, 'steelveng');
+            break;
           case 15:
             executeProc(state, 'SV15', mod * 0.30, 'steelveng');
             break;
@@ -268,21 +274,21 @@ function applyPreSpellChecks(state, mod) {
         let offset = G.MODE === 'mag' ? dom.getTwinprocAAValue() : 0.0;
         state.cfSpellProcGenerator = genSpellProc(dmgU.CLAW_SPELL_PROC_RATES[G.MODE][state.spell.id], offset);
       }
-      break;
-    case 'FC':
+      
       if (G.MODE === 'mag') {
         if (!state.fcSpellProcGenerator) {
           // AA modifies the proc chance
           let offset = 0;
           switch(dom.getFlamesOfPowerValue()) {
             case 4: case 5: offset = 0.34; break;
-            case 6: offset = 0.35; break;            
+            case 6: offset = 0.35; break;
+            case 7: offset = 0.36; break;
           }
           state.fcSpellProcGenerator = genSpellProc(dmgU.FC_SPELL_PROC_RATES, offset);
         }
-      }
+      }      
       break;
-    case 'SC':
+    case 'SI':
       if (G.MODE === 'wiz') {
         state.spell.baseDmg = dmgU.trunc(state.spell.baseDmgUnMod * dmgU.getSCDmgMod(dom.getAEUnitDistanceValue()));
       }

@@ -1,14 +1,14 @@
 export const SPELL_DATA = {
-  BB: {
-    baseDmg: 12917,
+  FB: {
+    baseDmg: 18514,
     castTime: 2000,
     focusable: true,
-    id: 'BB',
-    level: 109,
+    id: 'FB',
+    level: 114,
     lockoutTime: 1500,
-    manaCost:  	3438,
+    manaCost:  	4153,
     maxHits: 20,
-    name: 'Burning Blast Rk. III',
+    name: 'Flaming Blast Rk. III',
     origCastTime: 4000,
     recastTime: 12000,
     resist: 'FIRE',
@@ -16,6 +16,18 @@ export const SPELL_DATA = {
     target: 'CasterPB',
     timer: '2'
   },
+  FBRk1: {
+    name: 'Flaming Blast Rk. I',
+    baseDmg: 16792
+  },
+  FBRk2: {
+    name: 'Flaming Blast Rk. II',
+    baseDmg: 17632
+  },
+  FBRk3: {
+    name: 'Flaming Blast Rk. III',
+    baseDmg: 18514
+  },  
   BJ: {
     baseDmg: 28769,
     castTime: 0,
@@ -91,35 +103,6 @@ export const SPELL_DATA = {
     name: 'Beam of Molten Komatiite Rk. III',
     baseDmg: 17107
   },
-  BK: {
-    baseDmg: 25415,
-    castTime: 1500,
-    focusable: true,
-    id: 'BK',
-    level: 111,
-    lockoutTime: 1500,
-    manaCost: 2701,
-    name: 'Bolt of Molten Komatiite Rk. III',
-    origCastTime: 3000,
-    recastTime: 6000,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'LOS',
-    timer: 'boltofkom',
-    type3DmgAug: 1815
-  },
-  BKRk1: {
-    name: 'Bolt of Molten Komatiite Rk. I',
-    baseDmg: 23052
-  },
-  BKRk2: {
-    name: 'Bolt of Molten Komatiite Rk. II',
-    baseDmg: 24205
-  },
-  BKRk3: {
-    name: 'Bolt of Molten Komatiite Rk. III',
-    baseDmg: 25415
-  },
   CP: {
     baseDmg: 31616,
     castTime: 1200,
@@ -149,16 +132,16 @@ export const SPELL_DATA = {
     name: 'Chaotic Pyroclasm Rk. III',
     baseDmg: 35926
   },
-  DC: {
+  CC: {
     baseDmg: 0,
     canTwincast: false,
     castTime: 400,
     focusable: true,
-    id: 'DC',
+    id: 'CC',
     level: 250,
     lockoutTime: 1500,
     manaCost: 100,
-    name: 'Dissident Companion 6',
+    name: 'Composite Companion 6',
     origCastTime: 500,
     recastTime: 60000,
     recastTime2: 6000,
@@ -201,10 +184,10 @@ export const SPELL_DATA = {
     castTime: 1980,
     focusable: true,
     id: 'FBC',
-    level: 110,
+    level: 115,
     lockoutTime: 1500,
-    manaCost: 12214,
-    name: 'Firebound Covenant Rk. III',
+    manaCost: 18233,
+    name: 'Firebound Coalition Rk. III',
     origCastTime: 3000,
     recastTime: 60000,
     resist: 'FIRE',
@@ -212,18 +195,27 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: '13'
   },
+  FBCRk1: {
+    name: 'Firebound Coalition Rk. I',    
+  },
+  FBCRk2: {
+    name: 'Firebound Coalition Rk. II',    
+  },
+  FBCRk3: {
+    name: 'Firebound Coalition Rk. III',
+  },
   FAR: {
-    baseDmg: 2717455,
-    castTime: 0,
+    baseDmg: 3295594,
+    castTime: 1980,
     focusable: false,
     id: 'FAR',
     level: 255,
     lockoutTime: 0,
     manaCost: 0,
-    max: 2717455,
+    max: 3295594,
     maxCritRate: 0,
     name: 'Firebound Resolution III',
-    origCastTime: 0,
+    origCastTime: 3000,
     recastTime: 0,
     resist: 'FIRE',
     skill: 5,
@@ -231,22 +223,20 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'ff'
   },
-  FC: {
-    baseDmg: 16954,
-    castTime: 1200,
-    focusable: true,
-    id: 'FC',
-    level: 105,
-    lockoutTime: 1500,
-    manaCost: 1941,
-    name: 'Fickle Conflagration Rk. III',
-    origCastTime: 1500,
-    recastTime: 5250,
-    resist: 'FIRE',
-    skill: 24,
-    target: 'SINGLE',
-    timer: 'fickleconflag',
-    type3DmgAug: 1211
+  FARRk1: {
+    baseDmg: 2989201,
+    max: 2989201,
+    name: 'Firebound Resolution I',
+  },
+  FARRk2: {
+    baseDmg: 3138661,
+    max: 3138661,
+    name: 'Firebound Resolution II',    
+  },
+  FARRk3: {
+    baseDmg: 3295594,
+    max: 3295594,
+    name: 'Firebound Resolution III',
   },
   FE13: {
     aa: true,
@@ -402,21 +392,33 @@ export const SPELL_DATA = {
     timer: '73'
   },  
   KB: {
-    baseDmg: 22495,
+    baseDmg: 33480,
     castTime: 1500,
     focusable: true,
     id: 'KB',
     level: 108,
     lockoutTime: 1500,
-    manaCost: 2000,
-    name: 'Korascian Bolt Rk. III',
+    manaCost: 2416,
+    name: 'Komatiite Bolt Rk. III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'MAGIC',
     skill: 24,
     target: 'LOS',
-    timer: 'korbolt',
+    timer: 'kombolt',
     type3DmgAug: 0
+  },
+  KBRk1: {
+    name: 'Komatiite Bolt Rk. I',
+    baseDmg: 30368
+  },
+  KBRk2: {
+    name: 'Komatiite Bolt Rk. II',
+    baseDmg: 31886    
+  },
+  KBRk3: {
+    name: 'Komatiite Bolt Rk. IIII',
+    baseDmg: 33480    
   },
   RK: {
     baseDmg: 24573,
@@ -615,6 +617,35 @@ export const SPELL_DATA = {
     name: 'Shock of Burning Steel Rk. III',
     baseDmg: 17547
   },
+  IS: {
+    baseDmg: 13559,
+    castTime: 1625,
+    focusable: true,
+    id: 'IS',
+    level: 113,
+    lockoutTime: 1500,
+    manaCost: 1824,
+    name: 'Incinerating Sands Rk. III',
+    origCastTime: 750,
+    recastTime: 4500,
+    resist: 'FIRE',
+    skill: 14,
+    target: 'SINGLE',
+    timer: 'isands',
+    type3DmgAug: 968
+  },
+  ISRk1: {
+    name: 'Incinerating Sands Rk. I',
+    baseDmg: 12298
+  },
+  ISRk2: {
+    name: 'Incinerating Sands Rk. II',
+    baseDmg: 12913
+  },
+  ISRk3: {
+    name: 'Incinerating Sands Rk. III',
+    baseDmg: 13559
+  },  
   SV10: {
     baseDmg: 40000,
     castTime: 0,
@@ -716,8 +747,41 @@ export const SPELL_DATA = {
     target: 'SINGLE',
     timer: 'steelveng',
     type3DmgAug: 0
+  },
+  SV16: {
+    baseDmg: 74000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV16',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XVI',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
+  },
+  SV17: {
+    baseDmg: 78000,
+    castTime: 0,
+    focusable: true,
+    id: 'SV17',
+    level: 254,
+    lockoutTime: 0,
+    manaCost: 0,
+    name: 'Steel Vengeance XVII',
+    origCastTime: 0,
+    recastTime: 0,
+    resist: 'MAGIC',
+    skill: 98,
+    target: 'SINGLE',
+    timer: 'steelveng',
+    type3DmgAug: 0
   },  
-  
   SM: {
     baseDmg: 6032,
     baseDmg1: 6032,

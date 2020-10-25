@@ -1475,23 +1475,23 @@ const ABILITIES = {
     duration: 18000 + TICK_OFFSET,
     level: 101,
     mode: 'mag',
-    name: 'Firebound Covenant Rk. III',
+    name: 'Firebound Coalition Rk. III',
     otherCast: true,
     effects: [
       {
         spa: 484,
         slot: 1,
         type: 'sp',
-        value: 42419,
+        value: 51444,
         limits: [
           { targets: TARGET_LOS },
           { currentHitPoints: true },
           { type: 'detrimental' },
-          { minLevel: 101 },
-          { maxLevel: 115 },
+          { minLevel: 106 },
+          { maxLevel: 120 },
           { maxDuration: 0 },
           { minManaCost: 10 },
-          { minDmg: 2750 }
+          { minDmg: 3050 }
         ]
       }
     ]
@@ -1568,7 +1568,7 @@ const ABILITIES = {
     class: 'enc',
     duration: 12000 + TICK_OFFSET,
     level: 254,
-    name: 'Gift of Chroma Haze',
+    name: 'Gift of Chroma Haze IV',
     repeatEvery: 20000,
     tooltip: 'How often to proc a single Gift of Chromatic Haze (in seconds).\rKeep in mind that it procs only 8% of the time an Enchanter casts a DD, DoT, or Stun so you may want it fairly high.',
     effects: [
@@ -1576,7 +1576,7 @@ const ABILITIES = {
         spa: 302,
         slot: 1,
         type: 'sp',
-        value: 0.50,
+        value: 0.55,
         limits: [
           { type: 'detrimental' },
           { maxDuration: 0 },
@@ -2556,7 +2556,7 @@ const ABILITIES = {
       },
       {
         spa: 461,
-        slot: 8,
+        slot: 1, // workaround so it doesnt stack with enc synergy
         type: 'sp',
         value: 0.65,
         limits: [

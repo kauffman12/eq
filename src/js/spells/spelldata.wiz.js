@@ -440,7 +440,7 @@ export const SPELL_DATA = {
     type3DmgAug: 2887
   },
   FBC: {
-    castTime: 2,
+    castTime: 1980,
     focusable: true,
     id: 'FBC',
     level: 112,
@@ -484,14 +484,17 @@ export const SPELL_DATA = {
   },
   FARRk1: {
     baseDmg: 3745871,
+    max: 3745871,
     name: 'Frostbound Resolution I1',
   },
   FARRk2: {
     baseDmg: 3933165,
+    max: 3933165,
     name: 'Frostbound Resolution II',
   },
   FARRk2: {
     baseDmg: 4129823,
+    max: 4129823,
     name: 'Frostbound Resolution III',
   },
   FB: {
