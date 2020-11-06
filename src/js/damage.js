@@ -82,31 +82,22 @@ function applyPostSpellEffects(state, mod, dmgKey) {
   switch(spell.resist) {
     case 'COLD':
       if (dmgU.isCastDetSpell(spell)) {
-        //state.coldSpells = mod + (state.coldSpells || 0);
-
         if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
           executeProc(state, 'CRYO', mod * dmgU.MANCY_PROC_RATE, 'CRYO');
-          //state.coldSpells = state.coldSpells - dmgU.MANCY_PROC_RATE;
         }
       }      
       break;
     case 'FIRE':
       if (dmgU.isCastDetSpell(spell)) {
-        //state.fireSpells = mod + (state.fireSpells || 0);
-
         if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
           executeProc(state, 'PYRO', mod * dmgU.MANCY_PROC_RATE, 'PYRO');
-          //state.fireSpells = state.fireSpells - dmgU.MANCY_PROC_RATE;
         }
       }      
       break;
     case 'MAGIC':
       if (dmgU.isCastDetSpell(spell)) {
-        //state.magicSpells = mod + (state.magicSpells || 0);
-
         if (G.MODE === 'wiz' && state.activeAbilities.has('TRIF')) {
           timeline.addSpellProcAbility(state, 'ARCO', mod * dmgU.MANCY_PROC_RATE, true);
-          //state.magicSpells = 0;
         }
       }
       break;
@@ -243,7 +234,7 @@ function applyPostSpellEffects(state, mod, dmgKey) {
       }    
 
       break;      
-    case 'SFB':
+    case 'SKB':
       state[utils.getCounterKeys('FBO').counter] = abilities.get('FBO').charges;
       break;
     case 'EC':

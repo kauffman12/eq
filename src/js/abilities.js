@@ -902,7 +902,26 @@ const ABILITIES = {
         ]
       }
     ]
-  },  
+  },
+  FCOLD100135: {
+    level: 255,
+    name: 'Cold Damage 100-135 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.175,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['COLD']) }
+        ]
+      }
+    ]
+  },    
   FCHROM6090: {
     level: 255,
     name: 'Chromatic Damage 60-90 L115',
@@ -1130,7 +1149,26 @@ const ABILITIES = {
         ]
       }
     ]
-  },   
+  },
+  FFIRE100135: {
+    level: 255,
+    name: 'Fire Damage 100-130 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.175,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['FIRE']) }
+        ]
+      }
+    ]
+  },  
   FMAGIC6090: {
     level: 255,
     name: 'Magic Damage 60-90 L115',
@@ -1244,7 +1282,26 @@ const ABILITIES = {
         ]
       }
     ]
-  },     
+  },
+  FMAGIC100135: {
+    level: 255,
+    name: 'Magic Damage 100-135 L120',
+    effects: [
+      {
+        spa: 124,
+        slot: 1,
+        type: 'wn',
+        value: 1.175,
+        limits: [
+          { maxLevel: 120 },
+          { type: 'detrimental' },
+          { exTargets: SMap(['TargetAE', 'CasterPB']) },
+          { exSkills: COMBAT_SKILLS },
+          { resists: SMap(['MAGIC']) }
+        ]
+      }
+    ]
+  },  
   FR: {
     adpsDropdown: true,
     duration: 20000,
@@ -1367,14 +1424,14 @@ const ABILITIES = {
     class: 'mag',
     manuallyActivated: true,
     mode: 'mag',
-    name: 'Firebound Orb III',
+    name: 'Komatiite Orb',
     refreshTime: 12000,
-    refreshTrigger: 'SFB',
+    refreshTrigger: 'SKB',
     repeatEvery: -1,
     timer: 'recast-5',
     effects: [
       { 
-        proc: 'BJ',
+        proc: 'KB2',
         limits: [
           { activated: true }
         ]

@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.951',
+  VERSION: 'Version 1.953',
   MAX_LEVEL: 115,
   CLASSES: {
     mag: {
@@ -76,13 +76,13 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhead',
-    value: 'FMAGIC85123',
-    desc: 'Ice Woven/Velium Emp Cap',
+    value: 'FMAGIC100135',
+    desc: 'Hoarfrost/Velium End Cap',
     data: [
+      { value: 'FMAGIC100135', desc: 'Hoarfrost/Velium End Cap' },
       { value: 'FMAGIC85123', desc: 'Ice Woven/Velium Emp Cap' },
       { value: 'FMAGIC70120', desc: 'Heavenly/Veiled Cap' },
       { value: 'FMAGIC70', desc: 'Scaleborn Cap' },
-      { value: 'FMAGIC67', desc: 'Velazul\'s Cap' },
       { value: 'FMAGIC75', desc: 'Icebound/Velium Infused Cap' },      
       { value: 'FMAGIC6090', desc: 'Snowbound/Adamant/Battle Cap' },
       { value: 'NONE', desc: 'No Cap Selected' }
@@ -90,14 +90,14 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-fhand',
-    value: 'FCOLD85123',
-    desc: 'Ice Woven/Velium Emp Gloves',
+    value: 'FCOLD100135',
+    desc: 'Hoarfrost/Velium End Gloves',
     data: [
+      { value: 'FCOLD100135', desc: 'Hoarfrost/Velium End Gloves' },
       { value: 'FCOLD85123', desc: 'Ice Woven/Velium Emp Gloves' },    
       { value: 'FCOLD85123', desc: 'White Platinum Threaded Satin Gloves' },
       { value: 'FCOLD70120', desc: 'Heavenly/Veiled Gloves' },
       { value: 'FCOLD70', desc: 'Scaleborn Gloves' },
-      { value: 'FCOLD67', desc: 'Velazul\'s Gloves' },
       { value: 'FCOLD75', desc: 'Icebound/Velium Infused Cap' },          
       { value: 'FCOLD6090', desc: 'Snowbound/Adamant/Battle Gloves' },
       { value: 'NONE', desc: 'No Gloves Selected' }
@@ -105,13 +105,13 @@ export const basicDmgFocusContext = [
   },
   {
     id: 'wn-farm',
-    value: 'FFIRE85123',
-    desc: 'Ice Woven/Velium Emp Sleeves',
+    value: 'FFIRE100135',
+    desc: 'Hoarfrost/Velium End Sleeves',
     data: [
+      { value: 'FFIRE100135', desc: 'Hoarfrost/Velium End Sleeves' },
       { value: 'FFIRE85123', desc: 'Ice Woven/Velium Emp Sleeves' },
       { value: 'FFIRE70120', desc: 'Heavenly/Veiled Sleeves' },
       { value: 'FFIRE70', desc: 'Scaleborn Sleeves' },
-      { value: 'FFIRE67', desc: 'Velazul\'s Sleeves' },
       { value: 'FFIRE75', desc: 'Icebound/Velium Infused Cap' },          
       { value: 'FFIRE6090', desc: 'Snowbound/Adamant/Battle Sleeves' },
       { value: 'NONE', desc: 'No Sleeves Selected' }
@@ -128,20 +128,6 @@ export const basicDmgFocusContext = [
       { value: 'ESD7', desc: 'Snowbound Robe' },
       { value: 'OESD7', desc: 'Adamant/Battle Robe' },
       { value: 'NONE', desc: 'No Robe Selected' }
-    ]
-  },
-  {
-    id: 'wn-fwrist',
-    value: 'FCHROM85123',
-    desc: 'Ice Woven/Velium Emp Wristguard',
-    data: [
-      { value: 'FCHROM85123', desc: 'Ice Woven/Velium Emp Wristguard' },   
-      { value: 'FCHROM70120', desc: 'Heavenly/Veiled Wristguard' },
-      { value: 'FCHROM70', desc: 'Scaleborn Wristguard' },
-      { value: 'FCHROM67', desc: 'Velazul\'s Wristguard' },
-      { value: 'FCHROM75', desc: 'Icebound/Velium Infused Cap' },          
-      { value: 'FCHROM6090', desc: 'Snowbound/Adamant/Battle Wristguard' },
-      { value: 'NONE', desc: 'No Wristguard Selected' }
     ]
   },
   {
@@ -196,7 +182,7 @@ export const basicDmgFocusContext = [
     value: 'NONE',
     desc: 'No Weapon Selected',
     data: [
-      { value: 'SOI129', desc: 'Velium Enhanced Arcane Staff / T1 Raid' },
+      { value: 'SOI129', desc: 'Velium Enhanced Arcane Staff' },
       { value: 'BOFVIII', desc: 'Ascending Sun Arcane Staff / Heavy Onyx' },
       { value: 'HOMVII', desc: 'Rod of Ri`zyr' },
       { value: 'SOI109', desc: 'Velium Infused Arcane Staff / T2 Group' },      
@@ -228,8 +214,8 @@ export const basicDmgFocusContext = [
     desc: 'No Belt Selected',
     data: [
       { value: 'FCX', desc: 'Runed Belt of Boromas' },
-      { value: 'THREADSP', desc: 'Skywing Threaded Sash (Threads)' },
-      { value: 'SEERS', desc: 'Sash of the Dar Brood (Seers)' },
+      { value: 'THREADSP', desc: 'Velium Threaded Girdle (Threads)' },
+      { value: 'SEERS', desc: 'Crystalline Buckle (Seers)' },
       { value: 'NONE', desc: 'No Belt Selected' }
     ]
   },
