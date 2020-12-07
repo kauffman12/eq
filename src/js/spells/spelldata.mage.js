@@ -396,7 +396,7 @@ export const SPELL_DATA = {
     castTime: 1500,
     focusable: true,
     id: 'KB',
-    level: 108,
+    level: 113,
     lockoutTime: 1500,
     manaCost: 2416,
     name: 'Komatiite Bolt Rk. III',
@@ -417,37 +417,37 @@ export const SPELL_DATA = {
     baseDmg: 31886    
   },
   KBRk3: {
-    name: 'Komatiite Bolt Rk. IIII',
+    name: 'Komatiite Bolt Rk. III',
     baseDmg: 33480    
   },
-  KB2: {
-    baseDmg: 33480,
+  BK: {
+    baseDmg: 25415,
     castTime: 1500,
     focusable: true,
-    id: 'KB2',
-    level: 108,
+    id: 'BK',
+    level: 111,
     lockoutTime: 1500,
-    manaCost: 2416,
-    name: 'Komatiite Bolt Rk. III',
+    manaCost: 2701,
+    name: 'Bolt of Molten Komatiite III',
     origCastTime: 3000,
     recastTime: 6000,
     resist: 'MAGIC',
     skill: 24,
     target: 'LOS',
     timer: 'recast-5', // from clickie
-    type3DmgAug: 0
+    type3DmgAug: 1815
   },
-  KB2Rk1: {
-    name: 'Komatiite Bolt Rk. I',
-    baseDmg: 30368
+  BKRk1: {
+    name: 'Bolt of Molten Komatiite I',
+    baseDmg: 23052
   },
-  KB2Rk2: {
-    name: 'Komatiite Bolt Rk. II',
-    baseDmg: 31886    
+  BKRk2: {
+    name: 'Bolt of Molten Komatiite II',
+    baseDmg: 24205    
   },
-  KB2Rk3: {
-    name: 'Komatiite Bolt Rk. IIII',
-    baseDmg: 33480    
+  BKRk3: {
+    name: 'Bolt of Molten Komatiite III',
+    baseDmg: 25415    
   },  
   RK: {
     baseDmg: 24573,

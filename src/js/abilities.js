@@ -1431,7 +1431,7 @@ const ABILITIES = {
     timer: 'recast-5',
     effects: [
       { 
-        proc: 'KB2',
+        proc: 'BK',
         limits: [
           { activated: true }
         ]

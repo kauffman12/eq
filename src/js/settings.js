@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.953',
+  VERSION: 'Version 1.954',
   MAX_LEVEL: 115,
   CLASSES: {
     mag: {
@@ -495,6 +495,18 @@ export const magSpellFocusAAContext = [
       { value: '0', desc: 'Beam of Scythes (0/15)' },
     ]
   },
+  {
+    id: 'aa-bolt',
+    value: '15',
+    desc: 'Bolt of Molten Shieldstone (15/15)',
+    data: [
+      { value: '15', desc: 'Bolt of Molten Shieldstone (15/15)' },
+      { value: '14', desc: 'Bolt of Molten Shieldstone (14/15)' },
+      { value: '13', desc: 'Bolt of Molten Shieldstone (13/15)' },
+      { value: '12', desc: 'Bolt of Molten Shieldstone (12/15)' },
+      { value: '0', desc: 'Bolt of Molten Shieldstone (0/15)' },
+    ]
+  },  
   {
     id: 'aa-capricious',
     value: '15',

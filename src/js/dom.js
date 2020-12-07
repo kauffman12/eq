@@ -26,7 +26,8 @@ const FOCUS_AA_KEYS = {
     'SK': '.aa-spearm .dropdown-toggle',
     'SA': '.aa-spearm .dropdown-toggle',
     'SH': '.aa-shockd .dropdown-toggle',
-    'KB': '.aa-meteor .dropdown-toggle'
+    'KB': '.aa-meteor .dropdown-toggle',
+    'BK': '.aa-bolt .dropdown-toggle'
   },
   wiz: {
     'SB': '.aa-beams .dropdown-toggle',
