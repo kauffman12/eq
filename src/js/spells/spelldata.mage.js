@@ -431,7 +431,7 @@ export const SPELL_DATA = {
     name: 'Bolt of Molten Komatiite III',
     origCastTime: 3000,
     recastTime: 6000,
-    resist: 'MAGIC',
+    resist: 'FIRE',
     skill: 24,
     target: 'LOS',
     timer: 'recast-5', // from clickie

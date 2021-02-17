@@ -1,5 +1,5 @@
 export const globals = {
-  VERSION: 'Version 1.954',
+  VERSION: 'Version 1.96',
   MAX_LEVEL: 115,
   CLASSES: {
     mag: {
@@ -194,8 +194,6 @@ export const basicDmgFocusContext = [
       { value: 'SOC47', desc: 'Ascending Sun Bodkin / Deep Cavern' },
       { value: 'SOM43', desc: 'Velium Infused Wand / T2 Group' },        
       { value: 'BOFVII', desc: 'Shissar Arcanist\'s Stylet' },
-      { value: 'BOFVI', desc: 'Crystal Misericorde' },
-      { value: 'SOCV', desc: 'Eldritch Misericorde' },
       { value: 'NONE', desc: 'No Primary Weapon Selected' }
     ]
   },

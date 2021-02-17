@@ -55,26 +55,9 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'FIRE',
     skill: 52,
+    spa497: true,          
     target: 'SINGLE',
     timer: 'BFVI',
-    type3Dmg: 0
-  },
-  BOFVI: {
-    base1: 100,
-    baseDmg: 4000,
-    castTime: 0,
-    focusable: true,
-    id: 'BOFVI',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    name: 'Burst of Flames VI',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'FIRE',
-    skill: 52,
-    target: 'SINGLE',
-    timer: 'BOFVI',
     type3Dmg: 0
   },
   BOFVII: {
@@ -91,6 +74,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'FIRE',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'BOFVII',
     type3Dmg: 0
@@ -146,6 +130,7 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     resist: 'FIRE',
+    spa497: true,    
     skill: 52,
     target: 'SINGLE',
     timer: 'EBOFV',
@@ -166,6 +151,7 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',
+    spa497: true,    
     skill: 52,
     target: 'SINGLE',
     timer: 'ESOMV',
@@ -186,6 +172,7 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     resist: 'FIRE',
+    spa497: true,
     skill: 52,
     target: 'SINGLE',
     timer: 'EBOFVIII',
@@ -206,6 +193,7 @@ export const SPELL_DATA = {
     origCastTime: 0,
     recastTime: 0,
     resist: 'MAGIC',
+    spa497: true,
     skill: 52,
     target: 'SINGLE',
     timer: 'ESOMVIII',
@@ -318,24 +306,6 @@ export const SPELL_DATA = {
     skill: 52,
     target: 'SINGLE',
     timer: 'FOMVII',
-    type3Dmg: 0
-  },
-  FOMXIII: {
-    base1: 100,
-    baseDmg: 1500,
-    castTime: 0,
-    focusable: true,
-    id: 'FOMXIII',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    name: 'Force of Magic XIII',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'MAGIC',
-    skill: 52,
-    target: 'SINGLE',
-    timer: 'FOMXIII',
     type3Dmg: 0
   },
   FOMXV: {
@@ -462,6 +432,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'MAGIC',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'HOMVII',
     type3Dmg: 0
@@ -480,6 +451,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'FIRE',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'BOFVIII',
     type3Dmg: 0
@@ -588,6 +560,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'DISEASE',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'POP99',
     type3Dmg: 0
@@ -606,6 +579,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'CORRUPTION',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOCI',
     type3Dmg: 0
@@ -624,26 +598,9 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'CORRUPTION',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOCII',
-    type3Dmg: 0
-  },
-  SOCV: {
-    base1: 100,
-    baseDmg: 3240,
-    castTime: 0,
-    focusable: true,
-    id: 'SOCV',
-    level: 255,
-    lockoutTime: 0,
-    manaCost: 0,
-    name: 'Spike of Corruption V',
-    origCastTime: 0,
-    recastTime: 0,
-    resist: 'CORRUPTION',
-    skill: 52,
-    target: 'SINGLE',
-    timer: 'SOCV',
     type3Dmg: 0
   },
   SOC47: {
@@ -660,6 +617,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'CORRUPTION',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOC47',
     type3Dmg: 0
@@ -751,6 +709,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOII',
     type3Dmg: 0
@@ -770,6 +729,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOIII',
     type3Dmg: 0
@@ -788,6 +748,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOIV',
     type3Dmg: 0
@@ -806,6 +767,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOI19',
     type3Dmg: 0
@@ -824,6 +786,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOI21',
     type3Dmg: 0
@@ -842,6 +805,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,    
     target: 'SINGLE',
     timer: 'SOI29',
     type3Dmg: 0
@@ -860,6 +824,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOI99',
     type3Dmg: 0
@@ -878,6 +843,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOI109',
     type3Dmg: 0
@@ -896,6 +862,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOI129',
     type3Dmg: 0
@@ -914,6 +881,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOM51',
     type3Dmg: 0
@@ -932,6 +900,7 @@ export const SPELL_DATA = {
     recastTime: 0,
     resist: 'COLD',
     skill: 52,
+    spa497: true,        
     target: 'SINGLE',
     timer: 'SOM43',
     type3Dmg: 0

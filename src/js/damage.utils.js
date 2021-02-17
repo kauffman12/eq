@@ -407,7 +407,7 @@ export function getCompoundSpellList(id) {
   return utils.useCache('compound-spell-list-' + id, function() {
     return {
       'WS': [
-        { id: 'WX', chance: 1.0 },
+       // { id: 'WX', chance: 1.0 },
         { id: 'PS', chance: WILDMAGIC_PURE_CHANCE },
         { id: 'RC', chance: WILDMAGIC_RIMEBLAST_CHANCE },
         { id: 'CB', chance: WILDMAGIC_CHAOS_CHANCE }

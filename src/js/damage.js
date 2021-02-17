@@ -452,7 +452,7 @@ function calcAvgDamage(state, mod, dmgKey) {
       addSpellAndEqpProcs(state, mod);
     }
   }
- 
+  
   return {avgDmg: avgDmg, spaValues: spaValues};
 }
 
@@ -480,7 +480,7 @@ function calcAvgProcDamage(state, proc, mod, dmgKey) {
 function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
   let origSpell = state.spell;
   let inTwincast = state.inTwincast;
-  state.inTwincast = false;
+  //state.inTwincast = false;
 
   // spells like fuse and wildmagic require casting multiple spells and
   // averaging the results
@@ -492,7 +492,7 @@ function calcCompoundSpellProcDamage(state, mod, spellList, dmgKey) {
     execute(state, item.chance * mod, dmgKey);
   });
 
-  state.inTwincast = inTwincast;
+  //state.inTwincast = inTwincast;
   state.spell = origSpell;
 }
 
@@ -653,7 +653,7 @@ function getTwincastRate(state, spaValues) {
 export function execute(state, mod, dmgKey, isProc) {
   // Default to full strength
   mod = (mod === undefined) ? 1 : mod;
-
+  
   // add any pre spell cast checks
   applyPreSpellChecks(state, mod);
   // avg damage for one spell cast
@@ -670,6 +670,7 @@ export function execute(state, mod, dmgKey, isProc) {
     // add any pre spell cast checks required
     let tcMod = mod * twincastRate;
 
+    let prev = state.inTwincast;
     state.inTwincast = true;
     applyPreSpellChecks(state, tcMod);
 
@@ -678,8 +679,7 @@ export function execute(state, mod, dmgKey, isProc) {
     // handle post checks and reset twincast state if it was broken by calcAvgDamage or post procs running
     state.inTwincast = true;
     applyPostSpellEffects(state, tcMod, dmgKey);
-
-    state.inTwincast = false;
+    state.inTwincast = prev;
  
     if (isProc) { // keep stats for proc twincast
       stats.addAggregateStatistics('totalProcs', tcMod);
