@@ -11,7 +11,7 @@ export const FUSE_PROC_INDIVIDUAL_SPELL_CHANCE = 0.32;
 export const WILDMAGIC_CHAOS_CHANCE = 0.35;
 export const WILDMAGIC_RIMEBLAST_CHANCE = 0.35;
 export const WILDMAGIC_PURE_CHANCE = 0.30;
-export const WIZ_INNATE_CRIT_RATE = 2;
+export const WIZ_INNATE_CRIT_RATE = 0; // not really used anymore
 export const WIZ_INNATE_CRIT_DMG = 100;
 export const FUSE_PROC_SPELL_CHANCE = FUSE_PROC_CHANCE * FUSE_PROC_INDIVIDUAL_SPELL_CHANCE;
 
